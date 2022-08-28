@@ -1,6 +1,4 @@
-*/.idea
-*/.vs
-*/.vscode
+
 
 */**/obj
 */**/bin
@@ -10,13 +8,9 @@
 */**/obj/Debug
 */**/obj/Release
 
-/.idea/.idea.Tiveriad/.idea/contentModel.xml
-/.idea/.idea.Tiveriad/.idea/encodings.xml
-/.idea/.idea.Tiveriad/.idea/indexLayout.xml
-/.idea/.idea.Tiveriad/.idea/modules.xml
-/.idea/.idea.Tiveriad/.idea/projectSettingsUpdater.xml
-/.idea/.idea.Tiveriad/.idea/workspace.xml
-/.idea/.idea.Tiveriad/riderModule.iml
+/.idea/*/**
+/.vs/*/**
+/.vscode/*/**
 /Output
 /Output/*/**
 /Publish
@@ -24,12 +18,4 @@
 /TestResults
 /TestResults/*/**
 /Tiveriad.sln.DotSettings.user
-/Tests/Tiveriad.Commons.UnitTests/.idea/.idea.Tiveriad.Commons.UnitTests.dir/.idea/contentModel.xml
-/Tests/Tiveriad.Commons.UnitTests/.idea/.idea.Tiveriad.Commons.UnitTests.dir/.idea/encodings.xml
-/Tests/Tiveriad.Commons.UnitTests/.idea/.idea.Tiveriad.Commons.UnitTests.dir/.idea/indexLayout.xml
-/Tests/Tiveriad.Commons.UnitTests/.idea/.idea.Tiveriad.Commons.UnitTests.dir/.idea/modules.xml
-/Tests/Tiveriad.Commons.UnitTests/.idea/.idea.Tiveriad.Commons.UnitTests.dir/.idea/projectSettingsUpdater.xml
-/Tests/Tiveriad.Commons.UnitTests/.idea/.idea.Tiveriad.Commons.UnitTests.dir/.idea/workspace.xml
-/Tests/Tiveriad.Commons.UnitTests/.idea/.idea.Tiveriad.Commons.UnitTests.dir/riderModule.iml
-/.idea/.idea.Tiveriad/.idea/vcs.xml
-/.idea/.idea.Tiveriad/.idea/.name
+
