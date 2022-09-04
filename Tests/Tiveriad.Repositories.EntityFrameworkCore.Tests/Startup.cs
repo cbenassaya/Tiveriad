@@ -10,7 +10,7 @@ namespace Tiveriad.Repositories.EntityFrameworkCore.Tests;
 
 public class Startup : StartupBase
 {
-    private int _maxRecord = 1000;
+    private int _maxRecord = 2000;
     public override void Configure(IServiceCollection services)
     {
         services.AddDbContext<DbContext, DefaultContext>(options =>
