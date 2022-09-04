@@ -1,8 +1,8 @@
 namespace Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
 
-public class Student:IEntity<int>
+public class Student:IEntity<string>
 {
-    public int Id { get; set; }
+    public string Id { get; set; }= null!;
     public string Firstname { get; set; }= null!;
     public string Lastname { get; set; }= null!;
     public string Email { get; set; }= null!;
@@ -13,9 +13,9 @@ public class Student:IEntity<int>
 }
 
 
-public class Professor : IEntity<int>
+public class Professor : IEntity<string>
 {
-    public int Id { get; set; }
+    public string Id { get; set; }= null!;
     public string Firstname { get; set; }= null!;
     public string Lastname { get; set; }= null!;
     public string Email { get; set; }= null!;

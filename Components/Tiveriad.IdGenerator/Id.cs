@@ -39,8 +39,9 @@ public struct Id : IEquatable<Id>
     /// </summary>
     /// <param name="obj">The object to compare with this instance.</param>
     /// <returns>true if <paramref name="obj"/> is a <see cref="Id"/> that has the same value as this instance; otherwise, false.</returns>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
         => obj is Id id && Equals(id);
+    
 
     /// <summary>
     /// Returns the hash code for this instance.

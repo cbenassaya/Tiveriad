@@ -48,7 +48,7 @@ public static class Extensions
         {
             return (short)Process.GetCurrentProcess().Id;
         }
-        catch (SecurityException ex)
+        catch 
         {
             return 0;
         }
