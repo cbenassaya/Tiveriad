@@ -20,7 +20,7 @@ public class IdGeneratorTest:TestBase<Startup>
     {
      
         var generator = new LongIdGenerator(0);
-        var ids = generator.Take(100000).ToArray();
+        var ids = generator.Take(1000).ToArray();
         var falseIds = ids.Where(x => x < 0|| x>long.MaxValue).ToArray();
         Assert.True(falseIds.Length==0);
     }
