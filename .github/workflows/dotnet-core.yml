@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: cbenassaya/checkout@v3
+    - uses: cbenassaya/checkout
     - name: Setup .NET
-      uses: cbenassaya/setup-dotnet@v2
+      uses: cbenassaya/setup-dotnet
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
