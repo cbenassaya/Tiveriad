@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Faker.Net" Version="2.0.154" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.8" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.8" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.8" />
+      <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0" />
+      <PackageReference Include="xunit" Version="2.4.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Components\Tiveriad.Repositories.EntityFrameworkCore\Tiveriad.Repositories.EntityFrameworkCore.csproj" />
+      <ProjectReference Include="..\..\Components\Tiveriad.Repositories\Tiveriad.Repositories.csproj" />
+      <ProjectReference Include="..\Tiveriad.Commons.Tests\Tiveriad.Commons.Tests.csproj" />
+    </ItemGroup>
+
+</Project>
