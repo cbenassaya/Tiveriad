@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Tiveriad.Commons.Tests;
 using Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
 using Xunit;
+using Xunit.Sdk;
 
 namespace Tiveriad.Repositories.EntityFrameworkCore.Tests;
 
@@ -16,6 +17,10 @@ public class CommandTestModule:TestBase<Startup>
     {
         var repository = GetService<CourseRepository>();
         var course = new Course() { Name = Faker.Company.Name() };
+
+        if (repository == null)
+            throw new NullException("repository");
+            
         await repository.AddOneAsync(course);
     }
     
@@ -26,7 +31,7 @@ public class CommandTestModule:TestBase<Startup>
         var studentRepository = GetService<StudentRepository>();
         var context = GetRequiredService<DbContext>();
         
-        var initialStudentsCount = studentRepository.Count();
+        var initialStudentsCount = studentRepository?.Count();
 
         var student =  new Student
         {
@@ -39,11 +44,15 @@ public class CommandTestModule:TestBase<Startup>
             Courses = new HashSet<Course>()
         };
 
-        var  course = courseRepository.Queryable.RandomElement(x=>true);
-
-        var state = context.Entry(course).State;
+        var  course = courseRepository?.Queryable.RandomElement(x=>true);
+        if (course == null)
+            throw new NullException("Course");
         
         student.Courses.Add(course);
+        
+        if (studentRepository == null)
+            throw new NullException("studentRepository");
+        
         await studentRepository.AddOneAsync(student);
 
         context.SaveChanges(true);
@@ -57,10 +66,10 @@ public class CommandTestModule:TestBase<Startup>
         var studentRepository = GetService<StudentRepository>();
         var context = GetRequiredService<DbContext>();
         
-        var initialStudentsCount = studentRepository.Count();
+        var initialStudentsCount = studentRepository?.Count();
 
 
-        var  course = courseRepository.Queryable.RandomElement(x=>true);
+        var  course = courseRepository?.Queryable.RandomElement(x=>true);
         
         var student =  new Student
         {
@@ -72,6 +81,9 @@ public class CommandTestModule:TestBase<Startup>
             StreetAddress = Faker.Address.StreetAddress(),
             Courses = new HashSet<Course>()
         };
+        
+        if (course == null)
+            throw new NullException("course");
 
         var newCourse = new Course
         {
@@ -79,10 +91,19 @@ public class CommandTestModule:TestBase<Startup>
             Professor = course.Professor
         };
         
-        await courseRepository.AddOneAsync(newCourse);
+        if (courseRepository == null)
+            throw new NullException("courseRepository");
         
-        student.Courses.Add(courseRepository.GetById(course.Id));
+        await courseRepository.AddOneAsync(newCourse);
+
+        var oldCourse = courseRepository.GetById(course.Id);
+        if (oldCourse == null)
+            throw new NullException("oldCourse");
+        student.Courses.Add(oldCourse);
         student.Courses.Add(newCourse);
+        
+        if (studentRepository == null)
+            throw new NullException("studentRepository");
         await studentRepository.AddOneAsync(student);
 
         context.SaveChanges(true);

@@ -31,7 +31,7 @@ public class Course:IEntity<int>
     }
 
     public int Id { get; set; }
-    public string Name { get; set; }
-    public Professor Professor  { get; set; }
-    public ICollection<Student> Students { get; set; }
+    public string Name { get; set; }= null!;
+    public Professor Professor  { get; set; }= null!;
+    public ICollection<Student> Students { get; set; }= null!;
 }

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Tiveriad.Commons.Tests;
 using Tiveriad.Repositories.EntityFrameworkCore.Repositories;
 using Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
+using Xunit.Sdk;
 
 namespace Tiveriad.Repositories.EntityFrameworkCore.Tests;
 
@@ -50,9 +51,9 @@ public class Startup : StartupBase
                 Email = Faker.Internet.Email()
             };
             
-            serviceProvider.GetService<ProfessorRepository>( ).AddOne(professor);
+            serviceProvider?.GetService<ProfessorRepository>( )?.AddOne(professor);
             
-            serviceProvider.GetService<CourseRepository>( ).AddOne(new Course
+            serviceProvider?.GetService<CourseRepository>( )?.AddOne(new Course
             {
                 Name = Faker.Company.Name(),
                 Professor = professor
@@ -62,7 +63,7 @@ public class Startup : StartupBase
 
         for (var i = 0;  i < _maxRecord; i++)
         {
-            serviceProvider.GetService<StudentRepository>( ).AddOne(new Student()
+            serviceProvider?.GetService<StudentRepository>( )?.AddOne(new Student()
             {
                 Firstname = Faker.Name.First(),
                 Lastname = Faker.Name.Last(),
@@ -90,18 +91,28 @@ public class Startup : StartupBase
                 StreetAddress = Faker.Address.StreetAddress()
             };
             companies.Add(company);
-            serviceProvider.GetService<CompanyRepository>( ).AddOne(company);
+            serviceProvider?.GetService<CompanyRepository>()?.AddOne(company);
             
         }
       
 
         for (var i = 0; i < _maxRecord; i++)
         {
+
+            var companyFrom = companies.AsQueryable().RandomElement<Company>(x => true);
+            var toFrom = companies.AsQueryable().RandomElement<Company>(x => true);
+            
+            if (companyFrom == null)
+                throw new NullException("companyFrom");
+            
+            if (toFrom == null)
+                throw new NullException("toFrom");
+            
             var invoice = new Invoice()
             {
                 InvoiceState = Faker.Enum.Random<InvoiceState>(),
-                From = companies.AsQueryable().RandomElement<Company>(x => true),
-                To = companies.AsQueryable().RandomElement<Company>(x => true)
+                From = companyFrom,
+                To = toFrom
             };
             invoice.InvoiceDetails = new List<InvoiceDetail>
             {
@@ -112,12 +123,12 @@ public class Startup : StartupBase
                 new()
                     { Amount = Faker.Finance.Coupon(), Label = Faker.Finance.Credit.BondName() }
             };
-            serviceProvider.GetService<InvoiceRepository>( ).AddOne(invoice);
+            serviceProvider?.GetService<InvoiceRepository>()?.AddOne(invoice);
         }
 
         for (var i = 0; i < _maxRecord; i++)
         {
-            serviceProvider.GetService<PersonRepository>().AddOne(new Person()
+            serviceProvider?.GetService<PersonRepository>()?.AddOne(new Person()
             {
                 Firstname = Faker.Name.First(),
                 Lastname = Faker.Name.Last(),

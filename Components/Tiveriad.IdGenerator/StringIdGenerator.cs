@@ -53,6 +53,8 @@ public class StringIdGenerator : IIdGenerator<string>
         MASK_SEQUENCE = GetMask(options.IdStructure.SequenceBits);
         SHIFT_TIME = options.IdStructure.GeneratorIdBits + options.IdStructure.SequenceBits;
         SHIFT_GENERATOR = options.IdStructure.SequenceBits;
+
+        _generatorid = CreateId();
     }
     
     
