@@ -1,5 +1,5 @@
 namespace Tiveriad.IdGenerator;
-public static class IdGenerator
+public static class KeyGenerator
 {
     public static TKey NewId<TKey>()
     {

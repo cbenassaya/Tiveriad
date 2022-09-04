@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Tiveriad.Commons.Tests;
+using Tiveriad.IdGenerator;
 using Tiveriad.Repositories.EntityFrameworkCore.Repositories;
 using Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
 using Xunit.Sdk;
@@ -117,11 +118,11 @@ public class Startup : StartupBase
             invoice.InvoiceDetails = new List<InvoiceDetail>
             {
                 new()
-                    { Amount = Faker.Finance.Coupon(), Label = Faker.Finance.Credit.BondName() },
+                    { Amount = Faker.Finance.Coupon(), Label = Faker.Finance.Credit.BondName(), Id = KeyGenerator.NewId<string>() },
                 new()
-                    { Amount = Faker.Finance.Coupon(), Label = Faker.Finance.Credit.BondName() },
+                    { Amount = Faker.Finance.Coupon(), Label = Faker.Finance.Credit.BondName(), Id = KeyGenerator.NewId<string>() },
                 new()
-                    { Amount = Faker.Finance.Coupon(), Label = Faker.Finance.Credit.BondName() }
+                    { Amount = Faker.Finance.Coupon(), Label = Faker.Finance.Credit.BondName(), Id = KeyGenerator.NewId<string>() }
             };
             serviceProvider?.GetService<InvoiceRepository>()?.AddOne(invoice);
         }

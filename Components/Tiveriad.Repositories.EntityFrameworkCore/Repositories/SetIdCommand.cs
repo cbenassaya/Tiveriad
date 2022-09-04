@@ -23,7 +23,7 @@ namespace Tiveriad.Repositories.EntityFrameworkCore.Repositories
 
             var defaultValue = default(TKey);
 
-            if (entity.Id == null || entity.Id.Equals(defaultValue)) entity.Id = (TKey)IdGenerator.IdGenerator.NewId<TKey>();
+            if (entity.Id == null || entity.Id.Equals(defaultValue)) entity.Id = (TKey)IdGenerator.KeyGenerator.NewId<TKey>();
 
             var propertyInfos = entity.GetType().GetProperties()
                 .Where(x => x.CanRead && x.GetIndexParameters().Length == 0).ToList();

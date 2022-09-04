@@ -11,6 +11,7 @@
 /.idea/*/**
 /.vs/*/**
 /.vscode/*/**
+/artifacts
 /Output
 /Output/*/**
 /Publish

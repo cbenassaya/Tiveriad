@@ -21,7 +21,5 @@ jobs:
       run: dotnet restore 
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    - name: Test Tiveriad.IdGenerator.Tests
-      run: dotnet test ~/Tests/Tiveriad.IdGenerator.Tests/bin/net6.0/Tiveriad.IdGenerator.Tests.dll --no-build --no-restore --verbosity detailed
-    - name: Test Tiveriad.Repositories.EntityFrameworkCore.Tests
-      run: dotnet test ~/Tests/Tiveriad.Repositories.EntityFrameworkCore.Tests/bin/net6.0/Tiveriad.Repositories.EntityFrameworkCore.Tests.dll --no-build --no-restore --verbosity detailed
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
