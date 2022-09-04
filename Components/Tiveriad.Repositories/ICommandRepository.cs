@@ -20,10 +20,7 @@ namespace Tiveriad.Repositories
         long DeleteOne(TKey key);
         Task<long> DeleteManyAsync(IEnumerable<TKey> keys, CancellationToken cancellationToken = default);
         long DeleteMany(IEnumerable<TKey> keys);
-
-        Task<long> DeleteManyAsync(Expression<Func<TEntity, bool>> filter,
-            CancellationToken cancellationToken = default);
-
+        Task<long> DeleteManyAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default);
         long DeleteMany(Expression<Func<TEntity, bool>> filter);
         Task<long> DeleteManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
         long DeleteMany(IEnumerable<TEntity> entities);

@@ -23,10 +23,7 @@ namespace Tiveriad.Repositories
         IEnumerable<TEntity> GetAll();
         Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
         IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> filter);
-
-        Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> filter,
-            CancellationToken cancellationToken = default);
-
+        Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default);
         TEntity GetById(TKey id);
         Task<TEntity> GetByIdAsync(TKey id, CancellationToken cancellationToken = default);
     }

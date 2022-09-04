@@ -15,8 +15,7 @@ namespace Tiveriad.Repositories
         private readonly ICommandRepository<TEntity, TKey> _commandRepository;
         private readonly IQueryRepository<TEntity, TKey> _queryRepository;
 
-        public RepositoryBase(IQueryRepository<TEntity, TKey> queryRepository,
-            ICommandRepository<TEntity, TKey> commandRepository)
+        protected RepositoryBase(IQueryRepository<TEntity, TKey> queryRepository, ICommandRepository<TEntity, TKey> commandRepository)
         {
             _queryRepository = queryRepository;
             _commandRepository = commandRepository;
