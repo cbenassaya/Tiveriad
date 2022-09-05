@@ -1,18 +1,20 @@
-using System.Runtime.CompilerServices;
+using Faker;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Tiveriad.Commons.Tests;
 using Tiveriad.IdGenerator;
-using Tiveriad.Repositories.EntityFrameworkCore.Repositories;
 using Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
 using Xunit.Sdk;
+using Company = Faker.Company;
+using Enum = Faker.Enum;
 
 namespace Tiveriad.Repositories.EntityFrameworkCore.Tests;
 
 public class Startup : StartupBase
 {
-    private int _maxRecord = 1000;
+    private readonly int _maxRecord = 1000;
+
     public override void Configure(IServiceCollection services)
     {
         services.AddDbContext<DbContext, DefaultContext>(options =>
@@ -30,6 +32,7 @@ public class Startup : StartupBase
         services.AddScoped<InvoiceRepository>();
         services.AddScoped<ProfessorRepository>();
     }
+
     public override void Init(IServiceProvider serviceProvider)
     {
         var context = serviceProvider.GetRequiredService<DbContext>();
@@ -38,109 +41,104 @@ public class Startup : StartupBase
         LoadStudentModel(serviceProvider);
         LoadInvoiceModel(serviceProvider);
     }
+
     private void LoadStudentModel(IServiceProvider serviceProvider)
     {
         var context = serviceProvider.GetRequiredService<DbContext>();
-        
+        var professorRepository = serviceProvider.GetRequiredService<ProfessorRepository>();
+        var courseRepository = serviceProvider.GetRequiredService<CourseRepository>();
+        var studentRepository = serviceProvider.GetRequiredService<StudentRepository>();
+
         for (var i = 0; i < 10; i++)
         {
-
-            var professor = new Professor()
+            var professor = new Professor
             {
-                Firstname = Faker.Name.First(),
-                Lastname = Faker.Name.Last(),
-                Email = Faker.Internet.Email()
+                Firstname = Name.First(),
+                Lastname = Name.Last(),
+                Email = Internet.Email()
             };
-            
-            serviceProvider?.GetService<ProfessorRepository>( )?.AddOne(professor);
-            
-            serviceProvider?.GetService<CourseRepository>( )?.AddOne(new Course
+
+            professorRepository.AddOne(professor);
+
+            courseRepository.AddOne(new Course
             {
-                Name = Faker.Company.Name(),
+                Name = Company.Name(),
                 Professor = professor
             });
         }
-        
 
-        for (var i = 0;  i < _maxRecord; i++)
-        {
-            serviceProvider?.GetService<StudentRepository>( )?.AddOne(new Student()
+        for (var i = 0; i < _maxRecord; i++)
+            studentRepository.AddOne(new Student
             {
-                Firstname = Faker.Name.First(),
-                Lastname = Faker.Name.Last(),
-                Email = Faker.Internet.Email(),
-                City = Faker.Address.City(),
-                Country = Faker.Address.Country(),
-                StreetAddress = Faker.Address.StreetAddress()
+                Firstname = Name.First(),
+                Lastname = Name.Last(),
+                Email = Internet.Email(),
+                City = Address.City(),
+                Country = Address.Country(),
+                StreetAddress = Address.StreetAddress()
             });
-        }
         context.SaveChanges();
     }
+
     private void LoadInvoiceModel(IServiceProvider serviceProvider)
     {
         var context = serviceProvider.GetRequiredService<DbContext>();
 
-        var companies = new List<Company>();
+        var companies = new List<Models.Company>();
 
         for (var i = 0; i < 100; i++)
         {
-            var company = new Company()
+            var company = new Models.Company
             {
-                Name = Faker.Company.Name(),
-                City = Faker.Address.City(),
-                Country = Faker.Address.Country(),
-                StreetAddress = Faker.Address.StreetAddress()
+                Name = Company.Name(),
+                City = Address.City(),
+                Country = Address.Country(),
+                StreetAddress = Address.StreetAddress()
             };
             companies.Add(company);
             serviceProvider?.GetService<CompanyRepository>()?.AddOne(company);
-            
         }
-      
 
-        for (var i = 0; i < _maxRecord; i++)
+        for (var i = 0; i < 30; i++)
         {
+            var companyFrom = companies.AsQueryable().RandomElement(x => true);
+            var toFrom = companies.AsQueryable().RandomElement(x => true);
 
-            var companyFrom = companies.AsQueryable().RandomElement<Company>(x => true);
-            var toFrom = companies.AsQueryable().RandomElement<Company>(x => true);
-            
             if (companyFrom == null)
                 throw new NullException("companyFrom");
-            
+
             if (toFrom == null)
                 throw new NullException("toFrom");
-            
-            var invoice = new Invoice()
+
+            var invoice = new Invoice
             {
-                InvoiceState = Faker.Enum.Random<InvoiceState>(),
+                InvoiceState = Enum.Random<InvoiceState>(),
                 From = companyFrom,
                 To = toFrom
             };
             invoice.InvoiceDetails = new List<InvoiceDetail>
             {
                 new()
-                    { Amount = Faker.Finance.Coupon(), Label = Faker.Finance.Credit.BondName(), Id = KeyGenerator.NewId<string>() },
+                    { Amount = Finance.Coupon(), Label = Finance.Credit.BondName(), Id = KeyGenerator.NewId<string>() },
                 new()
-                    { Amount = Faker.Finance.Coupon(), Label = Faker.Finance.Credit.BondName(), Id = KeyGenerator.NewId<string>() },
+                    { Amount = Finance.Coupon(), Label = Finance.Credit.BondName(), Id = KeyGenerator.NewId<string>() },
                 new()
-                    { Amount = Faker.Finance.Coupon(), Label = Faker.Finance.Credit.BondName(), Id = KeyGenerator.NewId<string>() }
+                    { Amount = Finance.Coupon(), Label = Finance.Credit.BondName(), Id = KeyGenerator.NewId<string>() }
             };
             serviceProvider?.GetService<InvoiceRepository>()?.AddOne(invoice);
         }
 
         for (var i = 0; i < _maxRecord; i++)
-        {
-            serviceProvider?.GetService<PersonRepository>()?.AddOne(new Person()
+            serviceProvider?.GetService<PersonRepository>()?.AddOne(new Person
             {
-                Firstname = Faker.Name.First(),
-                Lastname = Faker.Name.Last(),
-                Email = Faker.Internet.Email(),
-                City = Faker.Address.City(),
-                Country = Faker.Address.Country(),
-                StreetAddress = Faker.Address.StreetAddress()
+                Firstname = Name.First(),
+                Lastname = Name.Last(),
+                Email = Internet.Email(),
+                City = Address.City(),
+                Country = Address.Country(),
+                StreetAddress = Address.StreetAddress()
             });
-        }
 
         context.SaveChanges();
     }
 }
-

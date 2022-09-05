@@ -6,4 +6,8 @@
         <LangVersion>10</LangVersion>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Tiveriad.Commons\Tiveriad.Commons.csproj"/>
+    </ItemGroup>
+
 </Project>

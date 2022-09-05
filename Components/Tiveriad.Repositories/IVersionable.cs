@@ -1,11 +1,10 @@
 #nullable enable
-namespace Tiveriad.Repositories
+namespace Tiveriad.Repositories;
+
+public interface IVersionable
 {
-    public interface IVersionable
-    {
-        /// <summary>
-        ///     A version number, to indicate the version of the schema.
-        /// </summary>
-        int Version { get; set; }
-    }
+    /// <summary>
+    ///     A version number, to indicate the version of the schema.
+    /// </summary>
+    int Version { get; set; }
 }

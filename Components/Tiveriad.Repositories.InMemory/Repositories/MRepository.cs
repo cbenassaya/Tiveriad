@@ -1,14 +1,13 @@
 using System;
 
-namespace Tiveriad.Repositories.InMemory.Repositories
+namespace Tiveriad.Repositories.InMemory.Repositories;
+
+public class MRepository<TEntity, TKey> : RepositoryBase<TEntity, TKey>
+    where TEntity : class, IEntity<TKey>
+    where TKey : IEquatable<TKey>
 {
-    public class MRepository<TEntity, TKey> : RepositoryBase<TEntity, TKey>
-        where TEntity : class, IEntity<TKey>
-        where TKey : IEquatable<TKey>
+    public MRepository(MContext context) :
+        base(new MQueryRepository<TEntity, TKey>(context), new MCommandRepository<TEntity, TKey>(context))
     {
-        public MRepository(MContext context) :
-            base(new MQueryRepository<TEntity, TKey>(context), new MCommandRepository<TEntity, TKey>(context))
-        {
-        }
     }
 }

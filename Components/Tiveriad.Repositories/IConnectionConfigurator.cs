@@ -1,6 +1,5 @@
-namespace Tiveriad.Repositories
+namespace Tiveriad.Repositories;
+
+public interface IConnectionConfigurator
 {
-    public interface IConnectionConfigurator
-    {
-    }
 }

@@ -2,7 +2,7 @@ using Xunit;
 
 namespace Tiveriad.Commons.Tests;
 
-public class ZeroTestModule:TestBase<Startup>
+public class ZeroTestModule : TestBase<Startup>
 {
     [Fact]
     public void ZeroTest()

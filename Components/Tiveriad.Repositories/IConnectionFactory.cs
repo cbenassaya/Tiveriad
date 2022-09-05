@@ -1,10 +1,9 @@
 using System;
 
-namespace Tiveriad.Repositories
+namespace Tiveriad.Repositories;
+
+public interface IConnectionFactory<T> where T : IConnectionConfigurator
 {
-    public interface IConnectionFactory<T> where T : IConnectionConfigurator
-    {
-        IConnectionFactory<T> Configure(Action<T> configurator);
-        void Build();
-    }
+    IConnectionFactory<T> Configure(Action<T> configurator);
+    void Build();
 }
