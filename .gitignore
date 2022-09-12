@@ -16,6 +16,8 @@
 /Output/*/**
 /Publish
 /Publish/*/**
+/Scripts
+/Scripts/*/**
 /TestResults
 /TestResults/*/**
 /Tiveriad.sln.DotSettings.user

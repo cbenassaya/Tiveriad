@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Tiveriad.Repositories.EntityFrameworkCore.Repositories;
-using Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
+using Tiveriad.Repositories.Tests.Models;
 
 namespace Tiveriad.Repositories.EntityFrameworkCore.Tests;
 

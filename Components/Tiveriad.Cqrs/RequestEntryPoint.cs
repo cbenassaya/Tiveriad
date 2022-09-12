@@ -1,6 +1,5 @@
-namespace Tiveriad.Cqrs
+namespace Tiveriad.Cqrs;
+
+public class RequestEntryPoint
 {
-    public class RequestEntryPoint
-    {
-    }
 }

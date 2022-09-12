@@ -29,7 +29,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\Components\Tiveriad.Repositories.EntityFrameworkCore\Tiveriad.Repositories.EntityFrameworkCore.csproj"/>
         <ProjectReference Include="..\..\Components\Tiveriad.Repositories\Tiveriad.Repositories.csproj"/>
-        <ProjectReference Include="..\Tiveriad.Commons.Tests\Tiveriad.Commons.Tests.csproj"/>
+        <ProjectReference Include="..\Tiveriad.Repositories.Tests\Tiveriad.Repositories.Tests.csproj"/>
     </ItemGroup>
 
 </Project>

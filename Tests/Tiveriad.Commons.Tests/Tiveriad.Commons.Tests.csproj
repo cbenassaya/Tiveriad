@@ -21,4 +21,8 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\..\Components\Tiveriad.UnitTests\Tiveriad.UnitTests.csproj"/>
+    </ItemGroup>
+
 </Project>

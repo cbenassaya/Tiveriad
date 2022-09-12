@@ -13,4 +13,14 @@ public static class EnumerableExtensions
                     values.Add(obj);
         return values;
     }
+
+    public static IEnumerable<T> AsEnumerableItems<T>(this T value)
+    {
+        var values = new List<T>();
+        if (value is IEnumerable<T> items)
+            foreach (var obj in items)
+                if (obj != null)
+                    values.Add(obj);
+        return values;
+    }
 }

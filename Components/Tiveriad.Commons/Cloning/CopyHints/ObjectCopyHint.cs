@@ -51,10 +51,7 @@ public sealed class ObjectCopyHint : CopyHint
     {
         var type = source.GetType();
 
-        if (type.GetConstructor(Type.EmptyTypes) != null)
-        {
-            return Activator.CreateInstance(type);
-        }
+        if (type.GetConstructor(Type.EmptyTypes) != null) return Activator.CreateInstance(type);
 
         var props = type.GetProperties(_MemberFlags).Where(p => p.CanRead).ToArray();
         var fields = type.GetFields(_MemberFlags).ToArray();

@@ -2,9 +2,9 @@ using Faker;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Tiveriad.Commons.Tests;
-using Tiveriad.IdGenerator;
-using Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
+using Tiveriad.IdGenerators;
+using Tiveriad.Repositories.Tests.Models;
+using Tiveriad.UnitTests;
 using Xunit.Sdk;
 using Company = Faker.Company;
 using Enum = Faker.Enum;
@@ -84,11 +84,11 @@ public class Startup : StartupBase
     {
         var context = serviceProvider.GetRequiredService<DbContext>();
 
-        var companies = new List<Models.Company>();
+        var companies = new List<Tiveriad.Repositories.Tests.Models.Company>();
 
         for (var i = 0; i < 100; i++)
         {
-            var company = new Models.Company
+            var company = new Tiveriad.Repositories.Tests.Models.Company
             {
                 Name = Company.Name(),
                 City = Address.City(),

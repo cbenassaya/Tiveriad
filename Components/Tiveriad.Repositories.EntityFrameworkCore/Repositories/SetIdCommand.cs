@@ -1,6 +1,6 @@
 using System;
 using Tiveriad.Commons.Reflexions;
-using Tiveriad.IdGenerator;
+using Tiveriad.IdGenerators;
 
 namespace Tiveriad.Repositories.EntityFrameworkCore.Repositories;
 

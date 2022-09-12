@@ -1,9 +1,9 @@
 ﻿using Faker;
 using Microsoft.EntityFrameworkCore;
 using Tiveriad.Commons.Extensions;
-using Tiveriad.Commons.Tests;
-using Tiveriad.IdGenerator;
-using Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
+using Tiveriad.IdGenerators;
+using Tiveriad.Repositories.Tests.Models;
+using Tiveriad.UnitTests;
 using Xunit;
 using Xunit.Sdk;
 using Company = Faker.Company;
@@ -141,7 +141,7 @@ public class CommandTestModule : TestBase<Startup>
     }
 
     [Fact]
-    public async Task Update_Entity_One_To_Many()
+    public void Update_Entity_One_To_Many()
     {
         var companyRepository = GetRequiredService<CompanyRepository>();
         var invoiceRepository = GetRequiredService<InvoiceRepository>();
@@ -196,12 +196,12 @@ public class CommandTestModule : TestBase<Startup>
             throw new NullException("invoice");
         var initialInvoiceDetailsCount = invoice.InvoiceDetails.Count();
 
-        if (invoice.Clone() is not Invoice newInvoice )
+        if (invoice.Clone() is not Invoice newInvoice)
             throw new NullException("newInvoice");
 
         newInvoice.From = fromCompany;
         newInvoice.To = toCompany;
-        
+
         var invoiceDetail = newInvoice.InvoiceDetails.First();
         invoiceDetail.Amount = Finance.Coupon();
         invoiceDetail.Label = Finance.Credit.BondName();

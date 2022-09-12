@@ -11,7 +11,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Tiveriad.Commons\Tiveriad.Commons.csproj"/>
-        <ProjectReference Include="..\Tiveriad.IdGenerator\Tiveriad.IdGenerator.csproj"/>
+        <ProjectReference Include="..\Tiveriad.IdGenerators\Tiveriad.IdGenerators.csproj"/>
         <ProjectReference Include="..\Tiveriad.Repositories\Tiveriad.Repositories.csproj"/>
     </ItemGroup>
 

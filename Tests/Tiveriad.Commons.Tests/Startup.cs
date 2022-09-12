@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Tiveriad.UnitTests;
 
 namespace Tiveriad.Commons.Tests;
 
