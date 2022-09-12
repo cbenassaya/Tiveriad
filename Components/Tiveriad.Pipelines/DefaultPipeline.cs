@@ -16,14 +16,18 @@ public class DefaultPipeline<TModel, TPipelineContext, TConfiguration> : IPipeli
 
     public async Task ExecuteAsync(TModel model, CancellationToken cancellationToken = default)
     {
-        var context = Activator.CreateInstance<TPipelineContext>();
-        context.CancellationToken = cancellationToken;
+
+        var type = typeof(TPipelineContext);
+        var context = (TPipelineContext) Activator.CreateInstance(type, _configuration, cancellationToken)!;
+        ArgumentNullException.ThrowIfNull(context);
         await Task.FromResult(_firstMiddleware(context, model));
     }
 
     public void Execute(TModel model)
     {
-        var context = Activator.CreateInstance<TPipelineContext>();
+        var type = typeof(TPipelineContext);
+        var context = (TPipelineContext) Activator.CreateInstance(type, _configuration, default(CancellationToken))!;
+        ArgumentNullException.ThrowIfNull(context);
         _firstMiddleware(context, model);
     }
 }

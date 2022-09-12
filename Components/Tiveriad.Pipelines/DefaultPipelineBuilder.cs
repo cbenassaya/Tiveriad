@@ -1,12 +1,5 @@
 ﻿namespace Tiveriad.Pipelines;
 
-public class ActivatorMiddlewareResolver : IMiddlewareResolver
-{
-    public object Resolve(Type type)
-    {
-        return Activator.CreateInstance(type);
-    }
-}
 
 public class
     DefaultPipelineBuilder<TModel, TPipelineContext, TConfiguration> : IPipelineBuilder<TModel, TPipelineContext,

@@ -1,7 +1,8 @@
 namespace Tiveriad.Pipelines.Tests.Models;
 
-public class Context : IPipelineContext<Configuration>
+public class Context : PipelineContextBase<Configuration>
 {
-    public CancellationToken CancellationToken { get; set; }
-    public Configuration Configuration { get; set; } 
+    public Context(Configuration configuration, CancellationToken cancellationToken ) : base(configuration, cancellationToken)
+    {
+    }
 }

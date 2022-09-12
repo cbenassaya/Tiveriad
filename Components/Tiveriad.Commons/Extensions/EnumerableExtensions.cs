@@ -23,4 +23,10 @@ public static class EnumerableExtensions
                     values.Add(obj);
         return values;
     }
+    
+    public static bool AtLeast<T>(this IEnumerable<T> source, int count) =>
+        source.Take(count).Count() == count;
+
+    public static TResult[] SelectToArray<T, TResult>(this IEnumerable<T> source, Func<T, TResult> selector) =>
+        source.Select(selector).ToArray();
 }

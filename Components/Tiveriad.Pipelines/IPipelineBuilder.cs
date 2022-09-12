@@ -26,7 +26,6 @@ public interface IMiddleware<TModel, TPipelineContext, TConfiguration>
     where TPipelineContext : class, IPipelineContext<TConfiguration>
     where TConfiguration : class, IPipelineConfiguration
 {
-    public TConfiguration Configuration { get; set; }
     public void Run(TPipelineContext context, TModel model);
 }
 
