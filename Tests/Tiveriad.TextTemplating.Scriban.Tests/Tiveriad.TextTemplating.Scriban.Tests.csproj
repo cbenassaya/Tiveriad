@@ -6,12 +6,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-
     <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="3.1.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0" />
         <PackageReference Include="xunit" Version="2.4.2" />
@@ -21,17 +21,15 @@
         </PackageReference>
     </ItemGroup>
 
-
     <ItemGroup>
-        <ProjectReference Include="..\..\Components\Tiveriad.IdGenerators\Tiveriad.IdGenerators.csproj" />
-        <ProjectReference Include="..\..\Components\Tiveriad.UnitTests\Tiveriad.UnitTests.csproj" />
+      <ProjectReference Include="..\..\Components\Tiveriad.TextTemplating.Scriban\Tiveriad.TextTemplating.Scriban.csproj" />
+      <ProjectReference Include="..\..\Components\Tiveriad.TextTemplating\Tiveriad.TextTemplating.csproj" />
+      <ProjectReference Include="..\..\Components\Tiveriad.UnitTests\Tiveriad.UnitTests.csproj" />
     </ItemGroup>
 
-
     <ItemGroup>
-        <Reference Include="Tiveriad.Commons.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>bin\Debug\net6.0\Tiveriad.Commons.Tests.dll</HintPath>
-        </Reference>
+      <None Remove="HelloWorld.txt" />
+      <EmbeddedResource Include="HelloWorld.txt" />
     </ItemGroup>
 
 </Project>

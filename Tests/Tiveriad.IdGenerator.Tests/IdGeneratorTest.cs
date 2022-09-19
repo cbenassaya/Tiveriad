@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Tiveriad.Commons.Tests;
 using Tiveriad.IdGenerators;
+using Tiveriad.UnitTests;
 using Xunit;
 
 namespace Tiveriad.IdGenerator.Tests;
