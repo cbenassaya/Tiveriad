@@ -16,16 +16,3 @@ public class PipelineStartup : StartupBase
                 DefaultPipelineBuilder<Model, Context, Configuration>>();
     }
 }
-
-
-public class SenderStartup : StartupBase
-{
-    public override void Configure(IServiceCollection services)
-    {
-        services
-            .AddScoped<IServiceResolver,
-                ActivatorServiceResolver>();
-        services
-            .AddSingleton<ISender,Sender>();
-    }
-}
