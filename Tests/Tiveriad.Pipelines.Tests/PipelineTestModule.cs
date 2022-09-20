@@ -1,10 +1,11 @@
+using System.Reflection;
 using Tiveriad.Pipelines.Tests.Models;
 using Tiveriad.UnitTests;
 using Xunit;
 
 namespace Tiveriad.Pipelines.Tests;
 
-public class PipelineTestModule : TestBase<Startup>
+public class PipelineTestModule : TestBase<PipelineStartup>
 {
     [Fact]
     public void BuildPipeLine()
@@ -43,5 +44,17 @@ public class PipelineTestModule : TestBase<Startup>
 
         var pipeline = pipelineBuilder.Build();
         pipeline.Execute(new Model());
+    }
+}
+
+
+public class SenderTestModule : TestBase<SenderStartup>
+{
+    [Fact]
+    public void Send_Test()
+    {
+        var result = GetRequiredService<ISender>().Send<int>(new Request("Hello World"));
+        
+        Assert.Equal(11, result?.Result);
     }
 }

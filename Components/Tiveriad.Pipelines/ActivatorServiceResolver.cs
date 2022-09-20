@@ -1,6 +1,6 @@
 namespace Tiveriad.Pipelines;
 
-public class ActivatorMiddlewareResolver : IMiddlewareResolver
+public class ActivatorServiceResolver : IServiceResolver
 {
     public object Resolve(Type type)
     {

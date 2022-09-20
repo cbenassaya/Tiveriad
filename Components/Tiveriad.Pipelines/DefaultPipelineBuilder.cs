@@ -12,11 +12,11 @@ public class
         List<Func<RequestDelegate<TModel, TPipelineContext, TConfiguration>,
             RequestDelegate<TModel, TPipelineContext, TConfiguration>>> _middlewares = new();
 
-    private readonly IMiddlewareResolver _middlewareResolver;
+    private readonly IServiceResolver _serviceResolver;
 
-    public DefaultPipelineBuilder(IMiddlewareResolver middlewareResolver)
+    public DefaultPipelineBuilder(IServiceResolver serviceResolver)
     {
-        _middlewareResolver = middlewareResolver;
+        _serviceResolver = serviceResolver;
         _configuration = Activator.CreateInstance<TConfiguration>();
     }
 
@@ -53,7 +53,7 @@ public class
         return Use(async (context, model, next) =>
         {
             var middleware =
-                (IMiddleware<TModel, TPipelineContext, TConfiguration>)_middlewareResolver.Resolve(typeof(TMiddleware));
+                (IMiddleware<TModel, TPipelineContext, TConfiguration>)_serviceResolver.Resolve(typeof(TMiddleware));
             middleware.Run(context, model);
             await next.Invoke(context, model);
         });
