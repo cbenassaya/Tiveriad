@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.TextTemplating.Scr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.TextTemplating.Scriban.Tests", "Tests\Tiveriad.TextTemplating.Scriban.Tests\Tiveriad.TextTemplating.Scriban.Tests.csproj", "{F109B596-E6EA-4E6E-B64F-680A26858C9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Pipelines.DependencyInjection", "Components\Tiveriad.Pipelines.DependencyInjection\Tiveriad.Pipelines.DependencyInjection.csproj", "{A6BBA398-FAE4-4F00-B3E8-606E16B19EAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -114,6 +116,10 @@ Global
 		{F109B596-E6EA-4E6E-B64F-680A26858C9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F109B596-E6EA-4E6E-B64F-680A26858C9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F109B596-E6EA-4E6E-B64F-680A26858C9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6BBA398-FAE4-4F00-B3E8-606E16B19EAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6BBA398-FAE4-4F00-B3E8-606E16B19EAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6BBA398-FAE4-4F00-B3E8-606E16B19EAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6BBA398-FAE4-4F00-B3E8-606E16B19EAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5FA9F754-A10A-4DCE-8C6A-DB372D36AE0B} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
@@ -133,5 +139,6 @@ Global
 		{7B827381-DB4B-4C18-A12E-8F0B2ACDAA60} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
 		{8160EA9C-F48C-4B06-B11A-3A4550431AE3} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
 		{F109B596-E6EA-4E6E-B64F-680A26858C9F} = {7E9DCA1A-5313-48FD-9EC1-CDA61E0E090F}
+		{A6BBA398-FAE4-4F00-B3E8-606E16B19EAA} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
 	EndGlobalSection
 EndGlobal

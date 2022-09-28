@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Tiveriad.Commons.Extensions;
 using Tiveriad.Cqrs.Commands;
 using Tiveriad.Cqrs.Queries;
 using Tiveriad.Cqrs.Requests;
@@ -13,17 +14,6 @@ namespace Tiveriad.Cqrs.Microsoft.DependencyInjection;
 
 public static class CqrsExtensions
 {
-    private static bool ImplementsGenericInterface(this Type type, Type interfaceType)
-    {
-        return type.IsGenericType(interfaceType) || type.GetTypeInfo().ImplementedInterfaces
-            .Any(@interface => @interface.IsGenericType(interfaceType));
-    }
-
-    private static bool IsGenericType(this Type type, Type genericType)
-    {
-        return type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == genericType;
-    }
-
     public static IServiceCollection AddGenericHandlers(this IServiceCollection services,
         params Assembly[] assembliesToScan)
     {

@@ -22,6 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Components\Tiveriad.Pipelines.DependencyInjection\Tiveriad.Pipelines.DependencyInjection.csproj" />
         <ProjectReference Include="..\..\Components\Tiveriad.Pipelines\Tiveriad.Pipelines.csproj" />
         <ProjectReference Include="..\..\Components\Tiveriad.UnitTests\Tiveriad.UnitTests.csproj" />
     </ItemGroup>
