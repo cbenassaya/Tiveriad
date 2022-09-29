@@ -29,7 +29,10 @@
 
     <ItemGroup>
       <None Remove="HelloWorld.txt" />
-      <EmbeddedResource Include="HelloWorld.txt" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Templates\HelloWorld.txt" />
     </ItemGroup>
 
 </Project>

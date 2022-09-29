@@ -13,7 +13,12 @@ public class TemplateFactory<T> : ITemplateFactory<T> where T : TemplateRenderer
     private void Add(Assembly assembly)
     {
         var embeddedFileProvider = new EmbeddedFileProvider(assembly);
-        _fileInfos.AddRange(assembly.GetManifestResourceNames().Select( x=>embeddedFileProvider.GetFileInfo(x.ToResourceName())).ToList());
+
+        var assemblyName = assembly.FullName.Split(",")[0]; 
+        _fileInfos.AddRange(
+            assembly.GetManifestResourceNames().Select( 
+                x=>embeddedFileProvider.GetFileInfo(x.Substring(assemblyName.Length+1))
+                ).ToList());
     }
     
     public ITemplateFactory<T> Add(params Assembly[] assemblies)
