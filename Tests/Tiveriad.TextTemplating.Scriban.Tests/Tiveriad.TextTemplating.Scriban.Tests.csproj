@@ -33,6 +33,7 @@
 
     <ItemGroup>
       <EmbeddedResource Include="Templates\HelloWorld.txt" />
+      <EmbeddedResource Include="Templates\HelloWorldWithExtension.txt" />
     </ItemGroup>
 
 </Project>
