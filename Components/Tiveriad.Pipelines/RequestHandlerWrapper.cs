@@ -3,7 +3,7 @@ namespace Tiveriad.Pipelines;
 public class RequestHandlerWrapper<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
-    private IServiceResolver _serviceResolver;
+    private readonly IServiceResolver _serviceResolver;
 
     public RequestHandlerWrapper(IServiceResolver serviceResolver)
     {
@@ -12,8 +12,10 @@ public class RequestHandlerWrapper<TRequest, TResponse>
 
     public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken)
     {
-        var handler = _serviceResolver.Resolve(typeof(IRequestHandler<TRequest, TResponse>)) as IRequestHandler<TRequest, TResponse>
-                      ?? throw new InvalidOperationException($"Could not get handler request {typeof(TRequest)}");
+        var handler =
+            _serviceResolver.Resolve(typeof(IRequestHandler<TRequest, TResponse>)) as
+                IRequestHandler<TRequest, TResponse>
+            ?? throw new InvalidOperationException($"Could not get handler request {typeof(TRequest)}");
         return handler.Handle(request, cancellationToken);
     }
 }

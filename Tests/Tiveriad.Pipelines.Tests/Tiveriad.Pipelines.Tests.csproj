@@ -11,10 +11,10 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0" />
-        <PackageReference Include="xunit" Version="2.4.2" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0"/>
+        <PackageReference Include="xunit" Version="2.4.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,9 +22,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Components\Tiveriad.Pipelines.DependencyInjection\Tiveriad.Pipelines.DependencyInjection.csproj" />
-        <ProjectReference Include="..\..\Components\Tiveriad.Pipelines\Tiveriad.Pipelines.csproj" />
-        <ProjectReference Include="..\..\Components\Tiveriad.UnitTests\Tiveriad.UnitTests.csproj" />
+        <ProjectReference Include="..\..\Components\Tiveriad.Pipelines.DependencyInjection\Tiveriad.Pipelines.DependencyInjection.csproj"/>
+        <ProjectReference Include="..\..\Components\Tiveriad.Pipelines\Tiveriad.Pipelines.csproj"/>
+        <ProjectReference Include="..\..\Components\Tiveriad.UnitTests\Tiveriad.UnitTests.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -1,5 +1,3 @@
-using System.Reflection;
-
 namespace Tiveriad.TextTemplating.Extensions;
 
 public static class StringExtensions

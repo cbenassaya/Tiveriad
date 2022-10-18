@@ -7,13 +7,13 @@ namespace Tiveriad.Pipelines.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddTiveriadSender(this IServiceCollection services, params Assembly[] assembliesToScan)
+    public static IServiceCollection AddTiveriadSender(this IServiceCollection services,
+        params Assembly[] assembliesToScan)
     {
         if (!assembliesToScan.Any())
-        {
-            throw new ArgumentException("No assemblies found to scan. Supply at least one assembly to scan for handlers.");
-        }
-        
+            throw new ArgumentException(
+                "No assemblies found to scan. Supply at least one assembly to scan for handlers.");
+
         var assembliesToScanArray = assembliesToScan ?? Array.Empty<Assembly>().ToArray();
 
         var openTypes = new[]
@@ -22,15 +22,12 @@ public static class ServiceCollectionExtensions
             typeof(IRequestHandler<,>)
         };
 
-        foreach (var openInterface in openTypes)
-        {
-            RegisterFor(openInterface,services,assembliesToScanArray);
-        }
+        foreach (var openInterface in openTypes) RegisterFor(openInterface, services, assembliesToScanArray);
 
         services.AddScoped<ISender, Sender>();
         return services;
     }
-    
+
     private static void RegisterFor(Type openRequestInterface,
         IServiceCollection services,
         IEnumerable<Assembly> assembliesToScan)
@@ -42,10 +39,7 @@ public static class ServiceCollectionExtensions
             var interfaceTypes = type.FindInterfacesThatClose(openRequestInterface).ToArray();
             if (!interfaceTypes.Any()) continue;
 
-            if (type.IsConcrete())
-            {
-                concretions.Add(type);
-            }
+            if (type.IsConcrete()) concretions.Add(type);
 
             foreach (var interfaceType in interfaceTypes)
             {
@@ -57,23 +51,17 @@ public static class ServiceCollectionExtensions
         foreach (var @interface in interfaces)
         {
             var exactMatches = concretions.Where(x => x.CanBeCastTo(@interface)).ToList();
-            foreach (var type in exactMatches)
-            {
-                services.AddTransient(@interface, type);
-            }
+            foreach (var type in exactMatches) services.AddTransient(@interface, type);
 
-            if (!@interface.IsOpenGeneric())
-            {
-                AddConcretionsThatCouldBeClosed(@interface, concretions, services);
-            }
+            if (!@interface.IsOpenGeneric()) AddConcretionsThatCouldBeClosed(@interface, concretions, services);
         }
     }
-    
-    private static void AddConcretionsThatCouldBeClosed(Type @interface, List<Type> concretions, IServiceCollection services)
+
+    private static void AddConcretionsThatCouldBeClosed(Type @interface, List<Type> concretions,
+        IServiceCollection services)
     {
         foreach (var type in concretions
                      .Where(x => x.IsOpenGeneric() && x.CouldCloseTo(@interface)))
-        {
             try
             {
                 services.TryAddTransient(@interface, type.MakeGenericType(@interface.GenericTypeArguments));
@@ -81,6 +69,5 @@ public static class ServiceCollectionExtensions
             catch (Exception)
             {
             }
-        }
     }
 }

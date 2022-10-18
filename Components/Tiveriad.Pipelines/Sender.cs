@@ -2,11 +2,11 @@ using System.Collections.Concurrent;
 
 namespace Tiveriad.Pipelines;
 
-public class Sender:ISender
+public class Sender : ISender
 {
+    private static readonly ConcurrentDictionary<Type, object> _requestHandlers = new();
 
     private readonly IServiceResolver _serviceResolver;
-    private static readonly ConcurrentDictionary<Type, object> _requestHandlers = new();
 
     public Sender(IServiceResolver serviceResolver)
     {
@@ -17,10 +17,11 @@ public class Sender:ISender
     {
         ArgumentNullException.ThrowIfNull(request);
         var requestType = request.GetType();
-        var wrapper =_requestHandlers.GetOrAdd(
+        var wrapper = _requestHandlers.GetOrAdd(
             requestType,
-            t =>  Activator.CreateInstance(typeof(RequestHandlerWrapper<,>).MakeGenericType(t, typeof(TResponse)), _serviceResolver)
-                  ?? throw new InvalidOperationException($"Could not create wrapper type for {t}")
+            t => Activator.CreateInstance(typeof(RequestHandlerWrapper<,>).MakeGenericType(t, typeof(TResponse)),
+                     _serviceResolver)
+                 ?? throw new InvalidOperationException($"Could not create wrapper type for {t}")
         );
 
         var method = wrapper.GetType().GetMethod("Handle")

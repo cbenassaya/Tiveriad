@@ -7,11 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Scriban" Version="5.5.0" />
+        <PackageReference Include="Scriban" Version="5.5.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Tiveriad.TextTemplating\Tiveriad.TextTemplating.csproj" />
+        <ProjectReference Include="..\Tiveriad.TextTemplating\Tiveriad.TextTemplating.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -5,11 +5,12 @@ using Tiveriad.TextTemplating.Extensions;
 
 namespace Tiveriad.TextTemplating;
 
-public class TemplateRendererFactory<T,C> : ITemplateRendererFactory<T,C> where T : TemplateRendererBase<C> where C:class,ITemplateRendererConfiguration
+public class TemplateRendererFactory<T, C> : ITemplateRendererFactory<T, C> where T : TemplateRendererBase<C>
+    where C : class, ITemplateRendererConfiguration
 {
-    private List<IFileInfo> _fileInfos = new();
-    private string _pattern = "*.*";
     private readonly C _configuration;
+    private readonly List<IFileInfo> _fileInfos = new();
+    private string _pattern = "*.*";
 
 
     internal TemplateRendererFactory()
@@ -17,52 +18,25 @@ public class TemplateRendererFactory<T,C> : ITemplateRendererFactory<T,C> where 
         _configuration = Activator.CreateInstance<C>();
     }
 
-
-    
-    
-    private void Add(Assembly assembly)
+    public TemplateRendererFactory<T, C> Configure(Action<C> config)
     {
-        var embeddedFileProvider = new EmbeddedFileProvider(assembly);
-
-        var assemblyName = assembly.FullName.Split(",")[0]; 
-        _fileInfos.AddRange(
-            assembly.GetManifestResourceNames().Select( 
-                x=>embeddedFileProvider.GetFileInfo(x.Substring(assemblyName.Length+1))
-            ).ToList());
-    }
-    
-    public TemplateRendererFactory<T,C>  Configure(Action<C> config)
-    {
-       
         config(_configuration);
         return this;
     }
-    
-    public ITemplateRendererFactory<T,C> Add(params Assembly[] assemblies)
-    {
-        foreach (var assembly in assemblies)
-        {
-            Add(assembly);
-        }
-        return this;
-    }
-    
-    private void Add(string root, string path)
-    {
-        var physicalFileProvider = new PhysicalFileProvider(root);
-        _fileInfos.AddRange(physicalFileProvider.GetDirectoryContents(path).Where(x => !x.IsDirectory).ToList());
-    }
 
-    public ITemplateRendererFactory<T,C> Add(string root, params string[] paths)
+    public ITemplateRendererFactory<T, C> Add(params Assembly[] assemblies)
     {
-        foreach (var path in paths)
-        {
-            Add(root,path);
-        }
+        foreach (var assembly in assemblies) Add(assembly);
         return this;
     }
 
-    public ITemplateRendererFactory<T,C> FilterBy(string pattern)
+    public ITemplateRendererFactory<T, C> Add(string root, params string[] paths)
+    {
+        foreach (var path in paths) Add(root, path);
+        return this;
+    }
+
+    public ITemplateRendererFactory<T, C> FilterBy(string pattern)
     {
         _pattern = pattern;
         return this;
@@ -77,9 +51,27 @@ public class TemplateRendererFactory<T,C> : ITemplateRendererFactory<T,C> where 
     public T Build()
     {
         var pattern = $"^{_pattern.Replace("*", ".*?")}$";
-        var filesInfos = _fileInfos.Where(x=>Regex.IsMatch(x.Name,pattern,RegexOptions.IgnoreCase)).ToList();
-        var templateManager = new TemplateManager(filesInfos.ToDictionary(x=>x.Name.ToResourceName(),x=>x));
-        Type type = typeof(T);
-        return (T) Activator.CreateInstance(type, templateManager, _configuration);
+        var filesInfos = _fileInfos.Where(x => Regex.IsMatch(x.Name, pattern, RegexOptions.IgnoreCase)).ToList();
+        var templateManager = new TemplateManager(filesInfos.ToDictionary(x => x.Name.ToResourceName(), x => x));
+        var type = typeof(T);
+        return (T)Activator.CreateInstance(type, templateManager, _configuration);
+    }
+
+
+    private void Add(Assembly assembly)
+    {
+        var embeddedFileProvider = new EmbeddedFileProvider(assembly);
+
+        var assemblyName = assembly.FullName.Split(",")[0];
+        _fileInfos.AddRange(
+            assembly.GetManifestResourceNames().Select(
+                x => embeddedFileProvider.GetFileInfo(x.Substring(assemblyName.Length + 1))
+            ).ToList());
+    }
+
+    private void Add(string root, string path)
+    {
+        var physicalFileProvider = new PhysicalFileProvider(root);
+        _fileInfos.AddRange(physicalFileProvider.GetDirectoryContents(path).Where(x => !x.IsDirectory).ToList());
     }
 }

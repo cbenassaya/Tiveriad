@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Tiveriad.Pipelines.DependencyInjection;
-using Tiveriad.Pipelines.Tests.Models;
 using Tiveriad.UnitTests;
 
 namespace Tiveriad.Pipelines.Tests;
@@ -12,11 +11,9 @@ public class SenderStartup : StartupBase
         services
             .AddScoped<IServiceResolver,
                 ServiceResolver>();
-        services.AddTiveriadSender(this.GetType().Assembly);
+        services.AddTiveriadSender(GetType().Assembly);
     }
 }
-
-
 
 public class ServiceResolver : IServiceResolver
 {

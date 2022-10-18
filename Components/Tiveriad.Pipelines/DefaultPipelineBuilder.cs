@@ -1,6 +1,5 @@
 ﻿namespace Tiveriad.Pipelines;
 
-
 public class
     DefaultPipelineBuilder<TModel, TPipelineContext, TConfiguration> : IPipelineBuilder<TModel, TPipelineContext,
         TConfiguration> where TPipelineContext : class, IPipelineContext<TConfiguration>

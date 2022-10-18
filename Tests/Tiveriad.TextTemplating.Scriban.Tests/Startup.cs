@@ -11,15 +11,7 @@ public class Startup : StartupBase
         TemplateRendererFactoryBuilder
             .With<ScribanTemplateRenderer, ScribanTemplateRendererConfiguration>()
             .Add(typeof(Startup).Assembly)
-            .Configure(configuration =>
-            {
-                configuration.Add(typeof(StringExtensions));
-            })
-            .Register(renderer =>
-            {
-                services.AddSingleton<ITemplateRenderer>(renderer);
-            });
-
-        
+            .Configure(configuration => { configuration.Add(typeof(StringExtensions)); })
+            .Register(renderer => { services.AddSingleton<ITemplateRenderer>(renderer); });
     }
 }

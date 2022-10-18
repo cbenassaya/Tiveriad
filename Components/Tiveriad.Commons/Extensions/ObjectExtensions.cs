@@ -1,4 +1,3 @@
-using System.Collections;
 using Tiveriad.Commons.Cloning;
 
 namespace Tiveriad.Commons.Extensions;
@@ -10,5 +9,4 @@ public static class ObjectExtensions
         var cloner = new Cloner();
         return cloner.Copy(value);
     }
-
 }

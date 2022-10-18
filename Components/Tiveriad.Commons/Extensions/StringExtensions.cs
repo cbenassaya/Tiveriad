@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 
 namespace Tiveriad.Commons.Extensions;
@@ -19,7 +18,7 @@ public static class StringExtensions
 
             builder.Append(item);
         }
+
         return builder.ToString();
     }
-    
 }

@@ -21,7 +21,6 @@ public class TemplateManager : ITemplateManager
         using var stream = fileInfo.CreateReadStream();
         using var streamReader = new StreamReader(stream);
 
-        return TemplateDefinition.With(name:name,layout:streamReader.ReadToEnd(),cultureInfo:fileInfo.GetCultureInfo());
-        
+        return TemplateDefinition.With(name, streamReader.ReadToEnd(), fileInfo.GetCultureInfo());
     }
 }

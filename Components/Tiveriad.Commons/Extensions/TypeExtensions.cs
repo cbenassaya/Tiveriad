@@ -96,7 +96,7 @@ public static class TypeExtensions
 
         foreach (var child in FindChildren(type.BaseType)) yield return child;
     }
-    
+
     public static bool ImplementsGenericInterface(this Type type, Type interfaceType)
     {
         return type.IsGenericType(interfaceType) || type.GetTypeInfo().ImplementedInterfaces
@@ -107,17 +107,17 @@ public static class TypeExtensions
     {
         return type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == genericType;
     }
-    
+
     public static bool IsOpenGeneric(this Type type)
     {
         return type.GetTypeInfo().IsGenericTypeDefinition || type.GetTypeInfo().ContainsGenericParameters;
     }
-    
+
     public static bool IsConcrete(this Type type)
     {
         return !type.GetTypeInfo().IsAbstract && !type.GetTypeInfo().IsInterface;
     }
-    
+
     public static IEnumerable<Type> FindInterfacesThatClose(this Type pluggedType, Type templateType)
     {
         return FindInterfacesThatClosesCore(pluggedType, templateType).Distinct();
@@ -130,38 +130,30 @@ public static class TypeExtensions
         if (!pluggedType.IsConcrete()) yield break;
 
         if (templateType.GetTypeInfo().IsInterface)
-        {
             foreach (
                 var interfaceType in
                 pluggedType.GetInterfaces()
-                    .Where(type => type.GetTypeInfo().IsGenericType && (type.GetGenericTypeDefinition() == templateType)))
-            {
+                    .Where(type => type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == templateType))
                 yield return interfaceType;
-            }
-        }
         else if (pluggedType.GetTypeInfo().BaseType.GetTypeInfo().IsGenericType &&
-                 (pluggedType.GetTypeInfo().BaseType.GetGenericTypeDefinition() == templateType))
-        {
+                 pluggedType.GetTypeInfo().BaseType.GetGenericTypeDefinition() == templateType)
             yield return pluggedType.GetTypeInfo().BaseType;
-        }
 
         if (pluggedType.GetTypeInfo().BaseType == typeof(object)) yield break;
 
         foreach (var interfaceType in FindInterfacesThatClosesCore(pluggedType.GetTypeInfo().BaseType, templateType))
-        {
             yield return interfaceType;
-        }
     }
-    
-    public static bool CanBeCastTo(this Type @from, Type @to)
+
+    public static bool CanBeCastTo(this Type from, Type to)
     {
-        if (@from == null) return false;
+        if (from == null) return false;
 
-        if (@from == to) return true;
+        if (from == to) return true;
 
-        return to.GetTypeInfo().IsAssignableFrom(@from.GetTypeInfo());
+        return to.GetTypeInfo().IsAssignableFrom(from.GetTypeInfo());
     }
-    
+
     public static bool CouldCloseTo(this Type openConcretion, Type closedInterface)
     {
         var openInterface = closedInterface.GetGenericTypeDefinition();
@@ -170,6 +162,4 @@ public static class TypeExtensions
         var concreteArguments = openConcretion.GenericTypeArguments;
         return arguments.Length == concreteArguments.Length && openConcretion.CanBeCastTo(openInterface);
     }
-    
-    
 }

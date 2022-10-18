@@ -6,7 +6,7 @@ namespace Tiveriad.Commons.Extensions;
 public static class DictionaryExtensions
 {
     /// <summary>
-    /// This method is used to try to get a value in a dictionary if it does exists.
+    ///     This method is used to try to get a value in a dictionary if it does exists.
     /// </summary>
     /// <typeparam name="T">Type of the value</typeparam>
     /// <param name="dictionary">The collection object</param>
@@ -27,7 +27,7 @@ public static class DictionaryExtensions
     }
 
     /// <summary>
-    /// Gets a value from the dictionary with given key. Returns default value if can not find.
+    ///     Gets a value from the dictionary with given key. Returns default value if can not find.
     /// </summary>
     /// <param name="dictionary">Dictionary to check and get</param>
     /// <param name="key">Key to find the value</param>
@@ -41,7 +41,7 @@ public static class DictionaryExtensions
     }
 
     /// <summary>
-    /// Gets a value from the dictionary with given key. Returns default value if can not find.
+    ///     Gets a value from the dictionary with given key. Returns default value if can not find.
     /// </summary>
     /// <param name="dictionary">Dictionary to check and get</param>
     /// <param name="key">Key to find the value</param>
@@ -54,7 +54,7 @@ public static class DictionaryExtensions
     }
 
     /// <summary>
-    /// Gets a value from the dictionary with given key. Returns default value if can not find.
+    ///     Gets a value from the dictionary with given key. Returns default value if can not find.
     /// </summary>
     /// <param name="dictionary">Dictionary to check and get</param>
     /// <param name="key">Key to find the value</param>
@@ -67,7 +67,7 @@ public static class DictionaryExtensions
     }
 
     /// <summary>
-    /// Gets a value from the dictionary with given key. Returns default value if can not find.
+    ///     Gets a value from the dictionary with given key. Returns default value if can not find.
     /// </summary>
     /// <param name="dictionary">Dictionary to check and get</param>
     /// <param name="key">Key to find the value</param>
@@ -80,7 +80,7 @@ public static class DictionaryExtensions
     }
 
     /// <summary>
-    /// Gets a value from the dictionary with given key. Returns default value if can not find.
+    ///     Gets a value from the dictionary with given key. Returns default value if can not find.
     /// </summary>
     /// <param name="dictionary">Dictionary to check and get</param>
     /// <param name="key">Key to find the value</param>
@@ -88,19 +88,17 @@ public static class DictionaryExtensions
     /// <typeparam name="TKey">Type of the key</typeparam>
     /// <typeparam name="TValue">Type of the value</typeparam>
     /// <returns>Value if found, default if can not found.</returns>
-    public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> factory)
+    public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key,
+        Func<TKey, TValue> factory)
     {
         TValue obj;
-        if (dictionary.TryGetValue(key, out obj))
-        {
-            return obj;
-        }
+        if (dictionary.TryGetValue(key, out obj)) return obj;
 
         return dictionary[key] = factory(key);
     }
 
     /// <summary>
-    /// Gets a value from the dictionary with given key. Returns default value if can not find.
+    ///     Gets a value from the dictionary with given key. Returns default value if can not find.
     /// </summary>
     /// <param name="dictionary">Dictionary to check and get</param>
     /// <param name="key">Key to find the value</param>
@@ -108,13 +106,14 @@ public static class DictionaryExtensions
     /// <typeparam name="TKey">Type of the key</typeparam>
     /// <typeparam name="TValue">Type of the value</typeparam>
     /// <returns>Value if found, default if can not found.</returns>
-    public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> factory)
+    public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key,
+        Func<TValue> factory)
     {
         return dictionary.GetOrAdd(key, k => factory());
     }
 
     /// <summary>
-    /// Gets a value from the concurrent dictionary with given key. Returns default value if can not find.
+    ///     Gets a value from the concurrent dictionary with given key. Returns default value if can not find.
     /// </summary>
     /// <param name="dictionary">Concurrent dictionary to check and get</param>
     /// <param name="key">Key to find the value</param>
@@ -122,13 +121,14 @@ public static class DictionaryExtensions
     /// <typeparam name="TKey">Type of the key</typeparam>
     /// <typeparam name="TValue">Type of the value</typeparam>
     /// <returns>Value if found, default if can not found.</returns>
-    public static TValue GetOrAdd<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> factory)
+    public static TValue GetOrAdd<TKey, TValue>(this ConcurrentDictionary<TKey, TValue> dictionary, TKey key,
+        Func<TValue> factory)
     {
         return dictionary.GetOrAdd(key, k => factory());
     }
 
     /// <summary>
-    /// Converts a <string,object> dictionary to dynamic object so added and removed at run
+    ///     Converts a <string, object> dictionary to dynamic object so added and removed at run
     /// </summary>
     /// <param name="dictionary">The collection object</param>
     /// <returns>If value is correct, return ExpandoObject that represents an object</returns>
@@ -137,10 +137,7 @@ public static class DictionaryExtensions
         var expandoObject = new ExpandoObject();
         var expendObjectCollection = (ICollection<KeyValuePair<string, object>>)expandoObject;
 
-        foreach (var keyValuePair in dictionary)
-        {
-            expendObjectCollection.Add(keyValuePair);
-        }
+        foreach (var keyValuePair in dictionary) expendObjectCollection.Add(keyValuePair);
 
         return expandoObject;
     }
