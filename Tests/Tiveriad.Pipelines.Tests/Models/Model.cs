@@ -7,8 +7,18 @@ public class Model
 
 public class Middleware : IMiddleware<Model, Context, Configuration>
 {
-    public void Run(Context context, Model model)
+    public Task Run(Context context, Model model)
     {
         model.DateTime = DateTime.Now;
+        return Task.CompletedTask;
+    }
+}
+
+
+public class MiddlewareWithException : IMiddleware<Model, Context, Configuration>
+{
+    public Task Run(Context context, Model model)
+    {
+        throw new NullReferenceException("TestError");
     }
 }

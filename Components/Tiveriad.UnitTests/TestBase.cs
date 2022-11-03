@@ -4,15 +4,24 @@ namespace Tiveriad.UnitTests;
 
 public abstract class TestBase<TStartup> where TStartup : IStartup
 {
-    private readonly IServiceProvider _serviceProvider;
+    private IServiceProvider _serviceProvider;
 
     protected TestBase()
     {
-        var services = new ServiceCollection();
+        Init();
+    }
+
+    private void Init()
+    {
+        var services = GetServiceCollection();
         var startup = Activator.CreateInstance<TStartup>();
         startup.Configure(services);
         _serviceProvider = services.BuildServiceProvider();
         startup.Init(_serviceProvider);
+    }
+    protected virtual ServiceCollection GetServiceCollection()
+    {
+        return new ServiceCollection();
     }
 
     protected virtual T? GetService<T>()
