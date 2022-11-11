@@ -9,7 +9,7 @@ public class
 {
     private readonly TConfiguration _configuration;
 
-    private Action<Exception> _exceptionHandler;
+    private Action<Exception>? _exceptionHandler;
 
     private readonly List<RequestDelegate<TModel, TPipelineContext, TConfiguration>> _middlewares = new();
 
@@ -61,21 +61,25 @@ public class
         {
             var next = nextAction;
             var innerMiddleware = _middlewares[c];
+           
             currentAction = async (context, model)  =>
             {
+                var noException = true;
                 try
                 {
                     await innerMiddleware(context,model);
                 }
                 catch (Exception e)
                 {
+                    noException = false;
                     if (_exceptionHandler != null)
                     {
                         _exceptionHandler(e);
                     } else
                         throw e;
                 }
-                await next(context,model);
+                if (noException)
+                    await next(context,model);
             };
             nextAction = currentAction;
         }

@@ -1,21 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <LangVersion>10</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Tiveriad.Repositories\Tiveriad.Repositories.csproj"/>
+        <ProjectReference Include="..\Tiveriad.Repositories\Tiveriad.Repositories.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="MediatR" Version="10.0.1"/>
+        <PackageReference Include="MediatR" Version="11.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Requests"/>
+        <Folder Include="Requests" />
     </ItemGroup>
 
 </Project>

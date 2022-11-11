@@ -1,18 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <LangVersion>10</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.8"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Tiveriad.Commons\Tiveriad.Commons.csproj"/>
-        <ProjectReference Include="..\Tiveriad.IdGenerators\Tiveriad.IdGenerators.csproj"/>
-        <ProjectReference Include="..\Tiveriad.Repositories\Tiveriad.Repositories.csproj"/>
+        <ProjectReference Include="..\Tiveriad.Commons\Tiveriad.Commons.csproj" />
+        <ProjectReference Include="..\Tiveriad.IdGenerators\Tiveriad.IdGenerators.csproj" />
+        <ProjectReference Include="..\Tiveriad.Repositories\Tiveriad.Repositories.csproj" />
     </ItemGroup>
 
 </Project>
