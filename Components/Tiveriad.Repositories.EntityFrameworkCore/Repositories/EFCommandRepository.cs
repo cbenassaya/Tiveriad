@@ -15,7 +15,7 @@ public class EFCommandRepository<TEntity, TKey> : ICommandRepository<TEntity, TK
     private readonly DbContext _context;
     private readonly DetachedCommand _detachedCommand;
     private readonly SetIdCommand<TKey> _setIdCommand;
-
+    
 
     public EFCommandRepository(DbContext context)
     {

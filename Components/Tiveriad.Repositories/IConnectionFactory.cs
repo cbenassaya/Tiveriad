@@ -2,8 +2,7 @@ using System;
 
 namespace Tiveriad.Repositories;
 
-public interface IConnectionFactory<T> where T : IConnectionConfigurator
+public interface IConnectionFactory<TClient> 
 {
-    IConnectionFactory<T> Configure(Action<T> configurator);
-    void Build();
+    TClient GetConnection();
 }

@@ -2,23 +2,20 @@
 
 namespace Tiveriad.UnitTests;
 
-public abstract class TestBase<TStartup> where TStartup : IStartup
+public abstract class TestBase<TCYCLEOFLIFEMANAGER>: IDisposable where TCYCLEOFLIFEMANAGER : IStartup
 {
-    private IServiceProvider _serviceProvider;
-
+    private readonly IServiceProvider _serviceProvider;
+    private readonly TCYCLEOFLIFEMANAGER _cycleOfLifeManager;
     protected TestBase()
     {
-        Init();
+        var services = GetServiceCollection(); 
+        _cycleOfLifeManager = Activator.CreateInstance<TCYCLEOFLIFEMANAGER>();
+        _cycleOfLifeManager.Configure(services);
+        _serviceProvider = services.BuildServiceProvider();
+        _cycleOfLifeManager.Init(_serviceProvider);
     }
 
-    private void Init()
-    {
-        var services = GetServiceCollection();
-        var startup = Activator.CreateInstance<TStartup>();
-        startup.Configure(services);
-        _serviceProvider = services.BuildServiceProvider();
-        startup.Init(_serviceProvider);
-    }
+
     protected virtual ServiceCollection GetServiceCollection()
     {
         return new ServiceCollection();
@@ -32,5 +29,10 @@ public abstract class TestBase<TStartup> where TStartup : IStartup
     protected virtual T GetRequiredService<T>() where T : notnull
     {
         return _serviceProvider.GetRequiredService<T>();
+    }
+
+    public void Dispose()
+    {
+        _cycleOfLifeManager.Clean(_serviceProvider);
     }
 }

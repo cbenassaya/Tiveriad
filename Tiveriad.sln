@@ -42,6 +42,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.TextTemplating.Scr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Pipelines.DependencyInjection", "Components\Tiveriad.Pipelines.DependencyInjection\Tiveriad.Pipelines.DependencyInjection.csproj", "{A6BBA398-FAE4-4F00-B3E8-606E16B19EAA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{31252D1D-D184-46FF-88FF-92B9AAA2499A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Repositories.MongoDb", "Components\Tiveriad.Repositories.MongoDb\Tiveriad.Repositories.MongoDb.csproj", "{1407F845-1E13-4039-BCA3-140915C94CEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Repositories.MongoDb.Tests", "Tests\Tiveriad.Repositories.MongoDb.Tests\Tiveriad.Repositories.MongoDb.Tests.csproj", "{E0CC0A42-9BD8-4C87-8740-F96AFFDF9803}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,6 +126,14 @@ Global
 		{A6BBA398-FAE4-4F00-B3E8-606E16B19EAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6BBA398-FAE4-4F00-B3E8-606E16B19EAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6BBA398-FAE4-4F00-B3E8-606E16B19EAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1407F845-1E13-4039-BCA3-140915C94CEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1407F845-1E13-4039-BCA3-140915C94CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1407F845-1E13-4039-BCA3-140915C94CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1407F845-1E13-4039-BCA3-140915C94CEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0CC0A42-9BD8-4C87-8740-F96AFFDF9803}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0CC0A42-9BD8-4C87-8740-F96AFFDF9803}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0CC0A42-9BD8-4C87-8740-F96AFFDF9803}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0CC0A42-9BD8-4C87-8740-F96AFFDF9803}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5FA9F754-A10A-4DCE-8C6A-DB372D36AE0B} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
@@ -140,5 +154,7 @@ Global
 		{8160EA9C-F48C-4B06-B11A-3A4550431AE3} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
 		{F109B596-E6EA-4E6E-B64F-680A26858C9F} = {7E9DCA1A-5313-48FD-9EC1-CDA61E0E090F}
 		{A6BBA398-FAE4-4F00-B3E8-606E16B19EAA} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
+		{1407F845-1E13-4039-BCA3-140915C94CEC} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
+		{E0CC0A42-9BD8-4C87-8740-F96AFFDF9803} = {7E9DCA1A-5313-48FD-9EC1-CDA61E0E090F}
 	EndGlobalSection
 EndGlobal

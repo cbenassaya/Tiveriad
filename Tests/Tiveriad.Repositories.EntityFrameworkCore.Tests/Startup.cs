@@ -60,7 +60,7 @@ public class Startup : StartupBase
 
             professorRepository.AddOne(professor);
 
-            courseRepository.AddOne(new Course
+            courseRepository.AddOne(new Course<string>
             {
                 Name = Company.Name(),
                 Professor = professor
@@ -68,7 +68,7 @@ public class Startup : StartupBase
         }
 
         for (var i = 0; i < _maxRecord; i++)
-            studentRepository.AddOne(new Student
+            studentRepository.AddOne(new Student<string>
             {
                 Firstname = Name.First(),
                 Lastname = Name.Last(),

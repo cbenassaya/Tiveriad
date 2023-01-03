@@ -17,7 +17,7 @@ public class CommandTestModule : TestBase<Startup>
     public async Task Add_Entity()
     {
         var repository = GetRequiredService<CourseRepository>();
-        var course = new Course { Name = Company.Name() };
+        var course = new Course<string> { Name = Company.Name() };
         await repository.AddOneAsync(course);
     }
 
@@ -30,7 +30,7 @@ public class CommandTestModule : TestBase<Startup>
 
         var initialStudentsCount = studentRepository.Count();
 
-        var student = new Student
+        var student = new Student<string>
         {
             Firstname = Name.First(),
             Lastname = Name.Last(),
@@ -38,7 +38,7 @@ public class CommandTestModule : TestBase<Startup>
             City = Address.City(),
             Country = Address.Country(),
             StreetAddress = Address.StreetAddress(),
-            Courses = new HashSet<Course>()
+            Courses = new HashSet<Course<string>>()
         };
 
         var course = courseRepository.Queryable.RandomElement(x => true);
@@ -65,7 +65,7 @@ public class CommandTestModule : TestBase<Startup>
 
         var course = courseRepository.Queryable.RandomElement(x => true);
 
-        var student = new Student
+        var student = new Student<string>
         {
             Firstname = Name.First(),
             Lastname = Name.Last(),
@@ -73,13 +73,13 @@ public class CommandTestModule : TestBase<Startup>
             City = Address.City(),
             Country = Address.Country(),
             StreetAddress = Address.StreetAddress(),
-            Courses = new HashSet<Course>()
+            Courses = new HashSet<Course<string>>()
         };
 
         if (course == null)
             throw new NullException("course");
 
-        var newCourse = new Course
+        var newCourse = new Course<string>
         {
             Name = Company.Name(),
             Professor = course.Professor

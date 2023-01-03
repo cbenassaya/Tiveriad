@@ -23,8 +23,7 @@ public static class ServiceCollectionExtensions
         };
 
         foreach (var openInterface in openTypes) RegisterFor(openInterface, services, assembliesToScanArray);
-
-        services.AddScoped<ISender, Sender>();
+            services.AddScoped<ISender, Sender>();
         return services;
     }
 

@@ -4,14 +4,14 @@ using Tiveriad.Repositories.Tests.Models;
 
 namespace Tiveriad.Repositories.EntityFrameworkCore.Tests;
 
-public class CourseRepository : EFRepository<Course, string>
+public class CourseRepository : EFRepository<Course<string>, string>
 {
     public CourseRepository(DbContext context) : base(context)
     {
     }
 }
 
-public class StudentRepository : EFRepository<Student, string>
+public class StudentRepository : EFRepository<Student<string>, string>
 {
     public StudentRepository(DbContext context) : base(context)
     {

@@ -1,0 +1,18 @@
+using MongoDB.Bson;
+using MongoDB.Driver;
+
+namespace Tiveriad.Repositories.MongoDb.Repositories;
+
+public class MongoRepository<TEntity, TKey> : RepositoryBase<TEntity, ObjectId>
+    where TEntity : class, IEntity<ObjectId>
+{
+    protected MongoRepository(IConnectionFactory<IMongoDatabase> connectionFactory) :
+        base(new MongoQueryRepository<TEntity>(connectionFactory), new MongoCommandRepository<TEntity>(connectionFactory))
+    {
+    }
+    
+    protected MongoRepository(IConnectionFactory<IMongoDatabase> queryConnectionFactory, IConnectionFactory<IMongoDatabase> commandConnectionFactory) :
+        base(new MongoQueryRepository<TEntity>(queryConnectionFactory), new MongoCommandRepository<TEntity>(commandConnectionFactory))
+    {
+    }
+}
