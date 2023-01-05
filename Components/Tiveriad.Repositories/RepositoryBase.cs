@@ -15,7 +15,7 @@ public abstract class RepositoryBase<TEntity, TKey> : IRepository<TEntity, TKey>
     private readonly ICommandRepository<TEntity, TKey> _commandRepository;
     private readonly IQueryRepository<TEntity, TKey> _queryRepository;
 
-    protected RepositoryBase(IQueryRepository<TEntity, TKey> queryRepository,
+    public RepositoryBase(IQueryRepository<TEntity, TKey> queryRepository,
         ICommandRepository<TEntity, TKey> commandRepository)
     {
         _queryRepository = queryRepository;

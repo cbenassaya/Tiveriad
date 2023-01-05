@@ -2,11 +2,11 @@ using MongoDB.Driver;
 
 namespace Tiveriad.Repositories.MongoDb;
 
-public class MongoConnectionFactoryBuilder
+public class MongoConnectionFactoryBuilder:IConnectionFactoryBuilder<MongoConnectionConfigurator,IMongoDatabase>
 {
     private MongoConnectionConfigurator _configurator;
     
-    public MongoConnectionFactoryBuilder Configure(Action<MongoConnectionConfigurator> action)
+    public IConnectionFactoryBuilder<MongoConnectionConfigurator,IMongoDatabase> Configure(Action<MongoConnectionConfigurator> action)
     {
         _configurator = new MongoConnectionConfigurator();
         action(_configurator);

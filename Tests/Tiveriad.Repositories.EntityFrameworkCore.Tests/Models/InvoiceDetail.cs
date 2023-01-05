@@ -1,4 +1,4 @@
-namespace Tiveriad.Repositories.Tests.Models;
+namespace Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
 
 public class InvoiceDetail : IEntity<string>
 {

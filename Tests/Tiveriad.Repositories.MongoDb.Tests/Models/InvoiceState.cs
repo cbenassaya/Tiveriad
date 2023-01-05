@@ -1,4 +1,4 @@
-namespace Tiveriad.Repositories.Tests.Models;
+namespace Tiveriad.Repositories.MongoDb.Tests.Models;
 
 public enum InvoiceState
 {

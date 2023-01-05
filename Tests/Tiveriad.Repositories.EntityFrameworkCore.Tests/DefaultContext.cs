@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Tiveriad.Repositories.Tests.Models;
+using Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
 
 namespace Tiveriad.Repositories.EntityFrameworkCore.Tests;
 
@@ -50,13 +50,13 @@ public sealed class DefaultContext : DbContext
         });
         modelBuilder.Entity<InvoiceDetail>(x => { x.ToTable("T_InvoiceDetail").HasKey(k => k.Id); });
 
-        modelBuilder.Entity<Student<string>>(x =>
+        modelBuilder.Entity<Student>(x =>
         {
             x.ToTable("T_Student").HasKey(k => k.Id);
             x.HasMany(p => p.Courses).WithMany(p => p.Students).UsingEntity(j => j.ToTable("J_StudentSource"));
         });
         modelBuilder.Entity<Professor>(x => { x.ToTable("T_Professor").HasKey(k => k.Id); });
-        modelBuilder.Entity<Course<string>>(x =>
+        modelBuilder.Entity<Course>(x =>
         {
             x.ToTable("T_Course").HasKey(k => k.Id);
             x.HasOne(n => n.Professor);

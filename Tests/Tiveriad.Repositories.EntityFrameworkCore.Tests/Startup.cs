@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Tiveriad.IdGenerators;
-using Tiveriad.Repositories.Tests.Models;
+using Tiveriad.Repositories.EntityFrameworkCore.Repositories;
+using Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
+using Tiveriad.Repositories.Microsoft.DependencyInjection;
 using Tiveriad.UnitTests;
 using Xunit.Sdk;
 using Company = Faker.Company;
@@ -25,12 +27,7 @@ public class Startup : StartupBase
             options.LogTo(Console.WriteLine, LogLevel.Information);
         });
 
-        services.AddScoped<CourseRepository>();
-        services.AddScoped<StudentRepository>();
-        services.AddScoped<CompanyRepository>();
-        services.AddScoped<PersonRepository>();
-        services.AddScoped<InvoiceRepository>();
-        services.AddScoped<ProfessorRepository>();
+        services.AddRepositories(typeof(EFRepository<,>), typeof(Course));
     }
 
     public override void Init(IServiceProvider serviceProvider)
@@ -45,9 +42,9 @@ public class Startup : StartupBase
     private void LoadStudentModel(IServiceProvider serviceProvider)
     {
         var context = serviceProvider.GetRequiredService<DbContext>();
-        var professorRepository = serviceProvider.GetRequiredService<ProfessorRepository>();
-        var courseRepository = serviceProvider.GetRequiredService<CourseRepository>();
-        var studentRepository = serviceProvider.GetRequiredService<StudentRepository>();
+        var professorRepository = serviceProvider.GetRequiredService<IRepository<Professor,string>>();
+        var courseRepository = serviceProvider.GetRequiredService<IRepository<Course,string>>();
+        var studentRepository = serviceProvider.GetRequiredService<IRepository<Student,string>>();
 
         for (var i = 0; i < 10; i++)
         {
@@ -60,7 +57,7 @@ public class Startup : StartupBase
 
             professorRepository.AddOne(professor);
 
-            courseRepository.AddOne(new Course<string>
+            courseRepository.AddOne(new Course
             {
                 Name = Company.Name(),
                 Professor = professor
@@ -68,7 +65,7 @@ public class Startup : StartupBase
         }
 
         for (var i = 0; i < _maxRecord; i++)
-            studentRepository.AddOne(new Student<string>
+            studentRepository.AddOne(new Student
             {
                 Firstname = Name.First(),
                 Lastname = Name.Last(),
@@ -84,11 +81,11 @@ public class Startup : StartupBase
     {
         var context = serviceProvider.GetRequiredService<DbContext>();
 
-        var companies = new List<Tiveriad.Repositories.Tests.Models.Company>();
+        var companies = new List<Models.Company>();
 
         for (var i = 0; i < 100; i++)
         {
-            var company = new Tiveriad.Repositories.Tests.Models.Company
+            var company = new Models.Company
             {
                 Name = Company.Name(),
                 City = Address.City(),
@@ -96,7 +93,7 @@ public class Startup : StartupBase
                 StreetAddress = Address.StreetAddress()
             };
             companies.Add(company);
-            serviceProvider?.GetService<CompanyRepository>()?.AddOne(company);
+            serviceProvider?.GetService<IRepository<Models.Company,string>>()?.AddOne(company);
         }
 
         for (var i = 0; i < 30; i++)
@@ -125,11 +122,11 @@ public class Startup : StartupBase
                 new()
                     { Amount = Finance.Coupon(), Label = Finance.Credit.BondName(), Id = KeyGenerator.NewId<string>() }
             };
-            serviceProvider?.GetService<InvoiceRepository>()?.AddOne(invoice);
+            serviceProvider?.GetService<IRepository<Invoice,string>>()?.AddOne(invoice);
         }
 
         for (var i = 0; i < _maxRecord; i++)
-            serviceProvider?.GetService<PersonRepository>()?.AddOne(new Person
+            serviceProvider?.GetService<IRepository<Person,string>>()?.AddOne(new Person
             {
                 Firstname = Name.First(),
                 Lastname = Name.Last(),

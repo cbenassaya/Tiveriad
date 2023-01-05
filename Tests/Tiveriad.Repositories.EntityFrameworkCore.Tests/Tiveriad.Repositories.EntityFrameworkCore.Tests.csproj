@@ -28,6 +28,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Components\Tiveriad.Repositories.EntityFrameworkCore\Tiveriad.Repositories.EntityFrameworkCore.csproj" />
+        <ProjectReference Include="..\..\Components\Tiveriad.Repositories.Microsoft.DependencyInjection\Tiveriad.Repositories.Microsoft.DependencyInjection.csproj" />
         <ProjectReference Include="..\..\Components\Tiveriad.Repositories\Tiveriad.Repositories.csproj" />
         <ProjectReference Include="..\Tiveriad.Repositories.Tests\Tiveriad.Repositories.Tests.csproj" />
     </ItemGroup>
