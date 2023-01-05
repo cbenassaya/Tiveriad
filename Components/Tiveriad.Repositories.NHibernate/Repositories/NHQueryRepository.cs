@@ -1,26 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using NHibernate;
+using NHibernate.Linq;
 
-namespace Tiveriad.Repositories.EntityFrameworkCore.Repositories;
+namespace Tiveriad.Repositories.NHibernate.Repositories;
 
-public class EFQueryRepository<TEntity, TKey> : IQueryRepository<TEntity, TKey>
+public class NHQueryRepository<TEntity, TKey> : IQueryRepository<TEntity, TKey>
     where TEntity : class, IEntity<TKey>
     where TKey : IEquatable<TKey>
 {
-    private readonly DbContext _context;
-
-    public EFQueryRepository(DbContext context)
+    
+    private readonly ISession _session;
+    public NHQueryRepository(ISession session)
     {
-        _context = context;
+        _session = session;
     }
 
-    public IQueryable<TEntity> Queryable => _context.Set<TEntity>();
-
+    public IQueryable<TEntity> Queryable => _session.Query<TEntity>();
     public bool Any()
     {
         return Queryable.Any();
@@ -56,8 +51,7 @@ public class EFQueryRepository<TEntity, TKey> : IQueryRepository<TEntity, TKey>
         return Queryable.LongCountAsync(cancellationToken: cancellationToken);
     }
 
-    public Task<long> CountAsync(Expression<Func<TEntity, bool>> where,
-        CancellationToken cancellationToken = default)
+    public Task<long> CountAsync(Expression<Func<TEntity, bool>> where, CancellationToken cancellationToken = default)
     {
         return Queryable.LongCountAsync(where, cancellationToken: cancellationToken);
     }
@@ -77,20 +71,18 @@ public class EFQueryRepository<TEntity, TKey> : IQueryRepository<TEntity, TKey>
         return Queryable.Where(filter).ToList().AsEnumerable();
     }
 
-    public Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> filter,
-        CancellationToken cancellationToken = default)
+    public Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default)
     {
         return Task.Run(() => Queryable.Where(filter).ToList().AsEnumerable(), cancellationToken);
     }
 
     public TEntity GetById(TKey id)
     {
-        return _context.Set<TEntity>().Find(id);
+        return _session.Get<TEntity>(id);
     }
 
     public Task<TEntity> GetByIdAsync(TKey id, CancellationToken cancellationToken = default)
     {
-        return _context.Set<TEntity>()
-            .FindAsync(new object[] { id }, cancellationToken).AsTask();
+        return _session.GetAsync<TEntity>(id, cancellationToken);
     }
 }
