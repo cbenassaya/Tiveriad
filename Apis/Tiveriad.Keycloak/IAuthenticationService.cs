@@ -1,10 +1,10 @@
-namespace Tiveriad.Keycloak.Apis;
+namespace Tiveriad.Keycloak;
 
-public interface IAuthenticationApi
+public interface IAuthenticationService
 {
     string AccessToken { get; }
 
-    Task<bool> Connect(string userName, string password,
+    Task<bool> Connect( string userName, string password,
         CancellationToken cancellationToken = default);
 
     Task<bool> Connect(string clientSecret, CancellationToken cancellationToken = default);

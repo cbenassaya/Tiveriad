@@ -25,6 +25,26 @@ public static class DictionaryExtensions
         value = default;
         return false;
     }
+    
+    /// <summary>
+    ///     This method is used to try to get a value in a dictionary if it does exists.
+    /// </summary>
+    /// <typeparam name="T">Type of the value</typeparam>
+    /// <param name="dictionary">The collection object</param>
+    /// <param name="key">Key</param>
+    /// <param name="value">Value of the key (or default value if key not exists)</param>
+    /// <returns>True if key does exists in the dictionary</returns>
+    internal static bool TryGetValue(this IDictionary<string, object?> dictionary, string key, out object? value)
+    {
+        if (dictionary.TryGetValue(key, out var valueObj))
+        {
+            value = valueObj;
+            return true;
+        }
+
+        value = null;
+        return false;
+    }
 
     /// <summary>
     ///     Gets a value from the dictionary with given key. Returns default value if can not find.
