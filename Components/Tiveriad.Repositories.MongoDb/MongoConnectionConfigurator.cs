@@ -1,10 +1,16 @@
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
+using Tiveriad.Connections;
 
 namespace Tiveriad.Repositories.MongoDb;
 
+public interface IMongoConnectionConfiguration:IConnectionConfiguration
+{
+    public string DatabaseName { get;  }
+    public string ConnectionString { get;  }
+}
 
-public class MongoConnectionConfigurator : IConnectionConfigurator
+public class MongoConnectionConfigurator : IConnectionConfigurator,IMongoConnectionConfiguration
 {
     private readonly MongoClientSettings _mongoClientSettings = new();
 

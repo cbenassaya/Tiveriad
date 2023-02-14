@@ -15,7 +15,7 @@ public class Startup : StartupBase
     {
         var factory = new MongoConnectionFactoryBuilder();
 
-        services.ConfigureConnectionFactory<MongoConnectionFactoryBuilder, IMongoDatabase, MongoConnectionConfigurator>(
+        services.ConfigureConnectionFactory<MongoConnectionFactoryBuilder, IMongoDatabase, MongoConnectionConfigurator, IMongoConnectionConfiguration>(
             configurator =>
             {
                 configurator.SetConnectionString(_runner.ConnectionString);

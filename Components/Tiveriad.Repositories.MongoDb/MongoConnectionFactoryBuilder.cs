@@ -1,12 +1,15 @@
 using MongoDB.Driver;
+using Tiveriad.Connections;
 
 namespace Tiveriad.Repositories.MongoDb;
 
-public class MongoConnectionFactoryBuilder:IConnectionFactoryBuilder<MongoConnectionConfigurator,IMongoDatabase>
+public class MongoConnectionFactoryBuilder:IConnectionFactoryBuilder<MongoConnectionConfigurator,IMongoConnectionConfiguration,IMongoDatabase>
 {
     private MongoConnectionConfigurator _configurator;
     
-    public IConnectionFactoryBuilder<MongoConnectionConfigurator,IMongoDatabase> Configure(Action<MongoConnectionConfigurator> action)
+    public IMongoConnectionConfiguration Configuration => _configurator;
+    
+    public IConnectionFactoryBuilder<MongoConnectionConfigurator,IMongoConnectionConfiguration,IMongoDatabase> Configure(Action<MongoConnectionConfigurator> action)
     {
         _configurator = new MongoConnectionConfigurator();
         action(_configurator);

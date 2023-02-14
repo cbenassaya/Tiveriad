@@ -20,7 +20,7 @@ public class BaseApi
         var apiClient = new ApiClient(_httpClient);
         
         
-        Retry.On<Exception>().Until(handle => handle.Context.Exceptions.Count > 3).With(context =>
+        Retry.On<Exception>().Until(handle => handle.Context.Exceptions.Count > 3).Execute(context =>
         {
             if (context.Exceptions.Count > 0)
                 _keycloakSessionFactory.GetSession().RenewToken();
@@ -34,7 +34,7 @@ public class BaseApi
         var apiClient = new ApiClient(_httpClient);
         
         
-        var retryResult = Retry.On<Exception>().Until(handle => handle.Context.Exceptions.Count > 3).With(context =>
+        var retryResult = Retry.On<Exception>().Until(handle => handle.Context.Exceptions.Count > 3).Execute(context =>
         {
             if (context.Exceptions.Count > 0)
                 _keycloakSessionFactory.GetSession().RenewToken();

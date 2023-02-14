@@ -32,7 +32,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.UnitTests", "Compo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Pipelines", "Components\Tiveriad.Pipelines\Tiveriad.Pipelines.csproj", "{56E33F9C-AFAE-46D5-9511-ADE5377946B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Pipelines.Tests", "Tests\Tiveriad.Pipelines.Tests\Tiveriad.Pipelines.Tests.csproj", "{05F404B4-23C4-45FF-8FD4-1C897CA2B7C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.EnterpriseIntegrationPatterns.Tests", "Tests\Tiveriad.EnterpriseIntegrationPatterns.Tests\Tiveriad.EnterpriseIntegrationPatterns.Tests.csproj", "{05F404B4-23C4-45FF-8FD4-1C897CA2B7C1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.TextTemplating", "Components\Tiveriad.TextTemplating\Tiveriad.TextTemplating.csproj", "{7B827381-DB4B-4C18-A12E-8F0B2ACDAA60}"
 EndProject
@@ -40,7 +40,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.TextTemplating.Scr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.TextTemplating.Scriban.Tests", "Tests\Tiveriad.TextTemplating.Scriban.Tests\Tiveriad.TextTemplating.Scriban.Tests.csproj", "{F109B596-E6EA-4E6E-B64F-680A26858C9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Pipelines.DependencyInjection", "Components\Tiveriad.Pipelines.DependencyInjection\Tiveriad.Pipelines.DependencyInjection.csproj", "{A6BBA398-FAE4-4F00-B3E8-606E16B19EAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection", "Components\Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection\Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection.csproj", "{A6BBA398-FAE4-4F00-B3E8-606E16B19EAA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{31252D1D-D184-46FF-88FF-92B9AAA2499A}"
 EndProject
@@ -55,6 +55,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Keycloak", "Apis\Tiveriad.Keycloak\Tiveriad.Keycloak.csproj", "{42B54D98-0D99-4C19-A93D-CE351756A92C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Repositories.NHibernate", "Components\Tiveriad.Repositories.NHibernate\Tiveriad.Repositories.NHibernate.csproj", "{067CA3F1-5CD7-491E-A4A8-B38E55A2E06C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.EnterpriseIntegrationPatterns.RabbitMq", "Components\Tiveriad.EnterpriseIntegrationPatterns.RabbitMq\Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.csproj", "{9B8E2628-9200-461A-BFD2-FA65E9B60FE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Connections", "Components\Tiveriad.Connections\Tiveriad.Connections.csproj", "{97C2D9FF-9ED3-4661-9735-E5419D04347A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.EnterpriseIntegrationPatterns", "Components\Tiveriad.EnterpriseIntegrationPatterns\Tiveriad.EnterpriseIntegrationPatterns.csproj", "{616B0253-D964-41EC-8F4C-06D6278844DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.Tests", "Tests\Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.Tests\Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.Tests.csproj", "{5A90F932-0FB1-44EE-976B-D63004C48BAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -154,6 +162,22 @@ Global
 		{067CA3F1-5CD7-491E-A4A8-B38E55A2E06C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{067CA3F1-5CD7-491E-A4A8-B38E55A2E06C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{067CA3F1-5CD7-491E-A4A8-B38E55A2E06C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B8E2628-9200-461A-BFD2-FA65E9B60FE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B8E2628-9200-461A-BFD2-FA65E9B60FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B8E2628-9200-461A-BFD2-FA65E9B60FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B8E2628-9200-461A-BFD2-FA65E9B60FE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97C2D9FF-9ED3-4661-9735-E5419D04347A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97C2D9FF-9ED3-4661-9735-E5419D04347A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97C2D9FF-9ED3-4661-9735-E5419D04347A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97C2D9FF-9ED3-4661-9735-E5419D04347A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{616B0253-D964-41EC-8F4C-06D6278844DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{616B0253-D964-41EC-8F4C-06D6278844DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{616B0253-D964-41EC-8F4C-06D6278844DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{616B0253-D964-41EC-8F4C-06D6278844DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A90F932-0FB1-44EE-976B-D63004C48BAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A90F932-0FB1-44EE-976B-D63004C48BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A90F932-0FB1-44EE-976B-D63004C48BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A90F932-0FB1-44EE-976B-D63004C48BAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5FA9F754-A10A-4DCE-8C6A-DB372D36AE0B} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
@@ -179,5 +203,9 @@ Global
 		{EEBB2B14-8862-47E6-8D7A-E3EE39B07891} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
 		{42B54D98-0D99-4C19-A93D-CE351756A92C} = {C3686C01-8BC7-4061-B5CB-0E5BC9AD3D7F}
 		{067CA3F1-5CD7-491E-A4A8-B38E55A2E06C} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
+		{9B8E2628-9200-461A-BFD2-FA65E9B60FE3} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
+		{97C2D9FF-9ED3-4661-9735-E5419D04347A} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
+		{616B0253-D964-41EC-8F4C-06D6278844DB} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
+		{5A90F932-0FB1-44EE-976B-D63004C48BAF} = {7E9DCA1A-5313-48FD-9EC1-CDA61E0E090F}
 	EndGlobalSection
 EndGlobal

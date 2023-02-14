@@ -19,12 +19,14 @@ public class Startup : StartupBase
 
     public override void Configure(IServiceCollection services)
     {
-        services.AddDbContext<DbContext, DefaultContext>(options =>
+        services.AddDbContext<DbContext, DefaultContext>((provider, options) =>
         {
+            var logger = provider.GetService<ILogger<Startup>>();
             options.UseSqlite("Data Source=tests.db");
             options.EnableSensitiveDataLogging();
             options.EnableDetailedErrors();
-            options.LogTo(Console.WriteLine, LogLevel.Information);
+            if (logger!=null) 
+                options.LogTo(message => { logger.LogInformation(message); }, LogLevel.Information);
         });
 
         services.AddRepositories(typeof(EFRepository<,>), typeof(Course));

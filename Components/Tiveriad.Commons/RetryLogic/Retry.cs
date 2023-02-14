@@ -48,16 +48,16 @@ namespace Tiveriad.Commons.RetryLogic
             return OnInternal<TException>(this, predicate);
         }
 
-        public RetryResult<TOutput> With<TOutput>(Func<RetryContext, TOutput> target)
+        public RetryResult<TOutput> Execute<TOutput>(Func<RetryContext, TOutput> target)
         {
             TOutput output = default(TOutput);
             Action<RetryContext> capturedTarget = (context) => output = target(context);
-            var result = With(capturedTarget);
+            var result = Execute(capturedTarget);
             var resultWithValue = result.WithValue(output);
             return resultWithValue;
         }
 
-        public RetryResult With(Action<RetryContext> target)
+        public RetryResult Execute(Action<RetryContext> target)
         {
             var context = new RetryContext(this);
 

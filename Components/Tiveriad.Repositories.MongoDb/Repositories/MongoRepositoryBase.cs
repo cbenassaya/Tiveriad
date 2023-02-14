@@ -1,5 +1,6 @@
 using System.Reflection;
 using MongoDB.Driver;
+using Tiveriad.Connections;
 using Tiveriad.Repositories.MongoDb.Attributes;
 
 namespace Tiveriad.Repositories.MongoDb.Repositories;

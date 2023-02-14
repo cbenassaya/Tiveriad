@@ -1,5 +1,6 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Tiveriad.Connections;
 
 namespace Tiveriad.Repositories.MongoDb.Repositories;
 
