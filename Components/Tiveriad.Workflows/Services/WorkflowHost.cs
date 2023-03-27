@@ -1,0 +1,204 @@
+﻿#region
+
+using Microsoft.Extensions.Logging;
+using Tiveriad.Workflows.Core.Models;
+using Tiveriad.Workflows.Core.Models.LifeCycleEvents;
+using Tiveriad.Workflows.Core.Services;
+
+#endregion
+
+namespace Tiveriad.Workflows.Services;
+
+public class WorkflowHost : IWorkflowHost, IDisposable
+{
+    private readonly IActivityController _activityController;
+
+    private readonly IEnumerable<IBackgroundTask> _backgroundTasks;
+
+    private readonly ILifeCycleEventHub _lifeCycleEventHub;
+    private readonly ISearchIndex _searchIndex;
+    protected readonly IServiceProvider _serviceProvider;
+    private readonly IWorkflowController _workflowController;
+    protected bool _shutdown = true;
+
+    public WorkflowHost(IPersistenceProvider persistenceStore, IQueueProvider queueProvider, IWorkflowOptions options,
+        ILoggerFactory loggerFactory, IServiceProvider serviceProvider, IWorkflowRegistry registry,
+        IDistributedLockProvider lockProvider, IEnumerable<IBackgroundTask> backgroundTasks,
+        IWorkflowController workflowController, ILifeCycleEventHub lifeCycleEventHub, ISearchIndex searchIndex,
+        IActivityController activityController)
+    {
+        PersistenceStore = persistenceStore;
+        QueueProvider = queueProvider;
+        Options = options;
+        Logger = loggerFactory.CreateLogger<WorkflowHost>();
+        _serviceProvider = serviceProvider;
+        Registry = registry;
+        LockProvider = lockProvider;
+        _backgroundTasks = backgroundTasks;
+        _workflowController = workflowController;
+        _searchIndex = searchIndex;
+        _activityController = activityController;
+        _lifeCycleEventHub = lifeCycleEventHub;
+    }
+
+    public void Dispose()
+    {
+        if (!_shutdown)
+            Stop();
+    }
+
+    public event StepErrorEventHandler OnStepError;
+    public event LifeCycleEventHandler OnLifeCycleEvent;
+
+    // Public dependencies to allow for extension method access.
+    public IPersistenceProvider PersistenceStore { get; }
+    public IDistributedLockProvider LockProvider { get; }
+    public IWorkflowRegistry Registry { get; }
+    public IWorkflowOptions Options { get; }
+    public IQueueProvider QueueProvider { get; }
+    public ILogger Logger { get; }
+
+    public Task<string> StartWorkflow(string workflowId, object data = null, string reference = null)
+    {
+        return _workflowController.StartWorkflow(workflowId, data, reference);
+    }
+
+    public Task<string> StartWorkflow(string workflowId, int? version, object data = null, string reference = null)
+    {
+        return _workflowController.StartWorkflow<object>(workflowId, version, data, reference);
+    }
+
+    public Task<string> StartWorkflow<TData>(string workflowId, TData data = null, string reference = null)
+        where TData : class, new()
+    {
+        return _workflowController.StartWorkflow(workflowId, null, data, reference);
+    }
+
+    public Task<string> StartWorkflow<TData>(string workflowId, int? version, TData data = null,
+        string reference = null)
+        where TData : class, new()
+    {
+        return _workflowController.StartWorkflow(workflowId, version, data, reference);
+    }
+
+    public Task PublishEvent(string eventName, string eventKey, object eventData, DateTime? effectiveDate = null)
+    {
+        return _workflowController.PublishEvent(eventName, eventKey, eventData, effectiveDate);
+    }
+
+    public void Start()
+    {
+        StartAsync(CancellationToken.None).Wait();
+    }
+
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        var activity = WorkflowActivity.StartHost();
+        try
+        {
+            _shutdown = false;
+            PersistenceStore.EnsureStoreExists();
+            await QueueProvider.Start();
+            await LockProvider.Start();
+            await _lifeCycleEventHub.Start();
+            await _searchIndex.Start();
+
+            // Event subscriptions are removed when stopping the event hub.
+            // Add them when starting.
+            AddEventSubscriptions();
+
+            Logger.LogInformation("Starting background tasks");
+
+            foreach (var task in _backgroundTasks)
+                task.Start();
+        }
+        finally
+        {
+            activity?.Dispose();
+        }
+    }
+
+    public void Stop()
+    {
+        StopAsync(CancellationToken.None).Wait();
+    }
+
+    public async Task StopAsync(CancellationToken cancellationToken)
+    {
+        _shutdown = true;
+
+        Logger.LogInformation("Stopping background tasks");
+        foreach (var th in _backgroundTasks)
+            th.Stop();
+
+        Logger.LogInformation("Worker tasks stopped");
+
+        await QueueProvider.Stop();
+        await LockProvider.Stop();
+        await _searchIndex.Stop();
+        await _lifeCycleEventHub.Stop();
+    }
+
+    public void RegisterWorkflow<TWorkflow>()
+        where TWorkflow : IWorkflow
+    {
+        _workflowController.RegisterWorkflow<TWorkflow>();
+    }
+
+    public void RegisterWorkflow<TWorkflow, TData>()
+        where TWorkflow : IWorkflow<TData>
+        where TData : new()
+    {
+        _workflowController.RegisterWorkflow<TWorkflow, TData>();
+    }
+
+    public Task<bool> SuspendWorkflow(string workflowId)
+    {
+        return _workflowController.SuspendWorkflow(workflowId);
+    }
+
+    public Task<bool> ResumeWorkflow(string workflowId)
+    {
+        return _workflowController.ResumeWorkflow(workflowId);
+    }
+
+    public Task<bool> TerminateWorkflow(string workflowId)
+    {
+        return _workflowController.TerminateWorkflow(workflowId);
+    }
+
+    public void ReportStepError(WorkflowInstance workflow, WorkflowStep step, Exception exception)
+    {
+        OnStepError?.Invoke(workflow, step, exception);
+    }
+
+    public Task<PendingActivity> GetPendingActivity(string activityName, string workerId, TimeSpan? timeout = null)
+    {
+        return _activityController.GetPendingActivity(activityName, workerId, timeout);
+    }
+
+    public Task ReleaseActivityToken(string token)
+    {
+        return _activityController.ReleaseActivityToken(token);
+    }
+
+    public Task SubmitActivitySuccess(string token, object result)
+    {
+        return _activityController.SubmitActivitySuccess(token, result);
+    }
+
+    public Task SubmitActivityFailure(string token, object result)
+    {
+        return _activityController.SubmitActivityFailure(token, result);
+    }
+
+    public void HandleLifeCycleEvent(LifeCycleEvent evt)
+    {
+        OnLifeCycleEvent?.Invoke(evt);
+    }
+
+    private void AddEventSubscriptions()
+    {
+        _lifeCycleEventHub.Subscribe(HandleLifeCycleEvent);
+    }
+}

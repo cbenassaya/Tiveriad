@@ -12,8 +12,11 @@ public class EventBrokerStartup : StartupBase
         services
             .AddScoped<IServiceResolver,
                 DependencyInjectionServiceResolver>();
+        
         services.AddTiveriadEip(GetType().Assembly);
     }
+    
+
     
 }
 

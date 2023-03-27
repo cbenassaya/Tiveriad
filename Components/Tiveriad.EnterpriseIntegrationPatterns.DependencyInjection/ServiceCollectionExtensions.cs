@@ -71,6 +71,7 @@ public static class ServiceCollectionExtensions
             
         services.AddScoped<ISender, Sender>();
         services.AddScoped<IEventBroker, EventBroker>();
+        services.AddScoped<IDomainEventStore, DomainEventStore>();
         services.AddScoped<IEventHandlerRunner, DefaultHandlersRunner>();
         return services;
     }

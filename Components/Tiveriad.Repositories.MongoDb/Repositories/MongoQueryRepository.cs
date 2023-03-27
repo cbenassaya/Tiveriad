@@ -11,7 +11,7 @@ public class MongoQueryRepository<TEntity> : MongoRepositoryBase<TEntity>, IQuer
 {
     public MongoQueryRepository(IConnectionFactory<IMongoDatabase> connectionFactory) : base(connectionFactory)  { }
 
-    public IQueryable<TEntity> Queryable { get; }
+    public IQueryable<TEntity> Queryable => GetCollection().AsQueryable();
     public bool Any()
     {
         return Queryable.Any();

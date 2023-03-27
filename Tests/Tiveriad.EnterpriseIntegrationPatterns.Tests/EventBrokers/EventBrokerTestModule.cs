@@ -13,4 +13,29 @@ public class EventBrokerTestModule : TestBase<EventBrokerStartup>
         var result = GetRequiredService<IEventBroker>()
             .PublishAsync<MessageDomainEvent, Guid>(new MessageDomainEvent() { Message = "Hello World" });
     }
+    
+    
+    [Fact]
+    public void StoreAddTest()
+    {
+        var store = GetRequiredService<IDomainEventStore>();
+        store.Add<MessageDomainEvent,Guid>(new MessageDomainEvent() { Message = "Hello World" });
+        store.Add<MessageDomainEvent,Guid>(new MessageDomainEvent() { Message = "Hello JD" });
+        store.Add<MessageDomainEvent,Guid>(new MessageDomainEvent() { Message = "Hello WD" });
+        
+        store.Commit();
+        Assert.Equal(3,store.GetDomainEvents().Count);
+    }
+    
+    
+    [Fact]
+    public void StoreCommitTest()
+    {
+        var store = GetRequiredService<IDomainEventStore>();
+        store.Add<MessageDomainEvent,Guid>(new MessageDomainEvent() { Message = "Hello World" });
+        store.Add<MessageDomainEvent,Guid>(new MessageDomainEvent() { Message = "Hello JD" });
+        store.Commit();
+        store.Add<MessageDomainEvent,Guid>(new MessageDomainEvent() { Message = "Hello WD" });
+        Assert.Equal(2,store.GetDomainEvents().Count);
+    }
 }

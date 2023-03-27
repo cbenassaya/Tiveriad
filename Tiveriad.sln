@@ -3,6 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7E9DCA1A-5313-48FD-9EC1-CDA61E0E090F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{FEA411CC-43CC-4E18-A7AA-4E2994C858CE}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\Build.cake = Scripts\Build.cake
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{11CE781F-0862-4A0B-BB2D-F4289DB70BE8}"
 EndProject
@@ -63,6 +66,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.EnterpriseIntegrationPatterns", "Components\Tiveriad.EnterpriseIntegrationPatterns\Tiveriad.EnterpriseIntegrationPatterns.csproj", "{616B0253-D964-41EC-8F4C-06D6278844DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.Tests", "Tests\Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.Tests\Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.Tests.csproj", "{5A90F932-0FB1-44EE-976B-D63004C48BAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Workflows", "Components\Tiveriad.Workflows\Tiveriad.Workflows.csproj", "{0A8091C9-6728-495C-8EF1-AAF89E52DBAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Workflows.Tests", "Tests\Tiveriad.Workflows.Tests\Tiveriad.Workflows.Tests.csproj", "{BAD19687-CACF-4A0F-B558-D51CA4116C2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Workflows.DependencyInjection", "Components\Tiveriad.Workflows.DependencyInjection\Tiveriad.Workflows.DependencyInjection.csproj", "{62E8C6C5-543F-46C4-B514-84BBA2CC1A6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Workflows.Persistence", "Components\Tiveriad.Workflows.Persistence\Tiveriad.Workflows.Persistence.csproj", "{A4F9C5F4-43BF-4271-9815-D11B1D5BBC32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Workflows.Core", "Components\Tiveriad.Workflows.Core\Tiveriad.Workflows.Core.csproj", "{96DB5099-0499-4237-8D6E-2068796CFB89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -178,6 +191,26 @@ Global
 		{5A90F932-0FB1-44EE-976B-D63004C48BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A90F932-0FB1-44EE-976B-D63004C48BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A90F932-0FB1-44EE-976B-D63004C48BAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A8091C9-6728-495C-8EF1-AAF89E52DBAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A8091C9-6728-495C-8EF1-AAF89E52DBAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A8091C9-6728-495C-8EF1-AAF89E52DBAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A8091C9-6728-495C-8EF1-AAF89E52DBAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAD19687-CACF-4A0F-B558-D51CA4116C2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAD19687-CACF-4A0F-B558-D51CA4116C2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAD19687-CACF-4A0F-B558-D51CA4116C2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAD19687-CACF-4A0F-B558-D51CA4116C2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62E8C6C5-543F-46C4-B514-84BBA2CC1A6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62E8C6C5-543F-46C4-B514-84BBA2CC1A6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62E8C6C5-543F-46C4-B514-84BBA2CC1A6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62E8C6C5-543F-46C4-B514-84BBA2CC1A6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4F9C5F4-43BF-4271-9815-D11B1D5BBC32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4F9C5F4-43BF-4271-9815-D11B1D5BBC32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4F9C5F4-43BF-4271-9815-D11B1D5BBC32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4F9C5F4-43BF-4271-9815-D11B1D5BBC32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96DB5099-0499-4237-8D6E-2068796CFB89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96DB5099-0499-4237-8D6E-2068796CFB89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96DB5099-0499-4237-8D6E-2068796CFB89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96DB5099-0499-4237-8D6E-2068796CFB89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5FA9F754-A10A-4DCE-8C6A-DB372D36AE0B} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
@@ -207,5 +240,10 @@ Global
 		{97C2D9FF-9ED3-4661-9735-E5419D04347A} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
 		{616B0253-D964-41EC-8F4C-06D6278844DB} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
 		{5A90F932-0FB1-44EE-976B-D63004C48BAF} = {7E9DCA1A-5313-48FD-9EC1-CDA61E0E090F}
+		{0A8091C9-6728-495C-8EF1-AAF89E52DBAB} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
+		{BAD19687-CACF-4A0F-B558-D51CA4116C2B} = {7E9DCA1A-5313-48FD-9EC1-CDA61E0E090F}
+		{62E8C6C5-543F-46C4-B514-84BBA2CC1A6B} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
+		{A4F9C5F4-43BF-4271-9815-D11B1D5BBC32} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
+		{96DB5099-0499-4237-8D6E-2068796CFB89} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
 	EndGlobalSection
 EndGlobal
