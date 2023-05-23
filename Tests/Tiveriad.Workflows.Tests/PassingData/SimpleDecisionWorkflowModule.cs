@@ -2,7 +2,6 @@
 
 using Tiveriad.UnitTests;
 using Tiveriad.Workflows.Core.Services;
-using Tiveriad.Workflows.Tests.SimpleDecision;
 using Xunit;
 
 #endregion

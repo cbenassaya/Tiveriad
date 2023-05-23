@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using Tiveriad.Connections;
-using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.EventBrokers;
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.Tests.Models;

@@ -5,7 +5,6 @@ using Microsoft.Extensions.ObjectPool;
 using Tiveriad.Workflows.Core.Primitives;
 using Tiveriad.Workflows.Core.Services;
 using Tiveriad.Workflows.Services;
-using Tiveriad.Workflows.Services.BackgroundTasks;
 using Tiveriad.Workflows.Services.DefaultProviders;
 using Tiveriad.Workflows.Services.ErrorHandlers;
 using Tiveriad.Workflows.Services.FluentBuilders;

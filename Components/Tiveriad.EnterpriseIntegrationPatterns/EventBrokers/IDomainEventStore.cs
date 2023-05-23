@@ -1,5 +1,3 @@
-using System.Collections.Concurrent;
-
 namespace Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 
 public interface IDomainEventStore

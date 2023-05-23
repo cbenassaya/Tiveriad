@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.Tests.Models;

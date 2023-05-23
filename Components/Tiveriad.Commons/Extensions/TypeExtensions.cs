@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Tiveriad.Commons.Guards;
 
 namespace Tiveriad.Commons.Extensions;
 
@@ -16,9 +17,9 @@ public static class TypeExtensions
     /// </returns>
     public static bool IsVisibleTo(this Type type, AssemblyName assembly)
     {
-        if (type == null) throw new ArgumentNullException(nameof(type));
-        if (assembly == null) throw new ArgumentNullException(nameof(assembly));
-
+        NullGuard.AgainstNullArgument("type", type);
+        NullGuard.AgainstNullArgument("assembly", assembly);
+        
         return type.IsVisible || type.Assembly
             .GetCustomAttributes<InternalsVisibleToAttribute>()
             .Any(a => a.AssemblyName == assembly.Name);
@@ -29,7 +30,8 @@ public static class TypeExtensions
     /// <returns>The casted <paramref name="type" /> if generic; null otherwise.</returns>
     public static Type AsGenericType(this Type type)
     {
-        if (type == null) throw new ArgumentNullException(nameof(type));
+        NullGuard.AgainstNullArgument("type", type);
+
 
         return type.IsGenericType ? type.GetGenericTypeDefinition() : null;
     }
@@ -70,6 +72,9 @@ public static class TypeExtensions
     /// <inheritdoc cref="Inherits" />
     public static bool IsInheritedBy(this Type child, Type parent)
     {
+        NullGuard.AgainstNullArgument("child", child);
+        NullGuard.AgainstNullArgument("parent", parent);
+        
         HashSet<Type> children;
         lock (_childCache)
         {
@@ -99,22 +104,28 @@ public static class TypeExtensions
 
     public static bool ImplementsGenericInterface(this Type type, Type interfaceType)
     {
+        NullGuard.AgainstNullArgument("type", type);
+        NullGuard.AgainstNullArgument("interfaceType", interfaceType);
         return type.IsGenericType(interfaceType) || type.GetTypeInfo().ImplementedInterfaces
             .Any(@interface => @interface.IsGenericType(interfaceType));
     }
 
     public static bool IsGenericType(this Type type, Type genericType)
     {
+        NullGuard.AgainstNullArgument("type", type);
+        NullGuard.AgainstNullArgument("genericType", genericType);
         return type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == genericType;
     }
 
     public static bool IsOpenGeneric(this Type type)
     {
+        NullGuard.AgainstNullArgument("type", type);
         return type.GetTypeInfo().IsGenericTypeDefinition || type.GetTypeInfo().ContainsGenericParameters;
     }
 
     public static bool IsConcrete(this Type type)
     {
+        NullGuard.AgainstNullArgument("type", type);
         return !type.GetTypeInfo().IsAbstract && !type.GetTypeInfo().IsInterface;
     }
 
@@ -147,6 +158,7 @@ public static class TypeExtensions
 
     public static bool CanBeCastTo(this Type from, Type to)
     {
+
         if (from == null) return false;
 
         if (from == to) return true;
@@ -156,10 +168,31 @@ public static class TypeExtensions
 
     public static bool CouldCloseTo(this Type openConcretion, Type closedInterface)
     {
+        NullGuard.AgainstNullArgument("openConcretion", openConcretion);
+        NullGuard.AgainstNullArgument("closedInterface", closedInterface);
         var openInterface = closedInterface.GetGenericTypeDefinition();
         var arguments = closedInterface.GenericTypeArguments;
 
         var concreteArguments = openConcretion.GenericTypeArguments;
         return arguments.Length == concreteArguments.Length && openConcretion.CanBeCastTo(openInterface);
+    }
+    
+    /// <summary>
+    /// Correctly formats the FullName of the specified type by taking generics into consideration.
+    /// </summary>
+    /// <param name="type">The type whose full name is formatted.</param>
+    /// <returns>A correctly formatted full name.</returns>
+    public static string FullNameToString(this Type type)
+    {
+        NullGuard.AgainstNullArgument("type", type);
+
+        if (!type.GetTypeInfo().IsGenericType)
+        {
+            return type.FullName;
+        }
+
+        var partName = type.FullName.Substring(0, type.FullName.IndexOf('`'));
+        var genericArgumentNames = type.GetTypeInfo().GenericTypeArguments.Select(arg => arg.FullNameToString());
+        return string.Concat(partName, "<", string.Join(",", genericArgumentNames), ">");
     }
 }

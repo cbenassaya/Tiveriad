@@ -1,6 +1,5 @@
 using Tiveriad.UnitTests;
 using Tiveriad.Workflows.Core.Services;
-using Tiveriad.Workflows.Tests.HelloWorld;
 using Xunit;
 
 namespace Tiveriad.Workflows.Tests.SimpleDecision;
