@@ -1,5 +1,9 @@
-﻿using System.Collections;
+﻿#region
+
+using System.Collections;
 using Tiveriad.Commons.Extensions;
+
+#endregion
 
 namespace Tiveriad.Commons.Reflexions;
 

@@ -1,5 +1,9 @@
+#region
+
 using System.Collections.Concurrent;
 using System.Dynamic;
+
+#endregion
 
 namespace Tiveriad.Commons.Extensions;
 
@@ -25,7 +29,7 @@ public static class DictionaryExtensions
         value = default;
         return false;
     }
-    
+
     /// <summary>
     ///     This method is used to try to get a value in a dictionary if it does exists.
     /// </summary>

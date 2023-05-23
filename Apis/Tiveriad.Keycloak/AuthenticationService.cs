@@ -1,12 +1,16 @@
+#region
+
 using Newtonsoft.Json.Linq;
 using Tiveriad.Commons.HttpApis;
+
+#endregion
 
 namespace Tiveriad.Keycloak;
 
 public class AuthenticationService : IAuthenticationService
 {
-    private string _url;
-    
+    private readonly string _url;
+
     public AuthenticationService(string url)
     {
         _url = url;
@@ -14,10 +18,10 @@ public class AuthenticationService : IAuthenticationService
 
     public string AccessToken { get; private set; }
 
-    public async Task<bool> Connect( string userName, string password,
+    public async Task<bool> Connect(string userName, string password,
         CancellationToken cancellationToken = default)
     {
-        var apiClient = new ApiClient(new HttpClient(){ BaseAddress =  new Uri(_url, UriKind.Absolute)});
+        var apiClient = new ApiClient(new HttpClient { BaseAddress = new Uri(_url, UriKind.Absolute) });
         var result = await apiClient.PostAsync(builder =>
         {
             builder
@@ -37,7 +41,7 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<bool> Connect(string clientSecret, CancellationToken cancellationToken = default)
     {
-        var apiClient = new ApiClient(new HttpClient(){ BaseAddress =  new Uri(_url, UriKind.Absolute)});
+        var apiClient = new ApiClient(new HttpClient { BaseAddress = new Uri(_url, UriKind.Absolute) });
         var result = await apiClient.PostAsync(builder =>
         {
             builder

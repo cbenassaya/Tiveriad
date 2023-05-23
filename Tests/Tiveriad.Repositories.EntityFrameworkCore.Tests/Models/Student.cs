@@ -1,6 +1,6 @@
 namespace Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
 
-public class Student : IEntity<string>  
+public class Student : IEntity<string>
 {
     public string Firstname { get; set; } = null!;
     public string Lastname { get; set; } = null!;

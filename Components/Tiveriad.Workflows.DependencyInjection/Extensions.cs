@@ -23,14 +23,17 @@ public static class Extensions
         var serviceProvider = new DependencyInjectionServiceResolver(services.BuildServiceProvider());
         services.AddSingleton<IWorkflowOptions, WorkflowOptions>();
         services.AddSingleton<ISingletonMemoryProvider, MemoryPersistenceProvider>();
-        services.AddTransient(sp=> sp.GetRequiredService<IWorkflowOptions>().PersistenceFactory(serviceProvider));
-        services.AddTransient<IWorkflowRepository>(sp=> sp.GetRequiredService<IWorkflowOptions>().PersistenceFactory(serviceProvider));
-        services.AddTransient<ISubscriptionRepository>(sp=> sp.GetRequiredService<IWorkflowOptions>().PersistenceFactory(serviceProvider));
-        services.AddTransient<IEventRepository>(sp=> sp.GetRequiredService<IWorkflowOptions>().PersistenceFactory(serviceProvider));
-        services.AddSingleton(sp=> sp.GetRequiredService<IWorkflowOptions>().QueueProvider);
-        services.AddSingleton(sp=> sp.GetRequiredService<IWorkflowOptions>().DistributedLockProvider);
-        services.AddSingleton(sp=> sp.GetRequiredService<IWorkflowOptions>().LifeCycleEventHub);
-        services.AddSingleton(sp=> sp.GetRequiredService<IWorkflowOptions>().SearchIndex);
+        services.AddTransient(sp => sp.GetRequiredService<IWorkflowOptions>().PersistenceFactory(serviceProvider));
+        services.AddTransient<IWorkflowRepository>(sp =>
+            sp.GetRequiredService<IWorkflowOptions>().PersistenceFactory(serviceProvider));
+        services.AddTransient<ISubscriptionRepository>(sp =>
+            sp.GetRequiredService<IWorkflowOptions>().PersistenceFactory(serviceProvider));
+        services.AddTransient<IEventRepository>(sp =>
+            sp.GetRequiredService<IWorkflowOptions>().PersistenceFactory(serviceProvider));
+        services.AddSingleton(sp => sp.GetRequiredService<IWorkflowOptions>().QueueProvider);
+        services.AddSingleton(sp => sp.GetRequiredService<IWorkflowOptions>().DistributedLockProvider);
+        services.AddSingleton(sp => sp.GetRequiredService<IWorkflowOptions>().LifeCycleEventHub);
+        services.AddSingleton(sp => sp.GetRequiredService<IWorkflowOptions>().SearchIndex);
 
         services.AddSingleton<IWorkflowRegistry, WorkflowRegistry>();
         services.AddSingleton<ILifeCycleEventPublisher, LifeCycleEventPublisher>();

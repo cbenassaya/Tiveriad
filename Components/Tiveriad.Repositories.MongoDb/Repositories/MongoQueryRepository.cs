@@ -1,17 +1,24 @@
+#region
+
 using System.Linq.Expressions;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Tiveriad.Connections;
 
+#endregion
+
 namespace Tiveriad.Repositories.MongoDb.Repositories;
 
 public class MongoQueryRepository<TEntity> : MongoRepositoryBase<TEntity>, IQueryRepository<TEntity, ObjectId>
     where TEntity : class, IEntity<ObjectId>
 {
-    public MongoQueryRepository(IConnectionFactory<IMongoDatabase> connectionFactory) : base(connectionFactory)  { }
+    public MongoQueryRepository(IConnectionFactory<IMongoDatabase> connectionFactory) : base(connectionFactory)
+    {
+    }
 
     public IQueryable<TEntity> Queryable => GetCollection().AsQueryable();
+
     public bool Any()
     {
         return Queryable.Any();
@@ -64,7 +71,7 @@ public class MongoQueryRepository<TEntity> : MongoRepositoryBase<TEntity>, IQuer
 
     public Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return Task.Run(() => GetCollection().Find(Builders<TEntity>.Filter.Empty).ToEnumerable(),cancellationToken);
+        return Task.Run(() => GetCollection().Find(Builders<TEntity>.Filter.Empty).ToEnumerable(), cancellationToken);
     }
 
     public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> filter)
@@ -72,9 +79,10 @@ public class MongoQueryRepository<TEntity> : MongoRepositoryBase<TEntity>, IQuer
         return GetCollection().Find(filter).ToList();
     }
 
-    public Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default)
+    public Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> filter,
+        CancellationToken cancellationToken = default)
     {
-        return Task.Run(() => GetCollection().Find(filter).ToEnumerable(),cancellationToken);
+        return Task.Run(() => GetCollection().Find(filter).ToEnumerable(), cancellationToken);
     }
 
     public TEntity GetById(ObjectId id)
@@ -85,6 +93,6 @@ public class MongoQueryRepository<TEntity> : MongoRepositoryBase<TEntity>, IQuer
 
     public Task<TEntity> GetByIdAsync(ObjectId id, CancellationToken cancellationToken = default)
     {
-        return Task.Run(() => GetById(id),cancellationToken);
+        return Task.Run(() => GetById(id), cancellationToken);
     }
 }

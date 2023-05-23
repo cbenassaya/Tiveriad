@@ -1,3 +1,5 @@
+#region
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
@@ -8,6 +10,8 @@ using Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.Tests.Models;
 using Tiveriad.EnterpriseIntegrationPatterns.ServiceResolvers;
 using Tiveriad.UnitTests;
 
+#endregion
+
 namespace Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.Tests.EventBrokers;
 
 public class EventBrokerStartup : StartupBase
@@ -15,13 +19,12 @@ public class EventBrokerStartup : StartupBase
     //docker run -d --hostname my-rabbit --name some-rabbit -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password rabbitmq:3-management
     public override void Configure(IServiceCollection services)
     {
-        services.AddLogging(config  =>
-        {
-        });
+        services.AddLogging(config => { });
         services.AddScoped<IServiceResolver, DependencyInjectionServiceResolver>();
         services.AddTiveriadEip(GetType().Assembly);
 
-        services.ConfigureConnectionFactory<RabbitMqConnectionFactoryBuilder, IConnection, RabbitMqConnectionConfigurator,
+        services
+            .ConfigureConnectionFactory<RabbitMqConnectionFactoryBuilder, IConnection, RabbitMqConnectionConfigurator,
                 IRabbitMqConnectionConfiguration>
             (configurator =>
                 {
@@ -43,13 +46,11 @@ public class EventBrokerStartup : StartupBase
             subscriber.Subscribe();
             return subscriber;
         });
-        
+
         services.AddScoped<IPublisher<MessageDomainEvent, Guid>>(sp => new MessageDomainEventPublisher(
             sp.GetRequiredService<IConnectionFactory<IConnection>>(),
             sp.GetRequiredService<IRabbitMqConnectionConfiguration>(),
             typeof(MessageDomainEvent).FullName,
             sp.GetRequiredService<ILogger<MessageDomainEventPublisher>>()));
     }
-    
 }
-

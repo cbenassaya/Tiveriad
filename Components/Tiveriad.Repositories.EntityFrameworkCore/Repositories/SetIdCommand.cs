@@ -1,6 +1,10 @@
+#region
+
 using System;
 using Tiveriad.Commons.Reflexions;
 using Tiveriad.IdGenerators;
+
+#endregion
 
 namespace Tiveriad.Repositories.EntityFrameworkCore.Repositories;
 

@@ -1,18 +1,21 @@
+#region
+
 using System.Linq.Expressions;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Tiveriad.Connections;
+
+#endregion
 
 namespace Tiveriad.Repositories.MongoDb.Repositories;
 
 public class MongoCommandRepository<TEntity> : MongoRepositoryBase<TEntity>, ICommandRepository<TEntity, ObjectId>
     where TEntity : class, IEntity<ObjectId>
 {
-    
-    public MongoCommandRepository( IConnectionFactory<IMongoDatabase> connectionFactory) : base(connectionFactory)
+    public MongoCommandRepository(IConnectionFactory<IMongoDatabase> connectionFactory) : base(connectionFactory)
     {
     }
-    
+
     public Task AddOneAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         return GetCollection().InsertOneAsync(entity, null, cancellationToken);
@@ -25,7 +28,7 @@ public class MongoCommandRepository<TEntity> : MongoRepositoryBase<TEntity>, ICo
 
     public Task AddManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
-        return Task.Run(() =>AddMany(entities), cancellationToken);
+        return Task.Run(() => AddMany(entities), cancellationToken);
     }
 
     public void AddMany(IEnumerable<TEntity> entities)
@@ -35,7 +38,7 @@ public class MongoCommandRepository<TEntity> : MongoRepositoryBase<TEntity>, ICo
 
     public Task<long> DeleteOneAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
-        return Task.Run(() =>DeleteOne(entity), cancellationToken);
+        return Task.Run(() => DeleteOne(entity), cancellationToken);
     }
 
     public long DeleteOne(TEntity entity)
@@ -46,7 +49,7 @@ public class MongoCommandRepository<TEntity> : MongoRepositoryBase<TEntity>, ICo
 
     public Task<long> DeleteOneAsync(ObjectId key, CancellationToken cancellationToken = default)
     {
-        return Task.Run(() =>DeleteOne(key), cancellationToken);
+        return Task.Run(() => DeleteOne(key), cancellationToken);
     }
 
     public long DeleteOne(ObjectId key)
@@ -57,19 +60,19 @@ public class MongoCommandRepository<TEntity> : MongoRepositoryBase<TEntity>, ICo
 
     public Task<long> DeleteManyAsync(IEnumerable<ObjectId> keys, CancellationToken cancellationToken = default)
     {
-        return Task.Run(() =>DeleteMany(keys), cancellationToken);
+        return Task.Run(() => DeleteMany(keys), cancellationToken);
     }
 
     public long DeleteMany(IEnumerable<ObjectId> keys)
     {
         var idsFilter = Builders<TEntity>.Filter.In(d => d.Id, keys);
         return GetCollection().DeleteMany(idsFilter).DeletedCount;
-
     }
 
-    public Task<long> DeleteManyAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default)
+    public Task<long> DeleteManyAsync(Expression<Func<TEntity, bool>> filter,
+        CancellationToken cancellationToken = default)
     {
-        return Task.Run(() =>DeleteMany(filter), cancellationToken);
+        return Task.Run(() => DeleteMany(filter), cancellationToken);
     }
 
     public long DeleteMany(Expression<Func<TEntity, bool>> filter)
@@ -79,8 +82,7 @@ public class MongoCommandRepository<TEntity> : MongoRepositoryBase<TEntity>, ICo
 
     public Task<long> DeleteManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
-     
-        return Task.Run(() =>DeleteMany(entities), cancellationToken);
+        return Task.Run(() => DeleteMany(entities), cancellationToken);
     }
 
     public long DeleteMany(IEnumerable<TEntity> entities)
@@ -97,7 +99,7 @@ public class MongoCommandRepository<TEntity> : MongoRepositoryBase<TEntity>, ICo
 
     public Task UpdateOneAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
-        return Task.Run(() =>UpdateOne(entity), cancellationToken);
+        return Task.Run(() => UpdateOne(entity), cancellationToken);
     }
 
     public void UpdateMany(IEnumerable<TEntity> entities)
@@ -107,9 +109,9 @@ public class MongoCommandRepository<TEntity> : MongoRepositoryBase<TEntity>, ICo
 
     public Task UpdateManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
-        return Task.Run(() =>UpdateManyAsync(entities), cancellationToken);
+        return Task.Run(() => UpdateManyAsync(entities), cancellationToken);
     }
-    
+
     private IEnumerable<WriteModel<TEntity>> CreateUpdates(IEnumerable<TEntity> items)
     {
         var updates = new List<WriteModel<TEntity>>();

@@ -1,14 +1,11 @@
 //-------------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------------
+namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine;
 
-namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine
+public class StateMachineException : Exception
 {
-    public class StateMachineException : Exception
+    public StateMachineException(string message, Exception innerException)
+        : base(message, innerException)
     {
-        public StateMachineException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
     }
 }

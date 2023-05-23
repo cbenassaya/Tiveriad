@@ -1,3 +1,5 @@
+#region
+
 using Faker;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +12,8 @@ using Tiveriad.UnitTests;
 using Xunit.Sdk;
 using Company = Faker.Company;
 using Enum = Faker.Enum;
+
+#endregion
 
 namespace Tiveriad.Repositories.EntityFrameworkCore.Tests;
 
@@ -25,7 +29,7 @@ public class Startup : StartupBase
             options.UseSqlite("Data Source=tests.db");
             options.EnableSensitiveDataLogging();
             options.EnableDetailedErrors();
-            if (logger!=null) 
+            if (logger != null)
                 options.LogTo(message => { logger.LogInformation(message); }, LogLevel.Information);
         });
 
@@ -44,9 +48,9 @@ public class Startup : StartupBase
     private void LoadStudentModel(IServiceProvider serviceProvider)
     {
         var context = serviceProvider.GetRequiredService<DbContext>();
-        var professorRepository = serviceProvider.GetRequiredService<IRepository<Professor,string>>();
-        var courseRepository = serviceProvider.GetRequiredService<IRepository<Course,string>>();
-        var studentRepository = serviceProvider.GetRequiredService<IRepository<Student,string>>();
+        var professorRepository = serviceProvider.GetRequiredService<IRepository<Professor, string>>();
+        var courseRepository = serviceProvider.GetRequiredService<IRepository<Course, string>>();
+        var studentRepository = serviceProvider.GetRequiredService<IRepository<Student, string>>();
 
         for (var i = 0; i < 10; i++)
         {
@@ -95,7 +99,7 @@ public class Startup : StartupBase
                 StreetAddress = Address.StreetAddress()
             };
             companies.Add(company);
-            serviceProvider?.GetService<IRepository<Models.Company,string>>()?.AddOne(company);
+            serviceProvider?.GetService<IRepository<Models.Company, string>>()?.AddOne(company);
         }
 
         for (var i = 0; i < 30; i++)
@@ -124,11 +128,11 @@ public class Startup : StartupBase
                 new()
                     { Amount = Finance.Coupon(), Label = Finance.Credit.BondName(), Id = KeyGenerator.NewId<string>() }
             };
-            serviceProvider?.GetService<IRepository<Invoice,string>>()?.AddOne(invoice);
+            serviceProvider?.GetService<IRepository<Invoice, string>>()?.AddOne(invoice);
         }
 
         for (var i = 0; i < _maxRecord; i++)
-            serviceProvider?.GetService<IRepository<Person,string>>()?.AddOne(new Person
+            serviceProvider?.GetService<IRepository<Person, string>>()?.AddOne(new Person
             {
                 Firstname = Name.First(),
                 Lastname = Name.Last(),

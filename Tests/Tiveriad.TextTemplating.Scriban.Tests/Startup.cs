@@ -1,6 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿#region
+
+using Microsoft.Extensions.DependencyInjection;
 using Tiveriad.Commons.Extensions;
 using Tiveriad.UnitTests;
+
+#endregion
 
 namespace Tiveriad.TextTemplating.Scriban.Tests;
 

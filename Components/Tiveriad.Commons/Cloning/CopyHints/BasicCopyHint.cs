@@ -1,5 +1,9 @@
-﻿using System.Runtime.Serialization;
+﻿#region
+
+using System.Runtime.Serialization;
 using Tiveriad.Commons.Extensions;
+
+#endregion
 
 namespace Tiveriad.Commons.Cloning.CopyHints;
 

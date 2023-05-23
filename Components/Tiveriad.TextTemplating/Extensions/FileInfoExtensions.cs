@@ -1,5 +1,9 @@
+#region
+
 using System.Globalization;
 using Microsoft.Extensions.FileProviders;
+
+#endregion
 
 namespace Tiveriad.TextTemplating.Extensions;
 

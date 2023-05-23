@@ -1,6 +1,10 @@
+#region
+
 using Microsoft.Extensions.FileProviders;
 using Tiveriad.Commons.Extensions;
 using Tiveriad.TextTemplating.Extensions;
+
+#endregion
 
 namespace Tiveriad.TextTemplating;
 

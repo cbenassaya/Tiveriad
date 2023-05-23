@@ -1,4 +1,8 @@
+#region
+
 using Tiveriad.EnterpriseIntegrationPatterns.Pipelines;
+
+#endregion
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.Tests.Models;
 

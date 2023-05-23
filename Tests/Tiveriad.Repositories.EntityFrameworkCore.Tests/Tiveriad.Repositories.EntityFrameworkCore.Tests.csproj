@@ -11,15 +11,15 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Faker.Net" Version="2.0.154" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
-        <PackageReference Include="xunit" Version="2.4.2" />
+        <PackageReference Include="Faker.Net" Version="2.0.154"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0"/>
+        <PackageReference Include="xunit" Version="2.4.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -27,10 +27,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Components\Tiveriad.Repositories.EntityFrameworkCore\Tiveriad.Repositories.EntityFrameworkCore.csproj" />
-        <ProjectReference Include="..\..\Components\Tiveriad.Repositories.Microsoft.DependencyInjection\Tiveriad.Repositories.Microsoft.DependencyInjection.csproj" />
-        <ProjectReference Include="..\..\Components\Tiveriad.Repositories\Tiveriad.Repositories.csproj" />
-        <ProjectReference Include="..\Tiveriad.Repositories.Tests\Tiveriad.Repositories.Tests.csproj" />
+        <ProjectReference Include="..\..\Components\Tiveriad.Repositories.EntityFrameworkCore\Tiveriad.Repositories.EntityFrameworkCore.csproj"/>
+        <ProjectReference Include="..\..\Components\Tiveriad.Repositories.Microsoft.DependencyInjection\Tiveriad.Repositories.Microsoft.DependencyInjection.csproj"/>
+        <ProjectReference Include="..\..\Components\Tiveriad.Repositories\Tiveriad.Repositories.csproj"/>
+        <ProjectReference Include="..\Tiveriad.Repositories.Tests\Tiveriad.Repositories.Tests.csproj"/>
     </ItemGroup>
 
 </Project>

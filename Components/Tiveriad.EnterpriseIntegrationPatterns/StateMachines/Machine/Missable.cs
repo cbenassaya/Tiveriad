@@ -1,43 +1,37 @@
 ﻿//-------------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------------
+namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine;
 
-namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine
+public class Missable<T>
 {
-    public class Missable<T>
+    private T value;
+
+    public Missable()
     {
-        private T value;
+        IsMissing = true;
+    }
 
-        public Missable()
+    public Missable(T value)
+    {
+        Value = value;
+    }
+
+    public bool IsMissing { get; private set; }
+
+    public T Value
+    {
+        get
         {
-            this.IsMissing = true;
+            if (IsMissing) throw new InvalidOperationException("a missing value cannot be accessed.");
+
+            return value;
         }
 
-        public Missable(T value)
+        private set
         {
-            this.Value = value;
-        }
+            this.value = value;
 
-        public bool IsMissing { get; private set; }
-
-        public T Value
-        {
-            get
-            {
-                if (this.IsMissing)
-                {
-                    throw new InvalidOperationException("a missing value cannot be accessed.");
-                }
-
-                return this.value;
-            }
-
-            private set
-            {
-                this.value = value;
-
-                this.IsMissing = false;
-            }
+            IsMissing = false;
         }
     }
 }

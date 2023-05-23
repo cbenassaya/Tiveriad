@@ -1,6 +1,10 @@
+#region
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
+
+#endregion
 
 namespace Tiveriad.Repositories.EntityFrameworkCore.Tests;
 

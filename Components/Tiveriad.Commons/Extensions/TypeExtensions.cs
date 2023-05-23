@@ -1,6 +1,10 @@
+#region
+
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Tiveriad.Commons.Guards;
+
+#endregion
 
 namespace Tiveriad.Commons.Extensions;
 
@@ -19,7 +23,7 @@ public static class TypeExtensions
     {
         NullGuard.AgainstNullArgument("type", type);
         NullGuard.AgainstNullArgument("assembly", assembly);
-        
+
         return type.IsVisible || type.Assembly
             .GetCustomAttributes<InternalsVisibleToAttribute>()
             .Any(a => a.AssemblyName == assembly.Name);
@@ -74,7 +78,7 @@ public static class TypeExtensions
     {
         NullGuard.AgainstNullArgument("child", child);
         NullGuard.AgainstNullArgument("parent", parent);
-        
+
         HashSet<Type> children;
         lock (_childCache)
         {
@@ -158,7 +162,6 @@ public static class TypeExtensions
 
     public static bool CanBeCastTo(this Type from, Type to)
     {
-
         if (from == null) return false;
 
         if (from == to) return true;
@@ -176,9 +179,9 @@ public static class TypeExtensions
         var concreteArguments = openConcretion.GenericTypeArguments;
         return arguments.Length == concreteArguments.Length && openConcretion.CanBeCastTo(openInterface);
     }
-    
+
     /// <summary>
-    /// Correctly formats the FullName of the specified type by taking generics into consideration.
+    ///     Correctly formats the FullName of the specified type by taking generics into consideration.
     /// </summary>
     /// <param name="type">The type whose full name is formatted.</param>
     /// <returns>A correctly formatted full name.</returns>
@@ -186,10 +189,7 @@ public static class TypeExtensions
     {
         NullGuard.AgainstNullArgument("type", type);
 
-        if (!type.GetTypeInfo().IsGenericType)
-        {
-            return type.FullName;
-        }
+        if (!type.GetTypeInfo().IsGenericType) return type.FullName;
 
         var partName = type.FullName.Substring(0, type.FullName.IndexOf('`'));
         var genericArgumentNames = type.GetTypeInfo().GenericTypeArguments.Select(arg => arg.FullNameToString());

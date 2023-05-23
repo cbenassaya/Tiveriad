@@ -1,81 +1,83 @@
 //-------------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------------
+#region
 
 using System.Diagnostics;
 using System.Text;
 using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine.States;
 
-namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine.Contexts
+#endregion
+
+namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine.Contexts;
+
+/// <summary>
+///     Provides context information during a transition.
+/// </summary>
+/// <typeparam name="TState">The type of the state.</typeparam>
+/// <typeparam name="TEvent">The type of the event.</typeparam>
+[DebuggerDisplay("State = {StateDefinition} Event = {EventId} EventArguments = {EventArgument}")]
+public class TransitionContext<TState, TEvent> : ITransitionContext<TState, TEvent>
+    where TState : IComparable
+    where TEvent : IComparable
 {
-    /// <summary>
-    /// Provides context information during a transition.
-    /// </summary>
-    /// <typeparam name="TState">The type of the state.</typeparam>
-    /// <typeparam name="TEvent">The type of the event.</typeparam>
-    [DebuggerDisplay("State = {StateDefinition} Event = {EventId} EventArguments = {EventArgument}")]
-    public class TransitionContext<TState, TEvent> : ITransitionContext<TState, TEvent>
-        where TState : IComparable
-        where TEvent : IComparable
+    private readonly List<Record> records = new();
+
+    public TransitionContext(IStateDefinition<TState, TEvent> stateDefinition, Missable<TEvent> eventId,
+        object eventArgument, INotifier<TState, TEvent> notifier)
     {
-        private readonly List<Record> records = new List<Record>();
+        StateDefinition = stateDefinition;
+        EventId = eventId;
+        EventArgument = eventArgument;
+        Notifier = notifier;
+    }
 
-        public TransitionContext(IStateDefinition<TState, TEvent> stateDefinition, Missable<TEvent> eventId, object eventArgument, INotifier<TState, TEvent> notifier)
+    public IStateDefinition<TState, TEvent> StateDefinition { get; }
+
+    public Missable<TEvent> EventId { get; }
+
+    public object EventArgument { get; }
+
+    public INotifier<TState, TEvent> Notifier { get; }
+
+    public void OnExceptionThrown(Exception exception)
+    {
+        Notifier.OnExceptionThrown(this, exception);
+    }
+
+    public void OnTransitionBegin()
+    {
+        Notifier.OnTransitionBegin(this);
+    }
+
+    public void AddRecord(TState stateId, RecordType recordType)
+    {
+        records.Add(new Record(stateId, recordType));
+    }
+
+    public string GetRecords()
+    {
+        var result = new StringBuilder();
+
+        records.ForEach(record => result.AppendFormat(" -> {0}", record));
+
+        return result.ToString();
+    }
+
+    private class Record
+    {
+        public Record(TState stateId, RecordType recordType)
         {
-            this.StateDefinition = stateDefinition;
-            this.EventId = eventId;
-            this.EventArgument = eventArgument;
-            this.Notifier = notifier;
+            StateId = stateId;
+            RecordType = recordType;
         }
 
-        public IStateDefinition<TState, TEvent> StateDefinition { get; }
+        private TState StateId { get; }
 
-        public Missable<TEvent> EventId { get; }
+        private RecordType RecordType { get; }
 
-        public object EventArgument { get; }
-
-        public INotifier<TState, TEvent> Notifier { get; }
-
-        public void OnExceptionThrown(Exception exception)
+        public override string ToString()
         {
-            this.Notifier.OnExceptionThrown(this, exception);
-        }
-
-        public void OnTransitionBegin()
-        {
-            this.Notifier.OnTransitionBegin(this);
-        }
-
-        public void AddRecord(TState stateId, RecordType recordType)
-        {
-            this.records.Add(new Record(stateId, recordType));
-        }
-
-        public string GetRecords()
-        {
-            StringBuilder result = new StringBuilder();
-
-            this.records.ForEach(record => result.AppendFormat(" -> {0}", record));
-
-            return result.ToString();
-        }
-
-        private class Record
-        {
-            public Record(TState stateId, RecordType recordType)
-            {
-                this.StateId = stateId;
-                this.RecordType = recordType;
-            }
-
-            private TState StateId { get; set; }
-
-            private RecordType RecordType { get; set; }
-
-            public override string ToString()
-            {
-                return this.RecordType + " " + this.StateId;
-            }
+            return RecordType + " " + StateId;
         }
     }
 }

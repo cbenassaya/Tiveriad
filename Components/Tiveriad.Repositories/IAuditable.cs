@@ -1,5 +1,10 @@
 #nullable enable
+
+#region
+
 using System;
+
+#endregion
 
 namespace Tiveriad.Repositories;
 

@@ -1,7 +1,11 @@
+#region
+
 using Tiveriad.EnterpriseIntegrationPatterns.Pipelines;
 using Tiveriad.EnterpriseIntegrationPatterns.Tests.Models;
 using Tiveriad.UnitTests;
 using Xunit;
+
+#endregion
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.Tests.Pipelines;
 
@@ -45,8 +49,8 @@ public class PipelineTestModule : TestBase<PipelineStartup>
         var pipeline = pipelineBuilder.Build();
         pipeline.Execute(new Model());
     }
-    
-    
+
+
     [Fact]
     public void BuildPipeLineWithException()
     {
@@ -58,10 +62,7 @@ public class PipelineTestModule : TestBase<PipelineStartup>
                 configuration.Param2 = "Test2";
                 configuration.Param3 = "Test3";
             })
-            .WithExceptionHandler((exception) =>
-            {
-                Assert.Equal(typeof(NullReferenceException), exception.GetType());
-            })
+            .WithExceptionHandler(exception => { Assert.Equal(typeof(NullReferenceException), exception.GetType()); })
             .Use((context, model) =>
             {
                 Assert.Equal("Test1", context.Configuration.Param1);

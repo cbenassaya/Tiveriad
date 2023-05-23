@@ -1,170 +1,179 @@
 //-------------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------------
+#region
 
 using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.AsyncMachine.States;
 using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.AsyncMachine.Transitions;
 using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Infrastructure;
 
-namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.AsyncMachine
+#endregion
+
+namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.AsyncMachine;
+
+public class InternalExtension<TState, TEvent> : IExtensionInternal<TState, TEvent>
+    where TState : IComparable
+    where TEvent : IComparable
 {
-    public class InternalExtension<TState, TEvent> : IExtensionInternal<TState, TEvent>
-        where TState : IComparable
-        where TEvent : IComparable
+    private readonly IExtension<TState, TEvent> apiExtension;
+    private readonly IStateMachineInformation<TState, TEvent> stateMachineInformation;
+
+    public InternalExtension(
+        IExtension<TState, TEvent> apiExtension,
+        IStateMachineInformation<TState, TEvent> stateMachineInformation)
     {
-        private readonly IExtension<TState, TEvent> apiExtension;
-        private readonly IStateMachineInformation<TState, TEvent> stateMachineInformation;
+        this.apiExtension = apiExtension;
+        this.stateMachineInformation = stateMachineInformation;
+    }
 
-        public InternalExtension(
-            IExtension<TState, TEvent> apiExtension,
-            IStateMachineInformation<TState, TEvent> stateMachineInformation)
-        {
-            this.apiExtension = apiExtension;
-            this.stateMachineInformation = stateMachineInformation;
-        }
+    public Task StartedStateMachine()
+    {
+        return apiExtension.StartedStateMachine(stateMachineInformation);
+    }
 
-        public Task StartedStateMachine()
-        {
-            return this.apiExtension.StartedStateMachine(this.stateMachineInformation);
-        }
+    public Task StoppedStateMachine()
+    {
+        return apiExtension.StoppedStateMachine(stateMachineInformation);
+    }
 
-        public Task StoppedStateMachine()
-        {
-            return this.apiExtension.StoppedStateMachine(this.stateMachineInformation);
-        }
+    public Task EventQueued(TEvent eventId, object eventArgument)
+    {
+        return apiExtension.EventQueued(stateMachineInformation, eventId, eventArgument);
+    }
 
-        public Task EventQueued(TEvent eventId, object eventArgument)
-        {
-            return this.apiExtension.EventQueued(this.stateMachineInformation, eventId, eventArgument);
-        }
+    public Task EventQueuedWithPriority(TEvent eventId, object eventArgument)
+    {
+        return apiExtension.EventQueuedWithPriority(stateMachineInformation, eventId, eventArgument);
+    }
 
-        public Task EventQueuedWithPriority(TEvent eventId, object eventArgument)
-        {
-            return this.apiExtension.EventQueuedWithPriority(this.stateMachineInformation, eventId, eventArgument);
-        }
+    public Task SwitchedState(IStateDefinition<TState, TEvent> oldState, IStateDefinition<TState, TEvent> newState)
+    {
+        return apiExtension.SwitchedState(stateMachineInformation, oldState, newState);
+    }
 
-        public Task SwitchedState(IStateDefinition<TState, TEvent> oldState, IStateDefinition<TState, TEvent> newState)
-        {
-            return this.apiExtension.SwitchedState(this.stateMachineInformation, oldState, newState);
-        }
+    public Task EnteringInitialState(TState state)
+    {
+        return apiExtension.EnteringInitialState(stateMachineInformation, state);
+    }
 
-        public Task EnteringInitialState(TState state)
-        {
-            return this.apiExtension.EnteringInitialState(this.stateMachineInformation, state);
-        }
+    public Task EnteredInitialState(TState state, ITransitionContext<TState, TEvent> context)
+    {
+        return apiExtension.EnteredInitialState(stateMachineInformation, state, context);
+    }
 
-        public Task EnteredInitialState(TState state, ITransitionContext<TState, TEvent> context)
-        {
-            return this.apiExtension.EnteredInitialState(this.stateMachineInformation, state, context);
-        }
+    public Task FiringEvent(ref TEvent eventId, ref object eventArgument)
+    {
+        return apiExtension.FiringEvent(stateMachineInformation, ref eventId, ref eventArgument);
+    }
 
-        public Task FiringEvent(ref TEvent eventId, ref object eventArgument)
-        {
-            return this.apiExtension.FiringEvent(this.stateMachineInformation, ref eventId, ref eventArgument);
-        }
+    public Task FiredEvent(ITransitionContext<TState, TEvent> context)
+    {
+        return apiExtension.FiredEvent(stateMachineInformation, context);
+    }
 
-        public Task FiredEvent(ITransitionContext<TState, TEvent> context)
-        {
-            return this.apiExtension.FiredEvent(this.stateMachineInformation, context);
-        }
+    public Task HandlingEntryActionException(
+        IStateDefinition<TState, TEvent> stateDefinition,
+        ITransitionContext<TState, TEvent> context,
+        ref Exception exception)
+    {
+        return apiExtension.HandlingEntryActionException(stateMachineInformation, stateDefinition, context,
+            ref exception);
+    }
 
-        public Task HandlingEntryActionException(
-            IStateDefinition<TState, TEvent> stateDefinition,
-            ITransitionContext<TState, TEvent> context,
-            ref Exception exception)
-        {
-            return this.apiExtension.HandlingEntryActionException(this.stateMachineInformation, stateDefinition, context, ref exception);
-        }
+    public Task HandledEntryActionException(
+        IStateDefinition<TState, TEvent> stateDefinition,
+        ITransitionContext<TState, TEvent> context,
+        Exception exception)
+    {
+        return apiExtension.HandledEntryActionException(stateMachineInformation, stateDefinition, context, exception);
+    }
 
-        public Task HandledEntryActionException(
-            IStateDefinition<TState, TEvent> stateDefinition,
-            ITransitionContext<TState, TEvent> context,
-            Exception exception)
-        {
-            return this.apiExtension.HandledEntryActionException(this.stateMachineInformation, stateDefinition, context, exception);
-        }
+    public Task HandlingExitActionException(
+        IStateDefinition<TState, TEvent> stateDefinition,
+        ITransitionContext<TState, TEvent> context,
+        ref Exception exception)
+    {
+        return apiExtension.HandlingExitActionException(stateMachineInformation, stateDefinition, context,
+            ref exception);
+    }
 
-        public Task HandlingExitActionException(
-            IStateDefinition<TState, TEvent> stateDefinition,
-            ITransitionContext<TState, TEvent> context,
-            ref Exception exception)
-        {
-            return this.apiExtension.HandlingExitActionException(this.stateMachineInformation, stateDefinition, context, ref exception);
-        }
+    public Task HandledExitActionException(
+        IStateDefinition<TState, TEvent> stateDefinition,
+        ITransitionContext<TState, TEvent> context,
+        Exception exception)
+    {
+        return apiExtension.HandledExitActionException(stateMachineInformation, stateDefinition, context, exception);
+    }
 
-        public Task HandledExitActionException(
-            IStateDefinition<TState, TEvent> stateDefinition,
-            ITransitionContext<TState, TEvent> context,
-            Exception exception)
-        {
-            return this.apiExtension.HandledExitActionException(this.stateMachineInformation, stateDefinition, context, exception);
-        }
+    public Task HandlingGuardException(
+        ITransitionDefinition<TState, TEvent> transitionDefinition,
+        ITransitionContext<TState, TEvent> transitionContext,
+        ref Exception exception)
+    {
+        return apiExtension.HandlingGuardException(stateMachineInformation, transitionDefinition, transitionContext,
+            ref exception);
+    }
 
-        public Task HandlingGuardException(
-            ITransitionDefinition<TState, TEvent> transitionDefinition,
-            ITransitionContext<TState, TEvent> transitionContext,
-            ref Exception exception)
-        {
-            return this.apiExtension.HandlingGuardException(this.stateMachineInformation, transitionDefinition, transitionContext, ref exception);
-        }
+    public Task HandledGuardException(
+        ITransitionDefinition<TState, TEvent> transitionDefinition,
+        ITransitionContext<TState, TEvent> transitionContext,
+        Exception exception)
+    {
+        return apiExtension.HandledGuardException(stateMachineInformation, transitionDefinition, transitionContext,
+            exception);
+    }
 
-        public Task HandledGuardException(
-            ITransitionDefinition<TState, TEvent> transitionDefinition,
-            ITransitionContext<TState, TEvent> transitionContext,
-            Exception exception)
-        {
-            return this.apiExtension.HandledGuardException(this.stateMachineInformation, transitionDefinition, transitionContext, exception);
-        }
+    public Task HandlingTransitionException(
+        ITransitionDefinition<TState, TEvent> transitionDefinition,
+        ITransitionContext<TState, TEvent> context,
+        ref Exception exception)
+    {
+        return apiExtension.HandlingTransitionException(stateMachineInformation, transitionDefinition, context,
+            ref exception);
+    }
 
-        public Task HandlingTransitionException(
-            ITransitionDefinition<TState, TEvent> transitionDefinition,
-            ITransitionContext<TState, TEvent> context,
-            ref Exception exception)
-        {
-            return this.apiExtension.HandlingTransitionException(this.stateMachineInformation, transitionDefinition, context, ref exception);
-        }
+    public Task HandledTransitionException(
+        ITransitionDefinition<TState, TEvent> transitionDefinition,
+        ITransitionContext<TState, TEvent> transitionContext,
+        Exception exception)
+    {
+        return apiExtension.HandledTransitionException(stateMachineInformation, transitionDefinition, transitionContext,
+            exception);
+    }
 
-        public Task HandledTransitionException(
-            ITransitionDefinition<TState, TEvent> transitionDefinition,
-            ITransitionContext<TState, TEvent> transitionContext,
-            Exception exception)
-        {
-            return this.apiExtension.HandledTransitionException(this.stateMachineInformation, transitionDefinition, transitionContext, exception);
-        }
+    public Task SkippedTransition(
+        ITransitionDefinition<TState, TEvent> transitionDefinition,
+        ITransitionContext<TState, TEvent> context)
+    {
+        return apiExtension.SkippedTransition(stateMachineInformation, transitionDefinition, context);
+    }
 
-        public Task SkippedTransition(
-            ITransitionDefinition<TState, TEvent> transitionDefinition,
-            ITransitionContext<TState, TEvent> context)
-        {
-            return this.apiExtension.SkippedTransition(this.stateMachineInformation, transitionDefinition, context);
-        }
+    public Task ExecutingTransition(
+        ITransitionDefinition<TState, TEvent> transitionDefinition,
+        ITransitionContext<TState, TEvent> transitionContext)
+    {
+        return apiExtension.ExecutingTransition(stateMachineInformation, transitionDefinition, transitionContext);
+    }
 
-        public Task ExecutingTransition(
-            ITransitionDefinition<TState, TEvent> transitionDefinition,
-            ITransitionContext<TState, TEvent> transitionContext)
-        {
-            return this.apiExtension.ExecutingTransition(this.stateMachineInformation, transitionDefinition, transitionContext);
-        }
+    public Task ExecutedTransition(
+        ITransitionDefinition<TState, TEvent> transitionDefinition,
+        ITransitionContext<TState, TEvent> transitionContext)
+    {
+        return apiExtension.ExecutedTransition(stateMachineInformation, transitionDefinition, transitionContext);
+    }
 
-        public Task ExecutedTransition(
-            ITransitionDefinition<TState, TEvent> transitionDefinition,
-            ITransitionContext<TState, TEvent> transitionContext)
-        {
-            return this.apiExtension.ExecutedTransition(this.stateMachineInformation, transitionDefinition, transitionContext);
-        }
+    public Task Loaded(
+        IInitializable<TState> loadedCurrentState,
+        IReadOnlyDictionary<TState, TState> loadedHistoryStates,
+        IReadOnlyCollection<EventInformation<TEvent>> events,
+        IReadOnlyCollection<EventInformation<TEvent>> priorityEvents)
+    {
+        return apiExtension.Loaded(stateMachineInformation, loadedCurrentState, loadedHistoryStates, events,
+            priorityEvents);
+    }
 
-        public Task Loaded(
-            IInitializable<TState> loadedCurrentState,
-            IReadOnlyDictionary<TState, TState> loadedHistoryStates,
-            IReadOnlyCollection<EventInformation<TEvent>> events,
-            IReadOnlyCollection<EventInformation<TEvent>> priorityEvents)
-        {
-            return this.apiExtension.Loaded(this.stateMachineInformation, loadedCurrentState, loadedHistoryStates, events, priorityEvents);
-        }
-
-        public Task EnteringState(IStateDefinition<TState, TEvent> stateDefinition, ITransitionContext<TState, TEvent> context)
-        {
-            return this.apiExtension.EnteringState(this.stateMachineInformation, stateDefinition, context);
-        }
+    public Task EnteringState(IStateDefinition<TState, TEvent> stateDefinition,
+        ITransitionContext<TState, TEvent> context)
+    {
+        return apiExtension.EnteringState(stateMachineInformation, stateDefinition, context);
     }
 }

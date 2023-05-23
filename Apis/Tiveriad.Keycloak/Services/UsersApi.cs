@@ -1,18 +1,22 @@
+#region
+
 using Tiveriad.Commons.HttpApis;
 using Tiveriad.Keycloak.Apis;
 using Tiveriad.Keycloak.Models;
 
+#endregion
+
 namespace Tiveriad.Keycloak.Services;
 
-public class UsersApi:BaseApi, IUsersApi
+public class UsersApi : BaseApi, IUsersApi
 {
-    
-    public UsersApi(HttpClient httpClient, IKeycloakSessionFactory keycloakSessionFactory) : base(httpClient, keycloakSessionFactory)
+    public UsersApi(HttpClient httpClient, IKeycloakSessionFactory keycloakSessionFactory) : base(httpClient,
+        keycloakSessionFactory)
     {
     }
 
     /// <summary>
-    /// Get representation of the user 
+    ///     Get representation of the user
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not userId!)</param>
@@ -28,13 +32,13 @@ public class UsersApi:BaseApi, IUsersApi
             throw new ApiException(400, "Missing required parameter 'userId' when calling UsersApi->RealmUsersIdGet");
 
 
-        return await Execute<UserRepresentation>(async (apiClient, token) =>
+        return await Execute(async (apiClient, token) =>
         {
             HttpResponseMessage result = null;
             result = await apiClient.GetAsync(builder =>
             {
                 builder
-                    .Header(h=>h.Authorization("Bearer",token))
+                    .Header(h => h.Authorization("Bearer", token))
                     .AppendPath($"/{realm}/users/{userId}");
             });
 
@@ -43,14 +47,10 @@ public class UsersApi:BaseApi, IUsersApi
                 result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
                 await result.DeserializeAsync<UserRepresentation>().ConfigureAwait(false));
         });
-
-
-
-
     }
 
     /// <summary>
-    /// Update the user 
+    ///     Update the user
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"></param>
@@ -69,15 +69,15 @@ public class UsersApi:BaseApi, IUsersApi
         // verify the required parameter 'userId' is set
         if (userId == null)
             throw new ApiException(400, "Missing required parameter 'userId' when calling UsersApi->RealmUsersIdPut");
-        
-        
-        return await Execute<object>(async (apiClient, token) =>
+
+
+        return await Execute(async (apiClient, token) =>
         {
             HttpResponseMessage result = null;
             result = await apiClient.PutAsync(builder =>
             {
                 builder
-                    .Header(h=>h.Authorization("Bearer",token))
+                    .Header(h => h.Authorization("Bearer", token))
                     .AppendPath($"/{realm}/users/{userId}")
                     .Content(body);
             });
@@ -85,9 +85,5 @@ public class UsersApi:BaseApi, IUsersApi
                 result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
                 null);
         });
-        
-
     }
-
-
 }

@@ -1,11 +1,15 @@
+#region
+
 using Tiveriad.Keycloak.Models;
+
+#endregion
 
 namespace Tiveriad.Keycloak.Apis;
 
 public interface IRoleMapperApi
 {
     /// <summary>
-    /// Add realm-level role mappings to the user 
+    ///     Add realm-level role mappings to the user
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body">Roles to add</param>
@@ -16,7 +20,7 @@ public interface IRoleMapperApi
         List<RoleRepresentation> body, string realm, string userId);
 
     /// <summary>
-    /// Delete realm-level role mappings 
+    ///     Delete realm-level role mappings
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"></param>
@@ -27,7 +31,7 @@ public interface IRoleMapperApi
         List<RoleRepresentation> body, string realm, string userId);
 
     /// <summary>
-    /// Get role mappings 
+    ///     Get role mappings
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not userId!)</param>

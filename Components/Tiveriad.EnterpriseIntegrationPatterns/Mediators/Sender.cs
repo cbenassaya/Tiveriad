@@ -1,5 +1,9 @@
+#region
+
 using System.Collections.Concurrent;
 using Tiveriad.EnterpriseIntegrationPatterns.ServiceResolvers;
+
+#endregion
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.Mediators;
 

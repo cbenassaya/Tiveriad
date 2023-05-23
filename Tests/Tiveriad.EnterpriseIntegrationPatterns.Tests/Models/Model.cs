@@ -1,4 +1,8 @@
+#region
+
 using Tiveriad.EnterpriseIntegrationPatterns.Pipelines;
+
+#endregion
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.Tests.Models;
 
@@ -15,7 +19,6 @@ public class Middleware : IMiddleware<Model, Context, Configuration>
         return Task.CompletedTask;
     }
 }
-
 
 public class MiddlewareWithException : IMiddleware<Model, Context, Configuration>
 {

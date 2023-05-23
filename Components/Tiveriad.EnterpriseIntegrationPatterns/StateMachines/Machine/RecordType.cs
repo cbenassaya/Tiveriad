@@ -1,22 +1,19 @@
 //-------------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------------
+namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine;
 
-namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine
+/// <summary>
+///     Specifies the type of the record.
+/// </summary>
+public enum RecordType
 {
     /// <summary>
-    /// Specifies the type of the record.
+    ///     A state was entered.
     /// </summary>
-    public enum RecordType
-    {
-        /// <summary>
-        /// A state was entered.
-        /// </summary>
-        Enter,
+    Enter,
 
-        /// <summary>
-        /// A state was exited.
-        /// </summary>
-        Exit
-    }
+    /// <summary>
+    ///     A state was exited.
+    /// </summary>
+    Exit
 }

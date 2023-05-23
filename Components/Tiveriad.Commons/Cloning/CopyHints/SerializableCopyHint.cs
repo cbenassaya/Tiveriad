@@ -1,5 +1,9 @@
-﻿using System.Runtime.Serialization;
+﻿#region
+
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+
+#endregion
 
 #pragma warning disable SYSLIB0011 // Type or member is obsolete
 

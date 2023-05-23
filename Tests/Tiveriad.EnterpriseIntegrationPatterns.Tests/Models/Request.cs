@@ -1,5 +1,9 @@
+#region
+
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.Mediators;
+
+#endregion
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.Tests.Models;
 
@@ -13,9 +17,10 @@ public class RequestHandler : IRequestHandler<Request, int>
     }
 }
 
-public class MessageDomainEvent : IDomainEvent<Guid>{
-    
+public class MessageDomainEvent : IDomainEvent<Guid>
+{
+    public string Message { get; set; }
+
     public DateTimeOffset OccurredOn { get; } = DateTimeOffset.Now;
     public Guid Id { get; } = Guid.NewGuid();
-    public string Message { get; set; }
 }

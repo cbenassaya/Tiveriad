@@ -1,5 +1,9 @@
+#region
+
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+
+#endregion
 
 namespace Tiveriad.Commons.Diagnostics;
 
@@ -28,7 +32,7 @@ public class ProcessCommand
         };
     }
 
-    public static ProcessCommand Create(string commandName, params string[]  args)
+    public static ProcessCommand Create(string commandName, params string[] args)
     {
         return new ProcessCommand(commandName, args ?? Enumerable.Empty<string>());
     }

@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,8 @@ using Tiveriad.Cqrs.Commands;
 using Tiveriad.Cqrs.Queries;
 using Tiveriad.Cqrs.Requests;
 using Tiveriad.Repositories;
+
+#endregion
 
 namespace Tiveriad.Cqrs.Microsoft.DependencyInjection;
 

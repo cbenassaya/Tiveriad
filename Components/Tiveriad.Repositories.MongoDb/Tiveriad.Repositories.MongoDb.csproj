@@ -7,12 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Tiveriad.Connections\Tiveriad.Connections.csproj" />
-      <ProjectReference Include="..\Tiveriad.Repositories\Tiveriad.Repositories.csproj" />
+        <ProjectReference Include="..\Tiveriad.Connections\Tiveriad.Connections.csproj"/>
+        <ProjectReference Include="..\Tiveriad.Repositories\Tiveriad.Repositories.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
+        <PackageReference Include="MongoDB.Driver" Version="2.18.0"/>
     </ItemGroup>
 
 </Project>

@@ -1,18 +1,28 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿#region
+
+using Microsoft.Extensions.DependencyInjection;
+
+#endregion
 
 namespace Tiveriad.UnitTests;
 
-public abstract class TestBase<TCYCLEOFLIFEMANAGER>: IDisposable where TCYCLEOFLIFEMANAGER : IStartup
+public abstract class TestBase<TCYCLEOFLIFEMANAGER> : IDisposable where TCYCLEOFLIFEMANAGER : IStartup
 {
-    private readonly IServiceProvider _serviceProvider;
     private readonly TCYCLEOFLIFEMANAGER _cycleOfLifeManager;
+    private readonly IServiceProvider _serviceProvider;
+
     protected TestBase()
     {
-        var services = GetServiceCollection(); 
+        var services = GetServiceCollection();
         _cycleOfLifeManager = Activator.CreateInstance<TCYCLEOFLIFEMANAGER>();
         _cycleOfLifeManager.Configure(services);
         _serviceProvider = services.BuildServiceProvider();
         _cycleOfLifeManager.Init(_serviceProvider);
+    }
+
+    public void Dispose()
+    {
+        _cycleOfLifeManager.Clean(_serviceProvider);
     }
 
 
@@ -29,10 +39,5 @@ public abstract class TestBase<TCYCLEOFLIFEMANAGER>: IDisposable where TCYCLEOFL
     protected virtual T GetRequiredService<T>() where T : notnull
     {
         return _serviceProvider.GetRequiredService<T>();
-    }
-
-    public void Dispose()
-    {
-        _cycleOfLifeManager.Clean(_serviceProvider);
     }
 }

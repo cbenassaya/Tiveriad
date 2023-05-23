@@ -1,4 +1,8 @@
-﻿using System.Reflection;
+﻿#region
+
+using System.Reflection;
+
+#endregion
 
 namespace Tiveriad.Commons.Cloning.CopyHints;
 

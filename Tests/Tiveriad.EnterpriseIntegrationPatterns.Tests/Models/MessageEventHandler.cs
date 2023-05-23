@@ -1,8 +1,12 @@
+#region
+
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
+
+#endregion
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.Tests.Models;
 
-public class MessageEventHandler : IEventHandler<MessageDomainEvent,Guid>
+public class MessageEventHandler : IEventHandler<MessageDomainEvent, Guid>
 {
     public async Task HandleAsync(MessageDomainEvent @event)
     {
@@ -16,6 +20,5 @@ public class MessageEventHandler : IEventHandler<MessageDomainEvent,Guid>
 
     public async Task OnErrorAsync(Exception exception, MessageDomainEvent @event)
     {
-        
     }
 }

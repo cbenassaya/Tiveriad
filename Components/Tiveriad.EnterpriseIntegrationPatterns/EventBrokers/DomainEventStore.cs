@@ -1,10 +1,13 @@
+#region
+
 using System.Collections.ObjectModel;
+
+#endregion
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 
-public class DomainEventStore: IDomainEventStore
+public class DomainEventStore : IDomainEventStore
 {
-
     private readonly IList<IWrapperEvent> _list = new List<IWrapperEvent>();
     private readonly object _locker = new();
 
@@ -12,14 +15,16 @@ public class DomainEventStore: IDomainEventStore
         where TEvent : IDomainEvent<TKey>
         where TKey : IEquatable<TKey>
     {
-        lock(_locker)
+        lock (_locker)
+        {
             _list.Add(new EventWrapper<TEvent, TKey>(@event));
+        }
     }
-    
+
     public void Commit()
 
     {
-        lock(_locker)
+        lock (_locker)
         {
             var items = _list.Where(x => x.State == EventStateWrapper.Pending).ToList();
             foreach (var item in items)
@@ -29,7 +34,7 @@ public class DomainEventStore: IDomainEventStore
 
     public void Rollback()
     {
-        lock(_locker)
+        lock (_locker)
         {
             var items = _list.Where(x => x.State == EventStateWrapper.Pending).ToList();
             foreach (var item in items)
@@ -39,9 +44,10 @@ public class DomainEventStore: IDomainEventStore
 
     public IReadOnlyCollection<object> GetDomainEvents()
     {
-        lock(_locker)
+        lock (_locker)
+        {
             return new ReadOnlyCollection<object>(_list.Where(x => x.State == EventStateWrapper.Commit)
                 .Select(x => x.Event).ToList());
+        }
     }
-    
 }

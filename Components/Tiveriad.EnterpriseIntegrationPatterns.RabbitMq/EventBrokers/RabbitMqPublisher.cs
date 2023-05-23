@@ -1,3 +1,5 @@
+#region
+
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
@@ -6,17 +8,21 @@ using Tiveriad.Connections;
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.MessageBrokers;
 
+#endregion
+
 namespace Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.EventBrokers;
 
-public class RabbitMqPublisher<TEvent,TKey>:IPublisher<TEvent,TKey> where TEvent:IDomainEvent < TKey> 
+public class RabbitMqPublisher<TEvent, TKey> : IPublisher<TEvent, TKey> where TEvent : IDomainEvent<TKey>
     where TKey : IEquatable<TKey>
 {
-    private readonly IConnectionFactory<IConnection> _connectionFactory;
-    private readonly ILogger<RabbitMqPublisher<TEvent,TKey>> _logger;
     private readonly IRabbitMqConnectionConfiguration _configuration;
+    private readonly IConnectionFactory<IConnection> _connectionFactory;
     private readonly string _eventName;
+    private readonly ILogger<RabbitMqPublisher<TEvent, TKey>> _logger;
 
-    public RabbitMqPublisher(IConnectionFactory<IConnection> connectionFactory, IRabbitMqConnectionConfiguration configuration, string eventName, ILogger<RabbitMqPublisher<TEvent, TKey>> logger)
+    public RabbitMqPublisher(IConnectionFactory<IConnection> connectionFactory,
+        IRabbitMqConnectionConfiguration configuration, string eventName,
+        ILogger<RabbitMqPublisher<TEvent, TKey>> logger)
     {
         _connectionFactory = connectionFactory;
         _logger = logger;
@@ -28,10 +34,10 @@ public class RabbitMqPublisher<TEvent,TKey>:IPublisher<TEvent,TKey> where TEvent
     {
         var connection = _connectionFactory.GetConnection();
         _logger.LogTrace("Creating RabbitMQ channel to publish event: {EventId} ({EventName})", @event.Id, _eventName);
-        
+
         var channel = connection.CreateModel();
         _logger.LogTrace("Declaring RabbitMQ exchange to publish event: {EventId}", @event.Id);
-        channel.ExchangeDeclare(exchange:_configuration.BrokerName , type: ExchangeType.Direct, true);
+        channel.ExchangeDeclare(_configuration.BrokerName, ExchangeType.Direct, true);
         var body = JsonSerializer.SerializeToUtf8Bytes(@event, @event.GetType(), new JsonSerializerOptions
         {
             WriteIndented = true
@@ -44,11 +50,11 @@ public class RabbitMqPublisher<TEvent,TKey>:IPublisher<TEvent,TKey> where TEvent
             properties.DeliveryMode = 2; // persistent
             _logger.LogTrace("Publishing event to RabbitMQ: {EventId}", @event.Id);
             channel.BasicPublish(
-                exchange: _configuration.BrokerName,
-                routingKey: _eventName,
-                mandatory: true,
-                basicProperties: properties,
-                body: body);
+                _configuration.BrokerName,
+                _eventName,
+                true,
+                properties,
+                body);
         });
         return Task.CompletedTask;
     }

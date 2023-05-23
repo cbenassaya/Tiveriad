@@ -1,47 +1,46 @@
-﻿namespace Tiveriad.Commons.RetryLogic
+﻿namespace Tiveriad.Commons.RetryLogic;
+
+public class RetryCondition
 {
-    public class RetryCondition
+    public RetryCondition(Retry retry, Func<RetryConditionHandle, bool> predicate)
     {
-        public Retry Retry { get; set; }
+        Retry = retry;
+        Retry.Conditions.Add(this);
+        FilterCondition = predicate;
+    }
 
-        public RetryCondition(Retry retry, Func<RetryConditionHandle, bool> predicate)
+    public Retry Retry { get; set; }
+
+    public Func<RetryConditionHandle, bool> FilterCondition { get; }
+    public Func<RetryConditionHandle, bool> TerminationCondition { get; private set; }
+
+    public Retry For(uint times)
+    {
+        TerminationCondition = handle => handle.Occurences > times;
+        return Retry;
+    }
+
+    public Retry For(TimeSpan duration)
+    {
+        TerminationCondition = handle =>
         {
-            Retry = retry;
-            Retry.Conditions.Add(this);
-            FilterCondition = predicate;
-        }
+            var durationSinceFirstOccured = DateTimeOffset.Now - handle.FirstOccured;
+            var result = durationSinceFirstOccured > duration;
+            return result;
+        };
 
-        public Retry For(uint times)
-        {
-            TerminationCondition = (handle) => handle.Occurences > times;
-            return Retry;
-        }
+        return Retry;
+    }
 
-        public Retry For(TimeSpan duration)
-        {
-            TerminationCondition = (handle) =>
-            {
-                var durationSinceFirstOccured = DateTimeOffset.Now - handle.FirstOccured;
-                var result = durationSinceFirstOccured > duration;
-                return result;
-            };
+    public Retry Until(Func<RetryConditionHandle, bool> predicate)
+    {
+        TerminationCondition = predicate;
+        return Retry;
+    }
 
-            return Retry;
-        }
-
-        public Retry Until(Func<RetryConditionHandle, bool> predicate)
-        {
-            TerminationCondition = predicate;
-            return Retry;
-        }
-
-        public Retry Indefinitely()
-        {
-            TerminationCondition = (handle) => false;
-            return Retry;
-        }
-
-        public Func<RetryConditionHandle, bool> FilterCondition { get; private set; }
-        public Func<RetryConditionHandle, bool> TerminationCondition { get; private set; }
+    public Retry Indefinitely()
+    {
+        TerminationCondition = handle => false;
+        return Retry;
     }
 }

@@ -1,3 +1,5 @@
+#region
+
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -6,31 +8,39 @@ using Tiveriad.Connections;
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.Mediators;
 
+#endregion
+
 namespace Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection ConfigureConnectionFactory<TConnectionFactoryBuilder, TClient,
-        TConnectionConfigurator,TConnectionConfiguration>(this IServiceCollection services,
+        TConnectionConfigurator, TConnectionConfiguration>(this IServiceCollection services,
         Action<TConnectionConfigurator> delegateConfigurator,
         ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
-        where TConnectionFactoryBuilder : IConnectionFactoryBuilder<TConnectionConfigurator, TConnectionConfiguration, TClient>
+        where TConnectionFactoryBuilder :
+        IConnectionFactoryBuilder<TConnectionConfigurator, TConnectionConfiguration, TClient>
         where TConnectionConfigurator : class, IConnectionConfigurator
-        where TConnectionConfiguration:IConnectionConfiguration
+        where TConnectionConfiguration : IConnectionConfiguration
     {
-        ConfigureConnectionFactoryClasses<TConnectionFactoryBuilder, TClient, TConnectionConfigurator, TConnectionConfiguration>(services,
+        ConfigureConnectionFactoryClasses<TConnectionFactoryBuilder, TClient, TConnectionConfigurator,
+            TConnectionConfiguration>(services,
             delegateConfigurator, serviceLifetime);
-        
+
         return services;
     }
-    
-    private static void ConfigureConnectionFactoryClasses<TConnectionFactoryBuilder, TClient, TConnectionConfigurator, TConnectionConfiguration>(IServiceCollection services,
-        Action<TConnectionConfigurator> delegateConfigurator, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
-        where TConnectionFactoryBuilder : IConnectionFactoryBuilder< TConnectionConfigurator, TConnectionConfiguration,TClient> 
+
+    private static void ConfigureConnectionFactoryClasses<TConnectionFactoryBuilder, TClient, TConnectionConfigurator,
+        TConnectionConfiguration>(IServiceCollection services,
+        Action<TConnectionConfigurator> delegateConfigurator,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
+        where TConnectionFactoryBuilder :
+        IConnectionFactoryBuilder<TConnectionConfigurator, TConnectionConfiguration, TClient>
         where TConnectionConfigurator : class, IConnectionConfigurator
-        where TConnectionConfiguration:IConnectionConfiguration
+        where TConnectionConfiguration : IConnectionConfiguration
     {
-        var factoryType = typeof(TConnectionFactoryBuilder).GetTypeInfo().Assembly.DefinedTypes.FirstOrDefault(t => t.IsClass
+        var factoryType = typeof(TConnectionFactoryBuilder).GetTypeInfo().Assembly.DefinedTypes.FirstOrDefault(t =>
+            t.IsClass
             && !t.IsAbstract
             && typeof(TConnectionFactoryBuilder).IsAssignableFrom(t.AsType()));
 
@@ -40,16 +50,16 @@ public static class ServiceCollectionExtensions
         var factory = (TConnectionFactoryBuilder)Activator.CreateInstance(factoryType);
         factory.Configure(delegateConfigurator);
 
-        services.Add(new ServiceDescriptor(typeof(TConnectionConfiguration), sp => factory.Configuration, ServiceLifetime.Singleton));
-        
-        var client = factory.Build();
-        
-        if (services.All(sd => sd.ServiceType != typeof(IConnectionFactory<TClient>)))
-            services.Add(new ServiceDescriptor(typeof( IConnectionFactory<TClient>),
-                sp => client, serviceLifetime));
+        services.Add(new ServiceDescriptor(typeof(TConnectionConfiguration), sp => factory.Configuration,
+            ServiceLifetime.Singleton));
 
+        var client = factory.Build();
+
+        if (services.All(sd => sd.ServiceType != typeof(IConnectionFactory<TClient>)))
+            services.Add(new ServiceDescriptor(typeof(IConnectionFactory<TClient>),
+                sp => client, serviceLifetime));
     }
-    
+
     public static IServiceCollection AddTiveriadEip(this IServiceCollection services,
         params Assembly[] assembliesToScan)
     {
@@ -68,7 +78,7 @@ public static class ServiceCollectionExtensions
 
         foreach (var openInterface in openTypes)
             RegisterFor(openInterface, services, assembliesToScanArray);
-            
+
         services.AddScoped<ISender, Sender>();
         services.AddScoped<IEventBroker, EventBroker>();
         services.AddScoped<IDomainEventStore, DomainEventStore>();

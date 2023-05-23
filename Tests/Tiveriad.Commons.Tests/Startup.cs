@@ -1,5 +1,9 @@
+#region
+
 using Microsoft.Extensions.DependencyInjection;
 using Tiveriad.UnitTests;
+
+#endregion
 
 namespace Tiveriad.Commons.Tests;
 

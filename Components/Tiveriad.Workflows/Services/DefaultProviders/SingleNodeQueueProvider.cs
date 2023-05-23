@@ -15,9 +15,9 @@ public class SingleNodeQueueProvider : IQueueProvider
 {
     private readonly Dictionary<QueueType, BlockingCollection<string>> _queues = new()
     {
-        [QueueType.Workflow] = new(),
-        [QueueType.Event] = new(),
-        [QueueType.Index] = new()
+        [QueueType.Workflow] = new BlockingCollection<string>(),
+        [QueueType.Event] = new BlockingCollection<string>(),
+        [QueueType.Index] = new BlockingCollection<string>()
     };
 
     public bool IsDequeueBlocking => true;

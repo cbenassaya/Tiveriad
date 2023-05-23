@@ -1,5 +1,9 @@
+#region
+
 using Tiveriad.UnitTests;
 using Xunit;
+
+#endregion
 
 namespace Tiveriad.TextTemplating.Scriban.Tests;
 
@@ -26,8 +30,8 @@ public class TextTemplatingModule : TestBase<Startup>
     [Fact]
     public void Format_HelloWord()
     {
-        string test = "{0}.{1}";
+        var test = "{0}.{1}";
         var result = string.Format(test, "1", "2");
-        Assert.Equal("1.2",result);
+        Assert.Equal("1.2", result);
     }
 }

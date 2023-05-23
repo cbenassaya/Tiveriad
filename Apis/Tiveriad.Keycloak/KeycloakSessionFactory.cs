@@ -4,15 +4,14 @@ public class KeycloakSessionFactory : IKeycloakSessionFactory
 {
     private readonly KeycloakConnectionConfiguration _configuration;
     private readonly Func<string> _getToken;
-    private readonly object  _lockObject = new ();
+    private readonly object _lockObject = new();
     private KeycloakSession? _session;
-    public static KeycloakConnectionConfigurator Configurator => new KeycloakConnectionConfigurator();
 
     private KeycloakSessionFactory(KeycloakConnectionConfiguration configuration)
     {
         var authenticationService = new AuthenticationService(configuration.UrlBase);
         _configuration = configuration;
-        
+
         if (!string.IsNullOrEmpty(configuration.ClientSecret))
             _getToken = () =>
                 authenticationService.Connect(configuration.ClientSecret).Result
@@ -20,11 +19,13 @@ public class KeycloakSessionFactory : IKeycloakSessionFactory
                     : string.Empty;
         else
             _getToken = () =>
-                authenticationService.Connect( configuration.Username, configuration.Password)
+                authenticationService.Connect(configuration.Username, configuration.Password)
                     .Result
                     ? authenticationService.AccessToken
                     : string.Empty;
     }
+
+    public static KeycloakConnectionConfigurator Configurator => new();
 
 
     public KeycloakSession GetSession()
@@ -32,18 +33,16 @@ public class KeycloakSessionFactory : IKeycloakSessionFactory
         lock (_lockObject)
         {
             if (_session != null) return _session;
-            _session =  new KeycloakSession($"{_configuration.UrlBase}/auth/admin/realms", _getToken);
+            _session = new KeycloakSession($"{_configuration.UrlBase}/auth/admin/realms", _getToken);
             _session.RenewToken();
             return _session;
         }
-        
     }
-    
+
     public class KeycloakConnectionConfigurator
     {
-        
         private KeycloakConnectionConfiguration _configuration;
-        
+
         public KeycloakConnectionConfigurator Get(Action<KeycloakConnectionConfiguration> action)
         {
             _configuration = new KeycloakConnectionConfiguration();
@@ -54,10 +53,8 @@ public class KeycloakSessionFactory : IKeycloakSessionFactory
         public KeycloakSessionFactory Build()
         {
             if (_configuration.UrlBase == null) throw new ArgumentNullException("Host configuration is mandatory !");
-            
+
             return new KeycloakSessionFactory(_configuration);
         }
     }
-
-
 }

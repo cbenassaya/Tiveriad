@@ -1,5 +1,9 @@
+#region
+
 using Scriban;
 using Scriban.Runtime;
+
+#endregion
 
 namespace Tiveriad.TextTemplating.Scriban;
 

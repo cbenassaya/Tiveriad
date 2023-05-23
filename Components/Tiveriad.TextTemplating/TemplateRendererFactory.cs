@@ -1,7 +1,11 @@
+#region
+
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.FileProviders;
 using Tiveriad.TextTemplating.Extensions;
+
+#endregion
 
 namespace Tiveriad.TextTemplating;
 

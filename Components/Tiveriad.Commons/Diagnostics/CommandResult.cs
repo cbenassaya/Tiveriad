@@ -1,4 +1,8 @@
+#region
+
 using System.Diagnostics;
+
+#endregion
 
 namespace Tiveriad.Commons.Diagnostics;
 

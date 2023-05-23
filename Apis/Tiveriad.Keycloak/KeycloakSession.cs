@@ -4,6 +4,7 @@ public class KeycloakSession
 {
     private readonly Func<string> _getToken;
     private readonly object _lockObject = new();
+
     public KeycloakSession(string basePath, Func<string> getToken)
     {
         BasePath = basePath;
@@ -16,7 +17,9 @@ public class KeycloakSession
 
     public void RenewToken()
     {
-        lock(_lockObject)
+        lock (_lockObject)
+        {
             Token = _getToken();
-    } 
+        }
+    }
 }

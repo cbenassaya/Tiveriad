@@ -4,8 +4,8 @@ public class DefaultPipeline<TModel, TPipelineContext, TConfiguration> : IPipeli
     where TPipelineContext : class, IPipelineContext<TConfiguration>
     where TConfiguration : class, IPipelineConfiguration
 {
-    private readonly RequestDelegate<TModel, TPipelineContext, TConfiguration> _firstMiddleware;
     private readonly TConfiguration _configuration;
+    private readonly RequestDelegate<TModel, TPipelineContext, TConfiguration> _firstMiddleware;
 
     public DefaultPipeline(TConfiguration configuration,
         RequestDelegate<TModel, TPipelineContext, TConfiguration> firstMiddleware)

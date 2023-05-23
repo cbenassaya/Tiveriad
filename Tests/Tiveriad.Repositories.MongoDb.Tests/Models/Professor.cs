@@ -1,8 +1,12 @@
+#region
+
 using MongoDB.Bson;
+
+#endregion
 
 namespace Tiveriad.Repositories.MongoDb.Tests.Models;
 
-public class Professor : IEntity<ObjectId> 
+public class Professor : IEntity<ObjectId>
 {
     public string Firstname { get; set; } = null!;
     public string Lastname { get; set; } = null!;

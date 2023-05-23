@@ -50,7 +50,7 @@ public class DateRangeFilter : SearchFilter
 
     public static DateRangeFilter Before(Expression<Func<WorkflowSearchResult, object>> property, DateTime value)
     {
-        return new()
+        return new DateRangeFilter
         {
             Property = property,
             BeforeValue = value
@@ -59,7 +59,7 @@ public class DateRangeFilter : SearchFilter
 
     public static DateRangeFilter After(Expression<Func<WorkflowSearchResult, object>> property, DateTime value)
     {
-        return new()
+        return new DateRangeFilter
         {
             Property = property,
             AfterValue = value
@@ -69,7 +69,7 @@ public class DateRangeFilter : SearchFilter
     public static DateRangeFilter Between(Expression<Func<WorkflowSearchResult, object>> property, DateTime start,
         DateTime end)
     {
-        return new()
+        return new DateRangeFilter
         {
             Property = property,
             BeforeValue = end,
@@ -79,7 +79,7 @@ public class DateRangeFilter : SearchFilter
 
     public static DateRangeFilter Before<T>(Expression<Func<T, object>> property, DateTime value)
     {
-        return new()
+        return new DateRangeFilter
         {
             IsData = true,
             DataType = typeof(T),
@@ -90,7 +90,7 @@ public class DateRangeFilter : SearchFilter
 
     public static DateRangeFilter After<T>(Expression<Func<T, object>> property, DateTime value)
     {
-        return new()
+        return new DateRangeFilter
         {
             IsData = true,
             DataType = typeof(T),
@@ -101,7 +101,7 @@ public class DateRangeFilter : SearchFilter
 
     public static DateRangeFilter Between<T>(Expression<Func<T, object>> property, DateTime start, DateTime end)
     {
-        return new()
+        return new DateRangeFilter
         {
             IsData = true,
             DataType = typeof(T),
@@ -119,7 +119,7 @@ public class NumericRangeFilter : SearchFilter
 
     public static NumericRangeFilter LessThan(Expression<Func<WorkflowSearchResult, object>> property, double value)
     {
-        return new()
+        return new NumericRangeFilter
         {
             Property = property,
             LessValue = value
@@ -128,7 +128,7 @@ public class NumericRangeFilter : SearchFilter
 
     public static NumericRangeFilter GreaterThan(Expression<Func<WorkflowSearchResult, object>> property, double value)
     {
-        return new()
+        return new NumericRangeFilter
         {
             Property = property,
             GreaterValue = value
@@ -138,7 +138,7 @@ public class NumericRangeFilter : SearchFilter
     public static NumericRangeFilter Between(Expression<Func<WorkflowSearchResult, object>> property, double start,
         double end)
     {
-        return new()
+        return new NumericRangeFilter
         {
             Property = property,
             LessValue = end,
@@ -148,7 +148,7 @@ public class NumericRangeFilter : SearchFilter
 
     public static NumericRangeFilter LessThan<T>(Expression<Func<T, object>> property, double value)
     {
-        return new()
+        return new NumericRangeFilter
         {
             IsData = true,
             DataType = typeof(T),
@@ -159,7 +159,7 @@ public class NumericRangeFilter : SearchFilter
 
     public static NumericRangeFilter GreaterThan<T>(Expression<Func<T, object>> property, double value)
     {
-        return new()
+        return new NumericRangeFilter
         {
             IsData = true,
             DataType = typeof(T),
@@ -170,7 +170,7 @@ public class NumericRangeFilter : SearchFilter
 
     public static NumericRangeFilter Between<T>(Expression<Func<T, object>> property, double start, double end)
     {
-        return new()
+        return new NumericRangeFilter
         {
             IsData = true,
             DataType = typeof(T),
@@ -191,7 +191,7 @@ public class StatusFilter : ScalarFilter
 
     public static StatusFilter Equals(WorkflowStatus value)
     {
-        return new()
+        return new StatusFilter
         {
             Value = value.ToString()
         };

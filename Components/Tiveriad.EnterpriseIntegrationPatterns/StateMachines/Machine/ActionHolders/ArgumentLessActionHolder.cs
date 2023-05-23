@@ -1,29 +1,30 @@
 //-------------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------------
+#region
 
 using System.Reflection;
 using Tiveriad.Commons.Extensions;
 
-namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine.ActionHolders
+#endregion
+
+namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine.ActionHolders;
+
+public class ArgumentLessActionHolder : IActionHolder
 {
-    public class ArgumentLessActionHolder : IActionHolder
+    private readonly Action action;
+
+    public ArgumentLessActionHolder(Action action)
     {
-        private readonly Action action;
+        this.action = action;
+    }
 
-        public ArgumentLessActionHolder(Action action)
-        {
-            this.action = action;
-        }
+    public void Execute(object argument)
+    {
+        action();
+    }
 
-        public void Execute(object argument)
-        {
-            this.action();
-        }
-
-        public string Describe()
-        {
-            return this.action.GetMethodInfo().ExtractMethodNameOrAnonymous();
-        }
+    public string Describe()
+    {
+        return action.GetMethodInfo().ExtractMethodNameOrAnonymous();
     }
 }

@@ -1,35 +1,33 @@
 namespace Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 
-public class EventWrapper<TEvent, TKey>:IWrapperEvent
+public class EventWrapper<TEvent, TKey> : IWrapperEvent
     where TEvent : IDomainEvent<TKey>
     where TKey : IEquatable<TKey>
 {
     private readonly TEvent _event;
     private readonly TKey _id;
 
-    private EventStateWrapper _state;
-
     public EventWrapper(TEvent @event)
     {
         _event = @event;
         _id = @event.Id;
-        _state = EventStateWrapper.Pending;
+        State = EventStateWrapper.Pending;
     }
-    
-    public  object Event => _event;
 
-    public EventStateWrapper State => _state;
+    public object Event => _event;
+
+    public EventStateWrapper State { get; private set; }
 
     public void Commit()
     {
-        _state = EventStateWrapper.Commit;
+        State = EventStateWrapper.Commit;
     }
-    
+
     public void Canceled()
     {
-        _state = EventStateWrapper.Canceled;
+        State = EventStateWrapper.Canceled;
     }
-    
+
     protected bool Equals(EventWrapper<TEvent, TKey> other)
     {
         return EqualityComparer<TKey>.Default.Equals(_id, other._id);
@@ -39,7 +37,7 @@ public class EventWrapper<TEvent, TKey>:IWrapperEvent
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
         return Equals((EventWrapper<TEvent, TKey>)obj);
     }
 

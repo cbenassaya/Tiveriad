@@ -1,13 +1,16 @@
+#region
+
 using Microsoft.Extensions.Logging;
 using Tiveriad.Workflows.Core.Models;
 using Tiveriad.Workflows.Core.Services;
+
+#endregion
 
 namespace Tiveriad.Workflows.Tests.HelloWorld;
 
 public class GoodbyeWorld : StepBody
 {
-
-    private ILogger _logger;
+    private readonly ILogger _logger;
 
     public GoodbyeWorld(ILoggerFactory loggerFactory)
     {

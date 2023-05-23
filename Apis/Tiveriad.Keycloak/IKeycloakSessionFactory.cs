@@ -1,4 +1,3 @@
-
 namespace Tiveriad.Keycloak;
 
 public interface IKeycloakSessionFactory

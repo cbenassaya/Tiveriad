@@ -27,7 +27,7 @@ public class PassingDataWorkflow : IWorkflow<MyDataClass>
             .Output(data => data.Value3, step => step.Output)
             .Then<CustomMessage>()
             .Name("Print custom message")
-            .Input(step => step.Message, data => "The answer is " + data.Value3.ToString())
+            .Input(step => step.Message, data => "The answer is " + data.Value3)
             .Then(context =>
             {
                 Console.WriteLine("Workflow complete");
@@ -52,7 +52,7 @@ public class PassingDataWorkflow2 : IWorkflow<Dictionary<string, int>>
             .Output((step, data) => data["Value3"] = step.Output)
             .Then<CustomMessage>()
             .Name("Print custom message")
-            .Input(step => step.Message, data => "The answer is " + data["Value3"].ToString())
+            .Input(step => step.Message, data => "The answer is " + data["Value3"])
             .Then(context =>
             {
                 Console.WriteLine("Workflow complete");
@@ -63,5 +63,4 @@ public class PassingDataWorkflow2 : IWorkflow<Dictionary<string, int>>
     public string Id => "PassingDataWorkflow2";
 
     public int Version => 1;
-
 }

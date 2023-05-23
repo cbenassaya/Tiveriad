@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,6 +7,8 @@ using System.Linq;
 using System.Reflection;
 using Tiveriad.Commons.Reflexions;
 using Tiveriad.IdGenerators;
+
+#endregion
 
 namespace Tiveriad.Repositories.EntityFrameworkCore.Repositories;
 

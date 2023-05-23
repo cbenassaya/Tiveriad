@@ -1,8 +1,12 @@
+#region
+
 using MongoDB.Bson;
+
+#endregion
 
 namespace Tiveriad.Repositories.MongoDb.Tests.Models;
 
-public class Invoice : IEntity<ObjectId> 
+public class Invoice : IEntity<ObjectId>
 {
     public InvoiceState InvoiceState { get; set; }
     public Party From { get; set; } = null!;

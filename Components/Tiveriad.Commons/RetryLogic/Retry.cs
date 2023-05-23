@@ -1,120 +1,115 @@
-﻿using System.Collections.ObjectModel;
+﻿#region
 
-namespace Tiveriad.Commons.RetryLogic
+using System.Collections.ObjectModel;
+
+#endregion
+
+namespace Tiveriad.Commons.RetryLogic;
+
+public class Retry
 {
-    public class Retry
+    public Retry()
     {
-        public Retry()
-        {
-            Conditions = new Collection<RetryCondition>();
-        }
+        Conditions = new Collection<RetryCondition>();
+    }
 
-        public static RetryCondition On(Func<RetryConditionHandle, bool> predicate)
-        {
-            var retry = new Retry();
-            return new RetryCondition(retry, predicate);
-        }
+    public Collection<RetryCondition> Conditions { get; }
 
-        private static RetryCondition OnInternal<TException>(Retry retry) where TException : Exception
-        {
-            return OnInternal<TException>(retry, (handle) => true);
-        }
+    public static RetryCondition On(Func<RetryConditionHandle, bool> predicate)
+    {
+        var retry = new Retry();
+        return new RetryCondition(retry, predicate);
+    }
 
-        private static RetryCondition OnInternal<TException>(Retry retry, Func<RetryConditionHandle, bool> predicate) where TException : Exception
-        {
-            Func<RetryConditionHandle, bool> typeCheckingPredicate = (handle) => handle.Context.DidExceptionOnLastRun && handle.Context.LastException is TException && predicate(handle);
-            return new RetryCondition(retry, typeCheckingPredicate);
-        }
+    private static RetryCondition OnInternal<TException>(Retry retry) where TException : Exception
+    {
+        return OnInternal<TException>(retry, handle => true);
+    }
 
-        public static RetryCondition On<TException>() where TException : Exception
-        {
-            var retry = new Retry();
-            return OnInternal<TException>(retry);
-        }
+    private static RetryCondition OnInternal<TException>(Retry retry, Func<RetryConditionHandle, bool> predicate)
+        where TException : Exception
+    {
+        Func<RetryConditionHandle, bool> typeCheckingPredicate = handle =>
+            handle.Context.DidExceptionOnLastRun && handle.Context.LastException is TException && predicate(handle);
+        return new RetryCondition(retry, typeCheckingPredicate);
+    }
 
-        public static RetryCondition On<TException>(Func<RetryConditionHandle, bool> predicate) where TException: Exception
-        {
-            var retry = new Retry();
-            return OnInternal<TException>(retry, predicate);
-        }
+    public static RetryCondition On<TException>() where TException : Exception
+    {
+        var retry = new Retry();
+        return OnInternal<TException>(retry);
+    }
 
-        public RetryCondition AndOn<TException>() where TException: Exception
-        {
-            return OnInternal<TException>(this);
-        }
+    public static RetryCondition On<TException>(Func<RetryConditionHandle, bool> predicate) where TException : Exception
+    {
+        var retry = new Retry();
+        return OnInternal<TException>(retry, predicate);
+    }
 
-        public RetryCondition AndOn<TException>(Func<RetryConditionHandle, bool> predicate) where TException: Exception
-        {
-            return OnInternal<TException>(this, predicate);
-        }
+    public RetryCondition AndOn<TException>() where TException : Exception
+    {
+        return OnInternal<TException>(this);
+    }
 
-        public RetryResult<TOutput> Execute<TOutput>(Func<RetryContext, TOutput> target)
-        {
-            TOutput output = default(TOutput);
-            Action<RetryContext> capturedTarget = (context) => output = target(context);
-            var result = Execute(capturedTarget);
-            var resultWithValue = result.WithValue(output);
-            return resultWithValue;
-        }
+    public RetryCondition AndOn<TException>(Func<RetryConditionHandle, bool> predicate) where TException : Exception
+    {
+        return OnInternal<TException>(this, predicate);
+    }
 
-        public RetryResult Execute(Action<RetryContext> target)
-        {
-            var context = new RetryContext(this);
+    public RetryResult<TOutput> Execute<TOutput>(Func<RetryContext, TOutput> target)
+    {
+        var output = default(TOutput);
+        Action<RetryContext> capturedTarget = context => output = target(context);
+        var result = Execute(capturedTarget);
+        var resultWithValue = result.WithValue(output);
+        return resultWithValue;
+    }
 
-            do
+    public RetryResult Execute(Action<RetryContext> target)
+    {
+        var context = new RetryContext(this);
+
+        do
+        {
+            context.DidExceptionOnLastRun = false;
+
+            try
             {
-                context.DidExceptionOnLastRun = false;
+                target(context);
+                var anyConditionsMet = CheckAndUpdateFilterConditions(context);
 
-                try
-                {
-                    target(context);
-                    var anyConditionsMet = CheckAndUpdateFilterConditions(context);
-
-                    if (!anyConditionsMet)
-                    {
-                        return new RetryResult(context);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    context.DidExceptionOnLastRun = true;
-                    context.Exceptions.Push(ex);
-
-                    var anyConditionsMet = CheckAndUpdateFilterConditions(context);
-                    if (!anyConditionsMet)
-                    {
-                        throw ex;
-                    }
-                }
-            } while (context.KeepRetrying);
-
-            throw new RetryException(context);
-        }
-
-        private bool CheckAndUpdateFilterConditions(RetryContext context)
-        {
-            var handlesForFilterConditionsMet = context.FilteredConditionHandles.Where(handle => handle.Condition.FilterCondition(handle));
-
-            if (handlesForFilterConditionsMet.Count() > 0)
-            {
-                foreach (var handle in handlesForFilterConditionsMet)
-                {
-                    handle.Occurences = handle.Occurences + 1;
-
-                    if (handle.Occurences == 1)
-                    {
-                        handle.FirstOccured = DateTimeOffset.Now;
-                    }
-                }
-
-                return true;
+                if (!anyConditionsMet) return new RetryResult(context);
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                context.DidExceptionOnLastRun = true;
+                context.Exceptions.Push(ex);
+
+                var anyConditionsMet = CheckAndUpdateFilterConditions(context);
+                if (!anyConditionsMet) throw ex;
             }
+        } while (context.KeepRetrying);
+
+        throw new RetryException(context);
+    }
+
+    private bool CheckAndUpdateFilterConditions(RetryContext context)
+    {
+        var handlesForFilterConditionsMet =
+            context.FilteredConditionHandles.Where(handle => handle.Condition.FilterCondition(handle));
+
+        if (handlesForFilterConditionsMet.Count() > 0)
+        {
+            foreach (var handle in handlesForFilterConditionsMet)
+            {
+                handle.Occurences = handle.Occurences + 1;
+
+                if (handle.Occurences == 1) handle.FirstOccured = DateTimeOffset.Now;
+            }
+
+            return true;
         }
 
-        public Collection<RetryCondition> Conditions { get; private set; }
+        return false;
     }
 }

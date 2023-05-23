@@ -1,5 +1,9 @@
+#region
+
 using Microsoft.Extensions.DependencyInjection;
 using Tiveriad.EnterpriseIntegrationPatterns.ServiceResolvers;
+
+#endregion
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection;
 

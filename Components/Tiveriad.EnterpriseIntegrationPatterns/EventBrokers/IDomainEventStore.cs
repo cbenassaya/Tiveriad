@@ -9,5 +9,4 @@ public interface IDomainEventStore
     void Commit();
     void Rollback();
     IReadOnlyCollection<object> GetDomainEvents();
-
 }

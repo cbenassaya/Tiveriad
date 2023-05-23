@@ -1,19 +1,25 @@
+#region
+
 using RabbitMQ.Client;
 using Tiveriad.Commons.RetryLogic;
 using Tiveriad.Connections;
+
+#endregion
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.RabbitMq;
 
 public class RabbitMqConnectionFactory : IConnectionFactory<IConnection>
 {
     private readonly IConnectionFactory _connectionFactory;
-    private IConnection _connection;
     private readonly object _syncRoot = new();
+    private IConnection _connection;
 
-    public RabbitMqConnectionFactory( IConnectionFactory connectionFactory)
+    public RabbitMqConnectionFactory(IConnectionFactory connectionFactory)
     {
         _connectionFactory = connectionFactory;
     }
+
+    private bool IsConnected => _connection is { IsOpen: true };
 
     public IConnection GetConnection()
     {
@@ -30,7 +36,4 @@ public class RabbitMqConnectionFactory : IConnectionFactory<IConnection>
 
         return _connection;
     }
-    
-    private  bool IsConnected => _connection is { IsOpen: true };
-    
 }

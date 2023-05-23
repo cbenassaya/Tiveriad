@@ -1,9 +1,9 @@
 ﻿#region
 
-#endregion
-
 using Tiveriad.Workflows.Core.Models;
 using Tiveriad.Workflows.Core.Services;
+
+#endregion
 
 namespace Tiveriad.Workflows.Tests.EventTrigger;
 

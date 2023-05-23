@@ -1,7 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿#region
+
+using Microsoft.Extensions.DependencyInjection;
 using Tiveriad.IdGenerators;
 using Tiveriad.UnitTests;
 using Xunit;
+
+#endregion
 
 namespace Tiveriad.IdGenerator.Tests;
 

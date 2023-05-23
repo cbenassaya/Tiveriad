@@ -1,7 +1,11 @@
+#region
+
 using Tiveriad.EnterpriseIntegrationPatterns.Mediators;
 using Tiveriad.EnterpriseIntegrationPatterns.Tests.Models;
 using Tiveriad.UnitTests;
 using Xunit;
+
+#endregion
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.Tests.Mediators;
 

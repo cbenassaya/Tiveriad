@@ -13,14 +13,14 @@ public class KeycloakConnectionConfiguration
         return this;
     }
 
-    public KeycloakConnectionConfiguration SetCredential( string username, string password)
+    public KeycloakConnectionConfiguration SetCredential(string username, string password)
     {
         Username = username;
         Password = password;
         return this;
     }
 
-    public KeycloakConnectionConfiguration SetCredential( string clientSecret)
+    public KeycloakConnectionConfiguration SetCredential(string clientSecret)
     {
         ClientSecret = clientSecret;
         return this;

@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,6 +7,8 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+
+#endregion
 
 namespace Tiveriad.Repositories.EntityFrameworkCore.Repositories;
 
@@ -33,12 +37,12 @@ public class EFQueryRepository<TEntity, TKey> : IQueryRepository<TEntity, TKey>
 
     public Task<bool> AnyAsync(CancellationToken cancellationToken = default)
     {
-        return Queryable.AnyAsync(cancellationToken: cancellationToken);
+        return Queryable.AnyAsync(cancellationToken);
     }
 
     public Task<bool> AnyAsync(Expression<Func<TEntity, bool>> where, CancellationToken cancellationToken = default)
     {
-        return Queryable.AnyAsync(where, cancellationToken: cancellationToken);
+        return Queryable.AnyAsync(where, cancellationToken);
     }
 
     public long Count()
@@ -53,13 +57,13 @@ public class EFQueryRepository<TEntity, TKey> : IQueryRepository<TEntity, TKey>
 
     public Task<long> CountAsync(CancellationToken cancellationToken = default)
     {
-        return Queryable.LongCountAsync(cancellationToken: cancellationToken);
+        return Queryable.LongCountAsync(cancellationToken);
     }
 
     public Task<long> CountAsync(Expression<Func<TEntity, bool>> where,
         CancellationToken cancellationToken = default)
     {
-        return Queryable.LongCountAsync(where, cancellationToken: cancellationToken);
+        return Queryable.LongCountAsync(where, cancellationToken);
     }
 
     public IEnumerable<TEntity> GetAll()

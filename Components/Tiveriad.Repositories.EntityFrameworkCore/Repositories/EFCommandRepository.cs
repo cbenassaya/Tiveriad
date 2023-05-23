@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,6 +7,8 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+
+#endregion
 
 namespace Tiveriad.Repositories.EntityFrameworkCore.Repositories;
 
@@ -15,7 +19,7 @@ public class EFCommandRepository<TEntity, TKey> : ICommandRepository<TEntity, TK
     private readonly DbContext _context;
     private readonly DetachedCommand _detachedCommand;
     private readonly SetIdCommand<TKey> _setIdCommand;
-    
+
 
     public EFCommandRepository(DbContext context)
     {

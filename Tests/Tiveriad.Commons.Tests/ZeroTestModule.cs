@@ -1,7 +1,11 @@
+#region
+
 using System.Text;
 using Tiveriad.Commons.Diagnostics;
 using Tiveriad.UnitTests;
 using Xunit;
+
+#endregion
 
 namespace Tiveriad.Commons.Tests;
 
@@ -27,6 +31,4 @@ public class ZeroTestModule : TestBase<Startup>
 
         Assert.Equal(0, error.Length);
     }
-
-
 }

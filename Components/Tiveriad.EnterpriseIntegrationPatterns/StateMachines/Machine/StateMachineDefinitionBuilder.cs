@@ -1,47 +1,49 @@
 //-------------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------------
+#region
 
 using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Syntax;
 
-namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine
+#endregion
+
+namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine;
+
+public class StateMachineDefinitionBuilder<TState, TEvent>
+    where TState : IComparable
+    where TEvent : IComparable
 {
-    public class StateMachineDefinitionBuilder<TState, TEvent>
-        where TState : IComparable
-        where TEvent : IComparable
+    private readonly StandardFactory<TState, TEvent> factory = new();
+    private readonly Dictionary<TState, TState> initiallyLastActiveStates = new();
+
+    private readonly ImplicitAddIfNotAvailableStateDefinitionDictionary<TState, TEvent> stateDefinitionDictionary =
+        new();
+
+    private TState initialState;
+    private bool isInitialStateConfigured;
+
+    public IEntryActionSyntax<TState, TEvent> In(TState state)
     {
-        private readonly StandardFactory<TState, TEvent> factory = new StandardFactory<TState, TEvent>();
-        private readonly ImplicitAddIfNotAvailableStateDefinitionDictionary<TState, TEvent> stateDefinitionDictionary = new ImplicitAddIfNotAvailableStateDefinitionDictionary<TState, TEvent>();
-        private readonly Dictionary<TState, TState> initiallyLastActiveStates = new Dictionary<TState, TState>();
-        private TState initialState;
-        private bool isInitialStateConfigured;
+        return new StateBuilder<TState, TEvent>(state, stateDefinitionDictionary, factory);
+    }
 
-        public IEntryActionSyntax<TState, TEvent> In(TState state)
-        {
-            return new StateBuilder<TState, TEvent>(state, this.stateDefinitionDictionary, this.factory);
-        }
+    public IHierarchySyntax<TState> DefineHierarchyOn(TState superStateId)
+    {
+        return new HierarchyBuilder<TState, TEvent>(superStateId, stateDefinitionDictionary, initiallyLastActiveStates);
+    }
 
-        public IHierarchySyntax<TState> DefineHierarchyOn(TState superStateId)
-        {
-            return new HierarchyBuilder<TState, TEvent>(superStateId, this.stateDefinitionDictionary, this.initiallyLastActiveStates);
-        }
+    public StateMachineDefinitionBuilder<TState, TEvent> WithInitialState(TState initialStateToUse)
+    {
+        initialState = initialStateToUse;
+        isInitialStateConfigured = true;
+        return this;
+    }
 
-        public StateMachineDefinitionBuilder<TState, TEvent> WithInitialState(TState initialStateToUse)
-        {
-            this.initialState = initialStateToUse;
-            this.isInitialStateConfigured = true;
-            return this;
-        }
+    public StateMachineDefinition<TState, TEvent> Build()
+    {
+        if (!isInitialStateConfigured) throw new InvalidOperationException(ExceptionMessages.InitialStateNotConfigured);
 
-        public StateMachineDefinition<TState, TEvent> Build()
-        {
-            if (!this.isInitialStateConfigured)
-            {
-                throw new InvalidOperationException(ExceptionMessages.InitialStateNotConfigured);
-            }
-
-            var stateDefinitions = new StateDefinitionDictionary<TState, TEvent>(this.stateDefinitionDictionary.ReadOnlyDictionary);
-            return new StateMachineDefinition<TState, TEvent>(stateDefinitions, this.initiallyLastActiveStates, this.initialState);
-        }
+        var stateDefinitions =
+            new StateDefinitionDictionary<TState, TEvent>(stateDefinitionDictionary.ReadOnlyDictionary);
+        return new StateMachineDefinition<TState, TEvent>(stateDefinitions, initiallyLastActiveStates, initialState);
     }
 }

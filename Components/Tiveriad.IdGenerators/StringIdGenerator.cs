@@ -1,5 +1,9 @@
+#region
+
 using System.Collections;
 using System.Runtime.CompilerServices;
+
+#endregion
 
 namespace Tiveriad.IdGenerators;
 

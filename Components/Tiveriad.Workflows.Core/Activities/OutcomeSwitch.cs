@@ -23,10 +23,7 @@ public class OutcomeSwitch : ContainerStepBody
         if (context.PersistenceData is ControlPersistenceData &&
             (context.PersistenceData as ControlPersistenceData).ChildrenActive)
         {
-            if (context.Workflow.IsBranchComplete(context.ExecutionPointer.Id))
-            {
-                return ExecutionResult.Next();
-            }
+            if (context.Workflow.IsBranchComplete(context.ExecutionPointer.Id)) return ExecutionResult.Next();
 
             var result = ExecutionResult.Persist(context.PersistenceData);
             result.OutcomeValue = GetPreviousOutcome(context);

@@ -1,18 +1,17 @@
-﻿namespace Tiveriad.Commons.RetryLogic
+﻿namespace Tiveriad.Commons.RetryLogic;
+
+public class RetryResult
 {
-    public class RetryResult
+    public RetryResult(RetryContext context)
     {
-        public RetryResult(RetryContext context)
-        {
-            Context = context;
-        }
+        Context = context;
+    }
 
-        public RetryContext Context { get; private set; }
+    public RetryContext Context { get; }
 
-        public RetryResult<TResult> WithValue<TResult>(TResult value)
-        {
-            var result = new RetryResult<TResult>(Context, value);
-            return result;
-        }
+    public RetryResult<TResult> WithValue<TResult>(TResult value)
+    {
+        var result = new RetryResult<TResult>(Context, value);
+        return result;
     }
 }

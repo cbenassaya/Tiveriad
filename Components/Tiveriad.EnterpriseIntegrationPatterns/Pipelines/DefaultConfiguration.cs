@@ -1,4 +1,8 @@
+#region
+
 using Tiveriad.Commons.Extensions;
+
+#endregion
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.Pipelines;
 

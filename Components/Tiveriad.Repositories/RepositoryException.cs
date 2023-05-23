@@ -1,8 +1,12 @@
+#region
+
 using System;
+
+#endregion
 
 namespace Tiveriad.Repositories;
 
-public class RepositoryException:Exception
+public class RepositoryException : Exception
 {
     public RepositoryException(string message) : base(message)
     {

@@ -24,7 +24,8 @@ public class WorkflowOptions : IWorkflowOptions
 
         _queueFactory = sp => new SingleNodeQueueProvider();
         _lockFactory = sp => new SingleNodeLockProvider();
-        PersistenceFactory = sp => new TransientMemoryPersistenceProvider(serviceResolver.GetService<ISingletonMemoryProvider>());
+        PersistenceFactory = sp =>
+            new TransientMemoryPersistenceProvider(serviceResolver.GetService<ISingletonMemoryProvider>());
         _searchIndexFactory = sp => new NullSearchIndex();
         _eventHubFactory = sp => new SingleNodeEventHub(sp.GetService<ILoggerFactory>());
     }

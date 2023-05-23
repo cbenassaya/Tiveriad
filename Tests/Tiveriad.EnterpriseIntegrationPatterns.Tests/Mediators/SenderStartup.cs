@@ -1,7 +1,11 @@
+#region
+
 using Microsoft.Extensions.DependencyInjection;
 using Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection;
 using Tiveriad.EnterpriseIntegrationPatterns.ServiceResolvers;
 using Tiveriad.UnitTests;
+
+#endregion
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.Tests.Mediators;
 

@@ -1,6 +1,10 @@
+#region
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
+#endregion
 
 namespace Tiveriad.Repositories.EntityFrameworkCore.Repositories;
 

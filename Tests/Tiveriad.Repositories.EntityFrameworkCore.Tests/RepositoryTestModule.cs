@@ -1,4 +1,6 @@
-﻿using Faker;
+﻿#region
+
+using Faker;
 using Microsoft.EntityFrameworkCore;
 using Tiveriad.Commons.Extensions;
 using Tiveriad.IdGenerators;
@@ -9,6 +11,8 @@ using Xunit.Sdk;
 using Company = Faker.Company;
 using Enum = Faker.Enum;
 
+#endregion
+
 namespace Tiveriad.Repositories.EntityFrameworkCore.Tests;
 
 public class RepositoryTestModule : TestBase<Startup>
@@ -16,7 +20,7 @@ public class RepositoryTestModule : TestBase<Startup>
     [Fact]
     public async Task Add_Entity()
     {
-        var repository = GetRequiredService<IRepository<Course,string>>();
+        var repository = GetRequiredService<IRepository<Course, string>>();
         var course = new Course { Name = Company.Name() };
         await repository.AddOneAsync(course);
     }
@@ -24,8 +28,8 @@ public class RepositoryTestModule : TestBase<Startup>
     [Fact]
     public async Task Add_Entities_Many_To_Many()
     {
-        var courseRepository = GetRequiredService<IRepository<Course,string>>();
-        var studentRepository = GetRequiredService<IRepository<Student,string>>();
+        var courseRepository = GetRequiredService<IRepository<Course, string>>();
+        var studentRepository = GetRequiredService<IRepository<Student, string>>();
         var context = GetRequiredService<DbContext>();
 
         var initialStudentsCount = studentRepository.Count();
@@ -56,8 +60,8 @@ public class RepositoryTestModule : TestBase<Startup>
     [Fact]
     public async Task Add_Entities_Many_To_Many_With_NewChild()
     {
-        var courseRepository = GetRequiredService<IRepository<Course,string>>();
-        var studentRepository = GetRequiredService<IRepository<Student,string>>();
+        var courseRepository = GetRequiredService<IRepository<Course, string>>();
+        var studentRepository = GetRequiredService<IRepository<Student, string>>();
         var context = GetRequiredService<DbContext>();
 
         var initialStudentsCount = studentRepository.Count();
@@ -106,8 +110,8 @@ public class RepositoryTestModule : TestBase<Startup>
     [Fact]
     public async Task Add_Entities_One_To_Many()
     {
-        var companyRepository = GetRequiredService<IRepository<Models.Company,string>>();
-        var invoiceRepository = GetRequiredService<IRepository<Invoice,string>>();
+        var companyRepository = GetRequiredService<IRepository<Models.Company, string>>();
+        var invoiceRepository = GetRequiredService<IRepository<Invoice, string>>();
         var context = GetRequiredService<DbContext>();
 
 
@@ -143,8 +147,8 @@ public class RepositoryTestModule : TestBase<Startup>
     [Fact]
     public void Update_Entity_One_To_Many()
     {
-        var companyRepository = GetRequiredService<IRepository<Models.Company,string>>();
-        var invoiceRepository = GetRequiredService<IRepository<Invoice,string>>();
+        var companyRepository = GetRequiredService<IRepository<Models.Company, string>>();
+        var invoiceRepository = GetRequiredService<IRepository<Invoice, string>>();
         var context = GetRequiredService<DbContext>();
 
 
@@ -176,8 +180,8 @@ public class RepositoryTestModule : TestBase<Startup>
     [Fact]
     public async Task Update_Detached_Entity_One_To_Many_With_Context()
     {
-        var companyRepository = GetRequiredService<IRepository<Models.Company,string>>();
-        var invoiceRepository = GetRequiredService<IRepository<Invoice,string>>();
+        var companyRepository = GetRequiredService<IRepository<Models.Company, string>>();
+        var invoiceRepository = GetRequiredService<IRepository<Invoice, string>>();
         var context = GetRequiredService<DbContext>();
 
         var initialInvoiceCount = invoiceRepository.Count();

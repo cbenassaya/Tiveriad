@@ -1,5 +1,9 @@
+#region
+
 using System.Globalization;
 using Tiveriad.Commons.Extensions;
+
+#endregion
 
 namespace Tiveriad.TextTemplating;
 

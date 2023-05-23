@@ -7,15 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Tiveriad.Repositories\Tiveriad.Repositories.csproj" />
+        <ProjectReference Include="..\Tiveriad.Repositories\Tiveriad.Repositories.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="MediatR" Version="11.0.0" />
+        <PackageReference Include="MediatR" Version="11.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Requests" />
+        <Folder Include="Requests"/>
     </ItemGroup>
 
 </Project>

@@ -1,22 +1,26 @@
+#region
+
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 using Tiveriad.Connections;
 
+#endregion
+
 namespace Tiveriad.Repositories.MongoDb;
 
-public interface IMongoConnectionConfiguration:IConnectionConfiguration
+public interface IMongoConnectionConfiguration : IConnectionConfiguration
 {
-    public string DatabaseName { get;  }
-    public string ConnectionString { get;  }
+    public string DatabaseName { get; }
+    public string ConnectionString { get; }
 }
 
-public class MongoConnectionConfigurator : IConnectionConfigurator,IMongoConnectionConfiguration
+public class MongoConnectionConfigurator : IConnectionConfigurator, IMongoConnectionConfiguration
 {
     private readonly MongoClientSettings _mongoClientSettings = new();
 
     public string DatabaseName { get; private set; }
     public string ConnectionString { get; private set; }
-    
+
     public MongoConnectionConfigurator SetConnectTimeout(TimeSpan timeSpan)
     {
         _mongoClientSettings.ConnectTimeout = timeSpan;
@@ -28,7 +32,7 @@ public class MongoConnectionConfigurator : IConnectionConfigurator,IMongoConnect
         _mongoClientSettings.ReadPreference = new ReadPreference(readPreferenceMode);
         return this;
     }
-    
+
     public MongoConnectionConfigurator SetConnectionString(string connectionString)
     {
         ConnectionString = connectionString;
@@ -84,7 +88,7 @@ public class MongoConnectionConfigurator : IConnectionConfigurator,IMongoConnect
         _mongoClientSettings.Server = new MongoServerAddress(host, port);
         return this;
     }
-    
+
 
     public MongoConnectionConfigurator SetSettings(Action<MongoClientSettings> setter)
     {
@@ -97,10 +101,9 @@ public class MongoConnectionConfigurator : IConnectionConfigurator,IMongoConnect
         DatabaseName = databaseName;
         return this;
     }
-    
+
     public MongoClientSettings Build()
     {
         return _mongoClientSettings;
     }
-
 }

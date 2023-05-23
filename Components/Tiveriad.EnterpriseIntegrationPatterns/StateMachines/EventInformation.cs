@@ -1,24 +1,21 @@
 //-------------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------------
+namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines;
 
-namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines
+/// <summary>
+///     Container holding an event and its argument.
+/// </summary>
+/// <typeparam name="TEvent">The type of the event.</typeparam>
+public class EventInformation<TEvent>
+    where TEvent : IComparable
 {
-    /// <summary>
-    /// Container holding an event and its argument.
-    /// </summary>
-    /// <typeparam name="TEvent">The type of the event.</typeparam>
-    public class EventInformation<TEvent>
-        where TEvent : IComparable
+    public EventInformation(TEvent eventId, object eventArgument)
     {
-        public EventInformation(TEvent eventId, object eventArgument)
-        {
-            this.EventId = eventId;
-            this.EventArgument = eventArgument;
-        }
-
-        public TEvent EventId { get; }
-
-        public object EventArgument { get; }
+        EventId = eventId;
+        EventArgument = eventArgument;
     }
+
+    public TEvent EventId { get; }
+
+    public object EventArgument { get; }
 }

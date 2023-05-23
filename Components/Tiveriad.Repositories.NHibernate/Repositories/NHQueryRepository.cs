@@ -1,6 +1,10 @@
+#region
+
 using System.Linq.Expressions;
 using NHibernate;
 using NHibernate.Linq;
+
+#endregion
 
 namespace Tiveriad.Repositories.NHibernate.Repositories;
 
@@ -8,14 +12,15 @@ public class NHQueryRepository<TEntity, TKey> : IQueryRepository<TEntity, TKey>
     where TEntity : class, IEntity<TKey>
     where TKey : IEquatable<TKey>
 {
-    
     private readonly ISession _session;
+
     public NHQueryRepository(ISession session)
     {
         _session = session;
     }
 
     public IQueryable<TEntity> Queryable => _session.Query<TEntity>();
+
     public bool Any()
     {
         return Queryable.Any();
@@ -28,12 +33,12 @@ public class NHQueryRepository<TEntity, TKey> : IQueryRepository<TEntity, TKey>
 
     public Task<bool> AnyAsync(CancellationToken cancellationToken = default)
     {
-        return Queryable.AnyAsync(cancellationToken: cancellationToken);
+        return Queryable.AnyAsync(cancellationToken);
     }
 
     public Task<bool> AnyAsync(Expression<Func<TEntity, bool>> where, CancellationToken cancellationToken = default)
     {
-        return Queryable.AnyAsync(where, cancellationToken: cancellationToken);
+        return Queryable.AnyAsync(where, cancellationToken);
     }
 
     public long Count()
@@ -48,12 +53,12 @@ public class NHQueryRepository<TEntity, TKey> : IQueryRepository<TEntity, TKey>
 
     public Task<long> CountAsync(CancellationToken cancellationToken = default)
     {
-        return Queryable.LongCountAsync(cancellationToken: cancellationToken);
+        return Queryable.LongCountAsync(cancellationToken);
     }
 
     public Task<long> CountAsync(Expression<Func<TEntity, bool>> where, CancellationToken cancellationToken = default)
     {
-        return Queryable.LongCountAsync(where, cancellationToken: cancellationToken);
+        return Queryable.LongCountAsync(where, cancellationToken);
     }
 
     public IEnumerable<TEntity> GetAll()
@@ -71,7 +76,8 @@ public class NHQueryRepository<TEntity, TKey> : IQueryRepository<TEntity, TKey>
         return Queryable.Where(filter).ToList().AsEnumerable();
     }
 
-    public Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default)
+    public Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> filter,
+        CancellationToken cancellationToken = default)
     {
         return Task.Run(() => Queryable.Where(filter).ToList().AsEnumerable(), cancellationToken);
     }

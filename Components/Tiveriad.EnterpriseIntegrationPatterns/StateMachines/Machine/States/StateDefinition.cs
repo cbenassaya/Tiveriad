@@ -1,218 +1,215 @@
 //-------------------------------------------------------------------------------
 
-//-------------------------------------------------------------------------------
+#region
 
 using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine.ActionHolders;
 using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine.Transitions;
 
-namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine.States
+#endregion
+
+namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine.States;
+
+/// <summary>
+///     A state of the state machine.
+///     A state can be a sub-state or super-state of another state.
+/// </summary>
+/// <typeparam name="TState">The type of the state id.</typeparam>
+/// <typeparam name="TEvent">The type of the event id.</typeparam>
+public class StateDefinition<TState, TEvent> : IStateDefinition<TState, TEvent>
+    where TState : IComparable
+    where TEvent : IComparable
 {
     /// <summary>
-    /// A state of the state machine.
-    /// A state can be a sub-state or super-state of another state.
+    ///     Collection of transitions that start in this state (<see cref="ITransitionDefinition{TState,TEvent}.Source" /> is
+    ///     equal to this state).
     /// </summary>
-    /// <typeparam name="TState">The type of the state id.</typeparam>
-    /// <typeparam name="TEvent">The type of the event id.</typeparam>
-    public class StateDefinition<TState, TEvent> : IStateDefinition<TState, TEvent>
-        where TState : IComparable
-        where TEvent : IComparable
+    private readonly TransitionDictionary<TState, TEvent> transitions;
+
+    /// <summary>
+    ///     The initial sub-state of this state.
+    /// </summary>
+    private StateDefinition<TState, TEvent> initialState;
+
+    /// <summary>
+    ///     The level of this state within the state hierarchy [1..maxLevel].
+    /// </summary>
+    private int level;
+
+    /// <summary>
+    ///     The super-state of this state. Null for states with <see cref="level" /> equal to 1.
+    /// </summary>
+    private StateDefinition<TState, TEvent> superState;
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="StateDefinition{TState,TEvent}" /> class.
+    /// </summary>
+    /// <param name="id">The unique id of this state.</param>
+    public StateDefinition(TState id)
     {
-        /// <summary>
-        /// Collection of transitions that start in this state (<see cref="ITransitionDefinition{TState,TEvent}.Source"/> is equal to this state).
-        /// </summary>
-        private readonly TransitionDictionary<TState, TEvent> transitions;
+        Id = id;
+        level = 1;
 
-        /// <summary>
-        /// The level of this state within the state hierarchy [1..maxLevel].
-        /// </summary>
-        private int level;
+        transitions = new TransitionDictionary<TState, TEvent>(this);
+    }
 
-        /// <summary>
-        /// The super-state of this state. Null for states with <see cref="level"/> equal to 1.
-        /// </summary>
-        private StateDefinition<TState, TEvent> superState;
+    /// <summary>
+    ///     Gets the entry actions.
+    /// </summary>
+    /// <value>The entry actions.</value>
+    public IList<IActionHolder> EntryActionsModifiable { get; } = new List<IActionHolder>();
 
-        /// <summary>
-        /// The initial sub-state of this state.
-        /// </summary>
-        private StateDefinition<TState, TEvent> initialState;
+    /// <summary>
+    ///     Gets the exit actions.
+    /// </summary>
+    /// <value>The exit action.</value>
+    public IList<IActionHolder> ExitActionsModifiable { get; } = new List<IActionHolder>();
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StateDefinition{TState,TEvent}"/> class.
-        /// </summary>
-        /// <param name="id">The unique id of this state.</param>
-        public StateDefinition(TState id)
+    /// <summary>
+    ///     Gets or sets the initial sub state of this state.
+    /// </summary>
+    /// <value>The initial sub state of this state.</value>
+    public StateDefinition<TState, TEvent> InitialStateModifiable
+    {
+        get => initialState;
+        set
         {
-            this.Id = id;
-            this.level = 1;
+            CheckInitialStateIsNotThisInstance(value);
+            CheckInitialStateIsASubState(value);
 
-            this.transitions = new TransitionDictionary<TState, TEvent>(this);
+            initialState = value;
         }
+    }
 
-        /// <summary>
-        /// Gets the unique id of this state.
-        /// </summary>
-        /// <value>The id of this state.</value>
-        public TState Id { get; }
-
-        /// <summary>
-        /// Gets the entry actions.
-        /// </summary>
-        /// <value>The entry actions.</value>
-        public IList<IActionHolder> EntryActionsModifiable { get; } = new List<IActionHolder>();
-
-        /// <summary>
-        /// Gets the exit actions.
-        /// </summary>
-        /// <value>The exit action.</value>
-        public IList<IActionHolder> ExitActionsModifiable { get; } = new List<IActionHolder>();
-
-        /// <summary>
-        /// Gets or sets the initial sub state of this state.
-        /// </summary>
-        /// <value>The initial sub state of this state.</value>
-        public StateDefinition<TState, TEvent> InitialStateModifiable
+    /// <summary>
+    ///     Gets or sets the super-state of this state.
+    /// </summary>
+    /// <remarks>
+    ///     The <see cref="Level" /> of this state is changed accordingly to the super-state.
+    /// </remarks>
+    /// <value>The super-state of this super.</value>
+    public StateDefinition<TState, TEvent> SuperStateModifiable
+    {
+        get => superState;
+        set
         {
-            get => this.initialState;
-            set
-            {
-                this.CheckInitialStateIsNotThisInstance(value);
-                this.CheckInitialStateIsASubState(value);
+            CheckSuperStateIsNotThisInstance(value);
 
-                this.initialState = value;
-            }
+            superState = value;
+
+            SetInitialLevel();
         }
+    }
 
-        /// <summary>
-        /// Gets or sets the super-state of this state.
-        /// </summary>
-        /// <remarks>
-        /// The <see cref="Level"/> of this state is changed accordingly to the super-state.
-        /// </remarks>
-        /// <value>The super-state of this super.</value>
-        public StateDefinition<TState, TEvent> SuperStateModifiable
+    /// <summary>
+    ///     Gets or sets the history type of this state.
+    /// </summary>
+    /// <value>The type of the history.</value>
+    public HistoryType HistoryTypeModifiable { get; set; } = HistoryType.None;
+
+    /// <summary>
+    ///     Gets the sub-states of this state.
+    /// </summary>
+    /// <value>The sub-states of this state.</value>
+    public ICollection<StateDefinition<TState, TEvent>> SubStatesModifiable { get; } =
+        new List<StateDefinition<TState, TEvent>>();
+
+    /// <summary>
+    ///     Gets the transitions that start in this state.
+    /// </summary>
+    /// <value>The transitions.</value>
+    public ITransitionDictionary<TState, TEvent> TransitionsModifiable => transitions;
+
+    /// <summary>
+    ///     Gets the unique id of this state.
+    /// </summary>
+    /// <value>The id of this state.</value>
+    public TState Id { get; }
+
+    /// <summary>
+    ///     Gets or sets the level of this state in the state hierarchy.
+    ///     When set then the levels of all sub-states are changed accordingly.
+    /// </summary>
+    /// <value>The level.</value>
+    public int Level
+    {
+        get => level;
+        set
         {
-            get => this.superState;
-            set
-            {
-                this.CheckSuperStateIsNotThisInstance(value);
+            level = value;
 
-                this.superState = value;
-
-                this.SetInitialLevel();
-            }
+            SetLevelOfSubStates();
         }
+    }
 
-        /// <summary>
-        /// Gets or sets the level of this state in the state hierarchy.
-        /// When set then the levels of all sub-states are changed accordingly.
-        /// </summary>
-        /// <value>The level.</value>
-        public int Level
-        {
-            get => this.level;
-            set
-            {
-                this.level = value;
+    public IReadOnlyDictionary<TEvent, IEnumerable<ITransitionDefinition<TState, TEvent>>> Transitions =>
+        transitions.Transitions;
 
-                this.SetLevelOfSubStates();
-            }
-        }
+    public IEnumerable<TransitionInfo<TState, TEvent>> TransitionInfos => transitions.GetTransitions();
 
-        /// <summary>
-        /// Gets or sets the history type of this state.
-        /// </summary>
-        /// <value>The type of the history.</value>
-        public HistoryType HistoryTypeModifiable { get; set; } = HistoryType.None;
+    public IStateDefinition<TState, TEvent> InitialState => InitialStateModifiable;
 
-        /// <summary>
-        /// Gets the sub-states of this state.
-        /// </summary>
-        /// <value>The sub-states of this state.</value>
-        public ICollection<StateDefinition<TState, TEvent>> SubStatesModifiable { get; } = new List<StateDefinition<TState, TEvent>>();
+    public HistoryType HistoryType => HistoryTypeModifiable;
 
-        /// <summary>
-        /// Gets the transitions that start in this state.
-        /// </summary>
-        /// <value>The transitions.</value>
-        public ITransitionDictionary<TState, TEvent> TransitionsModifiable => this.transitions;
+    public IStateDefinition<TState, TEvent> SuperState => SuperStateModifiable;
 
-        public override string ToString()
-        {
-            return this.Id.ToString();
-        }
+    public IEnumerable<IStateDefinition<TState, TEvent>> SubStates => SubStatesModifiable;
 
-        /// <summary>
-        /// Sets the initial level depending on the level of the super state of this instance.
-        /// </summary>
-        private void SetInitialLevel()
-        {
-            this.Level = this.superState != null ? this.superState.Level + 1 : 1;
-        }
+    public IEnumerable<IActionHolder> EntryActions => EntryActionsModifiable;
 
-        /// <summary>
-        /// Sets the level of all sub states.
-        /// </summary>
-        private void SetLevelOfSubStates()
-        {
-            foreach (var state in this.SubStatesModifiable)
-            {
-                state.Level = this.level + 1;
-            }
-        }
+    public IEnumerable<IActionHolder> ExitActions => ExitActionsModifiable;
 
-        /// <summary>
-        /// Throws an exception if the new super state is this instance.
-        /// </summary>
-        /// <param name="newSuperState">The value.</param>
-        // ReSharper disable once UnusedParameter.Local
-        private void CheckSuperStateIsNotThisInstance(StateDefinition<TState, TEvent> newSuperState)
-        {
-            if (this == newSuperState)
-            {
-                throw new ArgumentException(StatesExceptionMessages.StateCannotBeItsOwnSuperState(this.ToString()));
-            }
-        }
+    public override string ToString()
+    {
+        return Id.ToString();
+    }
 
-        /// <summary>
-        /// Throws an exception if the new initial state is this instance.
-        /// </summary>
-        /// <param name="newInitialState">The value.</param>
-        // ReSharper disable once UnusedParameter.Local
-        private void CheckInitialStateIsNotThisInstance(StateDefinition<TState, TEvent> newInitialState)
-        {
-            if (this == newInitialState)
-            {
-                throw new ArgumentException(StatesExceptionMessages.StateCannotBeTheInitialSubStateToItself(this.ToString()));
-            }
-        }
+    /// <summary>
+    ///     Sets the initial level depending on the level of the super state of this instance.
+    /// </summary>
+    private void SetInitialLevel()
+    {
+        Level = superState != null ? superState.Level + 1 : 1;
+    }
 
-        /// <summary>
-        /// Throws an exception if the new initial state is not a sub-state of this instance.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        private void CheckInitialStateIsASubState(StateDefinition<TState, TEvent> value)
-        {
-            if (value.SuperState != this)
-            {
-                throw new ArgumentException(StatesExceptionMessages.StateCannotBeTheInitialStateOfSuperStateBecauseItIsNotADirectSubState(value.ToString(), this.ToString()));
-            }
-        }
+    /// <summary>
+    ///     Sets the level of all sub states.
+    /// </summary>
+    private void SetLevelOfSubStates()
+    {
+        foreach (var state in SubStatesModifiable) state.Level = level + 1;
+    }
 
-        public IReadOnlyDictionary<TEvent, IEnumerable<ITransitionDefinition<TState, TEvent>>> Transitions => this.transitions.Transitions;
+    /// <summary>
+    ///     Throws an exception if the new super state is this instance.
+    /// </summary>
+    /// <param name="newSuperState">The value.</param>
+    // ReSharper disable once UnusedParameter.Local
+    private void CheckSuperStateIsNotThisInstance(StateDefinition<TState, TEvent> newSuperState)
+    {
+        if (this == newSuperState)
+            throw new ArgumentException(StatesExceptionMessages.StateCannotBeItsOwnSuperState(ToString()));
+    }
 
-        public IEnumerable<TransitionInfo<TState, TEvent>> TransitionInfos => this.transitions.GetTransitions();
+    /// <summary>
+    ///     Throws an exception if the new initial state is this instance.
+    /// </summary>
+    /// <param name="newInitialState">The value.</param>
+    // ReSharper disable once UnusedParameter.Local
+    private void CheckInitialStateIsNotThisInstance(StateDefinition<TState, TEvent> newInitialState)
+    {
+        if (this == newInitialState)
+            throw new ArgumentException(StatesExceptionMessages.StateCannotBeTheInitialSubStateToItself(ToString()));
+    }
 
-        public IStateDefinition<TState, TEvent> InitialState => this.InitialStateModifiable;
-
-        public HistoryType HistoryType => this.HistoryTypeModifiable;
-
-        public IStateDefinition<TState, TEvent> SuperState => this.SuperStateModifiable;
-
-        public IEnumerable<IStateDefinition<TState, TEvent>> SubStates => this.SubStatesModifiable;
-
-        public IEnumerable<IActionHolder> EntryActions => this.EntryActionsModifiable;
-
-        public IEnumerable<IActionHolder> ExitActions => this.ExitActionsModifiable;
+    /// <summary>
+    ///     Throws an exception if the new initial state is not a sub-state of this instance.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    private void CheckInitialStateIsASubState(StateDefinition<TState, TEvent> value)
+    {
+        if (value.SuperState != this)
+            throw new ArgumentException(
+                StatesExceptionMessages.StateCannotBeTheInitialStateOfSuperStateBecauseItIsNotADirectSubState(
+                    value.ToString(), ToString()));
     }
 }

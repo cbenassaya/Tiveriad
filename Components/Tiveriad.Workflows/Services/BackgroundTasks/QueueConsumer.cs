@@ -11,13 +11,13 @@ namespace Tiveriad.Workflows.Services.BackgroundTasks;
 
 public abstract class QueueConsumer : IBackgroundTask
 {
+    private readonly Dictionary<string, EventWaitHandle> _activeTasks;
+    private readonly ConcurrentHashSet<string> _secondPasses;
     protected readonly ILogger Logger;
     protected readonly IWorkflowOptions Options;
 
     protected readonly IQueueProvider QueueProvider;
-    private readonly Dictionary<string, EventWaitHandle> _activeTasks;
     private CancellationTokenSource _cancellationTokenSource;
-    private readonly ConcurrentHashSet<string> _secondPasses;
     protected Task DispatchTask;
 
     protected QueueConsumer(IQueueProvider queueProvider, ILoggerFactory loggerFactory, IWorkflowOptions options)

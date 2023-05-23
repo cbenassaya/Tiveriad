@@ -1,21 +1,23 @@
+#region
+
 using System.Linq.Expressions;
 using NHibernate;
 
+#endregion
+
 namespace Tiveriad.Repositories.NHibernate.Repositories;
-
-
-
 
 public class NHCommandRepository<TEntity, TKey> : ICommandRepository<TEntity, TKey>
     where TEntity : class, IEntity<TKey>
     where TKey : IEquatable<TKey>
 {
     private readonly ISession _session;
+
     public NHCommandRepository(ISession session)
     {
         _session = session;
     }
-    
+
     public Task AddOneAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         return _session.SaveAsync(entity, cancellationToken);
@@ -28,18 +30,12 @@ public class NHCommandRepository<TEntity, TKey> : ICommandRepository<TEntity, TK
 
     public Task AddManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
-        return Task.Run(() =>
-        {
-            AddMany(entities);
-        },cancellationToken);
+        return Task.Run(() => { AddMany(entities); }, cancellationToken);
     }
 
     public void AddMany(IEnumerable<TEntity> entities)
     {
-        foreach (var entity in entities)
-        {
-            _session.Save(entity);
-        }
+        foreach (var entity in entities) _session.Save(entity);
     }
 
     public Task<long> DeleteOneAsync(TEntity entity, CancellationToken cancellationToken = default)
@@ -48,7 +44,7 @@ public class NHCommandRepository<TEntity, TKey> : ICommandRepository<TEntity, TK
         {
             _session.Delete(entity);
             return 1L;
-        },cancellationToken);
+        }, cancellationToken);
     }
 
     public long DeleteOne(TEntity entity)
@@ -59,7 +55,7 @@ public class NHCommandRepository<TEntity, TKey> : ICommandRepository<TEntity, TK
 
     public Task<long> DeleteOneAsync(TKey key, CancellationToken cancellationToken = default)
     {
-        return Task.Run(() => (DeleteOne(key)),cancellationToken);
+        return Task.Run(() => DeleteOne(key), cancellationToken);
     }
 
     public long DeleteOne(TKey key)
@@ -73,7 +69,7 @@ public class NHCommandRepository<TEntity, TKey> : ICommandRepository<TEntity, TK
 
     public Task<long> DeleteManyAsync(IEnumerable<TKey> keys, CancellationToken cancellationToken = default)
     {
-        return Task.Run(() => DeleteMany(keys),cancellationToken);
+        return Task.Run(() => DeleteMany(keys), cancellationToken);
     }
 
     public long DeleteMany(IEnumerable<TKey> keys)
@@ -81,7 +77,8 @@ public class NHCommandRepository<TEntity, TKey> : ICommandRepository<TEntity, TK
         return keys.Sum(DeleteOne);
     }
 
-    public Task<long> DeleteManyAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default)
+    public Task<long> DeleteManyAsync(Expression<Func<TEntity, bool>> filter,
+        CancellationToken cancellationToken = default)
     {
         return Task.Run(() => DeleteMany(filter), cancellationToken);
     }
@@ -104,27 +101,21 @@ public class NHCommandRepository<TEntity, TKey> : ICommandRepository<TEntity, TK
 
     public void UpdateOne(TEntity entity)
     {
-         _session.Update(entity);
+        _session.Update(entity);
     }
 
     public Task UpdateOneAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
-        return  _session.UpdateAsync(entity, cancellationToken);
+        return _session.UpdateAsync(entity, cancellationToken);
     }
 
     public void UpdateMany(IEnumerable<TEntity> entities)
     {
-        foreach (var entity in entities)
-        {
-            _session.Update(entity);
-        }
+        foreach (var entity in entities) _session.Update(entity);
     }
 
     public Task UpdateManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
-        return Task.Run(() =>
-        {
-            UpdateMany(entities);
-        },cancellationToken);
+        return Task.Run(() => { UpdateMany(entities); }, cancellationToken);
     }
 }

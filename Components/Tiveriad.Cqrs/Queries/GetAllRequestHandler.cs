@@ -1,3 +1,5 @@
+#region
+
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -5,6 +7,8 @@ using System.Threading.Tasks;
 using MediatR;
 using Tiveriad.Cqrs.Requests;
 using Tiveriad.Repositories;
+
+#endregion
 
 namespace Tiveriad.Cqrs.Queries;
 

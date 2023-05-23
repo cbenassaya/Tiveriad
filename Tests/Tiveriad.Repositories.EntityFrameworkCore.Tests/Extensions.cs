@@ -1,4 +1,8 @@
+#region
+
 using System.Linq.Expressions;
+
+#endregion
 
 namespace Tiveriad.Repositories.EntityFrameworkCore.Tests;
 

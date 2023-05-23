@@ -1,17 +1,22 @@
+#region
+
 using Tiveriad.Commons.HttpApis;
 using Tiveriad.Keycloak.Apis;
 using Tiveriad.Keycloak.Models;
 
+#endregion
+
 namespace Tiveriad.Keycloak.Services;
 
-public class RoleMapperApi:BaseApi, IRoleMapperApi
+public class RoleMapperApi : BaseApi, IRoleMapperApi
 {
-    public RoleMapperApi(HttpClient httpClient, IKeycloakSessionFactory keycloakSessionFactory) : base(httpClient, keycloakSessionFactory)
+    public RoleMapperApi(HttpClient httpClient, IKeycloakSessionFactory keycloakSessionFactory) : base(httpClient,
+        keycloakSessionFactory)
     {
     }
 
     /// <summary>
-    /// Add realm-level role mappings to the user 
+    ///     Add realm-level role mappings to the user
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body">Roles to add</param>
@@ -23,32 +28,35 @@ public class RoleMapperApi:BaseApi, IRoleMapperApi
     {
         // verify the required parameter 'body' is set
         if (body == null)
-            throw new ApiException(400, "Missing required parameter 'body' when calling RoleMapperApi->RealmUsersIdRoleMappingsRealmPost");
+            throw new ApiException(400,
+                "Missing required parameter 'body' when calling RoleMapperApi->RealmUsersIdRoleMappingsRealmPost");
         // verify the required parameter 'realm' is set
         if (realm == null)
-            throw new ApiException(400, "Missing required parameter 'realm' when calling RoleMapperApi->RealmUsersIdRoleMappingsRealmPost");
+            throw new ApiException(400,
+                "Missing required parameter 'realm' when calling RoleMapperApi->RealmUsersIdRoleMappingsRealmPost");
         if (userId == null)
-            throw new ApiException(400, "Missing required parameter 'userId' when calling RoleMapperApi->RealmUsersIdRoleMappingsRealmPost");
+            throw new ApiException(400,
+                "Missing required parameter 'userId' when calling RoleMapperApi->RealmUsersIdRoleMappingsRealmPost");
 
-        return await Execute<object>(async (apiClient, token) =>
+        return await Execute(async (apiClient, token) =>
         {
             HttpResponseMessage result = null;
             result = await apiClient.PostAsync(builder =>
             {
                 builder
-                    .Header(h=>h.Authorization("Bearer",token))
+                    .Header(h => h.Authorization("Bearer", token))
                     .AppendPath($"/{realm}/users/{userId}/role-mappings/realm")
                     .Content(body);
             });
 
-            return new ApiResponse<object>( (int) result.StatusCode, result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+            return new ApiResponse<object>((int)result.StatusCode,
+                result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
         });
-
     }
-    
+
 
     /// <summary>
-    /// Delete realm-level role mappings 
+    ///     Delete realm-level role mappings
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="body"></param>
@@ -70,27 +78,27 @@ public class RoleMapperApi:BaseApi, IRoleMapperApi
         if (userId == null)
             throw new ApiException(400,
                 "Missing required parameter 'userId' when calling RoleMapperApi->RealmUsersIdRoleMappingsRealmDelete");
-        
-        
-        return await Execute<object>(async (apiClient, token) =>
+
+
+        return await Execute(async (apiClient, token) =>
         {
             HttpResponseMessage result = null;
             result = await apiClient.PostAsync(builder =>
             {
                 builder
-                    .Header(h=>h.Authorization("Bearer",token))
+                    .Header(h => h.Authorization("Bearer", token))
                     .AppendPath($"/{realm}/users/{userId}/role-mappings/realm")
                     .Content(body);
             });
-        
-            return new ApiResponse<object>( (int) result.StatusCode, result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
-        });
 
+            return new ApiResponse<object>((int)result.StatusCode,
+                result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), null);
+        });
     }
 
 
     /// <summary>
-    /// Get role mappings 
+    ///     Get role mappings
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not userId!)</param>
@@ -102,15 +110,15 @@ public class RoleMapperApi:BaseApi, IRoleMapperApi
         // verify the required parameter 'realm' is set
         if (realm == null)
             throw new ApiException(400, "Missing required parameter 'realm' when calling RolesApi->RealmRolesGet");
-        
-        
-        return await Execute<MappingsRepresentation>(async (apiClient, token) =>
+
+
+        return await Execute(async (apiClient, token) =>
         {
             HttpResponseMessage result = null;
             result = await apiClient.GetAsync(builder =>
             {
                 builder
-                    .Header(h=>h.Authorization("Bearer",token))
+                    .Header(h => h.Authorization("Bearer", token))
                     .AppendPath($"/{realm}/users/{userId}/role-mappings");
             });
 

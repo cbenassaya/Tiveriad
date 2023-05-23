@@ -1,8 +1,10 @@
+#region
+
 using Tiveriad.EnterpriseIntegrationPatterns.ServiceResolvers;
 
+#endregion
+
 namespace Tiveriad.EnterpriseIntegrationPatterns.Mediators;
-
-
 
 public class RequestHandlerWrapper<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

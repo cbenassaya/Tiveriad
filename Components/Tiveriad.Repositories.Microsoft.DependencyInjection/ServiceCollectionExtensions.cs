@@ -1,59 +1,68 @@
-﻿using System.Reflection;
+﻿#region
+
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Tiveriad.Commons.Extensions;
 using Tiveriad.Connections;
 
+#endregion
+
 namespace Tiveriad.Repositories.Microsoft.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-
     public static IServiceCollection ConfigureConnectionFactory<TConnectionFactoryBuilder, TClient,
-        TConnectionConfigurator,TConnectionConfiguration>(this IServiceCollection services,
+        TConnectionConfigurator, TConnectionConfiguration>(this IServiceCollection services,
         Action<TConnectionConfigurator> delegateConfigurator,
         ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
-        where TConnectionFactoryBuilder : IConnectionFactoryBuilder<TConnectionConfigurator, TConnectionConfiguration, TClient>
+        where TConnectionFactoryBuilder :
+        IConnectionFactoryBuilder<TConnectionConfigurator, TConnectionConfiguration, TClient>
         where TConnectionConfigurator : class, IConnectionConfigurator
-        where TConnectionConfiguration:IConnectionConfiguration
+        where TConnectionConfiguration : IConnectionConfiguration
     {
-         ConfigureConnectionFactoryClasses<TConnectionFactoryBuilder, TClient, TConnectionConfigurator, TConnectionConfiguration>(services,
+        ConfigureConnectionFactoryClasses<TConnectionFactoryBuilder, TClient, TConnectionConfigurator,
+            TConnectionConfiguration>(services,
             delegateConfigurator, serviceLifetime);
-        
+
         return services;
     }
 
     public static IServiceCollection AddRepositories(this IServiceCollection services, Type repositoryType,
         params Assembly[] assemblies)
     {
-         AddRepositoryClasses(services, repositoryType, assemblies, new []{typeof(IEntity<>)});
-         return services;
+        AddRepositoryClasses(services, repositoryType, assemblies, new[] { typeof(IEntity<>) });
+        return services;
     }
 
     public static IServiceCollection AddRepositories(this IServiceCollection services, Type repositoryType,
         IEnumerable<Assembly> assemblies, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
-         AddRepositoryClasses(services, repositoryType, assemblies, new []{typeof(IEntity<>)}, serviceLifetime);
-        
+        AddRepositoryClasses(services, repositoryType, assemblies, new[] { typeof(IEntity<>) }, serviceLifetime);
+
         return services;
     }
 
     public static IServiceCollection AddRepositories(this IServiceCollection services, Type repositoryType,
         params Type[] profileAssemblyMarkerTypes)
     {
-         AddRepositoryClasses(services, repositoryType,
-            profileAssemblyMarkerTypes.Select(t => t.GetTypeInfo().Assembly), new []{typeof(IEntity<>)});
+        AddRepositoryClasses(services, repositoryType,
+            profileAssemblyMarkerTypes.Select(t => t.GetTypeInfo().Assembly), new[] { typeof(IEntity<>) });
 
-         return services;
+        return services;
     }
-    
-    private static void ConfigureConnectionFactoryClasses<TConnectionFactoryBuilder, TClient, TConnectionConfigurator, TConnectionConfiguration>(IServiceCollection services,
-        Action<TConnectionConfigurator> delegateConfigurator, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
-        where TConnectionFactoryBuilder : IConnectionFactoryBuilder< TConnectionConfigurator, TConnectionConfiguration,TClient> 
+
+    private static void ConfigureConnectionFactoryClasses<TConnectionFactoryBuilder, TClient, TConnectionConfigurator,
+        TConnectionConfiguration>(IServiceCollection services,
+        Action<TConnectionConfigurator> delegateConfigurator,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
+        where TConnectionFactoryBuilder :
+        IConnectionFactoryBuilder<TConnectionConfigurator, TConnectionConfiguration, TClient>
         where TConnectionConfigurator : class, IConnectionConfigurator
-        where TConnectionConfiguration:IConnectionConfiguration
+        where TConnectionConfiguration : IConnectionConfiguration
     {
-        var factoryType = typeof(TConnectionFactoryBuilder).GetTypeInfo().Assembly.DefinedTypes.FirstOrDefault(t => t.IsClass
+        var factoryType = typeof(TConnectionFactoryBuilder).GetTypeInfo().Assembly.DefinedTypes.FirstOrDefault(t =>
+            t.IsClass
             && !t.IsAbstract
             && typeof(TConnectionFactoryBuilder).IsAssignableFrom(t.AsType()));
 
@@ -68,12 +77,11 @@ public static class ServiceCollectionExtensions
         var client = factory.Build();
 
         if (services.All(sd => sd.ServiceType != typeof(IConnectionFactory<TClient>)))
-            services.Add(new ServiceDescriptor(typeof( IConnectionFactory<TClient>),
+            services.Add(new ServiceDescriptor(typeof(IConnectionFactory<TClient>),
                 sp => client, serviceLifetime));
-
     }
-    
-    
+
+
     private static Type? FindKeyType(TypeInfo typeInfo, Type[] openTypes)
     {
         var implementedInterface =
@@ -82,13 +90,12 @@ public static class ServiceCollectionExtensions
             return implementedInterface.GetGenericArguments().First();
         return typeInfo.BaseType != null ? FindKeyType(typeInfo.BaseType.GetTypeInfo(), openTypes) : null;
     }
-    
-    
+
+
     private static void AddRepositoryClasses(IServiceCollection services, Type repositoryType,
         IEnumerable<Assembly> assembliesToScan, Type[] openTypes,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
-
         var assembliesToScanArray = assembliesToScan as Assembly[] ?? assembliesToScan?.ToArray();
         if (assembliesToScanArray != null && assembliesToScanArray.Length > 0)
         {
@@ -106,8 +113,10 @@ public static class ServiceCollectionExtensions
                 var keyType = FindKeyType(type, openTypes);
                 if (keyType == null) continue;
                 var iRepositoryType = typeof(IRepository<,>);
-                var iGenericRepositoryType = iRepositoryType.MakeGenericType( new[] { type.AsType(), keyType });
-                var genericRepositoryBaseType =  repositoryType.GetGenericArguments().Length==1 ? repositoryType.MakeGenericType( new[] { type.AsType() }) :  repositoryType.MakeGenericType( new[] { type.AsType(), keyType });
+                var iGenericRepositoryType = iRepositoryType.MakeGenericType(type.AsType(), keyType);
+                var genericRepositoryBaseType = repositoryType.GetGenericArguments().Length == 1
+                    ? repositoryType.MakeGenericType(type.AsType())
+                    : repositoryType.MakeGenericType(type.AsType(), keyType);
                 // use try add to avoid double-registration
                 services.TryAddTransient(iGenericRepositoryType, genericRepositoryBaseType);
             }

@@ -1,5 +1,9 @@
-﻿using System.Collections;
+﻿#region
+
+using System.Collections;
 using System.Collections.Specialized;
+
+#endregion
 
 // Return not available on all .NET versions.
 #pragma warning disable IDE0058 // Expression value is never used

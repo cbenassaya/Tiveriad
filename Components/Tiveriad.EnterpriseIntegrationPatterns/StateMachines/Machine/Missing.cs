@@ -1,15 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 
-// --------------------------------------------------------------------------------------------------------------------
+namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine;
 
-namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine
+public sealed class Missing
 {
-    public sealed class Missing
-    {
-        public static readonly Missing Value;
+    public static readonly Missing Value;
 
-        internal Missing()
-        {
-        }
+    internal Missing()
+    {
     }
 }

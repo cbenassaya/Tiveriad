@@ -1,6 +1,10 @@
-﻿using System.Collections;
+﻿#region
+
+using System.Collections;
 using System.Collections.Concurrent;
 using Tiveriad.Commons.Extensions;
+
+#endregion
 
 namespace Tiveriad.Commons.Cloning.CopyHints;
 

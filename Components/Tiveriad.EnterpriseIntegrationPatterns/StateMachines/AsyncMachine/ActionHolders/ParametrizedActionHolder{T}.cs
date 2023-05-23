@@ -1,43 +1,44 @@
-
+#region
 
 using System.Reflection;
 using Tiveriad.Commons.Extensions;
 
-namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.AsyncMachine.ActionHolders
+#endregion
+
+namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.AsyncMachine.ActionHolders;
+
+public class ParametrizedActionHolder<T> : IActionHolder
 {
-    public class ParametrizedActionHolder<T> : IActionHolder
+    private readonly Func<T, Task> action;
+    private readonly MethodInfo originalActionMethodInfo;
+    private readonly T parameter;
+
+    public ParametrizedActionHolder(Func<T, Task> action, T parameter)
     {
-        private readonly MethodInfo originalActionMethodInfo;
-        private readonly Func<T, Task> action;
-        private readonly T parameter;
+        originalActionMethodInfo = action.GetMethodInfo();
+        this.action = action;
+        this.parameter = parameter;
+    }
 
-        public ParametrizedActionHolder(Func<T, Task> action, T parameter)
+    public ParametrizedActionHolder(Action<T> action, T parameter)
+    {
+        originalActionMethodInfo = action.GetMethodInfo();
+        this.action = argument =>
         {
-            this.originalActionMethodInfo = action.GetMethodInfo();
-            this.action = action;
-            this.parameter = parameter;
-        }
+            action(argument);
+            return Task.FromResult(0);
+        };
 
-        public ParametrizedActionHolder(Action<T> action, T parameter)
-        {
-            this.originalActionMethodInfo = action.GetMethodInfo();
-            this.action = argument =>
-            {
-                action(argument);
-                return Task.FromResult(0);
-            };
+        this.parameter = parameter;
+    }
 
-            this.parameter = parameter;
-        }
+    public async Task Execute(object argument)
+    {
+        await action(parameter).ConfigureAwait(false);
+    }
 
-        public async Task Execute(object argument)
-        {
-            await this.action(this.parameter).ConfigureAwait(false);
-        }
-
-        public string Describe()
-        {
-            return this.originalActionMethodInfo.ExtractMethodNameOrAnonymous();
-        }
+    public string Describe()
+    {
+        return originalActionMethodInfo.ExtractMethodNameOrAnonymous();
     }
 }
