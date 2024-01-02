@@ -108,10 +108,10 @@ public class Startup : StartupBase
             var toFrom = companies.AsQueryable().RandomElement(x => true);
 
             if (companyFrom == null)
-                throw new NullException("companyFrom");
+                NullException.ForNonNullValue("companyFrom");
 
             if (toFrom == null)
-                throw new NullException("toFrom");
+                NullException.ForNonNullValue("toFrom");
 
             var invoice = new Invoice
             {

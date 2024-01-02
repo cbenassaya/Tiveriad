@@ -1,17 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Tiveriad.Commons\Tiveriad.Commons.csproj"/>
+        <ProjectReference Include="..\Tiveriad.Commons\Tiveriad.Commons.csproj" />
+        <ProjectReference Include="..\Tiveriad.ServiceResolvers\Tiveriad.ServiceResolvers.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="StateMachines\Machine\GuardHolders\AsyncArgumentGuardHolder.cs"/>
+        <Compile Remove="StateMachines\Machine\GuardHolders\AsyncArgumentGuardHolder.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="ServiceResolvers" />
     </ItemGroup>
 
 </Project>

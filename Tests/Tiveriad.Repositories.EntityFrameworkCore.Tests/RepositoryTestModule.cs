@@ -47,7 +47,7 @@ public class RepositoryTestModule : TestBase<Startup>
 
         var course = courseRepository.Queryable.RandomElement(x => true);
         if (course == null)
-            throw new NullException("Course");
+            NullException.ForNonNullValue("Course");
 
         student.Courses.Add(course);
 
@@ -81,7 +81,7 @@ public class RepositoryTestModule : TestBase<Startup>
         };
 
         if (course == null)
-            throw new NullException("course");
+             NullException.ForNonNullValue("course");
 
         var newCourse = new Course
         {
@@ -93,7 +93,7 @@ public class RepositoryTestModule : TestBase<Startup>
 
         var oldCourse = courseRepository.GetById(course.Id);
         if (oldCourse == null)
-            throw new NullException("oldCourse");
+             NullException.ForNonNullValue("oldCourse");
         student.Courses.Add(oldCourse);
         student.Courses.Add(newCourse);
 
@@ -119,10 +119,10 @@ public class RepositoryTestModule : TestBase<Startup>
         var toFrom = companyRepository.Queryable.RandomElement(x => true);
 
         if (companyFrom == null)
-            throw new NullException("companyFrom");
+             NullException.ForNonNullValue("companyFrom");
 
         if (toFrom == null)
-            throw new NullException("toFrom");
+             NullException.ForNonNullValue("toFrom");
 
         var invoice = new Invoice
         {
@@ -156,15 +156,15 @@ public class RepositoryTestModule : TestBase<Startup>
         var toFrom = companyRepository.Queryable.RandomElement(x => true);
 
         if (companyFrom == null)
-            throw new NullException("companyFrom");
+             NullException.ForNonNullValue("companyFrom");
 
         if (toFrom == null)
-            throw new NullException("toFrom");
+             NullException.ForNonNullValue("toFrom");
 
         var invoice = invoiceRepository.Queryable.RandomElement(x => true);
 
         if (invoice == null)
-            throw new NullException("invoice");
+             NullException.ForNonNullValue("invoice");
         //BEWARE SET THE ID BECAUSE NOT INCREMENTAL
         invoice.InvoiceDetails.Add(new InvoiceDetail
             { Amount = Finance.Coupon(), Label = Finance.Credit.BondName(), Id = KeyGenerator.NewId<string>() });
@@ -190,18 +190,20 @@ public class RepositoryTestModule : TestBase<Startup>
         var toCompany = companyRepository.Queryable.RandomElement(x => true);
 
         if (fromCompany == null)
-            throw new NullException("companyFrom");
+             NullException.ForNonNullValue("companyFrom");
 
         if (toCompany == null)
-            throw new NullException("toFrom");
+             NullException.ForNonNullValue("toFrom");
 
         var invoice = invoiceRepository.Queryable.RandomElement(x => true);
         if (invoice == null)
-            throw new NullException("invoice");
+             NullException.ForNonNullValue("invoice");
         var initialInvoiceDetailsCount = invoice.InvoiceDetails.Count();
-
-        if (invoice.Clone() is not Invoice newInvoice)
-            throw new NullException("newInvoice");
+        
+        
+        var newInvoice = invoice.Clone() as Invoice;
+        if (newInvoice == null)
+             NullException.ForNonNullValue("newInvoice");
 
         newInvoice.From = fromCompany;
         newInvoice.To = toCompany;
@@ -259,7 +261,7 @@ public class RepositoryTestModule : TestBase<Startup>
 
 
         if (afterSaveChangesInvoice == null)
-            throw new NullException("afterSaveChangesInvoice");
+             NullException.ForNonNullValue("afterSaveChangesInvoice");
 
 
         Assert.Equal(initialInvoiceCount, finalInvoiceCount);

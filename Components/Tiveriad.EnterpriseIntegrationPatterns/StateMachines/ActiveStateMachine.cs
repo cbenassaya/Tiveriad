@@ -1,24 +1,20 @@
-#region
+﻿#region
 
+using System.Collections.Concurrent;
 using Tiveriad.Commons.Guards;
+using Tiveriad.Commons.Optionals;
+using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Events;
+using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Exceptions;
 using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Extensions;
-using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine;
-using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine.Events;
+using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Models;
 using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Persistence;
+using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Reports;
 
 #endregion
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines;
 
-/// <summary>
-///     An active state machine.
-///     This state machine reacts to events on its own worker thread and the <see cref="Fire(TEvent,object)" /> or
-///     <see cref="FirePriority(TEvent,object)" /> methods return immediately back to the caller.
-/// </summary>
-/// <typeparam name="TState">The type of the state.</typeparam>
-/// <typeparam name="TEvent">The type of the event.</typeparam>
-public class ActiveStateMachine<TState, TEvent> :
-    IStateMachine<TState, TEvent>
+public class ActiveStateMachine<TState, TEvent> : IStateMachine<TState, TEvent>
     where TState : IComparable
     where TEvent : IComparable
 {
@@ -28,8 +24,8 @@ public class ActiveStateMachine<TState, TEvent> :
     private readonly StateMachine<TState, TEvent> stateMachine;
     private CancellationTokenSource stopToken;
 
-
     private Task worker;
+    private TaskCompletionSource<bool> workerCompletionSource = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
     public ActiveStateMachine(
         StateMachine<TState, TEvent> stateMachine,
@@ -78,6 +74,7 @@ public class ActiveStateMachine<TState, TEvent> :
         add => stateMachine.TransitionCompleted += value;
         remove => stateMachine.TransitionCompleted -= value;
     }
+    
 
     /// <summary>
     ///     Gets a value indicating whether this instance is running. The state machine is running if if was started and not
@@ -90,9 +87,10 @@ public class ActiveStateMachine<TState, TEvent> :
     ///     Fires the specified event.
     /// </summary>
     /// <param name="eventId">The event.</param>
-    public void Fire(TEvent eventId)
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    public async Task Fire(TEvent eventId)
     {
-        Fire(eventId, null);
+        await Fire(eventId, Missing.Value).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,24 +98,26 @@ public class ActiveStateMachine<TState, TEvent> :
     /// </summary>
     /// <param name="eventId">The event.</param>
     /// <param name="eventArgument">The event argument.</param>
-    public void Fire(TEvent eventId, object eventArgument)
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    public async Task Fire(TEvent eventId, object eventArgument)
     {
-        lock (stateContainer.Events)
-        {
-            stateContainer.Events.AddLast(new EventInformation<TEvent>(eventId, eventArgument));
-            Monitor.Pulse(stateContainer.Events);
-        }
+        stateContainer.Events.Enqueue(new EventInformation<TEvent>(eventId, eventArgument));
 
-        stateContainer.ForEach(extension => extension.EventQueued(eventId, eventArgument));
+        await stateContainer
+            .ForEach(extension => extension.EventQueued(eventId, eventArgument))
+            .ConfigureAwait(false);
+
+        workerCompletionSource.TrySetResult(true);
     }
 
     /// <summary>
     ///     Fires the specified priority event. The event will be handled before any already queued event.
     /// </summary>
     /// <param name="eventId">The event.</param>
-    public void FirePriority(TEvent eventId)
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    public async Task FirePriority(TEvent eventId)
     {
-        FirePriority(eventId, null);
+        await FirePriority(eventId, Missing.Value).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -125,28 +125,38 @@ public class ActiveStateMachine<TState, TEvent> :
     /// </summary>
     /// <param name="eventId">The event.</param>
     /// <param name="eventArgument">The event argument.</param>
-    public void FirePriority(TEvent eventId, object eventArgument)
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    public async Task FirePriority(TEvent eventId, object eventArgument)
     {
-        lock (stateContainer.Events)
-        {
-            stateContainer.Events.AddFirst(new EventInformation<TEvent>(eventId, eventArgument));
-            Monitor.Pulse(stateContainer.Events);
-        }
+        stateContainer.PriorityEvents.Push(new EventInformation<TEvent>(eventId, eventArgument));
 
-        stateContainer.ForEach(extension => extension.EventQueuedWithPriority(eventId, eventArgument));
+        await stateContainer
+            .ForEach(extension => extension.EventQueuedWithPriority(eventId, eventArgument))
+            .ConfigureAwait(false);
+
+        workerCompletionSource.TrySetResult(true);
     }
 
     /// <summary>
     ///     Saves the current state and history states to a persisted state. Can be restored using <see cref="Load" />.
     /// </summary>
     /// <param name="stateMachineSaver">Data to be persisted is passed to the saver.</param>
-    public void Save(IStateMachineSaver<TState, TEvent> stateMachineSaver)
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    public async Task Save(IAsyncStateMachineSaver<TState, TEvent> stateMachineSaver)
     {
         NullGuard.AgainstNullArgument(nameof(stateMachineSaver), stateMachineSaver);
 
-        stateMachineSaver.SaveCurrentState(stateContainer.CurrentStateId);
-        stateMachineSaver.SaveHistoryStates(stateContainer.LastActiveStates);
-        stateMachineSaver.SaveEvents(stateContainer.SaveableEvents);
+        await stateMachineSaver.SaveCurrentState(stateContainer.CurrentStateId)
+            .ConfigureAwait(false);
+
+        await stateMachineSaver.SaveHistoryStates(stateContainer.LastActiveStates)
+            .ConfigureAwait(false);
+
+        await stateMachineSaver.SaveEvents(stateContainer.SaveableEvents)
+            .ConfigureAwait(false);
+
+        await stateMachineSaver.SavePriorityEvents(stateContainer.SaveablePriorityEvents)
+            .ConfigureAwait(false);
     }
 
     /// <summary>
@@ -154,18 +164,20 @@ public class ActiveStateMachine<TState, TEvent> :
     ///     The loader should return exactly the data that was passed to the saver.
     /// </summary>
     /// <param name="stateMachineLoader">Loader providing persisted data.</param>
-    public void Load(IStateMachineLoader<TState, TEvent> stateMachineLoader)
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    public async Task Load(IAsyncStateMachineLoader<TState, TEvent> stateMachineLoader)
     {
         NullGuard.AgainstNullArgument(nameof(stateMachineLoader), stateMachineLoader);
 
         CheckThatNotAlreadyInitialized();
 
-        var loadedCurrentState = stateMachineLoader.LoadCurrentState();
-        var historyStates = stateMachineLoader.LoadHistoryStates();
-        var events = stateMachineLoader.LoadEvents();
+        var loadedCurrentState = await stateMachineLoader.LoadCurrentState().ConfigureAwait(false);
+        var historyStates = await stateMachineLoader.LoadHistoryStates().ConfigureAwait(false);
+        var events = await stateMachineLoader.LoadEvents().ConfigureAwait(false);
+        var priorityEvents = await stateMachineLoader.LoadPriorityEvents().ConfigureAwait(false);
 
         SetCurrentState();
-        SetHistoryStates();
+        LoadHistoryStates();
         SetEvents();
         NotifyExtensions();
 
@@ -176,10 +188,11 @@ public class ActiveStateMachine<TState, TEvent> :
 
         void SetEvents()
         {
-            stateContainer.Events = new LinkedList<EventInformation<TEvent>>(events);
+            stateContainer.Events = new ConcurrentQueue<EventInformation<TEvent>>(events);
+            stateContainer.PriorityEvents = new ConcurrentStack<EventInformation<TEvent>>(priorityEvents);
         }
 
-        void SetHistoryStates()
+        void LoadHistoryStates()
         {
             foreach (var historyState in historyStates)
             {
@@ -204,7 +217,8 @@ public class ActiveStateMachine<TState, TEvent> :
                 extension => extension.Loaded(
                     loadedCurrentState,
                     historyStates,
-                    events));
+                    events,
+                    priorityEvents));
         }
     }
 
@@ -213,46 +227,43 @@ public class ActiveStateMachine<TState, TEvent> :
     ///     If the state machine is not started then the events will be queued until the state machine is started.
     ///     Already queued events are processed.
     /// </summary>
-    public void Start()
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    public async Task Start()
     {
         if (IsRunning) return;
 
         stopToken = new CancellationTokenSource();
-        worker = Task.Factory.StartNew(
+        worker = Task.Run(
             () => ProcessEventQueue(stopToken.Token),
-            stopToken.Token,
-            TaskCreationOptions.LongRunning,
-            TaskScheduler.Default);
+            CancellationToken.None);
 
-        stateContainer.ForEach(extension => extension.StartedStateMachine());
+        await stateContainer
+            .ForEach(extension => extension.StartedStateMachine())
+            .ConfigureAwait(false);
     }
 
     /// <summary>
     ///     Stops the state machine. Events will be queued until the state machine is started.
     /// </summary>
-    public void Stop()
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    public async Task Stop()
     {
-        if (!IsRunning || stopToken.IsCancellationRequested) return;
-
-        lock (stateContainer.Events)
-        {
-            stopToken.Cancel();
-            Monitor.Pulse(stateContainer.Events); // wake up task to get a chance to stop
-        }
+        stopToken.Cancel();
+        workerCompletionSource.TrySetCanceled();
 
         try
         {
-            worker.Wait();
+            await worker
+                .ConfigureAwait(false);
         }
-        catch (AggregateException)
+        catch (OperationCanceledException)
         {
-            // in case the task was stopped before it could actually start, it will be canceled.
-            if (worker.IsFaulted) throw;
+            // ignored intentionally
         }
 
-        worker = null;
-
-        stateContainer.ForEach(extension => extension.StoppedStateMachine());
+        await stateContainer
+            .ForEach(extension => extension.StoppedStateMachine())
+            .ConfigureAwait(false);
     }
 
     /// <summary>
@@ -282,6 +293,76 @@ public class ActiveStateMachine<TState, TEvent> :
         reportGenerator.Report(ToString(), stateDefinitions.Values, initialState);
     }
 
+    private async Task ProcessEventQueue(CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            await InitializeStateMachineIfInitializationIsPending()
+                .ConfigureAwait(false);
+
+            await ProcessPriorityEvents(cancellationToken)
+                .ConfigureAwait(false);
+
+            if (cancellationToken.IsCancellationRequested) return;
+
+            await ProcessNormalEvents(cancellationToken)
+                .ConfigureAwait(false);
+
+            if (cancellationToken.IsCancellationRequested) return;
+
+            await workerCompletionSource.Task.ConfigureAwait(false);
+            workerCompletionSource = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        }
+    }
+    
+    /**
+     * Returns the current state of the state machine.
+     * @return The current state of the state machine.
+     * If the state machine is not started, then null is returned.
+     */
+    public TState? GetCurrentState()
+    {
+        var result =  stateContainer.CurrentStateId;
+        return result.IsInitialized && IsRunning ? result.ExtractOrThrow()  : default(TState);
+    }
+
+    private async Task ProcessNormalEvents(
+        CancellationToken cancellationToken)
+    {
+        while (stateContainer.Events.TryDequeue(out var eventInformation))
+        {
+            await stateMachine.Fire(
+                    eventInformation.EventId,
+                    eventInformation.EventArgument,
+                    stateContainer,
+                    stateDefinitions)
+                .ConfigureAwait(false);
+
+            if (cancellationToken.IsCancellationRequested) return;
+
+            await ProcessPriorityEvents(cancellationToken)
+                .ConfigureAwait(false);
+
+            if (cancellationToken.IsCancellationRequested) return;
+        }
+    }
+
+    private async Task ProcessPriorityEvents(
+        CancellationToken cancellationToken)
+    {
+        while (stateContainer.PriorityEvents.TryPop(out var eventInformation))
+        {
+            await stateMachine.Fire(
+                    eventInformation.EventId,
+                    eventInformation.EventArgument,
+                    stateContainer,
+                    stateDefinitions)
+                .ConfigureAwait(false);
+
+            if (cancellationToken.IsCancellationRequested) return;
+        }
+    }
+
     /// <summary>
     ///     Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
     /// </summary>
@@ -293,44 +374,18 @@ public class ActiveStateMachine<TState, TEvent> :
         return stateContainer.Name ?? GetType().FullName;
     }
 
-    private void ProcessEventQueue(CancellationToken cancellationToken)
-    {
-        while (!cancellationToken.IsCancellationRequested)
-        {
-            InitializeStateMachineIfInitializationIsPending();
-
-            EventInformation<TEvent> eventInformation;
-            lock (stateContainer.Events)
-            {
-                if (stateContainer.Events.Count > 0)
-                {
-                    eventInformation = stateContainer.Events.First.Value;
-                    stateContainer.Events.RemoveFirst();
-                }
-                else
-                {
-                    // ReSharper disable once ConditionIsAlwaysTrueOrFalse because it is multi-threaded and can change in the mean time
-                    if (!cancellationToken.IsCancellationRequested) Monitor.Wait(stateContainer.Events);
-
-                    continue;
-                }
-            }
-
-            stateMachine.Fire(eventInformation.EventId, eventInformation.EventArgument, stateContainer,
-                stateDefinitions);
-        }
-    }
-
-    private void InitializeStateMachineIfInitializationIsPending()
-    {
-        if (stateContainer.CurrentStateId.IsInitialized) return;
-
-        stateMachine.EnterInitialState(stateContainer, stateDefinitions, initialState);
-    }
-
     private void CheckThatNotAlreadyInitialized()
     {
         if (stateContainer.CurrentStateId.IsInitialized)
             throw new InvalidOperationException(ExceptionMessages.StateMachineIsAlreadyInitialized);
+    }
+
+    private async Task InitializeStateMachineIfInitializationIsPending()
+    {
+        if (stateContainer.CurrentStateId.IsInitialized) return;
+
+        await stateMachine
+            .EnterInitialState(stateContainer, stateDefinitions, initialState)
+            .ConfigureAwait(false);
     }
 }

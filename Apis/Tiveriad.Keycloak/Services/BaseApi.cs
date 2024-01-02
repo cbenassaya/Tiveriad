@@ -18,21 +18,6 @@ public class BaseApi
         _httpClient = httpClient;
         _keycloakSessionFactory = keycloakSessionFactory;
     }
-
-    public async Task Execute(Action<ApiClient, string> action)
-    {
-        var apiClient = new ApiClient(_httpClient);
-
-
-        Retry.On<Exception>().Until(handle => handle.Context.Exceptions.Count > 3).Execute(context =>
-        {
-            if (context.Exceptions.Count > 0)
-                _keycloakSessionFactory.GetSession().RenewToken();
-
-            action(apiClient, _keycloakSessionFactory.GetSession().Token);
-        });
-    }
-
     public async Task<ApiResponse<T>> Execute<T>(Func<ApiClient, string, Task<ApiResponse<T>>> func)
     {
         var apiClient = new ApiClient(_httpClient);

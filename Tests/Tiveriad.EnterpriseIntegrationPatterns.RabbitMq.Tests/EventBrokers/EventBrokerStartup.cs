@@ -7,7 +7,7 @@ using Tiveriad.Connections;
 using Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection;
 using Tiveriad.EnterpriseIntegrationPatterns.MessageBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.Tests.Models;
-using Tiveriad.EnterpriseIntegrationPatterns.ServiceResolvers;
+using Tiveriad.ServiceResolvers;
 using Tiveriad.UnitTests;
 
 #endregion

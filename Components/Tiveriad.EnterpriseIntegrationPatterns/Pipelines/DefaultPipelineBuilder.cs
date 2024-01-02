@@ -1,8 +1,8 @@
 ﻿#region
 
-using Tiveriad.EnterpriseIntegrationPatterns.ServiceResolvers;
-
 #endregion
+
+using Tiveriad.ServiceResolvers;
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.Pipelines;
 

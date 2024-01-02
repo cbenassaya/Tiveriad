@@ -50,7 +50,7 @@ public class KeycloakSessionFactory : IKeycloakSessionFactory
             return this;
         }
 
-        public KeycloakSessionFactory Build()
+        public IKeycloakSessionFactory Build()
         {
             if (_configuration.UrlBase == null) throw new ArgumentNullException("Host configuration is mandatory !");
 

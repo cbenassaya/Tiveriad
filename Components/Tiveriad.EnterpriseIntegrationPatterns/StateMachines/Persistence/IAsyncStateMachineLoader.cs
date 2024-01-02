@@ -2,9 +2,10 @@
 
 #region
 
-using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Infrastructure;
-
 #endregion
+
+using Tiveriad.Commons.Optionals;
+using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Events;
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Persistence;
 

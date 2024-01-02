@@ -22,14 +22,12 @@ public class SaveOrUpdateRequestHandler<TEntity, TKey> : IRequestHandler<SaveOrU
         _repository = repository;
     }
 
-    public async Task<Unit> Handle(SaveOrUpdateRequest<TEntity, TKey> request, CancellationToken cancellationToken)
+    public async Task Handle(SaveOrUpdateRequest<TEntity, TKey> request, CancellationToken cancellationToken)
     {
         var result = await _repository.GetByIdAsync(request.Entity.Id, cancellationToken);
         if (result == null)
             await _repository.AddOneAsync(request.Entity, cancellationToken);
         else
             await _repository.UpdateOneAsync(request.Entity, cancellationToken);
-
-        return Unit.Value;
     }
 }

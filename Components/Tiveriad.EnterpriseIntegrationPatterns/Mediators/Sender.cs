@@ -1,7 +1,7 @@
 #region
 
 using System.Collections.Concurrent;
-using Tiveriad.EnterpriseIntegrationPatterns.ServiceResolvers;
+using Tiveriad.ServiceResolvers;
 
 #endregion
 

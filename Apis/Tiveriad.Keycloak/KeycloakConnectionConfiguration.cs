@@ -7,7 +7,7 @@ public class KeycloakConnectionConfiguration
     public string UrlBase { get; private set; }
     public string ClientSecret { get; private set; }
 
-    public KeycloakConnectionConfiguration SetHost(string urlBase)
+    public KeycloakConnectionConfiguration SetUrlBase(string urlBase)
     {
         UrlBase = urlBase;
         return this;

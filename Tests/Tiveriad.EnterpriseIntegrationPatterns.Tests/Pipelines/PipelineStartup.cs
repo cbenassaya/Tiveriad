@@ -2,8 +2,8 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Tiveriad.EnterpriseIntegrationPatterns.Pipelines;
-using Tiveriad.EnterpriseIntegrationPatterns.ServiceResolvers;
 using Tiveriad.EnterpriseIntegrationPatterns.Tests.Models;
+using Tiveriad.ServiceResolvers;
 using Tiveriad.UnitTests;
 
 #endregion

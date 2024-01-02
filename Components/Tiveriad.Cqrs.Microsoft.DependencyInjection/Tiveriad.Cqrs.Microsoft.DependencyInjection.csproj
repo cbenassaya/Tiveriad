@@ -1,18 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <LangVersion>10</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MediatR" Version="11.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0"/>
+        <PackageReference Include="MediatR" Version="12.2.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Tiveriad.Cqrs\Tiveriad.Cqrs.csproj"/>
+        <ProjectReference Include="..\Tiveriad.Cqrs\Tiveriad.Cqrs.csproj" />
     </ItemGroup>
 
 </Project>

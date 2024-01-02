@@ -2,9 +2,10 @@
 
 #region
 
-using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine;
-using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Machine.Events;
+using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Events;
+using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Extensions;
 using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Persistence;
+using Tiveriad.EnterpriseIntegrationPatterns.StateMachines.Reports;
 
 #endregion
 
@@ -50,39 +51,45 @@ public interface IStateMachine<TState, TEvent>
     ///     Fires the specified event.
     /// </summary>
     /// <param name="eventId">The event.</param>
-    void Fire(TEvent eventId);
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    Task Fire(TEvent eventId);
 
     /// <summary>
     ///     Fires the specified event.
     /// </summary>
     /// <param name="eventId">The event.</param>
     /// <param name="eventArgument">The event argument.</param>
-    void Fire(TEvent eventId, object eventArgument);
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    Task Fire(TEvent eventId, object eventArgument);
 
     /// <summary>
     ///     Fires the specified priority event. The event will be handled before any already queued event.
     /// </summary>
     /// <param name="eventId">The event.</param>
-    void FirePriority(TEvent eventId);
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    Task FirePriority(TEvent eventId);
 
     /// <summary>
     ///     Fires the specified priority event. The event will be handled before any already queued event.
     /// </summary>
     /// <param name="eventId">The event.</param>
     /// <param name="eventArgument">The event argument.</param>
-    void FirePriority(TEvent eventId, object eventArgument);
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    Task FirePriority(TEvent eventId, object eventArgument);
 
     /// <summary>
     ///     Starts the state machine. Events will be processed.
     ///     If the state machine is not started then the events will be queued until the state machine is started.
     ///     Already queued events are processed.
     /// </summary>
-    void Start();
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    Task Start();
 
     /// <summary>
     ///     Stops the state machine. Events will be queued until the state machine is started.
     /// </summary>
-    void Stop();
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    Task Stop();
 
     /// <summary>
     ///     Adds an extension.
@@ -102,15 +109,26 @@ public interface IStateMachine<TState, TEvent>
     void Report(IStateMachineReport<TState, TEvent> reportGenerator);
 
     /// <summary>
-    ///     Saves the current state and history states to a persisted state. Can be restored using <see cref="Load" />.
+    ///     Saves the current state and history states to a persisted state. Can be restored using
+    ///     <see cref="Load(IAsyncStateMachineLoader{TState,TEvent})" />.
     /// </summary>
     /// <param name="stateMachineSaver">Data to be persisted is passed to the saver.</param>
-    void Save(IStateMachineSaver<TState, TEvent> stateMachineSaver);
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    Task Save(IAsyncStateMachineSaver<TState, TEvent> stateMachineSaver);
 
     /// <summary>
-    ///     Loads the current state and history states from a persisted state (<see cref="Save" />).
+    ///     Loads the current state and history states from a persisted state (
+    ///     <see cref="Save(IAsyncStateMachineSaver{TState, TEvent})" />).
     ///     The loader should return exactly the data that was passed to the saver.
     /// </summary>
     /// <param name="stateMachineLoader">Loader providing persisted data.</param>
-    void Load(IStateMachineLoader<TState, TEvent> stateMachineLoader);
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    Task Load(IAsyncStateMachineLoader<TState, TEvent> stateMachineLoader);
+
+    /// <summary>
+    ///     Gets the current state.
+    ///     If the state machine is not started then the initial state is null.
+    /// </summary>
+    /// <returns></returns>
+    public TState? GetCurrentState();
 }
