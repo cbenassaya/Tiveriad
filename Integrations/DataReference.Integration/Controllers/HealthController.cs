@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace DataReference.Apis.Controllers;
+namespace DataReference.Integration.Controllers;
 
 public class HealthController : ControllerBase
 {

@@ -1,4 +1,4 @@
-using DataReference.Apis;
+using DataReference.Integration;
 using Mongo2Go;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -13,16 +13,17 @@ using Tiveriad.Repositories.MongoDb.Repositories;
 
 
 var builder = WebApplication.CreateBuilder(args);
-MongoDbRunner _runner = MongoDbRunner.Start();
 
-var factory = new MongoConnectionFactoryBuilder();
+builder.Services.AddSingleton<Database>();
+
+var database = builder.Services.BuildServiceProvider().GetRequiredService<Database>();
 
 builder.Services
     .ConfigureConnectionFactory<MongoConnectionFactoryBuilder, IMongoDatabase, MongoConnectionConfigurator,
         IMongoConnectionConfiguration>(
         configurator =>
         {
-            configurator.SetConnectionString(_runner.ConnectionString);
+            configurator.SetConnectionString(database.ConnectionString);
             configurator.SetDatabaseName("TEST");
         });
 

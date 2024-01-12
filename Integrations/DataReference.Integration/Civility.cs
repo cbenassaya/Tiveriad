@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using Tiveriad.DataReferences.Apis.Services;
 using Tiveriad.Repositories;
 
-namespace DataReference.Apis;
+namespace DataReference.Integration;
 
 [DataReferenceRoute("api/civilities")]
 public class Civility: IDataReference<ObjectId>
