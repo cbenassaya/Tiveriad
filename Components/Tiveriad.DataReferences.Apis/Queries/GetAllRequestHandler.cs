@@ -29,12 +29,8 @@ public class
                 x.Visibility == Visibility.Public);
         if (!default(TKey)!.Equals(request.Id))
             query = query.Where(x => x.Id.Equals(request.Id));
-        if (request.Name != null)
-            query = query.Where(x => x.Label.Contains(request.Name));
         if (request.Code != null)
             query = query.Where(x => x.Code == request.Code);
-        if (request.Q != null)
-            query = query.Where(x => x.Label.Contains(request.Q) || x.Description.Contains(request.Q));
         if (request.Orders != null && request.Orders.Any())
             foreach (var order in request.Orders)
                 query = order.StartsWith("-")

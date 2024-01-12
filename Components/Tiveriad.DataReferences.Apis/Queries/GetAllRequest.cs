@@ -11,9 +11,7 @@ public record GetAllRequest<TEntity, TKey>
 (
     TKey? Id,
     TKey? OrganizationId,
-    string? Name,
     string? Code,
-    string? Locale,
     int? Page, int? Limit,
     string? Q, string[]? Orders
 ) : IRequest<IEnumerable<TEntity>>

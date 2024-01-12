@@ -20,7 +20,7 @@ public class DataReferenceRouteAttribute : Attribute
 
 public interface IDataReference<TKey> : IEntity<TKey>, IWithTenant<TKey> where TKey : IEquatable<TKey>
 {
-    public string Label { get; set; }
+    public InternationalizedString Label { get; set; }
     public string Description { get; set; }
     public string Code { get; set; }
     public Visibility Visibility { get; set; }
@@ -36,7 +36,7 @@ public class DataReferenceBase<TKey> : IDataReference<TKey> where TKey : IEquata
 {
     public virtual TKey Id { get; set; } = default;
     public virtual TKey OrganizationId { get; set; } = default;
-    public virtual string Label { get; set; } = string.Empty;
+    public virtual InternationalizedString Label { get; set; } = string.Empty;
     public virtual string Description { get; set; } = string.Empty;
     public virtual string Code { get; set; } = string.Empty;
     public virtual Visibility Visibility { get; set; } = Visibility.Private;

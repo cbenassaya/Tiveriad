@@ -37,9 +37,7 @@ public class GetAllEndPoint<TEntity, TKey> : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<IEnumerable<DataReferenceReaderModel>>> HandleAsync(
         [FromQuery] string? id,
-        [FromQuery] string? name,
         [FromQuery] string? code,
-        [FromQuery] string? locale,
         [FromQuery] int? page, [FromQuery] int? limit,
         [FromQuery] string? q, [FromQuery] string[]? orders,
         CancellationToken cancellationToken)
@@ -47,14 +45,12 @@ public class GetAllEndPoint<TEntity, TKey> : ControllerBase
         //<-- START CUSTOM CODE-->
         var result = await _mediator.Send(new GetAllRequest<TEntity, TKey>(
             Id:string.IsNullOrEmpty(id)?default(TKey):_keyParser.Parse(id),
-            _tenantService.GetOrganizationId(),
-            name,
-            code,
-            locale,
-            page,
-            limit,
-            q,
-            orders
+            OrganizationId:_tenantService.GetOrganizationId(),
+            Code:code,
+            Page:page,
+            Limit:limit,
+            Q:q,
+            Orders:orders
         ), cancellationToken);
         var data = result.Select(x => new DataReferenceReaderModel
         {

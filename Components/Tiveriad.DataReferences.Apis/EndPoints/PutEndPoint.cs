@@ -42,7 +42,6 @@ public  class PutEndPoint<TEntity, TKey> : ControllerBase
             Label = model.Label,
             Description = model.Description,
             Code = model.Code,
-            Visibility = model.Visibility != null ? (Visibility)Enum.Parse(typeof(Visibility), model.Visibility, true) : default
         };
         
         //<-- START CUSTOM CODE-->

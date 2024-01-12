@@ -46,7 +46,7 @@ public sealed class InternationalizedString
         public static implicit operator string(InternationalizedString b)
         {
             if (b == null) return string.Empty;
-            return b.ToString();
+            return b._values.FirstOrDefault(item => item.Key == b.CultureInfo.Name).Value ?? string.Empty;
         }
 
         public void SetValue(string value)
@@ -60,6 +60,8 @@ public sealed class InternationalizedString
 
             _values.Add(new KeyValuePair<string, string>(CultureInfo.Name, value));
         }
+        
+   
 
 
         public override string ToString()

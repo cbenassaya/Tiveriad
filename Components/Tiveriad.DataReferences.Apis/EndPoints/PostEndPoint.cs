@@ -40,7 +40,6 @@ public  class PostEndPoint<TEntity, TKey> : ControllerBase
             Label = model.Label,
             Description = model.Description,
             Code = model.Code,
-            Visibility = model.Visibility != null ? (Visibility)Enum.Parse(typeof(Visibility), model.Visibility,true) : default
         };
         entity.OrganizationId = _tenantService.GetOrganizationId();
         var result = await _mediator.Send(new SaveRequest<TEntity, TKey>(entity), cancellationToken);
