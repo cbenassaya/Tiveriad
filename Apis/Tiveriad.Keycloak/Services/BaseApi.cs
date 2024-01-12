@@ -18,6 +18,7 @@ public class BaseApi
         _httpClient = httpClient;
         _keycloakSessionFactory = keycloakSessionFactory;
     }
+
     public async Task<ApiResponse<T>> Execute<T>(Func<ApiClient, string, Task<ApiResponse<T>>> func)
     {
         var apiClient = new ApiClient(_httpClient);

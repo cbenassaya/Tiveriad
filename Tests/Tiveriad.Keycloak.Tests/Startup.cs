@@ -27,8 +27,8 @@ public class Startup : StartupBase
             return httpClient;
         });
         
-        services.AddScoped<IRolesApi, RolesApi>();
-        services.AddScoped<IUsersApi, UsersApi>();
+        services.AddScoped<IRoleApi, RoleApi>();
+        services.AddScoped<IUserApi, UserApi>();
         services.AddScoped<IRoleMapperApi, RoleMapperApi>();
         
     }
@@ -40,7 +40,7 @@ public class UserTestModule : TestBase<Startup>
     [Fact]
     public async Task Add_User()
     {
-        IUsersApi? usersApi = GetService<IUsersApi>();
+        IUserApi? usersApi = GetService<IUserApi>();
         var result = await usersApi.PostUser("kodin-dev-realm", new UserRepresentation()
         {
             Email = "charles.benassaya@gmail.com",
@@ -71,7 +71,7 @@ public class UserTestModule : TestBase<Startup>
     [Fact]
     public async Task Get_User()
     {
-        IUsersApi? usersApi = GetService<IUsersApi>();
+        IUserApi? usersApi = GetService<IUserApi>();
         var response = await usersApi.GetUsersByRealm("kodin-dev-realm", false, "charles.benassaya@gmail.com", first: 0, max:10);
         var result = response.Data.FirstOrDefault();
         
@@ -82,7 +82,7 @@ public class UserTestModule : TestBase<Startup>
     [Fact]
     public async Task Put_User()
     {
-        IUsersApi? usersApi = GetService<IUsersApi>();
+        IUserApi? usersApi = GetService<IUserApi>();
         var response = await usersApi.GetUsersByRealm("kodin-dev-realm", false, "charles.benassaya@gmail.com", first: 0, max:10);
         var result = response.Data.FirstOrDefault();
         

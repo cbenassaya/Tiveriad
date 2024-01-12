@@ -33,28 +33,28 @@ public class RabbitMqPublisher<TEvent, TKey> : IPublisher<TEvent, TKey> where TE
     public Task Publish(IDomainEvent<TKey> @event, CancellationToken cancellationToken)
     {
         var connection = _connectionFactory.GetConnection();
-        _logger.LogTrace("Creating RabbitMQ channel to publish event: {EventId} ({EventName})", @event.Id, _eventName);
 
+        connection.CallbackException += (e, context) =>
+        {
+            _logger.LogCritical(e.ToString());
+            _logger.LogCritical(context.ToString());
+        };
         var channel = connection.CreateModel();
         _logger.LogTrace("Declaring RabbitMQ exchange to publish event: {EventId}", @event.Id);
-        channel.ExchangeDeclare(_configuration.BrokerName, ExchangeType.Direct, true);
+        channel.ExchangeDeclare(_configuration.BrokerName, "direct", true);
         var body = JsonSerializer.SerializeToUtf8Bytes(@event, @event.GetType(), new JsonSerializerOptions
         {
             WriteIndented = true
         });
-        Retry.On<Exception>().For(3).Execute(context =>
+        Retry.On<Exception>().For(3U).Execute(context =>
         {
             if (context.Exceptions.Count > 1)
                 connection = _connectionFactory.GetConnection();
-            var properties = channel.CreateBasicProperties();
-            properties.DeliveryMode = 2; // persistent
+            var basicProperties = channel.CreateBasicProperties();
+            basicProperties.DeliveryMode = 2;
             _logger.LogTrace("Publishing event to RabbitMQ: {EventId}", @event.Id);
-            channel.BasicPublish(
-                _configuration.BrokerName,
-                _eventName,
-                true,
-                properties,
-                body);
+            channel.BasicPublish(_configuration.BrokerName, _eventName, true, basicProperties,
+                (ReadOnlyMemory<byte>)body);
         });
         return Task.CompletedTask;
     }

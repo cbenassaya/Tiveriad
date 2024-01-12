@@ -9,15 +9,15 @@ using Tiveriad.Keycloak.Models;
 
 namespace Tiveriad.Keycloak.Services;
 
-public class RolesApi : BaseApi, IRolesApi
+public class RoleApi : BaseApi, IRoleApi
 {
-    public RolesApi(HttpClient httpClient, IKeycloakSessionFactory keycloakSessionFactory) : base(httpClient,
+    public RoleApi(HttpClient httpClient, IKeycloakSessionFactory keycloakSessionFactory) : base(httpClient,
         keycloakSessionFactory)
     {
     }
 
     /// <summary>
-    ///  Delete a role by name
+    ///     Delete a role by name
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
@@ -28,16 +28,17 @@ public class RolesApi : BaseApi, IRolesApi
     {
         // verify the required parameter 'realm' is set
         if (realm == null)
-            throw new ApiException(400, "Missing required parameter 'realm' when calling RolesApi->DeleteClientRole");
+            throw new ApiException(400, "Missing required parameter 'realm' when calling RoleApi->DeleteClientRole");
         // verify the required parameter 'id' is set
         if (id == null)
-            throw new ApiException(400, "Missing required parameter 'id' when calling RolesApi->DeleteClientRole");
+            throw new ApiException(400, "Missing required parameter 'id' when calling RoleApi->DeleteClientRole");
         // verify the required parameter 'roleName' is set
         if (roleName == null)
-            throw new ApiException(400, "Missing required parameter 'roleName' when calling RolesApi->DeleteClientRole");
-        return   Execute(async (apiClient, token) =>
+            throw new ApiException(400,
+                "Missing required parameter 'roleName' when calling RoleApi->DeleteClientRole");
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.DeleteAsync( builder =>
+            var result = await apiClient.DeleteAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
@@ -45,14 +46,13 @@ public class RolesApi : BaseApi, IRolesApi
             });
             return new ApiResponse<bool>((int)result.StatusCode,
                 result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                result.IsSuccessStatusCode &&  result.StatusCode == HttpStatusCode.NoContent);
+                result.IsSuccessStatusCode && result.StatusCode == HttpStatusCode.NoContent);
         });
     }
 
 
-
     /// <summary>
-    ///  Remove roles from the role’s composite
+    ///     Remove roles from the role’s composite
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
@@ -60,21 +60,25 @@ public class RolesApi : BaseApi, IRolesApi
     /// <param name="roleName">role&#x27;s name (not id!)</param>
     /// <param name="body">RoleRepresentation (optional)</param>
     /// <returns></returns>
-    public Task<ApiResponse<bool>> DeleteClientRoleComposites(string realm, string id, string roleName, RoleRepresentation? body = null)
+    public Task<ApiResponse<bool>> DeleteClientRoleComposites(string realm, string id, string roleName,
+        RoleRepresentation? body = null)
     {
         // verify the required parameter 'realm' is set
         if (realm == null)
-            throw new ApiException(400, "Missing required parameter 'realm' when calling RolesApi->DeleteClientRoleComposites");
+            throw new ApiException(400,
+                "Missing required parameter 'realm' when calling RoleApi->DeleteClientRoleComposites");
         // verify the required parameter 'id' is set
         if (id == null)
-            throw new ApiException(400, "Missing required parameter 'id' when calling RolesApi->DeleteClientRoleComposites");
+            throw new ApiException(400,
+                "Missing required parameter 'id' when calling RoleApi->DeleteClientRoleComposites");
         // verify the required parameter 'roleName' is set
         if (roleName == null)
-            throw new ApiException(400, "Missing required parameter 'roleName' when calling RolesApi->DeleteClientRoleComposites");
-        
-        return   Execute(async (apiClient, token) =>
+            throw new ApiException(400,
+                "Missing required parameter 'roleName' when calling RoleApi->DeleteClientRoleComposites");
+
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.DeleteAsync( builder =>
+            var result = await apiClient.DeleteAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
@@ -83,13 +87,13 @@ public class RolesApi : BaseApi, IRolesApi
             });
             return new ApiResponse<bool>((int)result.StatusCode,
                 result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                result.IsSuccessStatusCode &&  result.StatusCode == HttpStatusCode.NoContent);
+                result.IsSuccessStatusCode && result.StatusCode == HttpStatusCode.NoContent);
         });
     }
-    
-    
+
+
     /// <summary>
-    ///  Delete a role by name
+    ///     Delete a role by name
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
@@ -99,14 +103,16 @@ public class RolesApi : BaseApi, IRolesApi
     {
         // verify the required parameter 'realm' is set
         if (realm == null)
-            throw new ApiException(400, "Missing required parameter 'realm' when calling RolesApi->DeleteRoleByRealmByRoleName");
+            throw new ApiException(400,
+                "Missing required parameter 'realm' when calling RoleApi->DeleteRoleByRealmByRoleName");
         // verify the required parameter 'roleName' is set
         if (roleName == null)
-            throw new ApiException(400, "Missing required parameter 'roleName' when calling RolesApi->DeleteRoleByRealmByRoleName");
+            throw new ApiException(400,
+                "Missing required parameter 'roleName' when calling RoleApi->DeleteRoleByRealmByRoleName");
 
-        return   Execute(async (apiClient, token) =>
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.DeleteAsync( builder =>
+            var result = await apiClient.DeleteAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
@@ -114,30 +120,33 @@ public class RolesApi : BaseApi, IRolesApi
             });
             return new ApiResponse<bool>((int)result.StatusCode,
                 result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                result.IsSuccessStatusCode &&  result.StatusCode == HttpStatusCode.NoContent);
+                result.IsSuccessStatusCode && result.StatusCode == HttpStatusCode.NoContent);
         });
     }
-    
+
     /// <summary>
-    ///  Remove roles from the role’s composite
+    ///     Remove roles from the role’s composite
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
     /// <param name="roleName">role&#x27;s name (not id!)</param>
     /// <param name="body">RoleRepresentation (optional)</param>
     /// <returns></returns>
-    public Task<ApiResponse<bool>> DeleteRoleCompositesByRealmByRoleName (string realm, string roleName, RoleRepresentation? body = null)
+    public Task<ApiResponse<bool>> DeleteRoleCompositesByRealmByRoleName(string realm, string roleName,
+        RoleRepresentation? body = null)
     {
         // verify the required parameter 'realm' is set
         if (realm == null)
-            throw new ApiException(400, "Missing required parameter 'realm' when calling RolesApi->DeleteRoleCompositesByRealmByRoleName");
+            throw new ApiException(400,
+                "Missing required parameter 'realm' when calling RoleApi->DeleteRoleCompositesByRealmByRoleName");
         // verify the required parameter 'roleName' is set
         if (roleName == null)
-            throw new ApiException(400, "Missing required parameter 'roleName' when calling RolesApi->DeleteRoleCompositesByRealmByRoleName");
-        
-        return   Execute(async (apiClient, token) =>
+            throw new ApiException(400,
+                "Missing required parameter 'roleName' when calling RoleApi->DeleteRoleCompositesByRealmByRoleName");
+
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.DeleteAsync( builder =>
+            var result = await apiClient.DeleteAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
@@ -146,12 +155,12 @@ public class RolesApi : BaseApi, IRolesApi
             });
             return new ApiResponse<bool>((int)result.StatusCode,
                 result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                result.IsSuccessStatusCode &&  result.StatusCode == HttpStatusCode.NoContent);
+                result.IsSuccessStatusCode && result.StatusCode == HttpStatusCode.NoContent);
         });
     }
 
     /// <summary>
-    ///  Get a role by name
+    ///     Get a role by name
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
@@ -162,17 +171,17 @@ public class RolesApi : BaseApi, IRolesApi
     {
         // verify the required parameter 'realm' is set
         if (realm == null)
-            throw new ApiException(400, "Missing required parameter 'realm' when calling RolesApi->GetClientRole");
+            throw new ApiException(400, "Missing required parameter 'realm' when calling RoleApi->GetClientRole");
         // verify the required parameter 'id' is set
         if (id == null)
-            throw new ApiException(400, "Missing required parameter 'id' when calling RolesApi->GetClientRole");
+            throw new ApiException(400, "Missing required parameter 'id' when calling RoleApi->GetClientRole");
         // verify the required parameter 'roleName' is set
         if (roleName == null)
-            throw new ApiException(400, "Missing required parameter 'roleName' when calling RolesApi->GetClientRole");
-        
-        return   Execute(async (apiClient, token) =>
+            throw new ApiException(400, "Missing required parameter 'roleName' when calling RoleApi->GetClientRole");
+
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.GetAsync( builder =>
+            var result = await apiClient.GetAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
@@ -183,31 +192,31 @@ public class RolesApi : BaseApi, IRolesApi
                 await result.DeserializeAsync<RoleRepresentation>().ConfigureAwait(false));
         });
     }
-    
-    
+
+
     /// <summary>
-    ///  Get composites of the role
+    ///     Get composites of the role
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
     /// <param name="id"></param>
     /// <param name="roleName">role&#x27;s name (not id!)</param>
     /// <returns>Object</returns>
-    public Object GetClientRoleComposites (string realm, string id, string roleName)
+    public object GetClientRoleComposites(string realm, string id, string roleName)
     {
         // verify the required parameter 'realm' is set
         if (realm == null)
-            throw new ApiException(400, "Missing required parameter 'realm' when calling RolesApi->GetClientRole");
+            throw new ApiException(400, "Missing required parameter 'realm' when calling RoleApi->GetClientRole");
         // verify the required parameter 'id' is set
         if (id == null)
-            throw new ApiException(400, "Missing required parameter 'id' when calling RolesApi->GetClientRole");
+            throw new ApiException(400, "Missing required parameter 'id' when calling RoleApi->GetClientRole");
         // verify the required parameter 'roleName' is set
         if (roleName == null)
-            throw new ApiException(400, "Missing required parameter 'roleName' when calling RolesApi->GetClientRole");
-        
-        return   Execute(async (apiClient, token) =>
+            throw new ApiException(400, "Missing required parameter 'roleName' when calling RoleApi->GetClientRole");
+
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.GetAsync( builder =>
+            var result = await apiClient.GetAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
@@ -220,7 +229,7 @@ public class RolesApi : BaseApi, IRolesApi
     }
 
     /// <summary>
-    ///  Get client-level roles for the client that are in the role’s composite
+    ///     Get client-level roles for the client that are in the role’s composite
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
@@ -234,23 +243,23 @@ public class RolesApi : BaseApi, IRolesApi
         // verify the required parameter 'realm' is set
         if (realm == null)
             throw new ApiException(400,
-                "Missing required parameter 'realm' when calling RolesApi->GetClientRoleCompositesClient");
+                "Missing required parameter 'realm' when calling RoleApi->GetClientRoleCompositesClient");
         // verify the required parameter 'id' is set
         if (id == null)
             throw new ApiException(400,
-                "Missing required parameter 'id' when calling RolesApi->GetClientRoleCompositesClient");
+                "Missing required parameter 'id' when calling RoleApi->GetClientRoleCompositesClient");
         // verify the required parameter 'roleName' is set
         if (roleName == null)
             throw new ApiException(400,
-                "Missing required parameter 'roleName' when calling RolesApi->GetClientRoleCompositesClient");
+                "Missing required parameter 'roleName' when calling RoleApi->GetClientRoleCompositesClient");
         // verify the required parameter 'clientUuid' is set
         if (clientUuid == null)
             throw new ApiException(400,
-                "Missing required parameter 'clientUuid' when calling RolesApi->GetClientRoleCompositesClient");
-        
-        return   Execute(async (apiClient, token) =>
+                "Missing required parameter 'clientUuid' when calling RoleApi->GetClientRoleCompositesClient");
+
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.GetAsync( builder =>
+            var result = await apiClient.GetAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
@@ -263,7 +272,7 @@ public class RolesApi : BaseApi, IRolesApi
     }
 
     /// <summary>
-    ///  Get realm-level roles of the role’s composite
+    ///     Get realm-level roles of the role’s composite
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
@@ -274,17 +283,20 @@ public class RolesApi : BaseApi, IRolesApi
     {
         // verify the required parameter 'realm' is set
         if (realm == null)
-            throw new ApiException(400, "Missing required parameter 'realm' when calling RolesApi->GetClientRoleCompositesRealm");
+            throw new ApiException(400,
+                "Missing required parameter 'realm' when calling RoleApi->GetClientRoleCompositesRealm");
         // verify the required parameter 'id' is set
         if (id == null)
-            throw new ApiException(400, "Missing required parameter 'id' when calling RolesApi->GetClientRoleCompositesRealm");
+            throw new ApiException(400,
+                "Missing required parameter 'id' when calling RoleApi->GetClientRoleCompositesRealm");
         // verify the required parameter 'roleName' is set
         if (roleName == null)
-            throw new ApiException(400, "Missing required parameter 'roleName' when calling RolesApi->GetClientRoleCompositesRealm");
-        
-        return   Execute(async (apiClient, token) =>
+            throw new ApiException(400,
+                "Missing required parameter 'roleName' when calling RoleApi->GetClientRoleCompositesRealm");
+
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.GetAsync( builder =>
+            var result = await apiClient.GetAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
@@ -297,40 +309,43 @@ public class RolesApi : BaseApi, IRolesApi
     }
 
     /// <summary>
-    ///  Returns a stream of groups that have the specified role name
+    ///     Returns a stream of groups that have the specified role name
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
     /// <param name="id"></param>
     /// <param name="roleName">the role name.</param>
-    /// <param name="briefRepresentation">if false, return a full representation of the {@code GroupRepresentation} objects. (optional)</param>
+    /// <param name="briefRepresentation">
+    ///     if false, return a full representation of the {@code GroupRepresentation} objects.
+    ///     (optional)
+    /// </param>
     /// <param name="first">first result to return. Ignored if negative or {@code null}. (optional)</param>
     /// <param name="max">maximum number of results to return. Ignored if negative or {@code null}. (optional)</param>
     /// <returns>ApiResponse of Object</returns>
     public Task<ApiResponse<List<GroupRepresentation>>> GetClientRoleGroups(string realm, string id, string roleName,
-        bool briefRepresentation = true,  int? first = null,  int? max =  null)
+        bool briefRepresentation = true, int? first = null, int? max = null)
     {
         // verify the required parameter 'realm' is set
         if (realm == null)
             throw new ApiException(400,
-                "Missing required parameter 'realm' when calling RolesApi->GetClientRoleGroups");
+                "Missing required parameter 'realm' when calling RoleApi->GetClientRoleGroups");
         // verify the required parameter 'id' is set
         if (id == null)
-            throw new ApiException(400, "Missing required parameter 'id' when calling RolesApi->GetClientRoleGroups");
+            throw new ApiException(400, "Missing required parameter 'id' when calling RoleApi->GetClientRoleGroups");
         // verify the required parameter 'roleName' is set
         if (roleName == null)
             throw new ApiException(400,
-                "Missing required parameter 'roleName' when calling RolesApi->GetClientRoleGroups");
-        
-        return   Execute(async (apiClient, token) =>
+                "Missing required parameter 'roleName' when calling RoleApi->GetClientRoleGroups");
+
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.GetAsync( builder =>
+            var result = await apiClient.GetAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
                     .QueryString("briefRepresentation", briefRepresentation)
-                    .QueryString( "first", first)
-                    .QueryString( "max", max)
+                    .QueryString("first", first)
+                    .QueryString("max", max)
                     .AppendPath($"/{realm}/clients/{id}/roles/{roleName}/groups");
             });
             return new ApiResponse<List<GroupRepresentation>>((int)result.StatusCode,
@@ -341,7 +356,7 @@ public class RolesApi : BaseApi, IRolesApi
 
 
     /// <summary>
-    ///  Returns a stream of users that have the specified role name.
+    ///     Returns a stream of users that have the specified role name.
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
@@ -350,27 +365,28 @@ public class RolesApi : BaseApi, IRolesApi
     /// <param name="first">first result to return. Ignored if negative or {@code null}. (optional)</param>
     /// <param name="max">maximum number of results to return. Ignored if negative or {@code null}. (optional)</param>
     /// <returns>ApiResponse of Object</returns>
-    public Task<ApiResponse<List<UserRepresentation>>> GetClientRoleUsers(string realm, string id, string roleName,  int? first = null, int? max = null)
+    public Task<ApiResponse<List<UserRepresentation>>> GetClientRoleUsers(string realm, string id, string roleName,
+        int? first = null, int? max = null)
     {
         // verify the required parameter 'realm' is set
         if (realm == null)
-            throw new ApiException(400, "Missing required parameter 'realm' when calling RolesApi->GetClientRoleUsers");
+            throw new ApiException(400, "Missing required parameter 'realm' when calling RoleApi->GetClientRoleUsers");
         // verify the required parameter 'id' is set
         if (id == null)
-            throw new ApiException(400, "Missing required parameter 'id' when calling RolesApi->GetClientRoleUsers");
+            throw new ApiException(400, "Missing required parameter 'id' when calling RoleApi->GetClientRoleUsers");
         // verify the required parameter 'roleName' is set
         if (roleName == null)
             throw new ApiException(400,
-                "Missing required parameter 'roleName' when calling RolesApi->GetClientRoleUsers");
-        
-        return   Execute(async (apiClient, token) =>
+                "Missing required parameter 'roleName' when calling RoleApi->GetClientRoleUsers");
+
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.GetAsync( builder =>
+            var result = await apiClient.GetAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
-                    .QueryString( "first", first)
-                    .QueryString( "max", max)
+                    .QueryString("first", first)
+                    .QueryString("max", max)
                     .AppendPath($"/{realm}/clients/{id}/roles/{roleName}/users");
             });
             return new ApiResponse<List<UserRepresentation>>((int)result.StatusCode,
@@ -378,9 +394,9 @@ public class RolesApi : BaseApi, IRolesApi
                 await result.DeserializeAsync<List<UserRepresentation>>().ConfigureAwait(false));
         });
     }
-    
+
     /// <summary>
-    ///  Get all roles for the realm or client
+    ///     Get all roles for the realm or client
     /// </summary>
     /// <param name="realm">realm name (not id!)</param>
     /// <param name="id"></param>
@@ -389,26 +405,27 @@ public class RolesApi : BaseApi, IRolesApi
     /// <param name="max"> (optional)</param>
     /// <param name="search"> (optional)</param>
     /// <returns>ApiResponse of Object</returns>
-    public Task<ApiResponse<List<RoleRepresentation>>> GetClientRoles (string realm, string id, bool briefRepresentation = true, int? first = null, int? max = null, string search = "")
+    public Task<ApiResponse<List<RoleRepresentation>>> GetClientRoles(string realm, string id,
+        bool briefRepresentation = true, int? first = null, int? max = null, string search = "")
     {
         // verify the required parameter 'realm' is set
         if (realm == null)
-            throw new ApiException(400, "Missing required parameter 'realm' when calling RolesApi->GetClientRoleUsers");
+            throw new ApiException(400, "Missing required parameter 'realm' when calling RoleApi->GetClientRoleUsers");
         // verify the required parameter 'id' is set
         if (id == null)
-            throw new ApiException(400, "Missing required parameter 'id' when calling RolesApi->GetClientRoleUsers");
+            throw new ApiException(400, "Missing required parameter 'id' when calling RoleApi->GetClientRoleUsers");
 
-        
-        return  Execute(async (apiClient, token) =>
+
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result =  await apiClient.GetAsync(builder =>
+            var result = await apiClient.GetAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
-                    .QueryString( "first", first)
-                    .QueryString( "max", max)
-                    .QueryStringIf(()=>!string.IsNullOrEmpty(search), "search", search)
-                    .QueryString( "briefRepresentation", briefRepresentation)
+                    .QueryString("first", first)
+                    .QueryString("max", max)
+                    .QueryStringIf(() => !string.IsNullOrEmpty(search), "search", search)
+                    .QueryString("briefRepresentation", briefRepresentation)
                     .AppendPath($"/{realm}/clients/{id}/roles");
             });
             return new ApiResponse<List<RoleRepresentation>>((int)result.StatusCode,
@@ -418,7 +435,7 @@ public class RolesApi : BaseApi, IRolesApi
     }
 
     /// <summary>
-    ///  Add a composite to the role
+    ///     Add a composite to the role
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
@@ -432,22 +449,22 @@ public class RolesApi : BaseApi, IRolesApi
         // verify the required parameter 'realm' is set
         if (realm == null)
             throw new ApiException(400,
-                "Missing required parameter 'realm' when calling RolesApi->PostClientRoleComposites");
+                "Missing required parameter 'realm' when calling RoleApi->PostClientRoleComposites");
         // verify the required parameter 'id' is set
         if (id == null)
             throw new ApiException(400,
-                "Missing required parameter 'id' when calling RolesApi->PostClientRoleComposites");
+                "Missing required parameter 'id' when calling RoleApi->PostClientRoleComposites");
         // verify the required parameter 'roleName' is set
         if (roleName == null)
             throw new ApiException(400,
-                "Missing required parameter 'roleName' when calling RolesApi->PostClientRoleComposites");
+                "Missing required parameter 'roleName' when calling RoleApi->PostClientRoleComposites");
         if (body == null)
             throw new ApiException(400,
-                "Missing required parameter 'body' when calling RolesApi->PostClientRoleComposites");
-        
-        return   Execute(async (apiClient, token) =>
+                "Missing required parameter 'body' when calling RoleApi->PostClientRoleComposites");
+
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.PostAsync( builder =>
+            var result = await apiClient.PostAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
@@ -456,33 +473,33 @@ public class RolesApi : BaseApi, IRolesApi
             });
             return new ApiResponse<bool>((int)result.StatusCode,
                 result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                result.IsSuccessStatusCode &&  result.StatusCode == HttpStatusCode.Created);
+                result.IsSuccessStatusCode && result.StatusCode == HttpStatusCode.Created);
         });
     }
 
     /// <summary>
-    ///  Create a new role for the realm or client
+    ///     Create a new role for the realm or client
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
     /// <param name="id"></param>
     /// <param name="body">RoleRepresentation</param>
     /// <returns>ApiResponse of Object(void)</returns>
-    public Task<ApiResponse<bool>> PostClientRole(string realm, string id, RoleRepresentation body )
+    public Task<ApiResponse<bool>> PostClientRole(string realm, string id, RoleRepresentation body)
     {
         // verify the required parameter 'realm' is set
         if (realm == null)
-            throw new ApiException(400, "Missing required parameter 'realm' when calling RolesApi->PostClientRoles");
+            throw new ApiException(400, "Missing required parameter 'realm' when calling RoleApi->PostClientRoles");
         // verify the required parameter 'id' is set
         if (id == null)
-            throw new ApiException(400, "Missing required parameter 'id' when calling RolesApi->PostClientRoles");
+            throw new ApiException(400, "Missing required parameter 'id' when calling RoleApi->PostClientRoles");
         if (body == null)
             throw new ApiException(400,
-                "Missing required parameter 'body' when calling RolesApi->PostClientRoles");
-        
-        return   Execute(async (apiClient, token) =>
+                "Missing required parameter 'body' when calling RoleApi->PostClientRoles");
+
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.PostAsync( builder =>
+            var result = await apiClient.PostAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
@@ -491,33 +508,36 @@ public class RolesApi : BaseApi, IRolesApi
             });
             return new ApiResponse<bool>((int)result.StatusCode,
                 result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                result.IsSuccessStatusCode &&  result.StatusCode == HttpStatusCode.Created);
+                result.IsSuccessStatusCode && result.StatusCode == HttpStatusCode.Created);
         });
     }
-    
-    
+
+
     /// <summary>
-    ///  Add a composite to the role
+    ///     Add a composite to the role
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
     /// <param name="roleName">role&#x27;s name (not id!)</param>
     /// <param name="body">RoleRepresentation</param>
     /// <returns></returns>
-    public Task<ApiResponse<bool>> PostRoleCompositeByRealmByRoleName (string realm, string roleName, RoleRepresentation body)
+    public Task<ApiResponse<bool>> PostRoleCompositeByRealmByRoleName(string realm, string roleName,
+        RoleRepresentation body)
     {
         // verify the required parameter 'realm' is set
         if (realm == null)
-            throw new ApiException(400, "Missing required parameter 'realm' when calling RolesApi->PostRoleCompositesByRealmByRoleName");
+            throw new ApiException(400,
+                "Missing required parameter 'realm' when calling RoleApi->PostRoleCompositesByRealmByRoleName");
         // verify the required parameter 'roleName' is set
         if (roleName == null)
-            throw new ApiException(400, "Missing required parameter 'roleName' when calling RolesApi->PostRoleCompositesByRealmByRoleName");
+            throw new ApiException(400,
+                "Missing required parameter 'roleName' when calling RoleApi->PostRoleCompositesByRealmByRoleName");
         if (body == null)
             throw new ApiException(400,
-                "Missing required parameter 'body' when calling RolesApi->PostRoleCompositesByRealmByRoleName");
-        return   Execute(async (apiClient, token) =>
+                "Missing required parameter 'body' when calling RoleApi->PostRoleCompositesByRealmByRoleName");
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.PostAsync( builder =>
+            var result = await apiClient.PostAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
@@ -526,30 +546,29 @@ public class RolesApi : BaseApi, IRolesApi
             });
             return new ApiResponse<bool>((int)result.StatusCode,
                 result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                result.IsSuccessStatusCode &&  result.StatusCode == HttpStatusCode.Created);
+                result.IsSuccessStatusCode && result.StatusCode == HttpStatusCode.Created);
         });
     }
-    
-    
-    
+
+
     /// <summary>
-    ///  Create a new role for the realm or client
+    ///     Create a new role for the realm or client
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
     /// <param name="body">RoleRepresentation (optional)</param>
     /// <returns></returns>
-    public Task<ApiResponse<bool>> PostRoleByRealm (string realm, RoleRepresentation body )
+    public Task<ApiResponse<bool>> PostRoleByRealm(string realm, RoleRepresentation body)
     {
         // verify the required parameter 'realm' is set
         if (realm == null)
-            throw new ApiException(400, "Missing required parameter 'realm' when calling RolesApi->PostRolesByRealm");
+            throw new ApiException(400, "Missing required parameter 'realm' when calling RoleApi->PostRolesByRealm");
         // verify the required parameter 'body' is set
         if (body == null)
-            throw new ApiException(400, "Missing required parameter 'body' when calling RolesApi->PostRolesByRealm");
-        return   Execute(async (apiClient, token) =>
+            throw new ApiException(400, "Missing required parameter 'body' when calling RoleApi->PostRolesByRealm");
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.PostAsync( builder =>
+            var result = await apiClient.PostAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
@@ -558,14 +577,13 @@ public class RolesApi : BaseApi, IRolesApi
             });
             return new ApiResponse<bool>((int)result.StatusCode,
                 result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                result.IsSuccessStatusCode &&  result.StatusCode == HttpStatusCode.Created);
+                result.IsSuccessStatusCode && result.StatusCode == HttpStatusCode.Created);
         });
-        
     }
-    
-    
+
+
     /// <summary>
-    ///  Update a role by name
+    ///     Update a role by name
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
@@ -573,23 +591,23 @@ public class RolesApi : BaseApi, IRolesApi
     /// <param name="roleName">role&#x27;s name (not id!)</param>
     /// <param name="body">RoleRepresentation (optional)</param>
     /// <returns></returns>
-    public Task<ApiResponse<bool>>  PutClientRole (string realm, string id, string roleName, RoleRepresentation body)
+    public Task<ApiResponse<bool>> PutClientRole(string realm, string id, string roleName, RoleRepresentation body)
     {
         // verify the required parameter 'realm' is set
         if (realm == null)
-            throw new ApiException(400, "Missing required parameter 'realm' when calling RolesApi->PutClientRole");
+            throw new ApiException(400, "Missing required parameter 'realm' when calling RoleApi->PutClientRole");
         // verify the required parameter 'id' is set
         if (id == null)
-            throw new ApiException(400, "Missing required parameter 'id' when calling RolesApi->PutClientRole");
+            throw new ApiException(400, "Missing required parameter 'id' when calling RoleApi->PutClientRole");
         // verify the required parameter 'roleName' is set
         if (roleName == null)
-            throw new ApiException(400, "Missing required parameter 'roleName' when calling RolesApi->PutClientRole");
+            throw new ApiException(400, "Missing required parameter 'roleName' when calling RoleApi->PutClientRole");
         // verify the required parameter 'body' is set
         if (body == null)
-            throw new ApiException(400, "Missing required parameter 'body' when calling RolesApi->PutClientRole");
-        return   Execute(async (apiClient, token) =>
+            throw new ApiException(400, "Missing required parameter 'body' when calling RoleApi->PutClientRole");
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.PutAsync( builder =>
+            var result = await apiClient.PutAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
@@ -598,38 +616,38 @@ public class RolesApi : BaseApi, IRolesApi
             });
             return new ApiResponse<bool>((int)result.StatusCode,
                 result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                result.IsSuccessStatusCode &&  result.StatusCode == HttpStatusCode.Created);
+                result.IsSuccessStatusCode && result.StatusCode == HttpStatusCode.Created);
         });
     }
 
 
     /// <summary>
-    ///  Update a role by name
+    ///     Update a role by name
     /// </summary>
     /// <exception cref="ApiException">Thrown when fails to make API call</exception>
     /// <param name="realm">realm name (not id!)</param>
     /// <param name="roleName">role&#x27;s name (not id!)</param>
     /// <param name="body">RoleRepresentation (optional)</param>
     /// <returns>ApiResponse of Object(void)</returns>
-    public Task<ApiResponse<bool>>  PutRoleByRealmByRoleName(string realm, string roleName,
+    public Task<ApiResponse<bool>> PutRoleByRealmByRoleName(string realm, string roleName,
         RoleRepresentation body)
     {
         // verify the required parameter 'realm' is set
         if (realm == null)
             throw new ApiException(400,
-                "Missing required parameter 'realm' when calling RolesApi->PutRoleByRealmByRoleName");
+                "Missing required parameter 'realm' when calling RoleApi->PutRoleByRealmByRoleName");
         // verify the required parameter 'roleName' is set
         if (roleName == null)
             throw new ApiException(400,
-                "Missing required parameter 'roleName' when calling RolesApi->PutRoleByRealmByRoleName");
+                "Missing required parameter 'roleName' when calling RoleApi->PutRoleByRealmByRoleName");
         // verify the required parameter 'body' is set
         if (body == null)
             throw new ApiException(400,
-                "Missing required parameter 'body' when calling RolesApi->PutRoleByRealmByRoleName");
-        
-        return   Execute(async (apiClient, token) =>
+                "Missing required parameter 'body' when calling RoleApi->PutRoleByRealmByRoleName");
+
+        return Execute(async (apiClient, token) =>
         {
-            HttpResponseMessage result = await apiClient.PutAsync( builder =>
+            var result = await apiClient.PutAsync(builder =>
             {
                 builder
                     .Header(h => h.Authorization("Bearer", token))
@@ -638,7 +656,7 @@ public class RolesApi : BaseApi, IRolesApi
             });
             return new ApiResponse<bool>((int)result.StatusCode,
                 result.Headers.ToDictionary(x => x.Key, x => string.Join(",", x.Value)),
-                result.IsSuccessStatusCode &&  result.StatusCode == HttpStatusCode.Created);
+                result.IsSuccessStatusCode && result.StatusCode == HttpStatusCode.Created);
         });
     }
 }
