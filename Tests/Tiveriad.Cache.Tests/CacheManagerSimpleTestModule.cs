@@ -43,4 +43,26 @@ public class CacheManagerSimpleTestModule : TestBase<Startup>
         });
         Assert.True(result);
     }
+    
+    
+    [Fact]
+    public void TryGetOrAddTest()
+    {
+        string key = Guid.NewGuid().ToString();
+        
+        var func = new Func<string, Person>(id =>
+        {
+            var person = new Person
+            {
+                Id = id,
+                Firstname = "John",
+                Lastname = "Doe",
+                Email = "john.doe@gmail.com"
+            };
+            return person;
+        });
+        
+        GetRequiredService<ICacheManager<object>>().TryGetOrAdd(key, func, out var result);
+        Assert.Equal(key, ((Person)result).Id);
+    }
 }

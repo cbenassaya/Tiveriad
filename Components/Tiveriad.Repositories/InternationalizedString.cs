@@ -15,6 +15,8 @@ public sealed class InternationalizedString
         {
             _values = new List<KeyValuePair<string, string>>();
         }
+        
+        public string Value => ToString();
 
 
         public CultureInfo CultureInfo

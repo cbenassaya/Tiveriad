@@ -1,4 +1,5 @@
 using DataReference.Integration;
+using MediatR;
 using Mongo2Go;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -35,6 +36,7 @@ builder.Services.AddDataReferences(typeof(Civility).Assembly);
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssembly(typeof(Civility).Assembly);
 });
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
