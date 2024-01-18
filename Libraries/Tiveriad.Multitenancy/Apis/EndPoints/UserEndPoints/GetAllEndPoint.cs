@@ -33,8 +33,8 @@ public class GetAllEndPoint : ControllerBase
         CancellationToken cancellationToken)
     {
         
-        ObjectId? oranizationId = string.IsNullOrEmpty(id) ? null : ObjectId.Parse(id);
-        ObjectId? userId = string.IsNullOrEmpty(organizationId) ? null : ObjectId.Parse(organizationId);
+        ObjectId? oranizationId = string.IsNullOrEmpty(organizationId) ? null : ObjectId.Parse(organizationId);
+        ObjectId? userId = string.IsNullOrEmpty(id) ? null : ObjectId.Parse(id);
         
         //<-- START CUSTOM CODE-->
         var result = await _mediator.Send(new GetAllUsersRequest(

@@ -32,8 +32,6 @@ public static class MvcDependencyInjection
             typeof(UserReaderModel).Assembly
         );
         
-
-
         
         services.AddValidatorsFromAssembly(typeof(UpdateMembershipStatePreValidator).Assembly);
         services.AddMediatR(cfg => {

@@ -15,7 +15,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Components\Tiveriad.Repositories\Tiveriad.Repositories.csproj" />
-        <ProjectReference Include="..\Tiveriad.Repositories\Tiveriad.Repositories.csproj" />
     </ItemGroup>
 
     <ItemGroup>
