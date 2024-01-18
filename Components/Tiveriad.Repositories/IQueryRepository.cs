@@ -15,7 +15,7 @@ public interface IQueryRepository<TEntity, TKey>
     where TEntity : IEntity<TKey>
     where TKey : IEquatable<TKey>
 {
-    IQueryable<TEntity> Queryable { get; }
+     IQueryable<TEntity> Queryable { get; }
     bool Any();
     bool Any(Expression<Func<TEntity, bool>> where);
     Task<bool> AnyAsync(CancellationToken cancellationToken = default);

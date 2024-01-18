@@ -1,5 +1,6 @@
 using System.Globalization;
 using Microsoft.Extensions.DependencyInjection;
+using Tiveriad.Repositories.Tests.Models;
 using Tiveriad.UnitTests;
 using Xunit;
 
@@ -60,5 +61,75 @@ public class InternationalizedTest : TestBase<Startup>
             return result;
         });
     }
+    
+    
+    [Fact]
+    public async void TransformationToDtoTest()
+    {
+        var book = await  Task<Book>.Run(() =>
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Book book = new Book();
+            book.Title = "Bonjour";
+            return book;
+        });
+        
+        var bookModel = await  Task<BookModel>.Run(() =>
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            var model = new BookModel()
+            {
+                Title = book.Title
+            };
+            return model;
+        });
+
+
+       
+        Assert.Equal("Bonjour", bookModel.Title);
+    }
+    
+    [Fact]
+    public async void TransformationListToDtoListTest()
+    {
+        var books = await  Task<List<Book>>.Run(() =>
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            List<Book> books = new List<Book>();
+            books.Add(new ()
+            {
+                Title = "Bonjour"
+            });
+            books.Add(new ()
+            {
+                Title = "Bonjour"
+            });
+            books.Add(new ()
+            {
+                Title = "Bonjour"
+            });
+            books.Add(new ()
+            {
+                Title = "Bonjour"
+            });
+            return books;
+        });
+        
+        var bookModels = await  Task<List<BookModel>>.Run(() =>
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            var models =books.Select(book => new BookModel()
+            {
+                Title = book.Title
+            }).ToList();
+            
+            return models;
+        });
+
+
+       
+        Assert.Equal("Bonjour", bookModels.First().Title);
+    }
+
     
 }

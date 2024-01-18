@@ -26,6 +26,7 @@
         <ProjectReference Include="..\..\Components\Tiveriad.EnterpriseIntegrationPatterns\Tiveriad.EnterpriseIntegrationPatterns.csproj" />
         <ProjectReference Include="..\..\Components\Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection\Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection.csproj" />
         <ProjectReference Include="..\..\Components\Tiveriad.Pipelines\Tiveriad.Pipelines.csproj" />
+        <ProjectReference Include="..\..\Components\Tiveriad.ServiceResolvers.Microsoft.DependencyInjection\Tiveriad.ServiceResolvers.Microsoft.DependencyInjection.csproj" />
         <ProjectReference Include="..\..\Components\Tiveriad.UnitTests\Tiveriad.UnitTests.csproj" />
     </ItemGroup>
 

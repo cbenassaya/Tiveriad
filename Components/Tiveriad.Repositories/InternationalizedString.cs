@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,12 +10,8 @@ namespace Tiveriad.Repositories;
 public sealed class InternationalizedString
 {
         private CultureInfo _cultureInfo;
-        private IList<KeyValuePair<string, string>> _values;
+        private ConcurrentDictionary<string,string> _values = new ();
 
-        public InternationalizedString()
-        {
-            _values = new List<KeyValuePair<string, string>>();
-        }
         
         public string Value => ToString();
 
@@ -29,41 +26,37 @@ public sealed class InternationalizedString
         {
             var internationalizedString = new InternationalizedString();
             if (string.IsNullOrEmpty(valuesString)) return internationalizedString;
-            try
-            {
-                if (IsJson(valuesString))
-                    internationalizedString._values =
-                        JsonSerializer.Deserialize<IList<KeyValuePair<string, string>>>(valuesString);
-                else
-                    internationalizedString.SetValue(valuesString);
-            }
-            catch
-            {
-                // ignored
-            }
-
+            internationalizedString.SetValue(valuesString);
             return internationalizedString;
         }
 
         public static implicit operator string(InternationalizedString b)
         {
             if (b == null) return string.Empty;
-            return b._values.FirstOrDefault(item => item.Key == b.CultureInfo.Name).Value ?? string.Empty;
+            return b.GetValue() ?? string.Empty;
         }
 
         public void SetValue(string value)
         {
-            var count = _values.Count(item => item.Key == CultureInfo.Name);
-            if (count > 0)
+            try
             {
-                var keyValue = _values.FirstOrDefault(item => item.Key == CultureInfo.Name);
-                _values.Remove(keyValue);
+                if (IsJson(value))
+                    _values = JsonSerializer.Deserialize<ConcurrentDictionary<string,string>>(value);
+                else
+                    _values.AddOrUpdate(CultureInfo.Name, value, (key, oldValue) => value);
             }
-
-            _values.Add(new KeyValuePair<string, string>(CultureInfo.Name, value));
+            catch
+            {
+                // ignored
+            }
         }
-        
-   
+
+        public string GetValue()
+        {
+            _values.TryGetValue(CultureInfo.Name, out var value);
+            return value;
+        }
+
 
 
         public override string ToString()

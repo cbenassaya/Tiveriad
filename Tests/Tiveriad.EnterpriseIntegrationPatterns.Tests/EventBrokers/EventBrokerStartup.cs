@@ -3,6 +3,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection;
 using Tiveriad.ServiceResolvers;
+using Tiveriad.ServiceResolvers.Microsoft.DependencyInjection;
 using Tiveriad.UnitTests;
 
 #endregion

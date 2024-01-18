@@ -1,3 +1,5 @@
+using Tiveriad.ServiceResolvers;
+
 namespace Tiveriad.Workflows.Core.Services;
 
 public interface IWorkflowOptions

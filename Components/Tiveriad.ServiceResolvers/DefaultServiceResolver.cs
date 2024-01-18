@@ -11,4 +11,9 @@ public class DefaultServiceResolver : IServiceResolver
     {
         return new[] { GetService(type) };
     }
+
+    public T GetService<T>()
+    {
+        return (T)GetService(typeof(T));
+    }
 }

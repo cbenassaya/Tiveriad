@@ -1,6 +1,8 @@
 #region
 
 using Microsoft.Extensions.DependencyInjection;
+using Tiveriad.ServiceResolvers;
+using Tiveriad.ServiceResolvers.Microsoft.DependencyInjection;
 using Tiveriad.UnitTests;
 using Tiveriad.Workflows.Core.Services;
 using Tiveriad.Workflows.DependencyInjection;

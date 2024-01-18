@@ -1,6 +1,7 @@
 #region
 
 using System.Collections.Concurrent;
+using Tiveriad.ServiceResolvers;
 using Tiveriad.Workflows.Core.Models;
 using Tiveriad.Workflows.Core.Services;
 

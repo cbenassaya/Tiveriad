@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Tiveriad.Apis.Contracts;
-using Tiveriad.Apis.Extensions;
 
-namespace Tiveriad.Apis;
+namespace Tiveriad.Apis.Extensions;
 
 
 class ExceptionHandler { }

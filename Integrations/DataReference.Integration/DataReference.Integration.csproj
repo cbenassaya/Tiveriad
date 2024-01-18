@@ -4,8 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <InvariantGlobalization>true</InvariantGlobalization>
-        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <InvariantGlobalization>false</InvariantGlobalization>
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,9 +14,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Components\Tiveriad.DataReferences.Apis.Microsoft.DependencyInjection\Tiveriad.DataReferences.Apis.Microsoft.DependencyInjection.csproj" />
       <ProjectReference Include="..\..\Components\Tiveriad.Repositories.Microsoft.DependencyInjection\Tiveriad.Repositories.Microsoft.DependencyInjection.csproj" />
       <ProjectReference Include="..\..\Components\Tiveriad.Repositories.MongoDb\Tiveriad.Repositories.MongoDb.csproj" />
+      <ProjectReference Include="..\..\Libraries\Tiveriad.DataReferences.Microsoft.DependencyInjection\Tiveriad.DataReferences.Microsoft.DependencyInjection.csproj" />
     </ItemGroup>
 
 </Project>

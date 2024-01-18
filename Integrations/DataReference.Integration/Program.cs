@@ -2,6 +2,7 @@ using DataReference.Integration;
 using MediatR;
 using Mongo2Go;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using Tiveriad.DataReferences.Apis.Microsoft.DependencyInjection;
 using Tiveriad.DataReferences.Apis.Services;
@@ -18,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<Database>();
 
 var database = builder.Services.BuildServiceProvider().GetRequiredService<Database>();
-
+BsonSerializer.RegisterSerializationProvider(new InternationalizedSerializationProvider());
 builder.Services
     .ConfigureConnectionFactory<MongoConnectionFactoryBuilder, IMongoDatabase, MongoConnectionConfigurator,
         IMongoConnectionConfiguration>(

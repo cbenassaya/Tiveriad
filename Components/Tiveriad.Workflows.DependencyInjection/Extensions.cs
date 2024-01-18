@@ -2,6 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.ObjectPool;
+using Tiveriad.ServiceResolvers.Microsoft.DependencyInjection;
 using Tiveriad.Workflows.Core.Primitives;
 using Tiveriad.Workflows.Core.Services;
 using Tiveriad.Workflows.Services;

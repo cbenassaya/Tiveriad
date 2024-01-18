@@ -13,6 +13,7 @@
 
 
     <ItemGroup>
+        <ProjectReference Include="..\Tiveriad.ServiceResolvers.Microsoft.DependencyInjection\Tiveriad.ServiceResolvers.Microsoft.DependencyInjection.csproj" />
         <ProjectReference Include="..\Tiveriad.Workflows\Tiveriad.Workflows.csproj"/>
     </ItemGroup>
 

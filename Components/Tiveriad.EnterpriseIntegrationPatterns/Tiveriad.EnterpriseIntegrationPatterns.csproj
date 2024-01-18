@@ -15,8 +15,4 @@
         <Compile Remove="StateMachines\Machine\GuardHolders\AsyncArgumentGuardHolder.cs" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="ServiceResolvers" />
-    </ItemGroup>
-
 </Project>
