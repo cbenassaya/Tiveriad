@@ -1,6 +1,8 @@
 #region
 
 using System.Collections.ObjectModel;
+using Tiveriad.Core.Abstractions.DomainEvents;
+using Tiveriad.Core.Abstractions.Services;
 
 #endregion
 

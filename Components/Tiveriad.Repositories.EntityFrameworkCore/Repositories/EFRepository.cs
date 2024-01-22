@@ -2,6 +2,7 @@
 
 using System;
 using Microsoft.EntityFrameworkCore;
+using Tiveriad.Core.Abstractions.Entities;
 
 #endregion
 

@@ -1,6 +1,7 @@
 #region
 
 using MongoDB.Bson;
+using Tiveriad.Core.Abstractions.Entities;
 
 #endregion
 
@@ -12,5 +13,5 @@ public class Invoice : IEntity<ObjectId>
     public Party From { get; set; } = null!;
     public Party To { get; set; } = null!;
     public ICollection<InvoiceDetail> InvoiceDetails { get; set; } = null!;
-    public ObjectId Id { get; set; }
+    public ObjectId Id { get; set; } = ObjectId.Empty;
 }

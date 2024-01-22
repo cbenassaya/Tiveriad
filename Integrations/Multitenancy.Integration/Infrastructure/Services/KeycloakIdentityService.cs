@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
+using Tiveriad.Identities.Core.Entities;
+using Tiveriad.Identities.Core.Services;
 using Tiveriad.Keycloak.Apis;
 using Tiveriad.Keycloak.Models;
-using Tiveriad.Multitenancy.Core.Entities;
-using Tiveriad.Multitenancy.Core.Services;
 
 namespace Multitenancy.Integration.Infrastructure.Services;
 

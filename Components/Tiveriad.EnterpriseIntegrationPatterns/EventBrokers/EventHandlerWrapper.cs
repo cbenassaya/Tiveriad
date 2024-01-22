@@ -1,3 +1,5 @@
+using Tiveriad.Core.Abstractions.DomainEvents;
+
 namespace Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 
 internal class EventHandlerWrapper<TEvent, TKey> : IEventHandler<TEvent, TKey>

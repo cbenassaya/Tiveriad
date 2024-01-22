@@ -4,15 +4,15 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <InvariantGlobalization>true</InvariantGlobalization>
-        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <InvariantGlobalization>false</InvariantGlobalization>
+        <RootNamespace>Multitenancy.Integration</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
-        <PackageReference Include="Mongo2Go" Version="3.1.3" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -20,9 +20,8 @@
       <ProjectReference Include="..\..\Components\Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection\Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection.csproj" />
       <ProjectReference Include="..\..\Components\Tiveriad.EnterpriseIntegrationPatterns.RabbitMq\Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.csproj" />
       <ProjectReference Include="..\..\Components\Tiveriad.Repositories.Microsoft.DependencyInjection\Tiveriad.Repositories.Microsoft.DependencyInjection.csproj" />
-      <ProjectReference Include="..\..\Components\Tiveriad.Repositories.MongoDb\Tiveriad.Repositories.MongoDb.csproj" />
       <ProjectReference Include="..\..\Components\Tiveriad.ServiceResolvers.Microsoft.DependencyInjection\Tiveriad.ServiceResolvers.Microsoft.DependencyInjection.csproj" />
-      <ProjectReference Include="..\..\Libraries\Tiveriad.Multitenancy\Tiveriad.Multitenancy.csproj" />
+      <ProjectReference Include="..\..\Libraries\Tiveriad.Identities\Tiveriad.Identities.csproj" />
 
     </ItemGroup>
 

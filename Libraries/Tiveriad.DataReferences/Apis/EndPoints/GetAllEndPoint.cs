@@ -1,18 +1,16 @@
 #region
 
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Tiveriad.Core.Abstractions.Entities;
+using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.DataReferences.Apis.Contracts;
-using Tiveriad.DataReferences.Apis.Queries;
-using Tiveriad.DataReferences.Apis.Services;
-using Tiveriad.Repositories;
+using Tiveriad.DataReferences.Applications.Queries;
 
 #endregion
 
 namespace Tiveriad.DataReferences.Apis.EndPoints;
-
 
 public class GetAllEndPoint<TEntity, TKey> : ControllerBase
     where TEntity : IDataReference<TKey>, new()
@@ -21,7 +19,7 @@ public class GetAllEndPoint<TEntity, TKey> : ControllerBase
     private readonly IKeyParser<TKey> _keyParser;
     private readonly IMediator _mediator;
     private readonly ITenantService<TKey> _tenantService;
-   
+
 
     public GetAllEndPoint(IMediator mediator, ITenantService<TKey> tenantService, IKeyParser<TKey> keyParser)
     {
@@ -44,13 +42,13 @@ public class GetAllEndPoint<TEntity, TKey> : ControllerBase
     {
         //<-- START CUSTOM CODE-->
         var result = await _mediator.Send(new GetAllRequest<TEntity, TKey>(
-            Id:string.IsNullOrEmpty(id)?default(TKey):_keyParser.Parse(id),
-            OrganizationId:_tenantService.GetOrganizationId(),
-            Code:code,
-            Page:page,
-            Limit:limit,
-            Q:q,
-            Orders:orders
+            string.IsNullOrEmpty(id) ? default : _keyParser.Parse(id),
+            _tenantService.GetOrganizationId(),
+            code,
+            page,
+            limit,
+            q,
+            orders
         ), cancellationToken);
         var data = result.Select(x => new DataReferenceReaderModel
         {

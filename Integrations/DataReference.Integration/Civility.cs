@@ -1,44 +1,48 @@
+#region
+
 using FluentValidation;
 using MediatR;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using Tiveriad.DataReferences.Apis.Services;
-using Tiveriad.Repositories;
+using Tiveriad.Core.Abstractions.Entities;
+using Tiveriad.Core.Abstractions.Services;
+using Tiveriad.IdGenerators;
+
+#endregion
 
 namespace DataReference.Integration;
 
 [DataReferenceRoute("api/civilities")]
-public class Civility: IDataReference<ObjectId>
+public class Civility : IDataReference<string>
 {
-    [BsonId]
-    public ObjectId Id { get; set; }
+    public string? Id { get; set; }
 
-    public string DocumentDescriptionId { get; set; }
+    public string? DocumentDescriptionId { get; set; }
     public InternationalizedString Label { get; set; }
-    public string Description { get; set; }
+    public string? Description { get; set; }
     public string Code { get; set; }
     public Visibility Visibility { get; set; }
-    public ObjectId OrganizationId { get; set; }
+    public string OrganizationId { get; set; }
 }
 
-public class KeyParser : IKeyParser<ObjectId>
+public class KeyParser : IKeyParser<string>
 {
-    public ObjectId Parse(string? key)
+    public string Parse(string? key)
     {
-        return ObjectId.Parse(key);
+        return key ?? string.Empty;
     }
 }
 
-public class TenantService : ITenantService<ObjectId>
+public class TenantService : ITenantService<string>
 {
-    private static ObjectId _objectId = ObjectId.GenerateNewId();
-    public ObjectId GetOrganizationId()
+    private static readonly string _objectId = KeyGenerator.NewId<string>();
+
+    public string GetOrganizationId()
     {
         return _objectId;
     }
 }
 
-public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -47,7 +51,8 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
         _validators = validators;
     }
 
-    public async Task<TResponse> Handle(TRequest request,RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         if (!_validators.Any()) return await next();
         var context = new ValidationContext<TRequest>(request);

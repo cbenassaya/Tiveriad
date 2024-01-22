@@ -1,6 +1,7 @@
 #region
 
 using System.Collections.Concurrent;
+using Tiveriad.Core.Abstractions.DomainEvents;
 using Tiveriad.ServiceResolvers;
 
 #endregion

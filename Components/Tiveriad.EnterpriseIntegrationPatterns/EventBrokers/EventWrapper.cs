@@ -1,3 +1,5 @@
+using Tiveriad.Core.Abstractions.DomainEvents;
+
 namespace Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 
 public class EventWrapper<TEvent, TKey> : IWrapperEvent

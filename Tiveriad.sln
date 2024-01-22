@@ -97,11 +97,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.DataReferences", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.DataReferences.Microsoft.DependencyInjection", "Libraries\Tiveriad.DataReferences.Microsoft.DependencyInjection\Tiveriad.DataReferences.Microsoft.DependencyInjection.csproj", "{B8B24F9E-50B4-40DD-AEE2-1CCB76CA9D22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Multitenancy", "Libraries\Tiveriad.Multitenancy\Tiveriad.Multitenancy.csproj", "{EC53666A-5F9E-4FA5-8214-61D82236DBF9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Identities", "Libraries\Tiveriad.Identities\Tiveriad.Identities.csproj", "{EC53666A-5F9E-4FA5-8214-61D82236DBF9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Multitenancy.Integration", "Integrations\Multitenancy.Integration\Multitenancy.Integration.csproj", "{078DA13A-9FE2-42BC-ADB8-91355C65077E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.ServiceResolvers.Microsoft.DependencyInjection", "Components\Tiveriad.ServiceResolvers.Microsoft.DependencyInjection\Tiveriad.ServiceResolvers.Microsoft.DependencyInjection.csproj", "{1464121C-91DF-4ABF-83A6-145A1FDB6B88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Documents", "Libraries\Tiveriad.Documents\Tiveriad.Documents.csproj", "{A5FF364A-AE13-45F3-886F-7FC4F75FF454}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Documents.Providers.LocalDrive", "Libraries\Tiveriad.Documents.Providers.LocalDrive\Tiveriad.Documents.Providers.LocalDrive.csproj", "{D0D59F71-A075-43EA-8BCD-D3D326B9910A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Documents.Providers.S3", "Libraries\Tiveriad.Documents.Providers.S3\Tiveriad.Documents.Providers.S3.csproj", "{0298F819-E081-440D-BC48-FF5F80568816}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Core.Abstractions", "Components\Tiveriad.Core.Abstractions\Tiveriad.Core.Abstractions.csproj", "{95257185-7A6D-48E5-B032-2044914B8DA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Documents.Microsoft.DependencyInjection", "Libraries\Tiveriad.Documents.Microsoft.DependencyInjection\Tiveriad.Documents.Microsoft.DependencyInjection.csproj", "{74CF935D-6280-4C76-8DDC-FA4CCCC54A0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Notifications", "Libraries\Tiveriad.Notifications\Tiveriad.Notifications.csproj", "{4335923F-C966-4E25-8DF0-B6A9A5B60A30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Notifications.Microsoft.DependencyInjection", "Libraries\Tiveriad.Notifications.Microsoft.DependencyInjection\Tiveriad.Notifications.Microsoft.DependencyInjection.csproj", "{1079957A-C653-4011-BF6C-721A89511A80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -281,6 +295,34 @@ Global
 		{1464121C-91DF-4ABF-83A6-145A1FDB6B88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1464121C-91DF-4ABF-83A6-145A1FDB6B88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1464121C-91DF-4ABF-83A6-145A1FDB6B88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5FF364A-AE13-45F3-886F-7FC4F75FF454}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5FF364A-AE13-45F3-886F-7FC4F75FF454}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5FF364A-AE13-45F3-886F-7FC4F75FF454}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5FF364A-AE13-45F3-886F-7FC4F75FF454}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0D59F71-A075-43EA-8BCD-D3D326B9910A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0D59F71-A075-43EA-8BCD-D3D326B9910A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0D59F71-A075-43EA-8BCD-D3D326B9910A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0D59F71-A075-43EA-8BCD-D3D326B9910A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0298F819-E081-440D-BC48-FF5F80568816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0298F819-E081-440D-BC48-FF5F80568816}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0298F819-E081-440D-BC48-FF5F80568816}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0298F819-E081-440D-BC48-FF5F80568816}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95257185-7A6D-48E5-B032-2044914B8DA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95257185-7A6D-48E5-B032-2044914B8DA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95257185-7A6D-48E5-B032-2044914B8DA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95257185-7A6D-48E5-B032-2044914B8DA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74CF935D-6280-4C76-8DDC-FA4CCCC54A0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74CF935D-6280-4C76-8DDC-FA4CCCC54A0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74CF935D-6280-4C76-8DDC-FA4CCCC54A0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74CF935D-6280-4C76-8DDC-FA4CCCC54A0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4335923F-C966-4E25-8DF0-B6A9A5B60A30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4335923F-C966-4E25-8DF0-B6A9A5B60A30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4335923F-C966-4E25-8DF0-B6A9A5B60A30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4335923F-C966-4E25-8DF0-B6A9A5B60A30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1079957A-C653-4011-BF6C-721A89511A80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1079957A-C653-4011-BF6C-721A89511A80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1079957A-C653-4011-BF6C-721A89511A80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1079957A-C653-4011-BF6C-721A89511A80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5FA9F754-A10A-4DCE-8C6A-DB372D36AE0B} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
@@ -326,5 +368,12 @@ Global
 		{EC53666A-5F9E-4FA5-8214-61D82236DBF9} = {64EC9BA5-2D37-4E64-9BBE-5B5E71C50015}
 		{078DA13A-9FE2-42BC-ADB8-91355C65077E} = {B21186BB-5879-4951-9A3F-7E15D4986D75}
 		{1464121C-91DF-4ABF-83A6-145A1FDB6B88} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
+		{A5FF364A-AE13-45F3-886F-7FC4F75FF454} = {64EC9BA5-2D37-4E64-9BBE-5B5E71C50015}
+		{D0D59F71-A075-43EA-8BCD-D3D326B9910A} = {64EC9BA5-2D37-4E64-9BBE-5B5E71C50015}
+		{0298F819-E081-440D-BC48-FF5F80568816} = {64EC9BA5-2D37-4E64-9BBE-5B5E71C50015}
+		{95257185-7A6D-48E5-B032-2044914B8DA2} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
+		{74CF935D-6280-4C76-8DDC-FA4CCCC54A0F} = {64EC9BA5-2D37-4E64-9BBE-5B5E71C50015}
+		{4335923F-C966-4E25-8DF0-B6A9A5B60A30} = {64EC9BA5-2D37-4E64-9BBE-5B5E71C50015}
+		{1079957A-C653-4011-BF6C-721A89511A80} = {64EC9BA5-2D37-4E64-9BBE-5B5E71C50015}
 	EndGlobalSection
 EndGlobal

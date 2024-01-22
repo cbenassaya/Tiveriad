@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Tiveriad.Connections;
+using Tiveriad.Core.Abstractions.Entities;
 
 #endregion
 

@@ -1,4 +1,6 @@
-﻿using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
+﻿using Tiveriad.Core.Abstractions.DomainEvents;
+using Tiveriad.Core.Abstractions.Services;
+using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 
 namespace Tiveriad.Multitenancy.Apis.Filters;
 

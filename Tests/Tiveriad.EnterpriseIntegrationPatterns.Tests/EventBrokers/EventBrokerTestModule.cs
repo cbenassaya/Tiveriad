@@ -1,5 +1,6 @@
 #region
 
+using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.Tests.Models;
 using Tiveriad.UnitTests;

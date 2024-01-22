@@ -1,6 +1,7 @@
 #region
 
 using System;
+using Tiveriad.Core.Abstractions.Entities;
 
 #endregion
 

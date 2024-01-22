@@ -1,18 +1,21 @@
+#region
+
 using System.Reflection;
 using System.Reflection.Emit;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Tiveriad.Commons.Extensions;
+using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.DataReferences.Apis.EndPoints;
-using Tiveriad.Repositories;
+
+#endregion
 
 namespace Tiveriad.DataReferences.Apis.Controllers;
 
-
 public static class GenericControllerDefinition
 {
-    public static TypeInfo[] TypeInfos = new[]
+    public static TypeInfo[] TypeInfos =
     {
         typeof(GetAllEndPoint<,>).GetTypeInfo(),
         typeof(GetByIdEndPoint<,>).GetTypeInfo(),
@@ -22,13 +25,11 @@ public static class GenericControllerDefinition
     };
 }
 
-
-
 public class DataReferenceControllerModelConvention : IControllerModelConvention
 {
     public void Apply(ControllerModel controller)
     {
-        var isVisible =!GenericControllerDefinition.TypeInfos.Contains(controller.ControllerType);
+        var isVisible = !GenericControllerDefinition.TypeInfos.Contains(controller.ControllerType);
         controller.ApiExplorer.IsVisible = isVisible;
     }
 }
@@ -79,36 +80,35 @@ public class DataReferenceControllerFeatureProvider : IApplicationFeatureProvide
                 var controllerType = genericType.MakeGenericType(typeParameters);
                 Console.WriteLine($"ADD ===> Controller: {controllerType.FullName}");
                 if (feature.Controllers.Contains(controllerType.GetTypeInfo())) continue;
-                
+
                 //var controller = CreateDerivedType(controllerType.GetTypeInfo().AsType(),$"{genericType.Name}<{type.Name},{keyType.Name}>");
-                
+
                 feature.Controllers.Add(controllerType.GetTypeInfo());
             }
         }
-        
-         
     }
-    
-    
+
+
     private Type CreateDerivedType(Type baseType, string name)
     {
         // Create a dynamic assembly
-        AssemblyName assemblyName = new AssemblyName("DynamicAssembly");
-        AssemblyBuilder assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
+        var assemblyName = new AssemblyName("DynamicAssembly");
+        var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
 
         // Create a dynamic module
-        ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule("DynamicModule");
+        var moduleBuilder = assemblyBuilder.DefineDynamicModule("DynamicModule");
 
         // Create a dynamic type derived from the abstract base type
-        TypeBuilder typeBuilder = moduleBuilder.DefineType(name, TypeAttributes.Public | TypeAttributes.Class, baseType);
+        var typeBuilder = moduleBuilder.DefineType(name, TypeAttributes.Public | TypeAttributes.Class, baseType);
 
         // Define a default constructor
-        ConstructorBuilder constructorBuilder = typeBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, Type.EmptyTypes);
-        ILGenerator ilGenerator = constructorBuilder.GetILGenerator();
+        var constructorBuilder =
+            typeBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, Type.EmptyTypes);
+        var ilGenerator = constructorBuilder.GetILGenerator();
         ilGenerator.Emit(OpCodes.Ret);
 
         // Create the type
-        Type generatedType = typeBuilder.CreateType();
+        var generatedType = typeBuilder.CreateType();
 
         return generatedType;
     }

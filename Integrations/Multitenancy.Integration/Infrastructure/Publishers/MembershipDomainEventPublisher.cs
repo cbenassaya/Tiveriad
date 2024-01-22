@@ -1,7 +1,7 @@
 using Tiveriad.Connections;
 using Tiveriad.EnterpriseIntegrationPatterns.RabbitMq;
 using Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.EventBrokers;
-using Tiveriad.Multitenancy.Core.DomainEvents;
+using Tiveriad.Identities.Core.DomainEvents;
 using IConnection = RabbitMQ.Client.IConnection;
 
 namespace Multitenancy.Integration.Infrastructure.Publishers;

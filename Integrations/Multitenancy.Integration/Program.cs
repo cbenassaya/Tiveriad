@@ -1,24 +1,14 @@
-
-using MongoDB.Bson.Serialization;
-using MongoDB.Driver;
 using Multitenancy.Integration;
 using Multitenancy.Integration.Extensions;
-using Multitenancy.Integration.Infrastructure;
-using Tiveriad.Multitenancy.Core.Entities;
-using Tiveriad.Repositories.Microsoft.DependencyInjection;
-using Tiveriad.Repositories.MongoDb.Repositories;
-
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.local.json");
-
-builder.Services.AddRepositories(typeof(MongoRepository<>), typeof(Organization));
 
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
+    options.AddDefaultPolicy(configurePolicy =>
     {
-        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        configurePolicy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
     });
 });
 
@@ -30,7 +20,7 @@ builder.Services.AddKeycloak();
 
 builder.Services.AddMvc();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => { });
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 app.UseRouting(); // This adds EndpointRoutingMiddleware
 app.UseCors();

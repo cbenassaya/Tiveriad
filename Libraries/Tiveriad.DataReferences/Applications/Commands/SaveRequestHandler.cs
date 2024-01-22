@@ -1,11 +1,12 @@
 #region
 
 using MediatR;
+using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.Repositories;
 
 #endregion
 
-namespace Tiveriad.DataReferences.Apis.Commands;
+namespace Tiveriad.DataReferences.Applications.Commands;
 
 public class SaveRequestHandler<TEntity, TKey> : IRequestHandler<SaveRequest<TEntity, TKey>, TEntity>
     where TEntity : IDataReference<TKey>, new()

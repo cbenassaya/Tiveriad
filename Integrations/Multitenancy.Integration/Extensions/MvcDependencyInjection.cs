@@ -1,13 +1,15 @@
 ﻿using AutoMapper;
 
 using FluentValidation;
-using MongoDB.Bson;
+using Multitenancy.Integration.Filters;
+using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection;
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
-using Tiveriad.Multitenancy.Apis.Contracts;
+using Tiveriad.Identities.Apis.Contracts;
+using Tiveriad.Identities.Apis.Filters;
+using Tiveriad.Identities.Applications.Commands.UserCommands;
+using Tiveriad.Identities.Core.DomainEvents;
 using Tiveriad.Multitenancy.Apis.Filters;
-using Tiveriad.Multitenancy.Applications.Commands.UserCommands;
-using Tiveriad.Multitenancy.Core.DomainEvents;
 using Tiveriad.ServiceResolvers;
 using Tiveriad.ServiceResolvers.Microsoft.DependencyInjection;
 
@@ -18,20 +20,14 @@ public static class MvcDependencyInjection
     public static IServiceCollection AddMultitenancy(this IServiceCollection services)
     {
         
+        services.AddAutoMapper(typeof(UserReaderModel).Assembly);
+        
         services.AddMvc(opt =>
         {
+            opt.Filters.Add<TransactionActionFilter>();
             opt.Filters.Add<DomainEventActionFilter>();
             
         });
-        
-        services.AddAutoMapper(cfg =>
-            {
-                cfg.CreateMap<ObjectId,string>().ConvertUsing(o => o.ToString());
-                cfg.CreateMap<string, ObjectId>().ConvertUsing(x => string.IsNullOrEmpty(x) ? ObjectId.Empty : ObjectId.Parse(x));
-            },
-            typeof(UserReaderModel).Assembly
-        );
-        
         
         services.AddValidatorsFromAssembly(typeof(UpdateMembershipStatePreValidator).Assembly);
         services.AddMediatR(cfg => {

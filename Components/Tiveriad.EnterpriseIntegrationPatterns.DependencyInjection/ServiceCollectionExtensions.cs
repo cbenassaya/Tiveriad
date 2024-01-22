@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Tiveriad.Commons.Extensions;
 using Tiveriad.Connections;
+using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.Mediators;
 

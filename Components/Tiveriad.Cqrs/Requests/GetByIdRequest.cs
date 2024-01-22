@@ -2,6 +2,7 @@
 
 using System;
 using MediatR;
+using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.Repositories;
 
 #endregion

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using MediatR;
+using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.Repositories;
 
 #endregion

@@ -4,24 +4,23 @@ using System.ComponentModel.DataAnnotations;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Tiveriad.Core.Abstractions.Entities;
+using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.DataReferences.Apis.Contracts;
-using Tiveriad.DataReferences.Apis.Queries;
-using Tiveriad.DataReferences.Apis.Services;
-using Tiveriad.Repositories;
+using Tiveriad.DataReferences.Applications.Queries;
 
 #endregion
 
 namespace Tiveriad.DataReferences.Apis.EndPoints;
 
-
-public  class GetByIdEndPoint<TEntity, TKey> : ControllerBase
+public class GetByIdEndPoint<TEntity, TKey> : ControllerBase
     where TEntity : IDataReference<TKey>, new()
     where TKey : IEquatable<TKey>
 {
     private readonly IKeyParser<TKey> _keyParser;
     private readonly IMediator _mediator;
     private readonly ITenantService<TKey> _tenantService;
-   
+
 
     public GetByIdEndPoint(IMediator mediator, ITenantService<TKey> tenantService, IKeyParser<TKey> keyParser)
     {

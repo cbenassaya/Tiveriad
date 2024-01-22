@@ -1,6 +1,7 @@
 #region
 
 using MongoDB.Bson;
+using Tiveriad.Core.Abstractions.Entities;
 
 #endregion
 
@@ -13,5 +14,5 @@ public class Party : IEntity<ObjectId>
     public string City { get; set; } = null!;
     public string Country { get; set; } = null!;
     public string StreetAddress { get; set; } = null!;
-    public ObjectId Id { get; set; }
+    public ObjectId Id { get; set; } = ObjectId.Empty;
 }

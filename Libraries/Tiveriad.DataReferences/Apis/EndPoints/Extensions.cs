@@ -1,8 +1,13 @@
+#region
+
 using Microsoft.AspNetCore.Http;
+
+#endregion
 
 namespace Tiveriad.DataReferences.Apis.EndPoints;
 
-public static  class Extensions {
+public static class Extensions
+{
     public static async Task<MultipartFormDataContent> ToMultipartFormDataContent(this IFormFile file)
     {
         var multipartContent = new MultipartFormDataContent();
@@ -13,6 +18,7 @@ public static  class Extensions {
                 new ByteArrayContent(memoryStream.ToArray()), "FormFile",
                 file.FileName);
         }
+
         return multipartContent;
-    } 
+    }
 }

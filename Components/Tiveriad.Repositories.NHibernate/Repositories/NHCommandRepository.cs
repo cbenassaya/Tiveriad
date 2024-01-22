@@ -2,6 +2,7 @@
 
 using System.Linq.Expressions;
 using NHibernate;
+using Tiveriad.Core.Abstractions.Entities;
 
 #endregion
 

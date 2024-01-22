@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using Tiveriad.Commons.RetryLogic;
 using Tiveriad.Connections;
+using Tiveriad.Core.Abstractions.DomainEvents;
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.MessageBrokers;
 

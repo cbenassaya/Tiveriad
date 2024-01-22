@@ -1,4 +1,8 @@
+#region
+
 using Microsoft.AspNetCore.Mvc;
+
+#endregion
 
 namespace DataReference.Integration.Controllers;
 

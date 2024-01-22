@@ -2,20 +2,22 @@
 
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.Repositories;
 
 #endregion
 
-namespace Tiveriad.DataReferences.Apis.Queries;
+namespace Tiveriad.DataReferences.Applications.Queries;
 
 public class GetByIdRequestHandler<TEntity, TKey> : IRequestHandler<GetByIdRequest<TEntity, TKey>, TEntity>
     where TEntity : IDataReference<TKey>, new()
     where TKey : IEquatable<TKey>
 {
-    private readonly IRepository<TEntity, TKey> _repository;
     private readonly ILogger<GetByIdRequestHandler<TEntity, TKey>> _logger;
+    private readonly IRepository<TEntity, TKey> _repository;
 
-    public GetByIdRequestHandler(IRepository<TEntity, TKey> repository, ILogger<GetByIdRequestHandler<TEntity, TKey>> logger)
+    public GetByIdRequestHandler(IRepository<TEntity, TKey> repository,
+        ILogger<GetByIdRequestHandler<TEntity, TKey>> logger)
     {
         _repository = repository;
         _logger = logger;
@@ -29,15 +31,12 @@ public class GetByIdRequestHandler<TEntity, TKey> : IRequestHandler<GetByIdReque
             query = query.Where(x =>
                 (x.OrganizationId.Equals(request.OrganizationId) && x.Visibility == Visibility.Private) ||
                 x.Visibility == Visibility.Public);
-        
+
 
         return Task.Run(() =>
         {
             var result = query.FirstOrDefault();
-            if (result == null)
-            {
-                _logger.LogError($"{typeof(TEntity).Name}_NOT_FOUND");
-            }
+            if (result == null) _logger.LogError($"{typeof(TEntity).Name}_NOT_FOUND");
             return result;
         }, cancellationToken);
     }

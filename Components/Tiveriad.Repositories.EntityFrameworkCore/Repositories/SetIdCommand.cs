@@ -2,6 +2,7 @@
 
 using System;
 using Tiveriad.Commons.Reflexions;
+using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.IdGenerators;
 
 #endregion

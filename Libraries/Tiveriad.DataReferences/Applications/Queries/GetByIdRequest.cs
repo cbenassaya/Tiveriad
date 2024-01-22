@@ -1,11 +1,11 @@
 #region
 
 using MediatR;
-using Tiveriad.Repositories;
+using Tiveriad.Core.Abstractions.Entities;
 
 #endregion
 
-namespace Tiveriad.DataReferences.Apis.Queries;
+namespace Tiveriad.DataReferences.Applications.Queries;
 
 public record GetByIdRequest<TEntity, TKey>(TKey Id, TKey? OrganizationId) : IRequest<TEntity>
     where TEntity : IDataReference<TKey>, new()

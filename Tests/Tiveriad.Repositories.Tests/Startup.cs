@@ -1,5 +1,6 @@
 using System.Globalization;
 using Microsoft.Extensions.DependencyInjection;
+using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.Repositories.Tests.Models;
 using Tiveriad.UnitTests;
 using Xunit;

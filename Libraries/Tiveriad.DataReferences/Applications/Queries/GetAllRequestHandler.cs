@@ -1,11 +1,12 @@
 #region
 
 using MediatR;
+using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.Repositories;
 
 #endregion
 
-namespace Tiveriad.DataReferences.Apis.Queries;
+namespace Tiveriad.DataReferences.Applications.Queries;
 
 public class
     GetAllRequestHandler<TEntity, TKey> : IRequestHandler<GetAllRequest<TEntity, TKey>, IEnumerable<TEntity>>
@@ -23,11 +24,11 @@ public class
         CancellationToken cancellationToken)
     {
         var query = _repository.Queryable;
-        if (!default(TKey)!.Equals(request.OrganizationId))
+        if (!request.OrganizationId.Equals(default))
             query = query.Where(x =>
                 (x.OrganizationId.Equals(request.OrganizationId) && x.Visibility == Visibility.Private) ||
                 x.Visibility == Visibility.Public);
-        if (!default(TKey)!.Equals(request.Id))
+        if (request.Id != null && !request.Id.Equals(default))
             query = query.Where(x => x.Id.Equals(request.Id));
         if (request.Code != null)
             query = query.Where(x => x.Code == request.Code);

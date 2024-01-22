@@ -7,6 +7,7 @@ using System.Reflection;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Tiveriad.Commons.Extensions;
+using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.Cqrs.Commands;
 using Tiveriad.Cqrs.Queries;
 using Tiveriad.Cqrs.Requests;

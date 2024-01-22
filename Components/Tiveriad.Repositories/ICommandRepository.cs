@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Tiveriad.Core.Abstractions.Entities;
 
 #endregion
 

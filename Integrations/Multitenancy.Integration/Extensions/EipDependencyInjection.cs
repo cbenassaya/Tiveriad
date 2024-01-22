@@ -6,8 +6,8 @@ using Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection;
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.MessageBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.RabbitMq;
-using Tiveriad.Multitenancy.Core.DomainEvents;
-using Tiveriad.Multitenancy.Core.Services;
+using Tiveriad.Identities.Core.DomainEvents;
+using Tiveriad.Identities.Core.Services;
 using Tiveriad.ServiceResolvers;
 namespace Multitenancy.Integration.Extensions;
 public static class EipDependencyInjection
@@ -16,7 +16,7 @@ public static class EipDependencyInjection
 
     public static IServiceCollection AddPublisher(this IServiceCollection services)
     {
-        services.AddTransient<IUserManagerService, UserManagerService>();
+        services.AddTransient<ICurrentUserService, CurrentUserService>();
         services.AddSingleton<IPublisher<UserDomainEvent, string>>(sp => new UserDomainEventPublisher(
             sp.GetRequiredService<IConnectionFactory<IConnection>>(),
             sp.GetRequiredService<IRabbitMqConnectionConfiguration>(),

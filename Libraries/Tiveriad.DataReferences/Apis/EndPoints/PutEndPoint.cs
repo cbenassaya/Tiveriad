@@ -3,23 +3,22 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Tiveriad.DataReferences.Apis.Commands;
+using Tiveriad.Core.Abstractions.Entities;
+using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.DataReferences.Apis.Contracts;
-using Tiveriad.DataReferences.Apis.Services;
-using Tiveriad.Repositories;
+using Tiveriad.DataReferences.Applications.Commands;
 
 #endregion
 
 namespace Tiveriad.DataReferences.Apis.EndPoints;
 
-
-public  class PutEndPoint<TEntity, TKey> : ControllerBase
+public class PutEndPoint<TEntity, TKey> : ControllerBase
     where TEntity : IDataReference<TKey>, new()
     where TKey : IEquatable<TKey>
 {
+    private readonly IKeyParser<TKey> _keyParser;
     private readonly IMediator _mediator;
     private readonly ITenantService<TKey> _tenantService;
-    private readonly IKeyParser<TKey> _keyParser;
 
     public PutEndPoint(IMediator mediator, ITenantService<TKey> tenantService, IKeyParser<TKey> keyParser)
     {
@@ -38,12 +37,12 @@ public  class PutEndPoint<TEntity, TKey> : ControllerBase
     {
         TEntity entity = new()
         {
-            Id = model.Id != null ?_keyParser.Parse(model.Id): default,
+            Id = model.Id != null ? _keyParser.Parse(model.Id) : default,
             Label = model.Label,
             Description = model.Description,
-            Code = model.Code,
+            Code = model.Code
         };
-        
+
         //<-- START CUSTOM CODE-->
         entity.OrganizationId = _tenantService.GetOrganizationId();
         var result = await _mediator.Send(new UpdateRequest<TEntity, TKey>(entity), cancellationToken);

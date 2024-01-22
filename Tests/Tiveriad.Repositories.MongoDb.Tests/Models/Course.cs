@@ -1,6 +1,7 @@
 #region
 
 using MongoDB.Bson;
+using Tiveriad.Core.Abstractions.Entities;
 
 #endregion
 
@@ -11,7 +12,7 @@ public class Course : IEntity<ObjectId>
     public string Name { get; set; } = null!;
     public Professor Professor { get; set; } = null!;
     public ICollection<Student> Students { get; set; } = null!;
-    public ObjectId Id { get; set; }
+    public ObjectId Id { get; set; } = ObjectId.Empty;
 
     protected bool Equals(Course other)
     {

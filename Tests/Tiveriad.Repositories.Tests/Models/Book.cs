@@ -1,3 +1,5 @@
+using Tiveriad.Core.Abstractions.Entities;
+
 namespace Tiveriad.Repositories.Tests.Models;
 
 public class Book

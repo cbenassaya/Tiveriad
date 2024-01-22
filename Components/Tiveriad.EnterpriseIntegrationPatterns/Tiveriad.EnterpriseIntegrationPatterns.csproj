@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Tiveriad.Commons\Tiveriad.Commons.csproj" />
+        <ProjectReference Include="..\Tiveriad.Core.Abstractions\Tiveriad.Core.Abstractions.csproj" />
         <ProjectReference Include="..\Tiveriad.ServiceResolvers\Tiveriad.ServiceResolvers.csproj" />
     </ItemGroup>
 

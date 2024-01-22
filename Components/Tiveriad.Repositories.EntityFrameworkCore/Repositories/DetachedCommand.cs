@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Tiveriad.Commons.Reflexions;
+using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.IdGenerators;
 
 #endregion

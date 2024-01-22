@@ -1,5 +1,6 @@
 #region
 
+using Tiveriad.Core.Abstractions.DomainEvents;
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.Mediators;
 

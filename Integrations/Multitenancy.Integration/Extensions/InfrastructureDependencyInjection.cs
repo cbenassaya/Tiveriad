@@ -1,13 +1,14 @@
 using Multitenancy.Integration.Infrastructure.Services;
 using RabbitMQ.Client;
+using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection;
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.RabbitMq;
+using Tiveriad.Identities.Core.DomainEvents;
+using Tiveriad.Identities.Core.Services;
 using Tiveriad.Keycloak;
 using Tiveriad.Keycloak.Apis;
 using Tiveriad.Keycloak.Services;
-using Tiveriad.Multitenancy.Core.DomainEvents;
-using Tiveriad.Multitenancy.Core.Services;
 using Tiveriad.ServiceResolvers;
 using Tiveriad.ServiceResolvers.Microsoft.DependencyInjection;
 

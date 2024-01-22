@@ -1,5 +1,3 @@
-using Tiveriad.Repositories;
-
 namespace Tiveriad.DataReferences.Apis.Contracts;
 
 public class DataReferenceReaderModel
@@ -9,5 +7,4 @@ public class DataReferenceReaderModel
     public string? Description { get; set; }
     public string? Code { get; set; }
     public string? Visibility { get; set; }
-    
 }

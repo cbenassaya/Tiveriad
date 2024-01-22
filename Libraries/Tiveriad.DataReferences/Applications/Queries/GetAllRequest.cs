@@ -1,19 +1,20 @@
 #region
 
 using MediatR;
-using Tiveriad.Repositories;
+using Tiveriad.Core.Abstractions.Entities;
 
 #endregion
 
-namespace Tiveriad.DataReferences.Apis.Queries;
+namespace Tiveriad.DataReferences.Applications.Queries;
 
-public record GetAllRequest<TEntity, TKey>
-(
+public record GetAllRequest<TEntity, TKey>(
     TKey? Id,
-    TKey? OrganizationId,
+    TKey OrganizationId,
     string? Code,
-    int? Page, int? Limit,
-    string? Q, string[]? Orders
+    int? Page,
+    int? Limit,
+    string? Q,
+    string[]? Orders
 ) : IRequest<IEnumerable<TEntity>>
     where TEntity : IDataReference<TKey>, new()
     where TKey : IEquatable<TKey>;

@@ -1,31 +1,29 @@
-using MongoDB.Driver;
-using Multitenancy.Integration.Infrastructure;
-using Tiveriad.Multitenancy.Core.Entities;
+using Microsoft.EntityFrameworkCore;
+using Tiveriad.Identities.Core.Entities;
+using Tiveriad.Identities.Persistence;
+using Tiveriad.Repositories.EntityFrameworkCore.Repositories;
 using Tiveriad.Repositories.Microsoft.DependencyInjection;
-using Tiveriad.Repositories.MongoDb;
-using Tiveriad.Repositories.MongoDb.Repositories;
 
-namespace Multitenancy.Integration;
+namespace Multitenancy.Integration.Extensions;
 public static class DatabaseDependencyInjection
 {
 
     public static IServiceCollection AddDatabase(this IServiceCollection servicesCollection)
     {
-        servicesCollection.AddSingleton<Database>();
+        servicesCollection.AddDbContextPool<DbContext, DefaultContext>(options =>
+        {
+            var logger = servicesCollection.BuildServiceProvider().GetService<ILogger<DefaultContext>>();
+            if (logger!=null) 
+                options.LogTo(message => { logger.LogInformation(message); }).EnableSensitiveDataLogging().EnableDetailedErrors();
+            options.UseSqlite("Data Source=multi-tenancy.db");
+        });
+        servicesCollection.AddRepositories(typeof(EFRepository<, >), typeof(Organization));
 
-        var database = servicesCollection.BuildServiceProvider().GetRequiredService<Database>();
-
-        servicesCollection
-            .ConfigureConnectionFactory<MongoConnectionFactoryBuilder, IMongoDatabase, MongoConnectionConfigurator,
-                IMongoConnectionConfiguration>(configurator =>
-                {
-                    configurator.SetConnectionString(database.ConnectionString);
-                    configurator.SetDatabaseName("TEST");
-                });
+        var serviceProvider = servicesCollection.BuildServiceProvider();
+        var defaultContext = serviceProvider.GetRequiredService<DbContext>();
+        defaultContext.Database.EnsureCreated();
         
         
-        servicesCollection.AddRepositories(typeof(MongoRepository<>), typeof(Organization));
-
         return servicesCollection;
     }
 

@@ -1,15 +1,18 @@
+#region
+
 using System.ComponentModel.DataAnnotations;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Tiveriad.DataReferences.Apis.Commands;
-using Tiveriad.DataReferences.Apis.Services;
-using Tiveriad.Repositories;
+using Tiveriad.Core.Abstractions.Entities;
+using Tiveriad.Core.Abstractions.Services;
+using Tiveriad.DataReferences.Applications.Commands;
+
+#endregion
 
 namespace Tiveriad.DataReferences.Apis.EndPoints;
 
-
-public  class DeleteEndPoint<TEntity, TKey> : ControllerBase
+public class DeleteEndPoint<TEntity, TKey> : ControllerBase
     where TEntity : IDataReference<TKey>, new()
     where TKey : IEquatable<TKey>
 {

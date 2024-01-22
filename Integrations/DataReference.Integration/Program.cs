@@ -1,58 +1,48 @@
+#region
+
 using DataReference.Integration;
+using DataReference.Integration.Filters;
+using DataReference.Integration.Persistence;
 using MediatR;
-using Mongo2Go;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Driver;
+using Microsoft.EntityFrameworkCore;
+using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.DataReferences.Apis.Microsoft.DependencyInjection;
-using Tiveriad.DataReferences.Apis.Services;
+using Tiveriad.Repositories.EntityFrameworkCore.Repositories;
 using Tiveriad.Repositories.Microsoft.DependencyInjection;
-using Tiveriad.Repositories.MongoDb;
-using Tiveriad.Repositories.MongoDb.Repositories;
 
-
-
-
+#endregion
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<Database>();
-
-var database = builder.Services.BuildServiceProvider().GetRequiredService<Database>();
-BsonSerializer.RegisterSerializationProvider(new InternationalizedSerializationProvider());
-builder.Services
-    .ConfigureConnectionFactory<MongoConnectionFactoryBuilder, IMongoDatabase, MongoConnectionConfigurator,
-        IMongoConnectionConfiguration>(
-        configurator =>
-        {
-            configurator.SetConnectionString(database.ConnectionString);
-            configurator.SetDatabaseName("TEST");
-        });
-
-builder.Services.AddRepositories(typeof(MongoRepository<>), typeof(Civility));
-
-builder.Services.AddSingleton<ITenantService<ObjectId>, TenantService>();
-builder.Services.AddSingleton<IKeyParser<ObjectId>, KeyParser>();
-builder.Services.AddDataReferences(typeof(Civility).Assembly);
-builder.Services.AddMediatR(cfg => {
-    cfg.RegisterServicesFromAssembly(typeof(Civility).Assembly);
+builder.Services.AddDbContextPool<DbContext, DefaultContext>(options =>
+{
+    var logger = builder.Services.BuildServiceProvider().GetService<ILogger<DefaultContext>>();
+    if (logger != null)
+        options.LogTo(message => { logger.LogInformation(message); }).EnableSensitiveDataLogging()
+            .EnableDetailedErrors();
+    options.UseSqlite("Data Source=datareference.db");
 });
+builder.Services.AddRepositories(typeof(EFRepository<,>), typeof(Civility));
+
+var serviceProvider = builder.Services.BuildServiceProvider();
+var defaultContext = serviceProvider.GetRequiredService<DbContext>();
+defaultContext.Database.EnsureCreated();
+
+builder.Services.AddSingleton<ITenantService<string>, TenantService>();
+builder.Services.AddSingleton<IKeyParser<string>, KeyParser>();
+builder.Services.AddDataReferences(typeof(Civility).Assembly);
+builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(typeof(Civility).Assembly); });
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
-    {
-        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-    });
+    options.AddDefaultPolicy(builder => { builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); });
 });
-builder.Services.AddMvc();
+builder.Services.AddMvc(opt => { opt.Filters.Add<TransactionActionFilter>(); });
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => { });
-
-
+builder.Services.AddSwaggerGen();
 
 
 var app = builder.Build();
@@ -65,4 +55,3 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 app.Run();
-
