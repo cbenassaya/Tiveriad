@@ -8,7 +8,7 @@ using Tiveriad.Repositories;
 
 namespace Tiveriad.Identities.Applications.Queries.UserQueries;
 
-public class GetUserByIdRequestHandler : IRequestHandler<GetUserByIdRequest, User>
+public class GetUserByIdRequestHandler : IRequestHandler<GetUserByIdRequest, User?>
 {
     private readonly IRepository<User, string> _userRepository;
 
@@ -17,7 +17,7 @@ public class GetUserByIdRequestHandler : IRequestHandler<GetUserByIdRequest, Use
         _userRepository = userRepository;
     }
 
-    public Task<User> Handle(GetUserByIdRequest request, CancellationToken cancellationToken)
+    public Task<User?> Handle(GetUserByIdRequest request, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
         var query = _userRepository.Queryable.Where(x => x.Id == request.Id);

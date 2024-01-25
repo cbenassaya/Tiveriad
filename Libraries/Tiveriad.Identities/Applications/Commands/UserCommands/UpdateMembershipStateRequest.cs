@@ -7,5 +7,5 @@ using Tiveriad.Identities.Core.Entities;
 
 namespace Tiveriad.Identities.Applications.Commands.UserCommands;
 
-public record UpdateMembershipStateRequest(string OrganizationId, string userId, MembershipState state)
+public record UpdateMembershipStateRequest(string OrganizationId, string ClientId,  string userId, string membershipState)
     : IRequest<User>, ICommandRequest;

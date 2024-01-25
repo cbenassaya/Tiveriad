@@ -1,12 +1,14 @@
+#region
+
 using Tiveriad.Core.Abstractions.Entities;
 
-namespace Tiveriad.Notifications.Core;
+#endregion
 
-public class NotificationMessage:IEntity<string>
+namespace Tiveriad.Notifications.Core.Entities;
+
+public class NotificationMessage : IEntity<string>
 {
-    public string Id { get; set; }
-
-    public InternationalizedString Subject { get; set; }
+    public InternationalizedString Subject { get; set; } = null!;
 
     public InternationalizedString? Body { get; set; }
 
@@ -23,4 +25,5 @@ public class NotificationMessage:IEntity<string>
     public InternationalizedString? LinkText { get; set; }
 
     public ConfirmMode? ConfirmMode { get; set; }
+    public string Id { get; set; } = null!;
 }

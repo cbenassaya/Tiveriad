@@ -17,12 +17,3 @@ public class OrganizationReaderModel
     public OrganizationState? State { get; set; }
 
 }
-
-
-public class OrganizationReduceModel
-{
-    public string? Id { get; set; }
-
-    public string? Name { get; set; }
-
-}

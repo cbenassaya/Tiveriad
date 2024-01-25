@@ -15,5 +15,6 @@ public class OrganizationProfile : Profile
         CreateMap<Organization, OrganizationReaderModel>();
         CreateMap<Organization, OrganizationReduceModel>();
         CreateMap<OrganizationWriterModel, Organization>();
+        CreateMap<OrganizationUpdaterModel, Organization>();
     }
 }

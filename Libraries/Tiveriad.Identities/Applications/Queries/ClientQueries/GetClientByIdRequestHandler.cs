@@ -9,7 +9,7 @@ using Tiveriad.Repositories;
 
 namespace Tiveriad.Identities.Applications.Queries.ClientQueries;
 
-public class GetClientByIdRequestHandler : IRequestHandler<GetClientByIdRequest, Client>
+public class GetClientByIdRequestHandler : IRequestHandler<GetClientByIdRequest, Client?>
 {
     private readonly IRepository<Client, string> _clientRepository;
 
@@ -18,7 +18,7 @@ public class GetClientByIdRequestHandler : IRequestHandler<GetClientByIdRequest,
         _clientRepository = clientRepository;
     }
 
-    public Task<Client> Handle(GetClientByIdRequest request, CancellationToken cancellationToken)
+    public Task<Client?> Handle(GetClientByIdRequest request, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
         var query = 

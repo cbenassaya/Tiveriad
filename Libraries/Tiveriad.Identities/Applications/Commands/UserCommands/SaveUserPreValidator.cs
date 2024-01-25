@@ -11,8 +11,11 @@ namespace Tiveriad.Identities.Applications.Commands.UserCommands;
 
 public class SaveUserPreValidator : AbstractValidator<SaveUserRequest>
 {
-    public SaveUserPreValidator(IRepository<User, string> userRepository,
-        IRepository<Organization, string> organizationRepository, IRepository<Client,string> clientRepository)
+    public SaveUserPreValidator(
+        IRepository<User, string> userRepository,
+        IRepository<Organization, string> organizationRepository,
+        IRepository<Client,string> clientRepository,
+        IRepository<Membership, string> membershipRepository)
     {
         
         RuleFor(x => x.OrganizationId)
@@ -28,10 +31,12 @@ public class SaveUserPreValidator : AbstractValidator<SaveUserRequest>
         RuleFor(x => x.ClientId)
             .NotNull().NotEmpty()
             .WithMessage("ClientId cannot be null or empty").WithErrorCode("SAVE_USER_CLIENT_ID_REQUIRED");
-        RuleFor(x => x.ClientId)
-            .Must((id) =>
+        RuleFor(x => x)
+            .Must(request =>
             {
-                var query = clientRepository.Queryable.Where(o=>o.Id == id);
+                var query = clientRepository.Queryable.Where(o =>
+                    o.Id == request.ClientId && o.Organization.Id == request.OrganizationId);
+                
                 return query.FirstOrDefault() != null;
             }).WithMessage("Client not exists").WithErrorCode("SAVE_USER_CLIENT_NOT_EXISTS");
         RuleFor(x => x.User)
@@ -50,13 +55,12 @@ public class SaveUserPreValidator : AbstractValidator<SaveUserRequest>
         RuleFor(x=>x.User.Password).Matches("[^a-zA-Z0-9]").WithMessage("Password's User must contain at least one special character").WithErrorCode("SAVE_USER_USER_PASSWORD_SPECIAL_CHARACTER");
         
         
-        RuleFor(x => x.User)
-            .Must((user) =>
+        RuleFor(x=>x)
+            .Must(request =>
             {
-                var query = userRepository.Queryable.Where(x => x.Email == user.Email || x.Username == user.Username);
-                return !query.Any();
-            })
-            .WithMessage("User exists yet").WithErrorCode("SAVE_USER_USER_EXISTS");
+                var query = membershipRepository.Queryable.Where(x => (x.User.Email == request.User.Email || x.User.Username == request.User.Username ) && x.Client.Id == request.ClientId && x.Organization.Id == request.OrganizationId);
+                return query.FirstOrDefault() == null;
+            }).WithMessage("User already exists").WithErrorCode("SAVE_USER_MEMBERSHIP_ALREADY_EXISTS");
         
 
     }

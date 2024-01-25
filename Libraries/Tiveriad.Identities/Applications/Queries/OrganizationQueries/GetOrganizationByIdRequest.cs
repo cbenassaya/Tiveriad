@@ -7,4 +7,4 @@ using Tiveriad.Identities.Core.Entities;
 
 namespace Tiveriad.Identities.Applications.Queries.OrganizationQueries;
 
-public record GetOrganizationByIdRequest(string Id) : IRequest<Organization>, IQueryRequest;
+public record GetOrganizationByIdRequest(string Id) : IRequest<Organization?>, IQueryRequest;

@@ -11,4 +11,4 @@ public record GetRoleByIdRequest(
     string Id,
     string OrganizationId,
         string ClientId
-        ) : IRequest<Role>, IQueryRequest;
+        ) : IRequest<Role?>, IQueryRequest;

@@ -9,7 +9,7 @@ using Tiveriad.Repositories;
 
 namespace Tiveriad.Identities.Applications.Queries.RoleQueries;
 
-public class GetRoleByIdRequestHandler : IRequestHandler<GetRoleByIdRequest, Role>
+public class GetRoleByIdRequestHandler : IRequestHandler<GetRoleByIdRequest, Role?>
 {
     private readonly IRepository<Role, string> _roleRepository;
 
@@ -18,7 +18,7 @@ public class GetRoleByIdRequestHandler : IRequestHandler<GetRoleByIdRequest, Rol
         _roleRepository = roleRepository;
     }
 
-    public Task<Role> Handle(GetRoleByIdRequest request, CancellationToken cancellationToken)
+    public Task<Role?> Handle(GetRoleByIdRequest request, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
         var query = _roleRepository.Queryable

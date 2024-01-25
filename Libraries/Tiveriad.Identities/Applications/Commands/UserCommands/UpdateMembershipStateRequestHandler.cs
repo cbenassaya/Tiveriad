@@ -29,11 +29,10 @@ public class UpdateMembershipStateRequestHandler : IRequestHandler<UpdateMembers
         return Task.Run(async () =>
         {
             var query = _membershipRepository.Queryable.Include(x => x.Organization).Include(x => x.User)
-                .Where(x => x.Organization.Id == request.OrganizationId && x.User.Id == request.userId);
+                .Where(x => x.Organization.Id == request.OrganizationId && x.User.Id == request.userId &&
+                            x.Client.Id == request.ClientId);
             var result = query.ToList().FirstOrDefault();
-            if (result == null)
-                throw new IdentitiesException(IdentitiesError.BAD_REQUEST);
-            result.State = request.state;
+            result.State = Enum.Parse<MembershipState>(request.membershipState);
             _store.Add<MembershipDomainEvent, string>(new MembershipDomainEvent
                 { Membership = result, EventType = "UPDATE" });
             return result.User;

@@ -24,17 +24,18 @@ public class PostEndPoint : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost("/api/organizations/{organizationId}/users")]
+    [HttpPost("/api/organizations/{organizationId}/clients/{clientId}/users")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ValidateModel]
     public async Task<ActionResult<UserReaderModel>> HandleAsync([FromRoute] string organizationId,
+        [FromRoute] string clientId,
         [FromBody] UserWriterModel model, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
         var entity = _mapper.Map<UserWriterModel, User>(model);
-        var result = await _mediator.Send(new SaveUserRequest(organizationId, entity), cancellationToken);
+        var result = await _mediator.Send(new SaveUserRequest(organizationId, clientId, entity), cancellationToken);
         var data = _mapper.Map<User, UserReaderModel>(result);
         //<-- END CUSTOM CODE-->
         return Ok(data);

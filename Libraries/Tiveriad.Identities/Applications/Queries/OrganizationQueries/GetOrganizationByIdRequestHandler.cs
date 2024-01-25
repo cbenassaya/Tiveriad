@@ -8,7 +8,7 @@ using Tiveriad.Repositories;
 
 namespace Tiveriad.Identities.Applications.Queries.OrganizationQueries;
 
-public class GetOrganizationByIdRequestHandler : IRequestHandler<GetOrganizationByIdRequest, Organization>
+public class GetOrganizationByIdRequestHandler : IRequestHandler<GetOrganizationByIdRequest, Organization?>
 {
     private readonly IRepository<Organization, string> _organizationRepository;
 
@@ -17,7 +17,7 @@ public class GetOrganizationByIdRequestHandler : IRequestHandler<GetOrganization
         _organizationRepository = organizationRepository;
     }
 
-    public Task<Organization> Handle(GetOrganizationByIdRequest request, CancellationToken cancellationToken)
+    public Task<Organization?> Handle(GetOrganizationByIdRequest request, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
         var query = _organizationRepository.Queryable.Where(x => x.Id == request.Id);

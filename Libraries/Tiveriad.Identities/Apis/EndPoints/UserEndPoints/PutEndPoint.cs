@@ -25,19 +25,18 @@ public class PutEndPoint : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPut("/api/organizations/{organizationId}/users/{userId}")]
+    [HttpPut("/api/organizations/{organizationId}/clients/{clientId}/users/{userId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ValidateModel]
     public async Task<ActionResult<UserReaderModel>> HandleAsync([Required] [FromRoute] string organizationId,
+        [Required] [FromRoute] string clientId,
         [Required] [FromRoute] string userId, [FromBody] UserStateUpdaterModel model,
         CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
-        if (!Enum.TryParse<MembershipState>(model.State, true, out var state))
-            return BadRequest("State is not valid");
-        var result = await _mediator.Send(new UpdateMembershipStateRequest(organizationId, userId, state),
+        var result = await _mediator.Send(new UpdateMembershipStateRequest(organizationId, clientId, userId, model.State),
             cancellationToken);
         var data = _mapper.Map<User, UserReaderModel>(result);
         //<-- END CUSTOM CODE-->

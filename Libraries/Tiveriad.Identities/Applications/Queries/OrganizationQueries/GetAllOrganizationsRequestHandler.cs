@@ -32,10 +32,9 @@ public class GetAllOrganizationsRequestHandler : IRequestHandler<GetAllOrganizat
                 x.Name.Contains(request.Q) || x.Id.Contains(request.Q) || x.Description.Contains(request.Q));
         if (request.Orders != null && request.Orders.Any())
             foreach (var order in request.Orders)
-                if (order.StartsWith("-"))
-                    query = query.OrderByDescending(x => EF.Property<object>(x, order.Substring(1)));
-                else
-                    query = query.OrderBy(x => EF.Property<object>(x, order));
+                query = order.StartsWith("-") ? 
+                    query.OrderByDescending(order.Substring(1)) :
+                    query.OrderBy(order);
         if (request.Page.HasValue && request.Limit.HasValue)
             query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
         return Task.Run(() => query.ToList().AsEnumerable(), cancellationToken);

@@ -37,12 +37,20 @@ public class SaveUserRequestHandler : IRequestHandler<SaveUserRequest, User>
             var organization = await _organizationRepository.GetByIdAsync(request.OrganizationId, cancellationToken);
             var client = await _clientRepository.GetByIdAsync(request.ClientId, cancellationToken);
             //<-- START CUSTOM CODE-->
-            await _userRepository.AddOneAsync(request.User, cancellationToken);
+            var query = _userRepository.Queryable.Where(x => x.Email == request.User.Email || x.Username == request.User.Username);
+            var user = query.FirstOrDefault();
+            
+            if (user == null)
+            {
+                await _userRepository.AddOneAsync(request.User, cancellationToken);
+                user = request.User;
+            }
+           
 
             var membership = new Membership
             {
                 Organization = organization,
-                User = request.User,
+                User =user,
                 State = MembershipState.Pending,
                 Client = client
             };

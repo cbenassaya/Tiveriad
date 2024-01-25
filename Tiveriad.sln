@@ -99,7 +99,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.DataReferences.Mic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Identities", "Libraries\Tiveriad.Identities\Tiveriad.Identities.csproj", "{EC53666A-5F9E-4FA5-8214-61D82236DBF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Multitenancy.Integration", "Integrations\Multitenancy.Integration\Multitenancy.Integration.csproj", "{078DA13A-9FE2-42BC-ADB8-91355C65077E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identities.Integration", "Integrations\Identities.Integration\Identities.Integration.csproj", "{078DA13A-9FE2-42BC-ADB8-91355C65077E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.ServiceResolvers.Microsoft.DependencyInjection", "Components\Tiveriad.ServiceResolvers.Microsoft.DependencyInjection\Tiveriad.ServiceResolvers.Microsoft.DependencyInjection.csproj", "{1464121C-91DF-4ABF-83A6-145A1FDB6B88}"
 EndProject

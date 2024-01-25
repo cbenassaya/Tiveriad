@@ -1,4 +1,4 @@
-namespace Tiveriad.Notifications.Core;
+namespace Tiveriad.Notifications.Core.Entities;
 
 public enum ConfirmMode
 {
