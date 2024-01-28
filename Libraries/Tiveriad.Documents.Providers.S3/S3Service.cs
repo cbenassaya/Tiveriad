@@ -84,6 +84,8 @@ public class S3Service : IBlobProvider
             throw;
         }
     }
+    
+    public string Name => "S3";
 
     public static S3Service Configure(Action<S3Configuration> configurator)
     {

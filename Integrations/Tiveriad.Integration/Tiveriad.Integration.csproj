@@ -12,6 +12,7 @@
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
+        <PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.1-dev-00077" />
     </ItemGroup>
 
     <ItemGroup>
@@ -25,6 +26,12 @@
       <ProjectReference Include="..\..\Libraries\Tiveriad.Identities\Tiveriad.Identities.csproj" />
       <ProjectReference Include="..\..\Libraries\Tiveriad.Notifications\Tiveriad.Notifications.csproj" />
 
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Data\" />
+      <Folder Include="Images\" />
+      <Folder Include="Logs\" />
     </ItemGroup>
 
 </Project>

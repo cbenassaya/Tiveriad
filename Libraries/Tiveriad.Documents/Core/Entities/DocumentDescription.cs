@@ -24,9 +24,3 @@ public class DocumentDescription : IEntity<string>, IAuditable<string>
     public DateTime? LastModified { get; set; }
     [MaxLength(24)] public string Id { get; set; } = default!;
 }
-
-public enum DocumentState
-{
-    Published,
-    Archived
-}

@@ -31,4 +31,10 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 app.MapControllers();
+app.UseLoggerFile();
 app.Run();
+
+public partial class Program
+{
+    
+}

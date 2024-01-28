@@ -21,6 +21,7 @@ namespace Tiveriad.Integration.Extensions;
 
 public static class MvcDependencyInjection
 {
+
     public static IServiceCollection AddIdentities(this IServiceCollection services)
     {
         
@@ -52,4 +53,11 @@ public static class MvcDependencyInjection
         services.AddScoped<IDomainEventStore, DomainEventStore>();
         return services;
     }
+    
+    public static void UseLoggerFile(this IApplicationBuilder application)
+    {
+        var loggerFactory = application.ApplicationServices.GetRequiredService<ILoggerFactory>();
+        loggerFactory.AddFile("Logs/Log-{Date}.txt");
+    }
+
 }

@@ -113,6 +113,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Core.Abstractions"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Notifications", "Libraries\Tiveriad.Notifications\Tiveriad.Notifications.csproj", "{4335923F-C966-4E25-8DF0-B6A9A5B60A30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Integration.Tests", "Tests\Tiveriad.Integration.Tests\Tiveriad.Integration.Tests.csproj", "{FCC29449-16DE-46FD-9EB4-EB6744522C3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -311,6 +313,10 @@ Global
 		{4335923F-C966-4E25-8DF0-B6A9A5B60A30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4335923F-C966-4E25-8DF0-B6A9A5B60A30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4335923F-C966-4E25-8DF0-B6A9A5B60A30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCC29449-16DE-46FD-9EB4-EB6744522C3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCC29449-16DE-46FD-9EB4-EB6744522C3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCC29449-16DE-46FD-9EB4-EB6744522C3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCC29449-16DE-46FD-9EB4-EB6744522C3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5FA9F754-A10A-4DCE-8C6A-DB372D36AE0B} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
@@ -361,5 +367,6 @@ Global
 		{0298F819-E081-440D-BC48-FF5F80568816} = {64EC9BA5-2D37-4E64-9BBE-5B5E71C50015}
 		{95257185-7A6D-48E5-B032-2044914B8DA2} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
 		{4335923F-C966-4E25-8DF0-B6A9A5B60A30} = {64EC9BA5-2D37-4E64-9BBE-5B5E71C50015}
+		{FCC29449-16DE-46FD-9EB4-EB6744522C3A} = {7E9DCA1A-5313-48FD-9EC1-CDA61E0E090F}
 	EndGlobalSection
 EndGlobal

@@ -31,17 +31,17 @@ public class PostEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<DocumentDescriptionReaderModel>> HandleAsync(
-        [FromBody] DocumentDescriptionWriterModel model, CancellationToken cancellationToken)
+        [FromForm] DocumentDescriptionWriterModel model, CancellationToken cancellationToken)
     {
+        //<-- START CUSTOM CODE-->
         using (var memoryStream = new MemoryStream())
         {
             await model.FormFile.CopyToAsync(memoryStream, cancellationToken);
             await _blobProviderService.Get()
                 .PutAsync(memoryStream.ToArray(), model.Path, cancellationToken);
         }
-
-        //<-- START CUSTOM CODE-->
         var documentDescription = _mapper.Map<DocumentDescriptionWriterModel, DocumentDescription>(model);
+        documentDescription.Provider =  _blobProviderService.Get().Name;
         var result = await _mediator.Send(new SaveDocumentDescriptionRequest(documentDescription), cancellationToken);
         var data = _mapper.Map<DocumentDescription, DocumentDescriptionReaderModel>(result);
         return Ok(data);

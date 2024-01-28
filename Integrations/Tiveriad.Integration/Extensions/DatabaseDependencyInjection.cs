@@ -18,7 +18,7 @@ public static class DatabaseDependencyInjection
             var logger = servicesCollection.BuildServiceProvider().GetService<ILogger<DefaultContext>>();
             if (logger!=null) 
                 options.LogTo(message => { logger.LogInformation(message); }).EnableSensitiveDataLogging().EnableDetailedErrors();
-            options.UseSqlite("Data Source=integration.db");
+            options.UseSqlite("Data Source=database.db");
         });
         
         servicesCollection.AddRepositories(typeof(EFRepository<, >), 
@@ -26,8 +26,8 @@ public static class DatabaseDependencyInjection
 
         var serviceProvider = servicesCollection.BuildServiceProvider();
         var defaultContext = serviceProvider.GetRequiredService<DbContext>();
-        defaultContext.Database.EnsureCreated();
-        
+        var sql = defaultContext.Database.EnsureCreated();
+
         
         return servicesCollection;
     }

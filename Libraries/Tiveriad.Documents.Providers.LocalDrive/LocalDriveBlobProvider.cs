@@ -6,6 +6,7 @@ using Tiveriad.Documents.Core.Services;
 
 namespace Tiveriad.Documents.Providers.LocalDrive;
 
+[BlobProviderName("LocalDrive")]
 public class LocalDriveBlobProvider : IBlobProvider
 {
     private readonly LocalDriveConfiguration _configuration;
@@ -23,13 +24,15 @@ public class LocalDriveBlobProvider : IBlobProvider
 
     public async Task PutAsync(byte[] content, string path, CancellationToken cancellationToken = default)
     {
-        await File.WriteAllBytesAsync(Path.Combine(_configuration.RootPath), content, cancellationToken);
+        await File.WriteAllBytesAsync(Path.Combine(_configuration.RootPath, path), content, cancellationToken);
     }
 
     public async Task DeleteAsync(string virtualPath, CancellationToken cancellationToken = default)
     {
         await Task.Run(() => File.Delete(Path.Combine(_configuration.RootPath, virtualPath)), cancellationToken);
     }
+
+    public string Name => "LocalDrive";
 
     public static LocalDriveBlobProvider Configure(Action<LocalDriveConfiguration> configurator)
     {
