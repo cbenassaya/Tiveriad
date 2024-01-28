@@ -18,7 +18,8 @@ public class UpdateClientRequestHandler : IRequestHandler<UpdateClientRequest, C
     private readonly IRepository<Organization, string> _organizationRepository;
     private readonly IDomainEventStore _store;
 
-    public UpdateClientRequestHandler(IRepository<Client, string> clientRepository, IDomainEventStore store, IRepository<Organization, string> organizationRepository)
+    public UpdateClientRequestHandler(IRepository<Client, string> clientRepository, IDomainEventStore store,
+        IRepository<Organization, string> organizationRepository)
     {
         _clientRepository = clientRepository;
         _store = store;
@@ -27,9 +28,9 @@ public class UpdateClientRequestHandler : IRequestHandler<UpdateClientRequest, C
 
     public Task<Client> Handle(UpdateClientRequest request, CancellationToken cancellationToken)
     {
-        var query = 
+        var query =
             _clientRepository.Queryable
-                .Include(x=>x.Organization)
+                .Include(x => x.Organization)
                 .Where(x => x.Id == request.Client.Id && x.Organization.Id == request.OrganizationId);
         return Task.Run(async () =>
         {

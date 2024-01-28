@@ -1,11 +1,16 @@
+#region
+
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Tiveriad.Identities.Core.Entities;
 using Tiveriad.Repositories;
 
+#endregion
+
 namespace Tiveriad.Identities.Applications.Queries.UserQueries;
 
-public class GetAllUsersByOrganizationRequestHandler : IRequestHandler<GetAllUsersByOrganizationRequest, IEnumerable<User>>
+public class
+    GetAllUsersByOrganizationRequestHandler : IRequestHandler<GetAllUsersByOrganizationRequest, IEnumerable<User>>
 {
     private readonly IRepository<Membership, string> _membershipRepository;
 

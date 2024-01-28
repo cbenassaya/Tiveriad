@@ -16,7 +16,7 @@ public class Membership : IEntity<string>, IAuditable<string>
     public User User { get; set; }
 
     public Organization Organization { get; set; }
-    
+
     public Client Client { get; set; }
 
     public string CreatedBy { get; set; }

@@ -1,7 +1,7 @@
 #region
 
 using AutoMapper;
-using Tiveriad.Identities.Apis.Contracts;
+using Tiveriad.Identities.Apis.Contracts.MembershipContracts;
 using Tiveriad.Identities.Core.Entities;
 
 #endregion

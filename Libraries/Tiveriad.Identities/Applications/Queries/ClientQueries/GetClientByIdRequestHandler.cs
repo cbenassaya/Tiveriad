@@ -21,9 +21,9 @@ public class GetClientByIdRequestHandler : IRequestHandler<GetClientByIdRequest,
     public Task<Client?> Handle(GetClientByIdRequest request, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
-        var query = 
+        var query =
             _clientRepository.Queryable
-                .Include(x=>x.Organization)
+                .Include(x => x.Organization)
                 .Where(x => x.Id == request.Id && x.Organization.Id == request.OrganizationId);
         //<-- END CUSTOM CODE-->
         return Task.Run(() => query.FirstOrDefault(), cancellationToken);

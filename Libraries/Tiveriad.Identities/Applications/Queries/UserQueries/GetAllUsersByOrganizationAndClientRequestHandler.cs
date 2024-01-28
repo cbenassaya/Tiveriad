@@ -1,11 +1,17 @@
+#region
+
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Tiveriad.Identities.Core.Entities;
 using Tiveriad.Repositories;
 
+#endregion
+
 namespace Tiveriad.Identities.Applications.Queries.UserQueries;
 
-public class GetAllUsersByOrganizationAndClientRequestHandler : IRequestHandler<GetAllUsersByOrganizationAndClientRequest, IEnumerable<User>>
+public class
+    GetAllUsersByOrganizationAndClientRequestHandler : IRequestHandler<GetAllUsersByOrganizationAndClientRequest,
+    IEnumerable<User>>
 {
     private readonly IRepository<Membership, string> _membershipRepository;
 
@@ -14,13 +20,14 @@ public class GetAllUsersByOrganizationAndClientRequestHandler : IRequestHandler<
         _membershipRepository = membershipRepository;
     }
 
-    public Task<IEnumerable<User>> Handle(GetAllUsersByOrganizationAndClientRequest request, CancellationToken cancellationToken)
+    public Task<IEnumerable<User>> Handle(GetAllUsersByOrganizationAndClientRequest request,
+        CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
         var query = _membershipRepository.Queryable
             .Include(x => x.User)
             .Include(x => x.Organization)
-            .Include(x=>x.Client).AsQueryable();
+            .Include(x => x.Client).AsQueryable();
         query = query.Where(x => x.Organization.Id == request.OrganizationId && x.Client.Id == request.ClientId);
         if (!string.IsNullOrWhiteSpace(request.Id))
             query = query.Where(x => x.User.Id == request.Id);

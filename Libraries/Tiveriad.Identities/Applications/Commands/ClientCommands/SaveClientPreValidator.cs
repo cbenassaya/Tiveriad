@@ -18,14 +18,14 @@ public class SaveClientPreValidator : AbstractValidator<SaveClientRequest>
             .WithErrorCode("Tiveriad.Identities.Client.SaveCommand:NameRequired");
         RuleFor(x => x.Client.Code).NotEmpty()
             .WithErrorCode("Tiveriad.Identities.Client.SaveCommand:CodeRequired");
-        RuleFor(x => x.OrganizationId).NotEmpty().
-            WithErrorCode("Tiveriad.Identities.Client.SaveCommand:OrganizationIdRequired");
-        RuleFor(x => x).Must( request =>
+        RuleFor(x => x.OrganizationId).NotEmpty()
+            .WithErrorCode("Tiveriad.Identities.Client.SaveCommand:OrganizationIdRequired");
+        RuleFor(x => x).Must(request =>
         {
-            var client =  clientRepository
+            var client = clientRepository
                 .Queryable
-                .FirstOrDefault(c => c.Name == request.Client.Name  && c.Organization.Id == request.OrganizationId);
-            
+                .FirstOrDefault(c => c.Name == request.Client.Name && c.Organization.Id == request.OrganizationId);
+
             return client == null;
         }).WithErrorCode("Tiveriad.Identities.Client.SaveCommand:ClientAlreadyExists");
     }

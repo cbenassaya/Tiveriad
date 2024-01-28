@@ -8,4 +8,3 @@ using Tiveriad.Identities.Core.Entities;
 namespace Tiveriad.Identities.Applications.Queries.UserQueries;
 
 public record GetUserByIdRequest(string Id) : IRequest<User?>;
-

@@ -14,11 +14,12 @@ namespace Tiveriad.Identities.Applications.Commands.RoleCommands;
 
 public class SaveRoleRequestHandler : IRequestHandler<SaveRoleRequest, Role>
 {
-    private readonly IRepository<Role, string> _roleRepository;
     private readonly IRepository<Client, string> _clientRepository;
+    private readonly IRepository<Role, string> _roleRepository;
     private readonly IDomainEventStore _store;
 
-    public SaveRoleRequestHandler(IRepository<Role, string> roleRepository, IDomainEventStore store, IRepository<Client, string> clientRepository)
+    public SaveRoleRequestHandler(IRepository<Role, string> roleRepository, IDomainEventStore store,
+        IRepository<Client, string> clientRepository)
     {
         _roleRepository = roleRepository;
         _store = store;
@@ -29,12 +30,12 @@ public class SaveRoleRequestHandler : IRequestHandler<SaveRoleRequest, Role>
     {
         return Task.Run(async () =>
         {
-            
             //<-- START CUSTOM CODE-->
-            var client = 
+            var client =
                 _clientRepository.Queryable
-                                .Include(x => x.Organization).FirstOrDefault(x => x.Id == request.ClientId && x.Organization.Id == request.OrganizationId);
-            
+                    .Include(x => x.Organization).FirstOrDefault(x =>
+                        x.Id == request.ClientId && x.Organization.Id == request.OrganizationId);
+
             if (client == null) throw new IdentitiesException(IdentitiesError.BAD_REQUEST);
             request.Role.Client = client;
             await _roleRepository.AddOneAsync(request.Role, cancellationToken);

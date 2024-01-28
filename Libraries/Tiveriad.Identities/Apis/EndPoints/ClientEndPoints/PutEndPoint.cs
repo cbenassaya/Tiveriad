@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tiveriad.Apis.Filters;
-using Tiveriad.Identities.Apis.Contracts;
+using Tiveriad.Identities.Apis.Contracts.ClientContracts;
 using Tiveriad.Identities.Applications.Commands.ClientCommands;
 using Tiveriad.Identities.Core.Entities;
 
@@ -31,13 +31,13 @@ public class PutEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ValidateModel]
     public async Task<ActionResult<ClientReaderModel>> HandleAsync(
-        [Required][FromRoute] string organizationId,
+        [Required] [FromRoute] string organizationId,
         [FromBody] ClientUpdaterModel model,
         CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
         var entity = _mapper.Map<ClientUpdaterModel, Client>(model);
-        var result = await _mediator.Send(new UpdateClientRequest(entity,organizationId), cancellationToken);
+        var result = await _mediator.Send(new UpdateClientRequest(entity, organizationId), cancellationToken);
         var data = _mapper.Map<Client, ClientReaderModel>(result);
         //<-- END CUSTOM CODE-->
         return Ok(data);

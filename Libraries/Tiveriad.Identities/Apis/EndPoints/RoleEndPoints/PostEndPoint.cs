@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tiveriad.Apis.Filters;
-using Tiveriad.Identities.Apis.Contracts;
+using Tiveriad.Identities.Apis.Contracts.RoleContracts;
 using Tiveriad.Identities.Applications.Commands.RoleCommands;
 using Tiveriad.Identities.Core.Entities;
 
@@ -45,4 +45,3 @@ public class PostEndPoint : ControllerBase
         return Ok(data);
     }
 }
-

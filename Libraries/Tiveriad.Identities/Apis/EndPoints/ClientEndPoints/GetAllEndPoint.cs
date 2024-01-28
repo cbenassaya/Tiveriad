@@ -5,7 +5,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Tiveriad.Identities.Apis.Contracts;
+using Tiveriad.Identities.Apis.Contracts.ClientContracts;
 using Tiveriad.Identities.Applications.Queries.ClientQueries;
 using Tiveriad.Identities.Core.Entities;
 
@@ -30,7 +30,7 @@ public class GetAllEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<ClientReaderModel>> HandleAsync(
-        [Required][FromRoute] string organizationId,
+        [Required] [FromRoute] string organizationId,
         [FromQuery] string? id, [FromQuery] string? name,
         [FromQuery] int? page, [FromQuery] int? limit,
         [FromQuery] string? q, [FromQuery] string[]? orders,
@@ -38,7 +38,7 @@ public class GetAllEndPoint : ControllerBase
     {
         //<-- START CUSTOM CODE-->
         var result = await _mediator.Send(new GetAllClientsRequest(
-                id,organizationId, name, page, limit, q, orders),
+                id, organizationId, name, page, limit, q, orders),
             cancellationToken);
         if (result == null || !result.Any())
             return NoContent();

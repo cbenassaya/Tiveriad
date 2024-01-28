@@ -25,13 +25,14 @@ public class UpdateRoleRequestHandler : IRequestHandler<UpdateRoleRequest, Role>
 
     public Task<Role> Handle(UpdateRoleRequest request, CancellationToken cancellationToken)
     {
-        var query = 
+        var query =
             _roleRepository.Queryable
-                .Include(x=>x.Client).ThenInclude(x=>x.Organization)
-                .Where(x => x.Id == request.Role.Id && x.Client.Id == request.ClientId&& x.Client.Organization.Id == request.OrganizationId);
+                .Include(x => x.Client).ThenInclude(x => x.Organization)
+                .Where(x => x.Id == request.Role.Id && x.Client.Id == request.ClientId &&
+                            x.Client.Organization.Id == request.OrganizationId);
         var result = query.First();
         if (result == null) throw new IdentitiesException(IdentitiesError.BAD_REQUEST);
-        return Task.Run( () =>
+        return Task.Run(() =>
         {
             //<-- START CUSTOM CODE-->
             //<-- START CUSTOM CODE-->

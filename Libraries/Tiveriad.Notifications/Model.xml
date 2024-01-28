@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="urn:xcore-mapping-2.0" RootNamespace="Account.Services">
+<Project xmlns="urn:xcore-mapping-2.0" RootNamespace="Tiveriad.Notifications">
     <Component Name="Core">
         <Package Name="Entities">
             <Entities>
                 <Entity IsBusinessEntity="true" Name="Notification" PluralName="Notifications">
                     <Properties>
-                        <Id Displayed="false" Type="string" >
+                        <Id Displayed="false" Type="string">
                             <Constraints>
                                 <MaxLength Max="24"/>
                             </Constraints>
                         </Id>
-                        <Property Displayed="false" BusinessKey="true" IsCollection="false"   Name="UserId" Type="string">
+                        <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="UserId" Type="string">
                             <Constraints>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property Displayed="false" BusinessKey="true" IsCollection="false"   Name="State" Type="NotificationState">
+                        <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="State"
+                                  Type="NotificationState">
                             <Constraints>
                                 <Required/>
                             </Constraints>
                         </Property>
                     </Properties>
-                    <RelationShips> 
-                        <ManyToOne Name="Subject" Type="Subject"  />
-                        <ManyToOne Name="Message" Type="NotificationMessage"  />
+                    <RelationShips>
+                        <ManyToOne Name="Subject" Type="Subject"/>
+                        <ManyToOne Name="Message" Type="NotificationMessage"/>
                     </RelationShips>
-                    <Persistence IsAuditable="true" AuditableKeyType="string" Name="T_Client"/>
+                    <Persistence IsAuditable="true" AuditableKeyType="string" Name="T_Notification"/>
                 </Entity>
                 <Entity IsBusinessEntity="true" Name="Subject" PluralName="Subjects">
                     <Properties>
-                        <Id Displayed="false" Type="string" >
+                        <Id Displayed="false" Type="string">
                             <Constraints>
                                 <MaxLength Max="24"/>
                             </Constraints>
@@ -40,72 +41,94 @@
                                 <MaxLength Max="100"/>
                             </Constraints>
                         </Property>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="Description" Type="InternationalizedString">
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                                  Name="Description" Type="InternationalizedString">
                             <Constraints>
                                 <Required/>
                                 <MaxLength Max="100"/>
                             </Constraints>
                         </Property>
-                        <Property Displayed="true" BusinessKey="true" IsCollection="false" Name="State" Type="SubjectState">
+                        <Property Displayed="true" BusinessKey="true" IsCollection="false" Name="State"
+                                  Type="SubjectState">
                             <Constraints>
                                 <Required/>
                             </Constraints>
                         </Property>
                     </Properties>
-                    <RelationShips> 
-                        <ManyToOne Name="Template" Type="NotificationMessage" />
+                    <RelationShips>
+                        <ManyToOne Name="Template" Type="NotificationMessage"/>
+                        <OneToMany Name="Scopes" Type="Scope"/>
                     </RelationShips>
+                    <Persistence IsAuditable="true" AuditableKeyType="string" Name="T_Subject"/>
                 </Entity>
                 <Entity IsBusinessEntity="false" Name="NotificationMessage" PluralName="NotificationMessages">
                     <Properties>
-                        <Id Displayed="false" Type="string" >
+                        <Id Displayed="false" Type="string">
                             <Constraints>
                                 <MaxLength Max="24"/>
                             </Constraints>
                         </Id>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="Title" Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="Body" Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="ConfirmLink" Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="ConfirmText" Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="ImageSmall" Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="ImageLarge" Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="LinkUrl" Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="LinkText" Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="ConfirmMode" Type="ConfirmMode"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="Title"
+                                  Type="InternationalizedString"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="Body"
+                                  Type="InternationalizedString"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                                  Name="ConfirmLink" Type="InternationalizedString"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                                  Name="ConfirmText" Type="InternationalizedString"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                                  Name="ImageSmall" Type="InternationalizedString"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                                  Name="ImageLarge" Type="InternationalizedString"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                                  Name="LinkUrl" Type="InternationalizedString"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                                  Name="LinkText" Type="InternationalizedString"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                                  Name="ConfirmMode" Type="ConfirmMode"/>
                     </Properties>
+                    <Persistence IsAuditable="true" AuditableKeyType="string" Name="T_NotificationMessage"/>
                 </Entity>
-                <Entity IsBusinessEntity="true" Name="Scope" PluralName="Scopes" >
+                <Entity IsBusinessEntity="true" Name="Scope" PluralName="Scopes">
                     <Properties>
-                        <Id Displayed="false" Type="string" >
+                        <Id Displayed="false" Type="string">
                             <Constraints>
                                 <MaxLength Max="24"/>
                             </Constraints>
                         </Id>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="OrganizationId" Type="string"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="ClientId" Type="string"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="RoleId" Type="string"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="GroupId" Type="string"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="UserId" Type="string"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="ReferenceType" Type="string"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="ReferenceId" Type="string"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                                  Name="OrganizationId" Type="string"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                                  Name="ClientId" Type="string"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="RoleId"
+                                  Type="string"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                                  Name="GroupId" Type="string"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="UserId"
+                                  Type="string"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                                  Name="ReferenceType" Type="string"/>
+                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                                  Name="ReferenceId" Type="string"/>
                     </Properties>
+                    <Persistence IsAuditable="true" AuditableKeyType="string" Name="T_Scope"/>
                 </Entity>
             </Entities>
             <Enums>
-                <Enum Name="SubjectState" >
+                <Enum Name="SubjectState">
                     <Values>
                         <Value>Pending</Value>
                         <Value>Activated</Value>
                         <Value>Canceled</Value>
                     </Values>
                 </Enum>
-                <Enum Name="ConfirmMode" >
+                <Enum Name="ConfirmMode">
                     <Values>
                         <Value>None</Value>
                         <Value>Explicit</Value>
                     </Values>
                 </Enum>
-                <Enum Name="NotificationState" >
+                <Enum Name="NotificationState">
                     <Values>
                         <Value>New</Value>
                         <Value>Delivered</Value>

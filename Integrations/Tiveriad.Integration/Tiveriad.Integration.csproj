@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <InvariantGlobalization>false</InvariantGlobalization>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Apis\Tiveriad.Keycloak\Tiveriad.Keycloak.csproj" />
+      <ProjectReference Include="..\..\Components\Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection\Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection.csproj" />
+      <ProjectReference Include="..\..\Components\Tiveriad.EnterpriseIntegrationPatterns.RabbitMq\Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.csproj" />
+      <ProjectReference Include="..\..\Components\Tiveriad.Repositories.Microsoft.DependencyInjection\Tiveriad.Repositories.Microsoft.DependencyInjection.csproj" />
+      <ProjectReference Include="..\..\Components\Tiveriad.ServiceResolvers.Microsoft.DependencyInjection\Tiveriad.ServiceResolvers.Microsoft.DependencyInjection.csproj" />
+      <ProjectReference Include="..\..\Libraries\Tiveriad.Documents.Providers.LocalDrive\Tiveriad.Documents.Providers.LocalDrive.csproj" />
+      <ProjectReference Include="..\..\Libraries\Tiveriad.Documents\Tiveriad.Documents.csproj" />
+      <ProjectReference Include="..\..\Libraries\Tiveriad.Identities\Tiveriad.Identities.csproj" />
+      <ProjectReference Include="..\..\Libraries\Tiveriad.Notifications\Tiveriad.Notifications.csproj" />
+
+    </ItemGroup>
+
+</Project>

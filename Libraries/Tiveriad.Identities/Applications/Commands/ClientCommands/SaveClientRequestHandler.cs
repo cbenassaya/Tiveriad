@@ -16,7 +16,8 @@ public class SaveClientRequestHandler : IRequestHandler<SaveClientRequest, Clien
     private readonly IRepository<Organization, string> _organizationRepository;
     private readonly IDomainEventStore _store;
 
-    public SaveClientRequestHandler(IRepository<Client, string> clientRepository, IDomainEventStore store, IRepository<Organization, string> organizationRepository)
+    public SaveClientRequestHandler(IRepository<Client, string> clientRepository, IDomainEventStore store,
+        IRepository<Organization, string> organizationRepository)
     {
         _clientRepository = clientRepository;
         _store = store;
@@ -25,7 +26,6 @@ public class SaveClientRequestHandler : IRequestHandler<SaveClientRequest, Clien
 
     public Task<Client> Handle(SaveClientRequest request, CancellationToken cancellationToken)
     {
-       
         return Task.Run(async () =>
         {
             //<-- START CUSTOM CODE-->

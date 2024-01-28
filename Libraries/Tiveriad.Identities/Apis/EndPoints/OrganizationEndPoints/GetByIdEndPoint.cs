@@ -4,7 +4,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Tiveriad.Identities.Apis.Contracts;
+using Tiveriad.Identities.Apis.Contracts.OrganizationContracts;
 using Tiveriad.Identities.Applications.Queries.OrganizationQueries;
 using Tiveriad.Identities.Core.Entities;
 

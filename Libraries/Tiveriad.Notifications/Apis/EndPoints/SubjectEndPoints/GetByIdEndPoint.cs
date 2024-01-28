@@ -1,10 +1,12 @@
 #region
 
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Tiveriad.Notifications.Applications.Queries.SubjectQueries;
+using Tiveriad.Notifications.Apis.Contracts.SubjectContracts;
+using Tiveriad.Notifications.Application.Queries.SubjectQueries;
 using Tiveriad.Notifications.Core.Entities;
 
 #endregion
@@ -16,7 +18,7 @@ public class GetByIdEndPoint : ControllerBase
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
 
-    public GetByIdEndPoint(IMapper mapper, IMediator mediator)
+    public GetByIdEndPoint(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
         _mapper = mapper;
@@ -27,15 +29,15 @@ public class GetByIdEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<SubjectReaderModel>> HandleAsync([FromRoute] string id,
+    public async Task<ActionResult<SubjectReaderModel>> HandleAsync([FromRoute] [Required] string id,
         CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
+        if (string.IsNullOrEmpty(id)) return BadRequest("Id is mandatory");
         var result = await _mediator.Send(new GetSubjectByIdRequest(id), cancellationToken);
-        if (result == null)
-            return NoContent();
+        if (result == null) return NoContent();
         var data = _mapper.Map<Subject, SubjectReaderModel>(result);
-        //<-- END CUSTOM CODE-->
         return Ok(data);
+        //<-- END CUSTOM CODE-->
     }
 }

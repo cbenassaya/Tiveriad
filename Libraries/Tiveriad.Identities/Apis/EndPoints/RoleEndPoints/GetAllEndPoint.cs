@@ -4,7 +4,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Tiveriad.Identities.Apis.Contracts;
+using Tiveriad.Identities.Apis.Contracts.RoleContracts;
 using Tiveriad.Identities.Applications.Queries.RoleQueries;
 using Tiveriad.Identities.Core.Entities;
 
@@ -39,7 +39,7 @@ public class GetAllEndPoint : ControllerBase
     {
         //<-- START CUSTOM CODE-->
         var result = await _mediator.Send(new GetAllRolesRequest(
-                id, organizationId,clientId,name, page, limit, q, orders),
+                id, organizationId, clientId, name, page, limit, q, orders),
             cancellationToken);
         if (result == null || !result.Any())
             return NoContent();

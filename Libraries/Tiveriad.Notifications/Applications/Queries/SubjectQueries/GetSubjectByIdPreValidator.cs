@@ -1,18 +1,19 @@
 #region
 
 using FluentValidation;
+using Tiveriad.Notifications.Core.Entities;
 using Tiveriad.Repositories;
 
 #endregion
 
-namespace Tiveriad.Notifications.Applications.Queries.SubjectQueries;
+namespace Tiveriad.Notifications.Application.Queries.SubjectQueries;
 
 public class GetSubjectByIdPreValidator : AbstractValidator<GetSubjectByIdRequest>
 {
-    private IRepository<Subject, string> _subjectRepository;
+    private IRepository<Subject, string> _repository;
 
-    public GetSubjectByIdPreValidator(IRepository<Subject, string> subjectRepository)
+    public GetSubjectByIdPreValidator(IRepository<Subject, string> repository)
     {
-        _subjectRepository = subjectRepository;
+        _repository = repository;
     }
 }

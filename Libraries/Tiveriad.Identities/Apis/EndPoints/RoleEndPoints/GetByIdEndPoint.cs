@@ -4,7 +4,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Tiveriad.Identities.Apis.Contracts;
+using Tiveriad.Identities.Apis.Contracts.RoleContracts;
 using Tiveriad.Identities.Applications.Queries.RoleQueries;
 using Tiveriad.Identities.Core.Entities;
 
@@ -28,14 +28,14 @@ public class GetByIdEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<RoleReaderModel>> HandleAsync(        
+    public async Task<ActionResult<RoleReaderModel>> HandleAsync(
         [FromQuery] string id,
         [FromRoute] string clientId,
         [FromRoute] string organizationId,
         CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
-        var result = await _mediator.Send(new GetRoleByIdRequest( id, organizationId,clientId), cancellationToken);
+        var result = await _mediator.Send(new GetRoleByIdRequest(id, organizationId, clientId), cancellationToken);
         if (result == null)
             return NoContent();
         var data = _mapper.Map<Role, RoleReaderModel>(result);

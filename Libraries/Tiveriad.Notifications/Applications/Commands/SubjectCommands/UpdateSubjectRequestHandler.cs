@@ -1,7 +1,8 @@
-﻿#region
+#region
 
 using MediatR;
-using Tiveriad.Core.Abstractions.Services;
+using Microsoft.EntityFrameworkCore;
+using Tiveriad.Notifications.Core.Entities;
 using Tiveriad.Repositories;
 
 #endregion
@@ -10,31 +11,38 @@ namespace Tiveriad.Notifications.Applications.Commands.SubjectCommands;
 
 public class UpdateSubjectRequestHandler : IRequestHandler<UpdateSubjectRequest, Subject>
 {
-    private readonly IDomainEventStore _store;
+    private readonly IRepository<NotificationMessage, string> _notificationMessageRepository;
     private readonly IRepository<Subject, string> _subjectRepository;
+    private IRepository<Scope, string> _scopeRepository;
 
     public UpdateSubjectRequestHandler(IRepository<Subject, string> subjectRepository,
-        IDomainEventStore store)
+        IRepository<Scope, string> scopeRepository,
+        IRepository<NotificationMessage, string> notificationMessageRepository)
     {
         _subjectRepository = subjectRepository;
-        _store = store;
+        _scopeRepository = scopeRepository;
+        _notificationMessageRepository = notificationMessageRepository;
     }
+
 
     public Task<Subject> Handle(UpdateSubjectRequest request, CancellationToken cancellationToken)
     {
-        var query = _subjectRepository.Queryable.Where(x => x.Id == request.Subject.Id);
+        //<-- START CUSTOM CODE-->
         return Task.Run(async () =>
         {
-            //<-- START CUSTOM CODE-->
+            var query = _subjectRepository.Queryable.Include(x => x.Template).AsQueryable();
+            query = query.Where(x => x.Id == request.Id);
             var result = query.ToList().FirstOrDefault();
-            if (result == null) throw new IdentitiesException(IdentitiesError.BAD_REQUEST);
+            if (result == null) throw new Exception();
 
             result.Name = request.Subject.Name;
             result.Description = request.Subject.Description;
-            _store.Add<SubjectDomainEvent, string>(new SubjectDomainEvent
-                { Subject = result, EventType = "UPDATE" });
+            result.State = request.Subject.State;
+            if (request.Subject.Template != null)
+                result.Template =
+                    await _notificationMessageRepository.GetByIdAsync(request.Subject.Template.Id, cancellationToken);
             return result;
-            //<-- END CUSTOM CODE-->
         }, cancellationToken);
+        //<-- END CUSTOM CODE-->
     }
 }

@@ -25,7 +25,7 @@ public class GetAllRolesRequestHandler : IRequestHandler<GetAllRolesRequest, IEn
         var query = _roleRepository.Queryable
             .Include(x => x.Client).ThenInclude(x => x.Organization)
             .Where(x => x.Client.Id == request.ClientId && x.Client.Organization.Id == request.OrganizationId);
-       
+
         if (!string.IsNullOrEmpty(request.Id))
             query = query.Where(x => x.Id == request.Id);
         if (!string.IsNullOrEmpty(request.Name))

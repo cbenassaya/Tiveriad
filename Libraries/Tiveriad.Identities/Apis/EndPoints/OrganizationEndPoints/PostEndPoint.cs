@@ -5,7 +5,8 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tiveriad.Apis.Filters;
-using Tiveriad.Identities.Apis.Contracts;
+using Tiveriad.Identities.Apis.Contracts.OrganizationContracts;
+using Tiveriad.Identities.Apis.Contracts.UserContracts;
 using Tiveriad.Identities.Applications.Commands.OrganizationCommands;
 using Tiveriad.Identities.Core.Entities;
 

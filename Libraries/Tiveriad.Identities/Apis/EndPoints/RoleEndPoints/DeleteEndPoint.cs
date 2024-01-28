@@ -21,6 +21,7 @@ public class DeleteEndPoint : ControllerBase
         _mediator = mediator;
         _mapper = mapper;
     }
+
     [HttpDelete("/api/{organizationId}/clients/{clientId}/roles/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

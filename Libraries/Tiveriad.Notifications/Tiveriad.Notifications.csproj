@@ -7,9 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Components\Tiveriad.Apis\Tiveriad.Apis.csproj" />
-      <ProjectReference Include="..\..\Components\Tiveriad.Core.Abstractions\Tiveriad.Core.Abstractions.csproj" />
-      <ProjectReference Include="..\..\Components\Tiveriad.Repositories.EntityFrameworkCore\Tiveriad.Repositories.EntityFrameworkCore.csproj" />
+        <ProjectReference Include="..\..\Components\Tiveriad.Apis\Tiveriad.Apis.csproj"/>
+        <ProjectReference Include="..\..\Components\Tiveriad.Core.Abstractions\Tiveriad.Core.Abstractions.csproj"/>
+        <ProjectReference Include="..\..\Components\Tiveriad.Repositories.EntityFrameworkCore\Tiveriad.Repositories.EntityFrameworkCore.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -21,8 +21,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Core\Exceptions\" />
-      <Folder Include="Core\Services\" />
+        <Folder Include="Applications\Commands\NotificationCommands\"/>
+        <Folder Include="Applications\Commands\ScopeCommands\"/>
+        <Folder Include="Core\Entities\"/>
+        <Folder Include="Core\Exceptions\"/>
+        <Folder Include="Core\Services\"/>
+        <Folder Include="Persistence\Entities\"/>
     </ItemGroup>
 
 </Project>

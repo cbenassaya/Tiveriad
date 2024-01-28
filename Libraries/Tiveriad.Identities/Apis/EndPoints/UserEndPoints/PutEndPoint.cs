@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tiveriad.Apis.Filters;
-using Tiveriad.Identities.Apis.Contracts;
+using Tiveriad.Identities.Apis.Contracts.UserContracts;
 using Tiveriad.Identities.Applications.Commands.UserCommands;
 using Tiveriad.Identities.Core.Entities;
 
@@ -36,7 +36,8 @@ public class PutEndPoint : ControllerBase
         CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
-        var result = await _mediator.Send(new UpdateMembershipStateRequest(organizationId, clientId, userId, model.State),
+        var result = await _mediator.Send(
+            new UpdateMembershipStateRequest(organizationId, clientId, userId, model.State),
             cancellationToken);
         var data = _mapper.Map<User, UserReaderModel>(result);
         //<-- END CUSTOM CODE-->

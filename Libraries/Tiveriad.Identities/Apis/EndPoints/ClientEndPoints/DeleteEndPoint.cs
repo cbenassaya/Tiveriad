@@ -27,14 +27,14 @@ public class DeleteEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<bool>> HandleAsync(
-        [Required][FromRoute] string organizationId,
+        [Required] [FromRoute] string organizationId,
         [FromRoute] [Required] string id,
         CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
         if (string.IsNullOrEmpty(id))
             return BadRequest("Id is mandatory");
-        var result = await _mediator.Send(new DeleteClientByIdRequest(id,organizationId), cancellationToken);
+        var result = await _mediator.Send(new DeleteClientByIdRequest(id, organizationId), cancellationToken);
         //<-- END CUSTOM CODE-->
         return Ok(result);
     }

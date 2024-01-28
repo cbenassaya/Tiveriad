@@ -1,7 +1,6 @@
 #region
 
 using MediatR;
-using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.Notifications.Core.Entities;
 using Tiveriad.Repositories;
 
@@ -11,23 +10,25 @@ namespace Tiveriad.Notifications.Applications.Commands.SubjectCommands;
 
 public class SaveSubjectRequestHandler : IRequestHandler<SaveSubjectRequest, Subject>
 {
-    private readonly IDomainEventStore _store;
     private readonly IRepository<Subject, string> _subjectRepository;
+    private IRepository<Scope, string> _scopeRepository;
 
-    public SaveSubjectRequestHandler(IRepository<Subject, string> subjectRepository)
+    public SaveSubjectRequestHandler(IRepository<Subject, string> subjectRepository,
+        IRepository<Scope, string> scopeRepository)
     {
         _subjectRepository = subjectRepository;
+        _scopeRepository = scopeRepository;
     }
+
 
     public Task<Subject> Handle(SaveSubjectRequest request, CancellationToken cancellationToken)
     {
-        return Task.Run(() =>
+        //<-- START CUSTOM CODE-->
+        return Task.Run(async () =>
         {
-            //<-- START CUSTOM CODE-->
-            _subjectRepository.AddOneAsync(request.Subject, cancellationToken);
-
+            await _subjectRepository.AddOneAsync(request.Subject, cancellationToken);
             return request.Subject;
-            //<-- END CUSTOM CODE-->
         }, cancellationToken);
+        //<-- END CUSTOM CODE-->
     }
 }

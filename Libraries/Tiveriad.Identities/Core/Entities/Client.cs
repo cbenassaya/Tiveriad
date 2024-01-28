@@ -12,11 +12,11 @@ public class Client : IEntity<string>, IAuditable<string>
     public string Name { get; set; }
 
     public string? Description { get; set; }
-    
-    public string Code { get; set; } 
-    
+
+    public string Code { get; set; }
+
     public string KeyId { get; set; }
-    
+
     public Organization Organization { get; set; }
 
     public string CreatedBy { get; set; }

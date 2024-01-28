@@ -17,13 +17,13 @@ public class DeleteClientByIdPreValidator : AbstractValidator<DeleteClientByIdRe
             .WithErrorCode(IdentifiesErrorCodes.TiveriadIdentitiesClientDeleteCommandIdRequired);
         RuleFor(x => x.OrganizationId).NotEmpty()
             .WithErrorCode(IdentifiesErrorCodes.TiveriadIdentitiesClientDeleteCommandOrganizationIdRequired);
-        
-        RuleFor(x => x).Must( request =>
+
+        RuleFor(x => x).Must(request =>
         {
-            var client =  clientRepository
+            var client = clientRepository
                 .Queryable
-                .FirstOrDefault(c => c.Id == request.Id  && c.Organization.Id == request.OrganizationId);
-            
+                .FirstOrDefault(c => c.Id == request.Id && c.Organization.Id == request.OrganizationId);
+
             return client != null;
         }).WithErrorCode(IdentifiesErrorCodes.TiveriadIdentitiesClientDeleteCommandNotFound);
     }

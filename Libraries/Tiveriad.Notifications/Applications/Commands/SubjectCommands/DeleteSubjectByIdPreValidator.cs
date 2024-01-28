@@ -15,13 +15,13 @@ public class DeleteSubjectByIdPreValidator : AbstractValidator<DeleteSubjectById
         RuleFor(x => x.Id).NotEmpty()
             .WithErrorCode("Tiveriad.Notifications.Subject.DeleteCommand:IdRequired");
         RuleFor(x => x).Must(request =>
-        {
-            var subject = subjectRepository
-                .Queryable
-                .FirstOrDefault(c => c.Id == request.Id);
+            {
+                var subject = subjectRepository
+                    .Queryable
+                    .FirstOrDefault(c => c.Id == request.Id);
 
-            return subject != null;
-        })
+                return subject != null;
+            })
             .WithErrorCode("Tiveriad.Notifications.Subject.DeleteCommand:NotFound");
     }
 }

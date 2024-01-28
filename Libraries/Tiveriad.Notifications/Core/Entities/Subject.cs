@@ -1,5 +1,6 @@
 #region
 
+using System.ComponentModel.DataAnnotations;
 using Tiveriad.Core.Abstractions.Entities;
 
 #endregion
@@ -8,21 +9,14 @@ namespace Tiveriad.Notifications.Core.Entities;
 
 public class Subject : IEntity<string>, IAuditable<string>
 {
-    public string Name { get; set; }
-    public SubjectState State { get; set; }
-    public NotificationMessage Template { get; set; } = null!;
-    public List<Scope> Scopes { get; } = new();
-    public InternationalizedString? Description { get; set; }
-    public string CreatedBy { get; set; }
-    public DateTime Created { get; set; }
+    [MaxLength(100)] [Required] public string Name { get; set; } = null!;
+    [MaxLength(100)] [Required] public InternationalizedString? Description { get; set; }
+    [Required] public SubjectState State { get; set; }
+    public NotificationMessage? Template { get; set; }
+    public List<Scope> Scopes { get; set; } = new();
+    [Required] public string CreatedBy { get; set; } = null!;
+    [Required] public DateTime Created { get; set; } = default!;
     public string? LastModifiedBy { get; set; }
     public DateTime? LastModified { get; set; }
-    public string Id { get; set; }
-}
-
-public enum SubjectState
-{
-    Pending,
-    Activated,
-    Canceled
+    [MaxLength(24)] public string Id { get; set; } = null!;
 }

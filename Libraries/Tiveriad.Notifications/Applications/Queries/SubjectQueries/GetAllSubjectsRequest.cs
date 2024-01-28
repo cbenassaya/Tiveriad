@@ -5,12 +5,7 @@ using Tiveriad.Notifications.Core.Entities;
 
 #endregion
 
-namespace Tiveriad.Notifications.Applications.Queries.SubjectQueries;
+namespace Tiveriad.Notifications.Application.Queries.SubjectQueries;
 
-public record GetAllSubjectsRequest(
-    string? Id,
-    string? Name,
-    int? Page,
-    int? Limit,
-    string? Q,
-    string[]? Orders) : IRequest<IEnumerable<Subject>>;
+public record GetAllSubjectsRequest(string? Id, int? Page, int? Limit, string? Q, IEnumerable<string>? Orders)
+    : IRequest<IEnumerable<Subject>?>;

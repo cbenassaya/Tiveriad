@@ -4,7 +4,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Tiveriad.Apis.Filters;
+using Tiveriad.Notifications.Apis.Contracts.SubjectContracts;
 using Tiveriad.Notifications.Applications.Commands.SubjectCommands;
 using Tiveriad.Notifications.Core.Entities;
 
@@ -17,7 +17,7 @@ public class PostEndPoint : ControllerBase
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
 
-    public PostEndPoint(IMapper mapper, IMediator mediator)
+    public PostEndPoint(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
         _mapper = mapper;
@@ -27,16 +27,14 @@ public class PostEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [ValidateModel]
     public async Task<ActionResult<SubjectReaderModel>> HandleAsync([FromBody] SubjectWriterModel model,
         CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
         var subject = _mapper.Map<SubjectWriterModel, Subject>(model);
-        var owner = _mapper.Map<UserWriterModel, User>(model.Owner);
-        var result = await _mediator.Send(new SaveSubjectRequest(subject, owner), cancellationToken);
+        var result = await _mediator.Send(new SaveSubjectRequest(subject), cancellationToken);
         var data = _mapper.Map<Subject, SubjectReaderModel>(result);
-        //<-- END CUSTOM CODE-->
         return Ok(data);
+        //<-- END CUSTOM CODE-->
     }
 }

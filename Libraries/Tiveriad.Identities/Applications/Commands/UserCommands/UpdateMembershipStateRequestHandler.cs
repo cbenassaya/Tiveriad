@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.Identities.Core.DomainEvents;
 using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Identities.Core.Exceptions;
 using Tiveriad.Repositories;
 
 #endregion

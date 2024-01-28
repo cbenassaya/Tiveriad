@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tiveriad.Apis.Filters;
-using Tiveriad.Identities.Apis.Contracts;
+using Tiveriad.Identities.Apis.Contracts.ClientContracts;
 using Tiveriad.Identities.Applications.Commands.ClientCommands;
 using Tiveriad.Identities.Core.Entities;
 
@@ -31,7 +31,7 @@ public class PostEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ValidateModel]
     public async Task<ActionResult<ClientReaderModel>> HandleAsync(
-        [Required][FromRoute] string organizationId,
+        [Required] [FromRoute] string organizationId,
         [FromBody] ClientWriterModel model,
         CancellationToken cancellationToken)
     {

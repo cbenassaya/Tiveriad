@@ -6,14 +6,14 @@ using Tiveriad.Repositories;
 
 #endregion
 
-namespace Tiveriad.Notifications.Applications.Queries.SubjectQueries;
+namespace Tiveriad.Notifications.Application.Queries.SubjectQueries;
 
 public class GetAllSubjectsPreValidator : AbstractValidator<GetAllSubjectsRequest>
 {
-    private IRepository<Subject, string> _subjectRepository;
+    private IRepository<Subject, string> _repository;
 
-    public GetAllSubjectsPreValidator(IRepository<Subject, string> subjectRepository)
+    public GetAllSubjectsPreValidator(IRepository<Subject, string> repository)
     {
-        _subjectRepository = subjectRepository;
+        _repository = repository;
     }
 }

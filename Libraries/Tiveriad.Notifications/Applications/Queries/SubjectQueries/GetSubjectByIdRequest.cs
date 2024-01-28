@@ -5,6 +5,6 @@ using Tiveriad.Notifications.Core.Entities;
 
 #endregion
 
-namespace Tiveriad.Notifications.Applications.Queries.SubjectQueries;
+namespace Tiveriad.Notifications.Application.Queries.SubjectQueries;
 
 public record GetSubjectByIdRequest(string Id) : IRequest<Subject?>;

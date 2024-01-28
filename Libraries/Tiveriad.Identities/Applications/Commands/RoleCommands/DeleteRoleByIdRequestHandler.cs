@@ -28,10 +28,11 @@ public class DeleteRoleByIdRequestHandler : IRequestHandler<DeleteRoleByIdReques
         //<-- START CUSTOM CODE-->
         return Task.Run(() =>
         {
-            var query = 
+            var query =
                 _roleRepository.Queryable
-                    .Include(x=>x.Client).ThenInclude(x=>x.Organization)
-                    .Where(x => x.Id == request.Id && x.Client.Id == request.ClientId&& x.Client.Organization.Id == request.OrganizationId);
+                    .Include(x => x.Client).ThenInclude(x => x.Organization)
+                    .Where(x => x.Id == request.Id && x.Client.Id == request.ClientId &&
+                                x.Client.Organization.Id == request.OrganizationId);
             var role = query.FirstOrDefault();
             var result = _roleRepository.DeleteOne(role) == 1;
             if (role == null) throw new IdentitiesException(IdentitiesError.BAD_REQUEST);

@@ -12,16 +12,17 @@ namespace Tiveriad.Identities.Applications.Commands.UserCommands;
 
 public class SaveUserRequestHandler : IRequestHandler<SaveUserRequest, User>
 {
+    private readonly IRepository<Client, string> _clientRepository;
     private readonly IRepository<Membership, string> _membershipRepository;
     private readonly IRepository<Organization, string> _organizationRepository;
-    private readonly IRepository<Client, string> _clientRepository;
-    private readonly IRepository<User, string> _userRepository;
 
     private readonly IDomainEventStore _store;
-    
+    private readonly IRepository<User, string> _userRepository;
+
 
     public SaveUserRequestHandler(IRepository<User, string> userRepository, IDomainEventStore store,
-        IRepository<Membership, string> membershipRepository, IRepository<Organization, string> organizationRepository, IRepository<Client, string> clientRepository)
+        IRepository<Membership, string> membershipRepository, IRepository<Organization, string> organizationRepository,
+        IRepository<Client, string> clientRepository)
     {
         _userRepository = userRepository;
         _store = store;
@@ -37,20 +38,21 @@ public class SaveUserRequestHandler : IRequestHandler<SaveUserRequest, User>
             var organization = await _organizationRepository.GetByIdAsync(request.OrganizationId, cancellationToken);
             var client = await _clientRepository.GetByIdAsync(request.ClientId, cancellationToken);
             //<-- START CUSTOM CODE-->
-            var query = _userRepository.Queryable.Where(x => x.Email == request.User.Email || x.Username == request.User.Username);
+            var query = _userRepository.Queryable.Where(x =>
+                x.Email == request.User.Email || x.Username == request.User.Username);
             var user = query.FirstOrDefault();
-            
+
             if (user == null)
             {
                 await _userRepository.AddOneAsync(request.User, cancellationToken);
                 user = request.User;
             }
-           
+
 
             var membership = new Membership
             {
                 Organization = organization,
-                User =user,
+                User = user,
                 State = MembershipState.Pending,
                 Client = client
             };

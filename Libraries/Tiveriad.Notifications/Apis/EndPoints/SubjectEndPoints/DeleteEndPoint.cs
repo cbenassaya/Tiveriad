@@ -1,7 +1,6 @@
 #region
 
 using System.ComponentModel.DataAnnotations;
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +12,11 @@ namespace Tiveriad.Notifications.Apis.EndPoints.SubjectEndPoints;
 
 public class DeleteEndPoint : ControllerBase
 {
-    private readonly IMapper _mapper;
     private readonly IMediator _mediator;
 
-    public DeleteEndPoint(IMapper mapper, IMediator mediator)
+    public DeleteEndPoint(IMediator mediator)
     {
         _mediator = mediator;
-        _mapper = mapper;
     }
 
     [HttpDelete("/api/subjects/{id}")]
@@ -30,10 +27,9 @@ public class DeleteEndPoint : ControllerBase
         CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
-        if (string.IsNullOrEmpty(id))
-            return BadRequest("Id is mandatory");
+        if (string.IsNullOrEmpty(id)) return BadRequest("Id is mandatory");
         var result = await _mediator.Send(new DeleteSubjectByIdRequest(id), cancellationToken);
-        //<-- END CUSTOM CODE-->
         return Ok(result);
+        //<-- END CUSTOM CODE-->
     }
 }

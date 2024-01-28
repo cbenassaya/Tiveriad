@@ -23,7 +23,8 @@ public class GetRoleByIdRequestHandler : IRequestHandler<GetRoleByIdRequest, Rol
         //<-- START CUSTOM CODE-->
         var query = _roleRepository.Queryable
             .Include(x => x.Client).ThenInclude(x => x.Organization)
-            .Where(  x => x.Id == request.Id &&  x.Client.Id == request.ClientId && x.Client.Organization.Id == request.OrganizationId);
+            .Where(x => x.Id == request.Id && x.Client.Id == request.ClientId &&
+                        x.Client.Organization.Id == request.OrganizationId);
         //<-- END CUSTOM CODE-->
         return Task.Run(() => query.FirstOrDefault(), cancellationToken);
     }

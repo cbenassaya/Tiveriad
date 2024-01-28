@@ -10,5 +10,5 @@ namespace Tiveriad.Identities.Applications.Queries.RoleQueries;
 public record GetRoleByIdRequest(
     string Id,
     string OrganizationId,
-        string ClientId
-        ) : IRequest<Role?>, IQueryRequest;
+    string ClientId
+) : IRequest<Role?>, IQueryRequest;
