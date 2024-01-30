@@ -43,7 +43,7 @@ public class GetByIdEndPoint<TEntity, TKey> : ControllerBase
         //<-- START CUSTOM CODE-->
         var result =
             await _mediator.Send(
-                new GetByIdRequest<TEntity, TKey>(_keyParser.Parse(id), _tenantService.GetOrganizationId()),
+                new GetByIdRequest<TEntity, TKey>(_keyParser.Parse(id), _tenantService.GetCurrentOrganizationId()),
                 cancellationToken);
         var data = new DataReferenceReaderModel
         {

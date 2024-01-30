@@ -44,7 +44,7 @@ public class PutEndPoint<TEntity, TKey> : ControllerBase
         };
 
         //<-- START CUSTOM CODE-->
-        entity.OrganizationId = _tenantService.GetOrganizationId();
+        entity.OrganizationId = _tenantService.GetCurrentOrganizationId();
         var result = await _mediator.Send(new UpdateRequest<TEntity, TKey>(entity), cancellationToken);
         var data = new DataReferenceReaderModel
         {

@@ -12,6 +12,7 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddInfrastrureService();
 builder.Services.AddIdentities();
 builder.Services.AddDatabase();
 builder.Services.AddPublisher();
@@ -34,7 +35,10 @@ app.MapControllers();
 app.UseLoggerFile();
 app.Run();
 
-public partial class Program
+namespace Tiveriad.Integration
 {
+    public partial class Program
+    {
     
+    }
 }

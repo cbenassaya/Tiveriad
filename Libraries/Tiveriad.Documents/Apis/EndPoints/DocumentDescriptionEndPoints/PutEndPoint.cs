@@ -2,11 +2,7 @@
 
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Tiveriad.Documents.Apis.Contracts.DocumentDescriptionContracts;
-using Tiveriad.Documents.Applications.Commands.DocumentDescriptionCommands;
-using Tiveriad.Documents.Core.Entities;
 
 #endregion
 
@@ -23,17 +19,17 @@ public class PutEndPoint : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPut("/api/documents/{id}")]
+    [HttpPut("/api/organizations/{organizationId}/documentDescriptions/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<DocumentDescriptionReaderModel>> HandleAsync([FromRoute] string id,
-        [FromBody] DocumentDescriptionUpdaterModel model, CancellationToken cancellationToken)
+    public async Task<ActionResult<DocumentDescriptionReaderModel>> HandleAsync([FromRoute] string organizationId,
+        [FromRoute] string id, [FromBody] DocumentDescriptionUpdaterModel model, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
 
         var documentDescription = _mapper.Map<DocumentDescriptionUpdaterModel, DocumentDescription>(model);
-        var result = await _mediator.Send(new UpdateDocumentDescriptionRequest(id, documentDescription),
+        var result = await _mediator.Send(new UpdateDocumentDescriptionRequest(organizationId, id, documentDescription),
             cancellationToken);
         var data = _mapper.Map<DocumentDescription, DocumentDescriptionReaderModel>(result);
         return Ok(data);

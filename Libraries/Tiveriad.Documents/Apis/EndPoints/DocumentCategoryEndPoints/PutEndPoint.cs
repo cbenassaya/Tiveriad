@@ -2,11 +2,7 @@
 
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Tiveriad.Documents.Apis.Contracts.DocumentCategoryContracts;
-using Tiveriad.Documents.Applications.Commands.DocumentCategoryCommands;
-using Tiveriad.Documents.Core.Entities;
 
 #endregion
 
@@ -23,17 +19,18 @@ public class PutEndPoint : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPut("/api/documentcategories/{id}")]
+    [HttpPut("/api/organizations/{organizationId}/documentCategories/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<DocumentCategoryReaderModel>> HandleAsync([FromRoute] string id,
-        [FromBody] DocumentCategoryUpdaterModel model, CancellationToken cancellationToken)
+    public async Task<ActionResult<DocumentCategoryReaderModel>> HandleAsync([FromRoute] string organizationId,
+        [FromRoute] string id, [FromBody] DocumentCategoryUpdaterModel model, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
 
         var documentCategory = _mapper.Map<DocumentCategoryUpdaterModel, DocumentCategory>(model);
-        var result = await _mediator.Send(new UpdateDocumentCategoryRequest(id, documentCategory), cancellationToken);
+        var result = await _mediator.Send(new UpdateDocumentCategoryRequest(organizationId, id, documentCategory),
+            cancellationToken);
         var data = _mapper.Map<DocumentCategory, DocumentCategoryReaderModel>(result);
         return Ok(data);
         //<-- END CUSTOM CODE-->

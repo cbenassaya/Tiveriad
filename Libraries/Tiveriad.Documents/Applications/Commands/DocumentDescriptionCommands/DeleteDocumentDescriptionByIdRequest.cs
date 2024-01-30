@@ -1,9 +1,5 @@
-#region
-
 using MediatR;
-
-#endregion
 
 namespace Tiveriad.Documents.Applications.Commands.DocumentDescriptionCommands;
 
-public record DeleteDocumentDescriptionByIdRequest(string Id) : IRequest<bool>;
+public record DeleteDocumentDescriptionByIdRequest(string OrganizationId, string Id) : IRequest<bool>;

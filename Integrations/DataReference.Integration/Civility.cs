@@ -33,11 +33,15 @@ public class KeyParser : IKeyParser<string>
 
 public class TenantService : ITenantService<string>
 {
-    private static readonly string _objectId = KeyGenerator.NewId<string>();
-
-    public string GetOrganizationId()
+    private string _id = KeyGenerator.NewId<string>();
+    public string GetCurrentOrganizationId()
     {
-        return _objectId;
+        return _id;
+    }
+
+    public void SetCurrentOrganizationId(string organizationId)
+    {
+        _id = organizationId;
     }
 }
 

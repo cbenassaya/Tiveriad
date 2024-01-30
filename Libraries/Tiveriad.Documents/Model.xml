@@ -3,7 +3,7 @@
     <Component Name="Core">
         <Package Name="Entities">
             <Entities>
-                <Entity IsBusinessEntity="true" Name="DocumentDescription" PluralName="DocumentDescriptions">
+                <Entity BusinessEntity="true" Name="DocumentDescription" PluralName="DocumentDescriptions" Multitenancy="true" >
                     <Properties>
                         <Id Displayed="false" Type="string">
                             <Constraints>
@@ -47,9 +47,9 @@
                     <RelationShips>
                         <ManyToOne Name="DocumentCategory" Type="DocumentCategory"/>
                     </RelationShips>
-                    <Persistence IsAuditable="true" AuditableKeyType="string" Name="T_DocumentDescription"/>
+                    <Persistence  Auditable="true" AuditableKeyType="string" Name="T_DocumentDescription"/>
                 </Entity>
-                <Entity IsBusinessEntity="true" Name="DocumentCategory" PluralName="DocumentCategories">
+                <Entity BusinessEntity="true" Name="DocumentCategory" PluralName="DocumentCategories" Multitenancy="true">
                     <Properties>
                         <Id Displayed="false" Type="string">
                             <Constraints>
@@ -67,7 +67,7 @@
                             </Constraints>
                         </Property>
                     </Properties>
-                    <Persistence IsAuditable="true" AuditableKeyType="string" Name="T_DocumentCategory"/>
+                    <Persistence Auditable="true" AuditableKeyType="string" Name="T_DocumentCategory"/>
                 </Entity>
             </Entities>
             <Enums>

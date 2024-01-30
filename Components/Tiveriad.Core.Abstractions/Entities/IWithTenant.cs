@@ -10,4 +10,5 @@ public interface IWithTenant<TKey> : IWithTenant where TKey : IEquatable<TKey>
     ///     Id of the related tenant.
     /// </summary>
     public TKey OrganizationId { get; set; }
+    public Visibility Visibility  { get; set; }
 }

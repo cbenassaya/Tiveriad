@@ -25,9 +25,7 @@ public class
     {
         var query = _repository.Queryable;
         if (!request.OrganizationId.Equals(default))
-            query = query.Where(x =>
-                (x.OrganizationId.Equals(request.OrganizationId) && x.Visibility == Visibility.Private) ||
-                x.Visibility == Visibility.Public);
+            query = query.Where(x => (x.OrganizationId.Equals(request.OrganizationId) && x.Visibility == Visibility.Private) || x.Visibility == Visibility.Public);
         if (request.Id != null && !request.Id.Equals(default))
             query = query.Where(x => x.Id.Equals(request.Id));
         if (request.Code != null)

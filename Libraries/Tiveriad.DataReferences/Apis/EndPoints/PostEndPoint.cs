@@ -41,7 +41,7 @@ public class PostEndPoint<TEntity, TKey> : ControllerBase
             Description = model.Description,
             Code = model.Code
         };
-        entity.OrganizationId = _tenantService.GetOrganizationId();
+        entity.OrganizationId = _tenantService.GetCurrentOrganizationId();
 
         var result = await _mediator.Send(new SaveRequest<TEntity, TKey>(entity), cancellationToken);
         var data = new DataReferenceReaderModel

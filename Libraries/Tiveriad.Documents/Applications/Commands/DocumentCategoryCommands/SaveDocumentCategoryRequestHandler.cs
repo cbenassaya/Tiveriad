@@ -1,17 +1,10 @@
-#region
-
 using MediatR;
-using Tiveriad.Documents.Core.Entities;
-using Tiveriad.Repositories;
-
-#endregion
 
 namespace Tiveriad.Documents.Applications.Commands.DocumentCategoryCommands;
 
 public class SaveDocumentCategoryRequestHandler : IRequestHandler<SaveDocumentCategoryRequest, DocumentCategory>
 {
-    private readonly IRepository<DocumentCategory, string> _documentCategoryRepository;
-
+    private IRepository<DocumentCategory, string> _documentCategoryRepository;
     public SaveDocumentCategoryRequestHandler(IRepository<DocumentCategory, string> documentCategoryRepository)
     {
         _documentCategoryRepository = documentCategoryRepository;
@@ -29,3 +22,4 @@ public class SaveDocumentCategoryRequestHandler : IRequestHandler<SaveDocumentCa
         //<-- END CUSTOM CODE-->
     }
 }
+

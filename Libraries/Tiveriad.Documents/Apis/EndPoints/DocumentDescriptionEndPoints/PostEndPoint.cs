@@ -2,11 +2,7 @@
 
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Tiveriad.Documents.Apis.Contracts.DocumentDescriptionContracts;
-using Tiveriad.Documents.Applications.Commands.DocumentDescriptionCommands;
-using Tiveriad.Documents.Core.Entities;
 using Tiveriad.Documents.Core.Services;
 
 #endregion
@@ -15,35 +11,37 @@ namespace Tiveriad.Documents.Apis.EndPoints.DocumentDescriptionEndPoints;
 
 public class PostEndPoint : ControllerBase
 {
-    private readonly IBlobProviderService _blobProviderService;
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
+    private readonly IBlobServiceProvider _blobServiceProvider;
 
-    public PostEndPoint(IMediator mediator, IMapper mapper, IBlobProviderService blobProviderService)
+    public PostEndPoint(IMediator mediator, IMapper mapper, IBlobServiceProvider blobServiceProvider)
     {
         _mediator = mediator;
         _mapper = mapper;
-        _blobProviderService = blobProviderService;
+        _blobServiceProvider = blobServiceProvider;
     }
 
-    [HttpPost("/api/documents")]
+    [HttpPost("/api/organizations/{organizationId}/documentDescriptions")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<DocumentDescriptionReaderModel>> HandleAsync(
-        [FromForm] DocumentDescriptionWriterModel model, CancellationToken cancellationToken)
+    public async Task<ActionResult<DocumentDescriptionReaderModel>> HandleAsync([FromRoute] string organizationId,
+        [FromBody] DocumentDescriptionWriterModel model, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
+        var documentDescription = _mapper.Map<DocumentDescriptionWriterModel, DocumentDescription>(model);
+        documentDescription.OrganizationId = organizationId;
+        var result = await _mediator.Send(new SaveDocumentDescriptionRequest(organizationId, documentDescription),
+            cancellationToken);
+        var data = _mapper.Map<DocumentDescription, DocumentDescriptionReaderModel>(result);
+        
         using (var memoryStream = new MemoryStream())
         {
-            await model.FormFile.CopyToAsync(memoryStream, cancellationToken);
-            await _blobProviderService.Get()
-                .PutAsync(memoryStream.ToArray(), model.Path, cancellationToken);
+            await model.FormFile.CopyToAsync(memoryStream,cancellationToken);
+            await _blobServiceProvider.Get().PutAsync(memoryStream.ToArray(),model.Path, model.Name,cancellationToken);
         }
-        var documentDescription = _mapper.Map<DocumentDescriptionWriterModel, DocumentDescription>(model);
-        documentDescription.Provider =  _blobProviderService.Get().Name;
-        var result = await _mediator.Send(new SaveDocumentDescriptionRequest(documentDescription), cancellationToken);
-        var data = _mapper.Map<DocumentDescription, DocumentDescriptionReaderModel>(result);
+        
         return Ok(data);
         //<-- END CUSTOM CODE-->
     }

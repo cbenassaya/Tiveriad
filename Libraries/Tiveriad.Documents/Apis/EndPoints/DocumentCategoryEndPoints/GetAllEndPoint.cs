@@ -2,11 +2,7 @@
 
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Tiveriad.Documents.Apis.Contracts.DocumentCategoryContracts;
-using Tiveriad.Documents.Applications.Queries.DocumentCategoryQueries;
-using Tiveriad.Documents.Core.Entities;
 
 #endregion
 
@@ -23,18 +19,19 @@ public class GetAllEndPoint : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpGet("/api/documentcategories")]
+    [HttpGet("/api/organizations/{organizationId}/documentCategories")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<IEnumerable<DocumentCategoryReaderModel>>> HandleAsync([FromRoute] string id,
-        [FromRoute] int page, [FromRoute] int limit, [FromRoute] string q, [FromQuery] IEnumerable<string> orders,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<DocumentCategoryReaderModel>>> HandleAsync(
+        [FromRoute] string organizationId, [FromRoute] string? id, [FromQuery] int? page, [FromQuery] int? limit,
+        [FromQuery] string? q, [FromQuery] IEnumerable<string>? orders, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
-        var result = await _mediator.Send(new GetAllDocumentCategoriesRequest(id, page, limit, q, orders),
-            cancellationToken);
+        var result =
+            await _mediator.Send(new GetAllDocumentCategoriesRequest(organizationId, id, page, limit, q, orders),
+                cancellationToken);
         if (result == null || !result.Any()) return NoContent();
         var data = _mapper.Map<IEnumerable<DocumentCategory>, IEnumerable<DocumentCategoryReaderModel>>(result);
         return Ok(data);

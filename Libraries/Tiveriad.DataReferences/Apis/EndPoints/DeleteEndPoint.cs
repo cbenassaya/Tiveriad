@@ -41,7 +41,7 @@ public class DeleteEndPoint<TEntity, TKey> : ControllerBase
         //<-- START CUSTOM CODE-->
         var result =
             await _mediator.Send(
-                new DeleteByIdRequest<TEntity, TKey>(_keyParser.Parse(id), _tenantService.GetOrganizationId()),
+                new DeleteByIdRequest<TEntity, TKey>(_keyParser.Parse(id), _tenantService.GetCurrentOrganizationId()),
                 cancellationToken);
         return Ok(result);
         //<-- END CUSTOM CODE-->

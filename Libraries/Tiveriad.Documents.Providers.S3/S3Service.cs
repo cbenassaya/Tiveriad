@@ -12,18 +12,19 @@ using Tiveriad.Documents.Core.Services;
 namespace Tiveriad.Documents.Providers.S3;
 
 [BlobProviderName("S3")]
-public class S3Service : IBlobProvider
+public class S3Service : IBlobService
 {
     private readonly S3Configuration _configuration;
 
 
-    private S3Service(S3Configuration configuration)
+    internal S3Service(S3Configuration configuration)
     {
         _configuration = configuration;
     }
 
-    public async Task PutAsync(byte[] content, string path, CancellationToken cancellationToken = default)
+    public async Task PutAsync(byte[] content, string relativePath, string fileName, CancellationToken cancellationToken = default)
     {
+        var path = Path.Combine(relativePath, fileName);
         try
         {
             using var client = new AmazonS3Client(_configuration.GetCredentials(), _configuration.GetS3Config());
@@ -37,8 +38,9 @@ public class S3Service : IBlobProvider
         }
     }
 
-    public async Task DeleteAsync(string path, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(string relativePath, string fileName, CancellationToken cancellationToken = default)
     {
+        var path = Path.Combine(relativePath, fileName);
         try
         {
             using var client = new AmazonS3Client(_configuration.GetCredentials(), _configuration.GetS3Config());
@@ -59,8 +61,9 @@ public class S3Service : IBlobProvider
         }
     }
 
-    public async Task<byte[]> GetAsync(string path, CancellationToken cancellationToken = default)
+    public async Task<byte[]> GetAsync(string relativePath, string fileName, CancellationToken cancellationToken = default)
     {
+        var path = Path.Combine(relativePath, fileName);
         try
         {
             using var client = new AmazonS3Client(_configuration.GetCredentials(), _configuration.GetS3Config());
@@ -87,10 +90,5 @@ public class S3Service : IBlobProvider
     
     public string Name => "S3";
 
-    public static S3Service Configure(Action<S3Configuration> configurator)
-    {
-        var configuration = new S3Configuration();
-        configurator(configuration);
-        return new S3Service(configuration);
-    }
+
 }

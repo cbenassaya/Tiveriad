@@ -29,6 +29,7 @@ public static class MvcDependencyInjection
         
         services.AddMvc(opt =>
         {
+            opt.Filters.Add<MultitenancyActionFilter>();
             opt.Filters.Add<TransactionActionFilter>();
             opt.Filters.Add<DomainEventActionFilter>();
             

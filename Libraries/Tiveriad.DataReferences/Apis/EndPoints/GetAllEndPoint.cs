@@ -43,7 +43,7 @@ public class GetAllEndPoint<TEntity, TKey> : ControllerBase
         //<-- START CUSTOM CODE-->
         var result = await _mediator.Send(new GetAllRequest<TEntity, TKey>(
             string.IsNullOrEmpty(id) ? default : _keyParser.Parse(id),
-            _tenantService.GetOrganizationId(),
+            _tenantService.GetCurrentOrganizationId(),
             code,
             page,
             limit,

@@ -1,5 +1,4 @@
-﻿
-using Tiveriad.Identities.Core.Services;
+﻿using Tiveriad.Identities.Core.Services;
 
 namespace Tiveriad.Integration.Infrastructure.Services;
 

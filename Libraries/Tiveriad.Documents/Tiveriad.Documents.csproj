@@ -24,4 +24,8 @@
         <ProjectReference Include="..\..\Components\Tiveriad.Repositories\Tiveriad.Repositories.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Applications\" />
+    </ItemGroup>
+
 </Project>

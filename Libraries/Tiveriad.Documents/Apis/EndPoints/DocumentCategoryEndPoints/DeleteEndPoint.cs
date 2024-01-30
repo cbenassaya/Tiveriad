@@ -2,9 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Tiveriad.Documents.Applications.Commands.DocumentCategoryCommands;
 
 #endregion
 
@@ -19,16 +17,17 @@ public class DeleteEndPoint : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpDelete("/api/documentcategories/{id}")]
+    [HttpDelete("/api/organizations/{organizationId}/documentCategories/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<bool>> HandleAsync([FromRoute] [Required] string id,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<bool>> HandleAsync([FromRoute] [Required] string organizationId,
+        [FromRoute] [Required] string id, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
+        if (string.IsNullOrEmpty(organizationId)) return BadRequest("OrganizationId is mandatory");
         if (string.IsNullOrEmpty(id)) return BadRequest("Id is mandatory");
-        var result = await _mediator.Send(new DeleteDocumentCategoryByIdRequest(id), cancellationToken);
+        var result = await _mediator.Send(new DeleteDocumentCategoryByIdRequest(organizationId, id), cancellationToken);
         return Ok(result);
         //<-- END CUSTOM CODE-->
     }

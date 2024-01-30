@@ -3,6 +3,7 @@
 using Amazon;
 using Amazon.Runtime;
 using Amazon.S3;
+using Tiveriad.Documents.Core.Services;
 
 #endregion
 
@@ -61,5 +62,16 @@ public class S3Configuration
         return string.IsNullOrWhiteSpace(_accessKeyId)
             ? new AnonymousAWSCredentials()
             : new BasicAWSCredentials(_accessKeyId, _secretKey);
+    }
+}
+
+public static class Extensions
+{
+    public static IBlobServiceProvider Configure(this IBlobServiceProvider serviceProvider, Action<S3Configuration> configurator)
+    {
+        var config = new S3Configuration();
+        configurator(config);
+        serviceProvider.Add(new S3Service(config));
+        return serviceProvider;
     }
 }

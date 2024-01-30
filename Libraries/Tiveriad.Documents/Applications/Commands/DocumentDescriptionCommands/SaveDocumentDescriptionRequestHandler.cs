@@ -1,21 +1,12 @@
-#region
-
 using MediatR;
-using Tiveriad.Documents.Core.Entities;
-using Tiveriad.Repositories;
-
-#endregion
 
 namespace Tiveriad.Documents.Applications.Commands.DocumentDescriptionCommands;
 
-public class
-    SaveDocumentDescriptionRequestHandler : IRequestHandler<SaveDocumentDescriptionRequest, DocumentDescription>
+public class SaveDocumentDescriptionRequestHandler : IRequestHandler<SaveDocumentDescriptionRequest, DocumentDescription>
 {
-    private readonly IRepository<DocumentDescription, string> _documentDescriptionRepository;
+    private IRepository<DocumentDescription, string> _documentDescriptionRepository;
     private IRepository<DocumentCategory, string> _documentCategoryRepository;
-
-    public SaveDocumentDescriptionRequestHandler(IRepository<DocumentDescription, string> documentDescriptionRepository,
-        IRepository<DocumentCategory, string> documentCategoryRepository)
+    public SaveDocumentDescriptionRequestHandler(IRepository<DocumentDescription, string> documentDescriptionRepository, IRepository<DocumentCategory, string> documentCategoryRepository)
     {
         _documentDescriptionRepository = documentDescriptionRepository;
         _documentCategoryRepository = documentCategoryRepository;
@@ -33,3 +24,4 @@ public class
         //<-- END CUSTOM CODE-->
     }
 }
+

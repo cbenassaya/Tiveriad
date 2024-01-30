@@ -1,10 +1,5 @@
-#region
-
 using MediatR;
-using Tiveriad.Documents.Core.Entities;
-
-#endregion
 
 namespace Tiveriad.Documents.Applications.Commands.DocumentDescriptionCommands;
 
-public record SaveDocumentDescriptionRequest(DocumentDescription DocumentDescription) : IRequest<DocumentDescription>;
+public record SaveDocumentDescriptionRequest(string OrganizationId, DocumentDescription DocumentDescription) : IRequest<DocumentDescription>;
