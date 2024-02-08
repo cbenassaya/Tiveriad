@@ -20,13 +20,4 @@
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Applications\Commands\NotificationCommands\"/>
-        <Folder Include="Applications\Commands\ScopeCommands\"/>
-        <Folder Include="Core\Entities\"/>
-        <Folder Include="Core\Exceptions\"/>
-        <Folder Include="Core\Services\"/>
-        <Folder Include="Persistence\Entities\"/>
-    </ItemGroup>
-
 </Project>

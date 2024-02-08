@@ -115,6 +115,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Notifications", "L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Integration.Tests", "Tests\Tiveriad.Integration.Tests\Tiveriad.Integration.Tests.csproj", "{FCC29449-16DE-46FD-9EB4-EB6744522C3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Registrations", "Libraries\Tiveriad.Registrations\Tiveriad.Registrations.csproj", "{20D5F099-AAC6-46FA-B7DF-4677BFCDEFFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.EnterpriseIntegrationPatterns.InMemory", "Components\Tiveriad.EnterpriseIntegrationPatterns.InMemory\Tiveriad.EnterpriseIntegrationPatterns.InMemory.csproj", "{5D6879F9-7C78-43E3-8096-BCCFE5DC8376}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.EnterpriseIntegrationPatterns.InMemory.Tests", "Tests\Tiveriad.EnterpriseIntegrationPatterns.InMemory.Tests\Tiveriad.EnterpriseIntegrationPatterns.InMemory.Tests.csproj", "{B6762E2C-0B40-40B6-9E7E-37F1AA0FB1BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -317,6 +323,18 @@ Global
 		{FCC29449-16DE-46FD-9EB4-EB6744522C3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCC29449-16DE-46FD-9EB4-EB6744522C3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCC29449-16DE-46FD-9EB4-EB6744522C3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20D5F099-AAC6-46FA-B7DF-4677BFCDEFFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20D5F099-AAC6-46FA-B7DF-4677BFCDEFFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20D5F099-AAC6-46FA-B7DF-4677BFCDEFFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20D5F099-AAC6-46FA-B7DF-4677BFCDEFFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D6879F9-7C78-43E3-8096-BCCFE5DC8376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D6879F9-7C78-43E3-8096-BCCFE5DC8376}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D6879F9-7C78-43E3-8096-BCCFE5DC8376}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D6879F9-7C78-43E3-8096-BCCFE5DC8376}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6762E2C-0B40-40B6-9E7E-37F1AA0FB1BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6762E2C-0B40-40B6-9E7E-37F1AA0FB1BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6762E2C-0B40-40B6-9E7E-37F1AA0FB1BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6762E2C-0B40-40B6-9E7E-37F1AA0FB1BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5FA9F754-A10A-4DCE-8C6A-DB372D36AE0B} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
@@ -368,5 +386,8 @@ Global
 		{95257185-7A6D-48E5-B032-2044914B8DA2} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
 		{4335923F-C966-4E25-8DF0-B6A9A5B60A30} = {64EC9BA5-2D37-4E64-9BBE-5B5E71C50015}
 		{FCC29449-16DE-46FD-9EB4-EB6744522C3A} = {7E9DCA1A-5313-48FD-9EC1-CDA61E0E090F}
+		{20D5F099-AAC6-46FA-B7DF-4677BFCDEFFF} = {64EC9BA5-2D37-4E64-9BBE-5B5E71C50015}
+		{5D6879F9-7C78-43E3-8096-BCCFE5DC8376} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
+		{B6762E2C-0B40-40B6-9E7E-37F1AA0FB1BE} = {7E9DCA1A-5313-48FD-9EC1-CDA61E0E090F}
 	EndGlobalSection
 EndGlobal

@@ -1,18 +1,14 @@
-﻿using RabbitMQ.Client;
-using Tiveriad.Connections;
-using Tiveriad.EnterpriseIntegrationPatterns.RabbitMq;
-using Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.EventBrokers;
+﻿
+using Tiveriad.EnterpriseIntegrationPatterns.InMemory;
+using Tiveriad.EnterpriseIntegrationPatterns.InMemory.EventBrokers;
 using Tiveriad.Identities.Core.DomainEvents;
 
 namespace Tiveriad.Integration.Infrastructure.Publishers;
 
-public class UserDomainEventPublisher: RabbitMqPublisher<UserDomainEvent, string>
+
+public class UserDomainEventPublisher : InMemoryPublisher<UserDomainEvent, string>
 {
-    public UserDomainEventPublisher(
-        IConnectionFactory<IConnection> connectionFactory,
-        IRabbitMqConnectionConfiguration configuration,
-        string eventName,
-        ILogger<UserDomainEventPublisher> logger) : base(connectionFactory, configuration, eventName, logger)
+    public UserDomainEventPublisher(IInMemoryQueueManager queueManager, ILogger<InMemoryPublisher<UserDomainEvent, string>> logger) : base(queueManager, logger)
     {
     }
 }

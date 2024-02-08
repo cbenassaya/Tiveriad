@@ -44,8 +44,6 @@ public class TransactionActionFilter : IAsyncActionFilter
                 _logger.LogError($"Try to save changes", e);
                 throw;
             }
-           
-        //await tx.CommitAsync();
         }
     }
 }

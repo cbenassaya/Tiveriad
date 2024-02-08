@@ -6,14 +6,18 @@ using Tiveriad.Documents.Applications.Commands.DocumentCategoryCommands;
 using Tiveriad.Documents.Applications.Commands.DocumentDescriptionCommands;
 using Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection;
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
-using Tiveriad.Identities.Apis.Contracts.UserContracts;
+using Tiveriad.Identities.Apis.Contracts;
 using Tiveriad.Identities.Apis.Filters;
+using Tiveriad.Identities.Applications.Commands.MembershipCommands;
 using Tiveriad.Identities.Applications.Commands.UserCommands;
 using Tiveriad.Identities.Core.DomainEvents;
 using Tiveriad.Integration.Applications.Pipelines;
 using Tiveriad.Integration.Filters;
 using Tiveriad.Notifications.Apis.Contracts.NotificationContracts;
 using Tiveriad.Notifications.Applications.Commands.NotificationCommands;
+using Tiveriad.Registrations.Apis.Contracts;
+using Tiveriad.Registrations.Apis.Filters;
+using Tiveriad.Registrations.Applications.Commands.RegistrationCommands;
 using Tiveriad.ServiceResolvers;
 using Tiveriad.ServiceResolvers.Microsoft.DependencyInjection;
 
@@ -25,33 +29,39 @@ public static class MvcDependencyInjection
     public static IServiceCollection AddIdentities(this IServiceCollection services)
     {
         
-        services.AddAutoMapper(typeof(UserReaderModel).Assembly, typeof(NotificationReaderModel).Assembly, typeof(DocumentDescriptionReaderModel).Assembly);
+        services.AddAutoMapper(
+            typeof(UserReaderModel).Assembly,
+            typeof(NotificationReaderModel).Assembly,
+            typeof(DocumentDescriptionReaderModel).Assembly,
+            typeof(RegistrationReaderModel).Assembly);
         
         services.AddMvc(opt =>
         {
+            opt.Filters.Add<RegistrationDomainEventActionFilter>();
+            opt.Filters.Add<IdentityDomainEventActionFilter>();
             opt.Filters.Add<MultitenancyActionFilter>();
             opt.Filters.Add<TransactionActionFilter>();
-            opt.Filters.Add<DomainEventActionFilter>();
-            
+            opt.Filters.Add<ApiExceptionFilter>();
         });
         
-        services.AddValidatorsFromAssembly(typeof(UpdateMembershipStatePreValidator).Assembly);
+        services.AddValidatorsFromAssembly(typeof(UpdateMembershipPreValidator).Assembly);
+        services.AddValidatorsFromAssembly(typeof(SaveRegistrationPreValidator).Assembly);
         services.AddValidatorsFromAssembly(typeof(UpdateNotificationPreValidator).Assembly);
         services.AddValidatorsFromAssembly(typeof(UpdateDocumentCategoryPreValidator).Assembly);
-        
-        services.AddMediatR(cfg => {
-            cfg.RegisterServicesFromAssembly(typeof(SaveUserRequest).Assembly);
-            cfg.RegisterServicesFromAssembly(typeof(SaveNotificationRequest).Assembly);
-            cfg.RegisterServicesFromAssembly(typeof(SaveDocumentDescriptionRequest).Assembly);
+
+       
+        services.AddMediatR(cfg =>
+        {
+            cfg.Lifetime = ServiceLifetime.Scoped;
+            cfg.RegisterServicesFromAssemblyContaining<SaveNotificationRequest>( );
+            cfg.RegisterServicesFromAssemblyContaining<SaveUserRequest>();
+            cfg.RegisterServicesFromAssemblyContaining<SaveRegistrationRequest>();
+            cfg.RegisterServicesFromAssemblyContaining<SaveDocumentDescriptionRequest>();
         });
         
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-    
         
-        services.AddScoped<IServiceResolver, DependencyInjectionServiceResolver>();
-        services.AddTiveriadEip(typeof(UserDomainEvent).Assembly);
-        services.AddScoped<IDomainEventStore, DomainEventStore>();
         return services;
     }
     
@@ -62,3 +72,4 @@ public static class MvcDependencyInjection
     }
 
 }
+

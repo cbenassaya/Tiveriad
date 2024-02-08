@@ -1,7 +1,7 @@
 #region
 
 using AutoMapper;
-using Tiveriad.Identities.Apis.Contracts.MembershipContracts;
+using Tiveriad.Identities.Apis.Contracts;
 using Tiveriad.Identities.Core.Entities;
 
 #endregion
@@ -14,5 +14,8 @@ public class MembershipProfile : Profile
     {
         CreateMap<Membership, MembershipReaderModel>();
         CreateMap<MembershipWriterModel, Membership>();
+        
+        CreateMap<MembershipState,string>().ConvertUsing(s => s.ToString());
+        CreateMap<string,MembershipState>().ConvertUsing(s => Enum.Parse<MembershipState>(s));
     }
 }

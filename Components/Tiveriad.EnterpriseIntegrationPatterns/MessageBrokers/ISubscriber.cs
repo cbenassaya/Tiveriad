@@ -14,6 +14,10 @@ public interface ISubscriber<TEvent, TKey>
     void Subscribe();
 
     Task OnError(Exception exception);
-
+    
+    Task Handle(TEvent @event);
 
 }
+
+
+ 

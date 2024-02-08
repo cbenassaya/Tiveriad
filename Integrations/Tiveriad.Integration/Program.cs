@@ -17,12 +17,12 @@ builder.Services.AddIdentities();
 builder.Services.AddDatabase();
 builder.Services.AddPublisher();
 builder.Services.AddDocumentProvider();
-builder.Services.AddRabbitMq();
+builder.Services.AddBroker();
 builder.Services.AddKeycloak();
-
 builder.Services.AddMvc();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddWorkers();
 var app = builder.Build();
 app.UseRouting(); // This adds EndpointRoutingMiddleware
 app.UseCors();

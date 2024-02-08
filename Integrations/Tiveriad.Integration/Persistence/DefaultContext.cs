@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Tiveriad.Documents.Core.Entities;
 using Tiveriad.Identities.Core.Entities;
 using Tiveriad.Notifications.Core.Entities;
+using Tiveriad.Registrations.Core.Entities;
 
 #endregion
 
@@ -22,5 +23,6 @@ public class DefaultContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(DocumentDescription).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(Notification).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(User).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Registration).Assembly);
     }
 }

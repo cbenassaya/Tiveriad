@@ -1,8 +1,7 @@
 ﻿using Tiveriad.Core.Abstractions.DomainEvents;
 using Tiveriad.Core.Abstractions.Services;
-using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 
-namespace Tiveriad.Multitenancy.Apis.Filters;
+namespace Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 
 public static class StoreExtensions
 {

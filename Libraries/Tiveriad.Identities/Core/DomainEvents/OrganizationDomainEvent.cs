@@ -15,10 +15,3 @@ public class OrganizationDomainEvent : IDomainEvent<string>
     public string Id { get; } = Guid.NewGuid().ToString();
 }
 
-public class ClientDomainEvent : IDomainEvent<string>
-{
-    public Client Client { get; set; }
-    public string EventType { get; set; }
-    public DateTimeOffset OccurredOn { get; } = DateTimeOffset.Now;
-    public string Id { get; } = Guid.NewGuid().ToString();
-}

@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+        <PackageReference Include="MediatR" Version="12.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
@@ -18,18 +19,25 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Apis\Tiveriad.Keycloak\Tiveriad.Keycloak.csproj" />
       <ProjectReference Include="..\..\Components\Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection\Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection.csproj" />
-      <ProjectReference Include="..\..\Components\Tiveriad.EnterpriseIntegrationPatterns.RabbitMq\Tiveriad.EnterpriseIntegrationPatterns.RabbitMq.csproj" />
+      <ProjectReference Include="..\..\Components\Tiveriad.EnterpriseIntegrationPatterns.InMemory\Tiveriad.EnterpriseIntegrationPatterns.InMemory.csproj" />
       <ProjectReference Include="..\..\Components\Tiveriad.Repositories.Microsoft.DependencyInjection\Tiveriad.Repositories.Microsoft.DependencyInjection.csproj" />
       <ProjectReference Include="..\..\Components\Tiveriad.ServiceResolvers.Microsoft.DependencyInjection\Tiveriad.ServiceResolvers.Microsoft.DependencyInjection.csproj" />
       <ProjectReference Include="..\..\Libraries\Tiveriad.Documents.Providers.LocalDrive\Tiveriad.Documents.Providers.LocalDrive.csproj" />
       <ProjectReference Include="..\..\Libraries\Tiveriad.Documents\Tiveriad.Documents.csproj" />
       <ProjectReference Include="..\..\Libraries\Tiveriad.Identities\Tiveriad.Identities.csproj" />
       <ProjectReference Include="..\..\Libraries\Tiveriad.Notifications\Tiveriad.Notifications.csproj" />
+      <ProjectReference Include="..\..\Libraries\Tiveriad.Registrations\Tiveriad.Registrations.csproj" />
 
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Logs\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Tiveriad.Identities">
+        <HintPath>..\..\Tests\Tiveriad.Integration.Tests\bin\Debug\net8.0\Tiveriad.Identities.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

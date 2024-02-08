@@ -1,8 +1,6 @@
 using System.Net;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using Microsoft.AspNetCore.Http;
 using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.Documents.Apis.Contracts.DocumentCategoryContracts;
 using Tiveriad.Documents.Apis.Contracts.DocumentDescriptionContracts;
@@ -15,20 +13,7 @@ public class DocumentTest : IntegrationTestBase
 {
 
 
-    [Fact]
-    public async void CleanDatabase()
-    {
-        var exist = File.Exists("database.db");
-        if (exist)
-        {
-            File.Delete("database.db");
-            Assert.True(true);
-        }
-        else
-        {
-            Assert.True(false);
-        }
-    }
+
 
     [Fact]
     public async void AddDocumentCategory()
@@ -49,7 +34,7 @@ public class DocumentTest : IntegrationTestBase
     }
 
     [Fact]
-    public async void AddDocument()
+    public async void AddDocumentDescription()
     {
         dynamic properties = new Metadata();
         properties.Severity = "max";
@@ -77,6 +62,21 @@ public class DocumentTest : IntegrationTestBase
             Assert.True(response.IsSuccessStatusCode);
         else
             Assert.Fail($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+    }
+
+    [Fact]
+    public async void GetAllDocumentDescriptions()
+    {
+        var documentDescriptions = await Get<IEnumerable<DocumentDescriptionReaderModel>>("/api/organizations/123456789/documentDescriptions");
+        Assert.True(documentDescriptions.Any());
+    }
+    
+    [Fact]
+    public async void GetDocumentDescriptionById()
+    {
+        var documentDescriptions = await Get<IEnumerable<DocumentDescriptionReaderModel>>("/api/organizations/123456789/documentDescriptions");
+        var documentDescription = await Get<DocumentDescriptionReaderModel>($"/api/organizations/123456789/documentDescriptions/{documentDescriptions.First().Id}");
+        Assert.True(documentDescription!=null);
     }
 }
 

@@ -20,9 +20,9 @@ public abstract class AbstractProcessor<T, U>
         DoTraverse(objectToTraverse);
     }
 
-    private void DoTraverse(object objectToTraverse)
+    private void DoTraverse(object? objectToTraverse)
     {
-        //if (objectToTraverse == null) return;
+        if (objectToTraverse == null) return;
 
         if (_memory.Contains(objectToTraverse.GetHashCode())) return;
 

@@ -4,6 +4,7 @@ using Tiveriad.Identities.Core.Entities;
 using Tiveriad.Identities.Persistence;
 using Tiveriad.Integration.Persistence;
 using Tiveriad.Notifications.Core.Entities;
+using Tiveriad.Registrations.Core.Entities;
 using Tiveriad.Repositories.EntityFrameworkCore.Repositories;
 using Tiveriad.Repositories.Microsoft.DependencyInjection;
 
@@ -20,9 +21,12 @@ public static class DatabaseDependencyInjection
                 options.LogTo(message => { logger.LogInformation(message); }).EnableSensitiveDataLogging().EnableDetailedErrors();
             options.UseSqlite("Data Source=database.db");
         });
-        
-        servicesCollection.AddRepositories(typeof(EFRepository<, >), 
-            typeof(DocumentDescription).Assembly, typeof(Notification).Assembly,typeof(User).Assembly);
+
+        servicesCollection.AddRepositories(typeof(EFRepository<,>),
+            typeof(DocumentDescription).Assembly,
+            typeof(Notification).Assembly,
+            typeof(User).Assembly, typeof(Registration).Assembly);
+        ;
 
         var serviceProvider = servicesCollection.BuildServiceProvider();
         var defaultContext = serviceProvider.GetRequiredService<DbContext>();

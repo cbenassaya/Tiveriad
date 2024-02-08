@@ -43,6 +43,9 @@ public class RabbitMqPublisher<TEvent, TKey> : IPublisher<TEvent, TKey> where TE
         var channel = connection.CreateModel();
         _logger.LogTrace("Declaring RabbitMQ exchange to publish event: {EventId}", @event.Id);
         channel.ExchangeDeclare(_configuration.BrokerName, "direct", true);
+        
+        
+        
         var body = JsonSerializer.SerializeToUtf8Bytes(@event, @event.GetType(), new JsonSerializerOptions
         {
             WriteIndented = true

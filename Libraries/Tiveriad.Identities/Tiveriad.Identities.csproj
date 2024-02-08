@@ -7,11 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Applications\"/>
-        <Folder Include="Core\"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\..\Components\Tiveriad.Apis\Tiveriad.Apis.csproj"/>
         <ProjectReference Include="..\..\Components\Tiveriad.EnterpriseIntegrationPatterns\Tiveriad.EnterpriseIntegrationPatterns.csproj"/>
         <ProjectReference Include="..\..\Components\Tiveriad.Repositories.EntityFrameworkCore\Tiveriad.Repositories.EntityFrameworkCore.csproj"/>
