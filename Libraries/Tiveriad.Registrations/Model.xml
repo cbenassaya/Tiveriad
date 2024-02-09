@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project RootNamespace="Tiveriad.Registrations" xmlns="urn:xcore-mapping-2.0">
+    <Component Name="Core">
+        <Package Name="Entities">
+            <Entities>
+                <Entity BusinessEntity="true" Name="Registration" PluralName="Registrations">
+                    <Properties>
+                        <Id Displayed="false" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                                <Required/>
+                            </Constraints>
+                        </Id>
+                        <Property BusinessKey="true" IsCollection="false" Name="Description" Type="string">
+                            <Constraints>
+                                <MaxLength Max="500"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property BusinessKey="true" IsCollection="false" Name="OrganizationName" Searchable="true"
+                                  Type="string">
+                            <Constraints>
+                                <MaxLength Max="50"/>
+                                <Required/>
+                                <Unique/>
+                            </Constraints>
+                        </Property>
+                        <Property BusinessKey="true" IsCollection="false" Name="Firstname" Searchable="true"
+                                  Type="string">
+                            <Constraints>
+                                <MaxLength Max="100"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property BusinessKey="true" IsCollection="false" Name="Lastname" Searchable="true"
+                                  Type="string">
+                            <Constraints>
+                                <MaxLength Max="100"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+
+                        <Property BusinessKey="true" IsCollection="false" Name="Username" Searchable="true"
+                                  Type="string">
+                            <Constraints>
+                                <MaxLength Max="100"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+
+                        <Property BusinessKey="true" IsCollection="false" Name="Password" Searchable="true"
+                                  Type="string" Transient="true">
+                            <Constraints>
+                                <MaxLength Max="12"/>
+                                <MinLength Min="12"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+
+                        <Property BusinessKey="true" IsCollection="false" Name="Email" Searchable="true" Type="string">
+                            <Constraints>
+                                <MaxLength Max="100"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property BusinessKey="true" IsCollection="false" Name="DefaultLocale" Searchable="true"
+                                  Type="string">
+                            <Constraints>
+                                <MaxLength Max="12"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property BusinessKey="false" IsCollection="false" Name="Data" Nullable="true" Type="Metadata"/>
+                    </Properties>
+                    <RelationShips>
+                        <ManyToOne Name="RegistrationModel" Type="RegistrationModel"/>
+                    </RelationShips>
+                    <Persistence Auditable="true" Name="T_Registration" AuditableKeyType="string"/>
+                    <DomainEvents>
+                        <DomainEvent Event="OnSave"/>
+                    </DomainEvents>
+                </Entity>
+                <Entity BusinessEntity="true" Name="RegistrationModel" PluralName="RegistrationModels">
+                    <Properties>
+                        <Id Displayed="false" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                                <Required/>
+                            </Constraints>
+                        </Id>
+                        <Property BusinessKey="true" IsCollection="false" Name="Name" Searchable="true" Type="string">
+                            <Constraints>
+                                <MaxLength Max="50"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+
+                        <Property BusinessKey="true" IsCollection="false" Name="Description" Type="string">
+                            <Constraints>
+                                <MaxLength Max="500"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+
+                        <Property BusinessKey="true" IsCollection="false" Name="Model" Type="Metadata">
+                            <Constraints>
+                                <MaxLength Max="1000"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+
+                    </Properties>
+
+                    <Persistence Auditable="true" Name="T_RegistrationModel" AuditableKeyType="string"/>
+                </Entity>
+            </Entities>
+        </Package>
+    </Component>
+</Project>

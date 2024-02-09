@@ -3,7 +3,7 @@
     <Component Name="Core">
         <Package Name="Entities">
             <Entities>
-                <Entity IsBusinessEntity="true" Name="Notification" PluralName="Notifications">
+                <Entity BusinessEntity="true" Name="Notification" PluralName="Notifications">
                     <Properties>
                         <Id Displayed="false" Type="string">
                             <Constraints>
@@ -26,9 +26,9 @@
                         <ManyToOne Name="Subject" Type="Subject"/>
                         <ManyToOne Name="Message" Type="NotificationMessage"/>
                     </RelationShips>
-                    <Persistence IsAuditable="true" AuditableKeyType="string" Name="T_Notification"/>
+                    <Persistence Auditable="true" AuditableKeyType="string" Name="T_Notification"/>
                 </Entity>
-                <Entity IsBusinessEntity="true" Name="Subject" PluralName="Subjects">
+                <Entity BusinessEntity="true" Name="Subject" PluralName="Subjects">
                     <Properties>
                         <Id Displayed="false" Type="string">
                             <Constraints>
@@ -59,9 +59,9 @@
                         <ManyToOne Name="Template" Type="NotificationMessage"/>
                         <OneToMany Name="Scopes" Type="Scope"/>
                     </RelationShips>
-                    <Persistence IsAuditable="true" AuditableKeyType="string" Name="T_Subject"/>
+                    <Persistence Auditable="true" AuditableKeyType="string" Name="T_Subject"/>
                 </Entity>
-                <Entity IsBusinessEntity="false" Name="NotificationMessage" PluralName="NotificationMessages">
+                <Entity BusinessEntity="false" Name="NotificationMessage" PluralName="NotificationMessages">
                     <Properties>
                         <Id Displayed="false" Type="string">
                             <Constraints>
@@ -87,9 +87,9 @@
                         <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
                                   Name="ConfirmMode" Type="ConfirmMode"/>
                     </Properties>
-                    <Persistence IsAuditable="true" AuditableKeyType="string" Name="T_NotificationMessage"/>
+                    <Persistence Auditable="true" AuditableKeyType="string" Name="T_NotificationMessage"/>
                 </Entity>
-                <Entity IsBusinessEntity="true" Name="Scope" PluralName="Scopes">
+                <Entity BusinessEntity="true" Name="Scope" PluralName="Scopes">
                     <Properties>
                         <Id Displayed="false" Type="string">
                             <Constraints>
@@ -111,7 +111,7 @@
                         <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
                                   Name="ReferenceId" Type="string"/>
                     </Properties>
-                    <Persistence IsAuditable="true" AuditableKeyType="string" Name="T_Scope"/>
+                    <Persistence Auditable="true" AuditableKeyType="string" Name="T_Scope"/>
                 </Entity>
             </Entities>
             <Enums>

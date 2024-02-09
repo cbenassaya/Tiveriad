@@ -1,0 +1,80 @@
+2024-02-01T19:06:58.0819913+02:00  [INF] Now listening on: "http://localhost:5105" (d826f4b8)
+2024-02-01T19:06:58.0848714+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2024-02-01T19:06:58.0850930+02:00  [INF] Hosting environment: "Development" (bc5a1a4e)
+2024-02-01T19:06:58.0851112+02:00  [INF] Content root path: "C:\Dev\Github\Tiiveriad\Integrations\Tiveriad.Integration" (cc26f24e)
+2024-02-01T19:08:25.0333291+02:00 0HN1390PIHG7K:00000003 [WRN] Failed to determine the https port for redirect. (ca76cc21)
+2024-02-01T19:08:25.4879964+02:00 0HN1390PIHG7K:00000003 [INF] Executed DbCommand ("5"ms) [Parameters=["@__request_Language_Name_0='Français' (Size = 8)"], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Code\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Descriptions\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Name\"
+FROM \"T_Language\" AS \"t\"
+WHERE \"t\".\"Name\" = @__request_Language_Name_0" (0723d8ff)
+2024-02-01T19:08:25.4987019+02:00 0HN1390PIHG7K:00000003 [INF] Executed DbCommand ("0"ms) [Parameters=["@__request_Language_Code_0='FR' (Size = 2)"], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Code\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Descriptions\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Name\"
+FROM \"T_Language\" AS \"t\"
+WHERE \"t\".\"Code\" = @__request_Language_Code_0" (0723d8ff)
+2024-02-01T19:08:25.6427063+02:00 0HN1390PIHG7K:00000003 [INF] Executed DbCommand ("4"ms) [Parameters=["@p0='65bbd0098e5cc8a7092983ac' (Nullable = false) (Size = 24), @p1='FR' (Nullable = false) (Size = 2), @p2='2024-02-01T19:08:25.5786223+02:00' (DbType = DateTime), @p3='' (Nullable = false), @p4='French' (Size = 6), @p5=NULL (DbType = DateTime), @p6=NULL, @p7='Français' (Nullable = false) (Size = 8)"], CommandType='Text', CommandTimeout='30']"
+""INSERT INTO \"T_Language\" (\"Id\", \"Code\", \"Created\", \"CreatedBy\", \"Descriptions\", \"LastModified\", \"LastModifiedBy\", \"Name\")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7);" (0723d8ff)
+2024-02-01T19:08:34.4499714+02:00 0HN1390PIHG7K:00000004 [INF] Executed DbCommand ("0"ms) [Parameters=["@__request_Language_Name_0='Français' (Size = 8)"], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Code\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Descriptions\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Name\"
+FROM \"T_Language\" AS \"t\"
+WHERE \"t\".\"Name\" = @__request_Language_Name_0" (0723d8ff)
+2024-02-01T19:08:34.4793353+02:00 0HN1390PIHG7K:00000004 [INF] Executed DbCommand ("0"ms) [Parameters=["@__request_Language_Code_0='FR' (Size = 2)"], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Code\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Descriptions\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Name\"
+FROM \"T_Language\" AS \"t\"
+WHERE \"t\".\"Code\" = @__request_Language_Code_0" (0723d8ff)
+2024-02-01T19:08:34.4922219+02:00 0HN1390PIHG7K:00000004 [ERR] An unhandled exception has occurred while executing the request. (48a46595)
+Tiveriad.Integration.Core.Exceptions.TiveriadIntegrationException: Language_Name_XUniqueRule,Language_Code_XUniqueRule
+   at Tiveriad.Integration.Applications.Pipelines.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in C:\Dev\Github\Tiiveriad\Integrations\Tiveriad.Integration\Applications\Pipelines\ValidationBehaviour.cs:line 33
+   at Tiveriad.Integration.Applications.Pipelines.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in C:\Dev\Github\Tiiveriad\Integrations\Tiveriad.Integration\Applications\Pipelines\PerformanceBehaviour.cs:line 25
+   at Tiveriad.Identities.Apis.EndPoints.LanguageEndPoints.PostEndPoint.HandleAsync(LanguageWriterModel model, CancellationToken cancellationToken) in C:\Dev\Github\Tiiveriad\Libraries\Tiveriad.Identities\Apis\EndPoints\LanguageEndPoints\PostEndPoint.cs:line 31
+   at lambda_method11(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2024-02-01T21:42:33.3903581+02:00  [INF] Application is shutting down... (90f52c38)
+2024-02-01T21:42:41.3618084+02:00  [INF] Now listening on: "http://localhost:5105" (d826f4b8)
+2024-02-01T21:42:41.3649922+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2024-02-01T21:42:41.3652248+02:00  [INF] Hosting environment: "Development" (bc5a1a4e)
+2024-02-01T21:42:41.3652401+02:00  [INF] Content root path: "C:\Dev\Github\Tiiveriad\Integrations\Tiveriad.Integration" (cc26f24e)
+2024-02-01T21:42:56.1780435+02:00 0HN13BNQ4TA3T:00000003 [WRN] Failed to determine the https port for redirect. (ca76cc21)
+2024-02-01T21:42:56.5653003+02:00 0HN13BNQ4TA3T:00000003 [INF] Executed DbCommand ("1"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Description\", \"t\".\"Domain\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Logo\", \"t\".\"Name\", \"t\".\"Properties\", \"t\".\"State\", \"t\".\"TimeAreaId\"
+FROM \"T_Organization\" AS \"t\"
+WHERE 0" (0723d8ff)
+2024-02-01T21:42:56.5948311+02:00 0HN13BNQ4TA3T:00000003 [ERR] An unhandled exception has occurred while executing the request. (48a46595)
+Tiveriad.Integration.Core.Exceptions.TiveriadIntegrationException: Organization_Name_XNotEmptyRule
+   at Tiveriad.Integration.Applications.Pipelines.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in C:\Dev\Github\Tiiveriad\Integrations\Tiveriad.Integration\Applications\Pipelines\ValidationBehaviour.cs:line 33
+   at Tiveriad.Integration.Applications.Pipelines.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in C:\Dev\Github\Tiiveriad\Integrations\Tiveriad.Integration\Applications\Pipelines\PerformanceBehaviour.cs:line 25
+   at Tiveriad.Identities.Apis.EndPoints.OrganizationEndPoints.PostEndPoint.HandleAsync(OrganizationWriterModel model, CancellationToken cancellationToken) in C:\Dev\Github\Tiiveriad\Libraries\Tiveriad.Identities\Apis\EndPoints\OrganizationEndPoints\PostEndPoint.cs:line 31
+   at lambda_method11(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)

@@ -1,26 +1,25 @@
-#region
 
-using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Tiveriad.Notifications.Apis.Contracts.NotificationContracts;
-using Tiveriad.Notifications.Application.Queries.NotificationQueries;
 using Tiveriad.Notifications.Core.Entities;
-
-#endregion
-
+using Tiveriad.Notifications.Apis.Contracts.NotificationContracts;
+using Tiveriad.Notifications.Applications.Queries.NotificationQueries;
+using Microsoft.AspNetCore.Mvc;
+using MediatR;
+using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 namespace Tiveriad.Notifications.Apis.EndPoints.NotificationEndPoints;
 
 public class GetAllEndPoint : ControllerBase
 {
-    private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
-
+    private IMediator _mediator;
+    private IMapper _mapper;
     public GetAllEndPoint(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
         _mapper = mapper;
+
     }
 
     [HttpGet("/api/notifications")]
@@ -28,16 +27,13 @@ public class GetAllEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<IEnumerable<NotificationReaderModel>>> HandleAsync([FromRoute] string? id,
-        [FromQuery] int? page, [FromQuery] int? limit, [FromQuery] string q, [FromQuery] IEnumerable<string>? orders,
-        CancellationToken cancellationToken)
+    public async Task<ActionResult<List<NotificationReaderModelContract>>> HandleAsync([FromQuery] string? id, [FromQuery] int? page, [FromQuery] int? limit, [FromQuery] string? q, [FromQuery] IEnumerable<string>? orders, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
-        var result =
-            await _mediator.Send(new GetAllNotificationsRequest(id, page, limit, q, orders), cancellationToken);
-        if (result == null || !result.Any()) return NoContent();
-        var data = _mapper.Map<IEnumerable<Notification>, IEnumerable<NotificationReaderModel>>(result);
+        var result = await _mediator.Send(new NotificationGetAllQueryHandlerRequest(id, page, limit, q, orders), cancellationToken);
+        if (!result.Any()) return NoContent(); var data = _mapper.Map<List<Notification>, List<NotificationReaderModelContract>>(result);
         return Ok(data);
         //<-- END CUSTOM CODE-->
     }
 }
+

@@ -1,8 +1,12 @@
+#region
+
+using RabbitMQ.Client;
 using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection;
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.InMemory;
 using Tiveriad.EnterpriseIntegrationPatterns.MessageBrokers;
+using Tiveriad.EnterpriseIntegrationPatterns.RabbitMq;
 using Tiveriad.Identities.Core.DomainEvents;
 using Tiveriad.Identities.Core.Services;
 using Tiveriad.Integration.Infrastructure.Publishers;
@@ -13,28 +17,42 @@ using Tiveriad.Registrations.Core.DomainEvents;
 using Tiveriad.ServiceResolvers;
 using Tiveriad.ServiceResolvers.Microsoft.DependencyInjection;
 
+#endregion
+
 namespace Tiveriad.Integration.Extensions;
 
 public static class EipDependencyInjection
 {
-    
-
     public static IServiceCollection AddPublisher(this IServiceCollection services)
     {
         services.AddTransient<ICurrentUserService, CurrentUserService>();
-        services.AddSingleton<IPublisher<UserDomainEvent, string>,UserDomainEventPublisher>();
-        services.AddSingleton<IPublisher<OrganizationDomainEvent, string>,OrganizationDomainEventPublisher>();
-        services.AddSingleton<IPublisher<MembershipDomainEvent, string>,MembershipDomainEventPublisher>();
-        services.AddSingleton<IPublisher<RegistrationDomainEvent, string>,RegistrationDomainEventPublisher>();
-        services.AddSingleton<ISubscriber<RegistrationDomainEvent, string>,RegistrationDomainEventSubscriber>();
+        
+        services.AddSingleton<IPublisher<OnSaveRegistrationDomainEvent, string>, OnSaveRegistrationDomainEventPublisher>();
+        services.AddSingleton<ISubscriber<OnSaveRegistrationDomainEvent, string>, OnSaveRegistrationDomainEventSubscriber>();
         return services;
     }
-    
+
     public static IServiceCollection AddBroker(this IServiceCollection services)
     {
-        services.AddSingleton<IInMemoryQueueManager, InMemoryQueueManager>();
+        services.AddSingleton<RabbitMqConfigurationService>();
+        
+        var configuration = services
+            .BuildServiceProvider()
+            .GetRequiredService<RabbitMqConfigurationService>();
+        
+        services.ConfigureConnectionFactory<RabbitMqConnectionFactoryBuilder, IConnection, RabbitMqConnectionConfigurator,
+            IRabbitMqConnectionConfiguration>
+        ( configurator =>
+            {
+                configurator
+                    .SetHost(configuration.Hostname)
+                    .SetUsername(configuration.Username)
+                    .SetPassword(configuration.Password)
+                    .SetBrokerName(configuration.Exchange);
+            }
+        );
         services.AddSingleton<IServiceResolver, DependencyInjectionServiceResolver>();
-        services.AddTiveriadEip(typeof(UserDomainEvent).Assembly);
+        services.AddTiveriadEip(typeof(OnSaveUserDomainEvent).Assembly);
         services.AddScoped<IDomainEventStore, DomainEventStore>();
         return services;
     }

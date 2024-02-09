@@ -1,14 +1,11 @@
-namespace Tiveriad.Integration.Core.Exceptions
+namespace Tiveriad.Integration.Core.Exceptions;
+
+public class TiveriadIntegrationException : Exception
 {
-    public class TiveriadIntegrationException : Exception
+    public TiveriadIntegrationException(TiveriadIntegrationError error) : base(error.ToString())
     {
-        private TiveriadIntegrationError _error;
-
-        public TiveriadIntegrationException(TiveriadIntegrationError error) : base(error.ToString())
-        {
-            _error = error;
-        }
-
-        public TiveriadIntegrationError Error => _error;
+        Error = error;
     }
+
+    public TiveriadIntegrationError Error { get; }
 }

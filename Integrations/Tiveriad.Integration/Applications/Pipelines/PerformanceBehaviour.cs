@@ -1,5 +1,9 @@
+#region
+
 using System.Diagnostics;
 using MediatR;
+
+#endregion
 
 namespace Tiveriad.Integration.Applications.Pipelines;
 
@@ -14,7 +18,6 @@ public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
     {
         _timer = new Stopwatch();
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
     }
 
     public async Task<TResponse> Handle(TRequest request,

@@ -1,16 +1,21 @@
-using AutoMapper;
-using Tiveriad.Identities.Apis.Contracts;
-using Tiveriad.Identities.Core.Entities;
 
+using Tiveriad.Identities.Apis.Contracts.TimeAreaContracts;
+using Tiveriad.Identities.Core.Entities;
+using AutoMapper;
 namespace Tiveriad.Identities.Apis.Mappings;
 
 public class TimeAreaProfile : Profile
 {
+
     public TimeAreaProfile()
     {
-        CreateMap<TimeArea, TimeAreaReaderModel>();
-        CreateMap<TimeArea, TimeAreaReduceModel>();
-        CreateMap<TimeAreaWriterModel, TimeArea>();
-        CreateMap<TimeAreaUpdaterModel, TimeArea>();
+
+        CreateMap<TimeAreaIdModelContract, TimeArea>();
+        CreateMap<TimeArea, TimeAreaReduceModelContract>();
+        CreateMap<TimeArea, TimeAreaReaderModelContract>();
+        CreateMap<TimeAreaWriterModelContract, TimeArea>();
     }
+
+
 }
+

@@ -1,41 +1,40 @@
-#region
 
-using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Tiveriad.Notifications.Apis.Contracts.NotificationContracts;
-using Tiveriad.Notifications.Applications.Commands.NotificationCommands;
 using Tiveriad.Notifications.Core.Entities;
-
-#endregion
-
+using Tiveriad.Notifications.Applications.Commands.NotificationCommands;
+using Microsoft.AspNetCore.Mvc;
+using MediatR;
+using AutoMapper;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 namespace Tiveriad.Notifications.Apis.EndPoints.NotificationEndPoints;
 
 public class PutEndPoint : ControllerBase
 {
-    private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
-
+    private IMediator _mediator;
+    private IMapper _mapper;
     public PutEndPoint(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
         _mapper = mapper;
+
     }
 
     [HttpPut("/api/notifications/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<NotificationReaderModel>> HandleAsync([FromRoute] string id,
-        [FromBody] NotificationUpdaterModel model, CancellationToken cancellationToken)
+    public async Task<ActionResult<NotificationReaderModelContract>> HandleAsync([FromRoute] string id, [FromBody] NotificationWriterModelContract model, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
 
-        var notification = _mapper.Map<NotificationUpdaterModel, Notification>(model);
-        var result = await _mediator.Send(new UpdateNotificationRequest(id, notification), cancellationToken);
-        var data = _mapper.Map<Notification, NotificationReaderModel>(result);
+        var notification = _mapper.Map<NotificationWriterModelContract, Notification>(model);
+        notification.Id = id;
+        var result = await _mediator.Send(new NotificationUpdateCommandHandlerRequest(notification), cancellationToken);
+        var data = _mapper.Map<Notification, NotificationReaderModelContract>(result);
         return Ok(data);
         //<-- END CUSTOM CODE-->
     }
 }
+

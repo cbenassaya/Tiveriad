@@ -1,8 +1,12 @@
+#region
+
 using Tiveriad.Identities.Core.Services;
 using Tiveriad.Integration.Infrastructure.Services;
 using Tiveriad.Keycloak;
 using Tiveriad.Keycloak.Apis;
 using Tiveriad.Keycloak.Services;
+
+#endregion
 
 namespace Tiveriad.Integration.Extensions;
 

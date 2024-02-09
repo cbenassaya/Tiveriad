@@ -1,11 +1,16 @@
+#region
+
 using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.IdGenerators;
+
+#endregion
 
 namespace Tiveriad.Integration.Infrastructure.Services;
 
 public class TenantService : ITenantService<string>
 {
     private string _id = KeyGenerator.NewId<string>();
+
     public string GetCurrentOrganizationId()
     {
         return _id;

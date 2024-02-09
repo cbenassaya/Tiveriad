@@ -1,21 +1,28 @@
+#region
+
 using FluentValidation;
 using MediatR;
 using Tiveriad.Integration.Core.Exceptions;
 
+#endregion
+
 namespace Tiveriad.Integration.Applications.Pipelines;
 
-public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
 {
-    private readonly IEnumerable<IValidator<TRequest>> _validators;
     private readonly ILogger<ValidationBehaviour<TRequest, TResponse>> _logger;
+    private readonly IEnumerable<IValidator<TRequest>> _validators;
 
-    public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators, ILogger<ValidationBehaviour<TRequest, TResponse>> logger)
+    public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators,
+        ILogger<ValidationBehaviour<TRequest, TResponse>> logger)
     {
         _validators = validators;
         _logger = logger;
     }
 
-    public async Task<TResponse> Handle(TRequest request,RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         if (!_validators.Any()) return await next();
         var context = new ValidationContext<TRequest>(request);
@@ -30,7 +37,9 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
             .ToList();
 
         if (failures.Any())
-            throw new  TiveriadIntegrationException( TiveriadIntegrationError.VALIDATION_ERROR(failures.Select(x=> x.ErrorCode).Aggregate((x, y) => x + "," + y)));
+            throw new TiveriadIntegrationException(
+                TiveriadIntegrationError.VALIDATION_ERROR(failures.Select(x => x.ErrorCode)
+                    .Aggregate((x, y) => x + "," + y)));
         return await next();
     }
 }

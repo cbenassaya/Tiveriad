@@ -1,14 +1,17 @@
-using Tiveriad.EnterpriseIntegrationPatterns.InMemory.EventBrokers;
+#region
+
 using Tiveriad.EnterpriseIntegrationPatterns.MessageBrokers;
 using Tiveriad.Registrations.Core.DomainEvents;
+
+#endregion
 
 namespace Tiveriad.Integration.Infrastructure.Workers;
 
 public class RegistrationWorker : IHostedService
 {
-    private readonly ISubscriber<RegistrationDomainEvent,string> _inMemorySubscriber;
+    private readonly ISubscriber<OnSaveRegistrationDomainEvent, string> _inMemorySubscriber;
 
-    public RegistrationWorker(ISubscriber<RegistrationDomainEvent,string> inMemorySubscriber)
+    public RegistrationWorker(ISubscriber<OnSaveRegistrationDomainEvent, string> inMemorySubscriber)
     {
         _inMemorySubscriber = inMemorySubscriber;
     }

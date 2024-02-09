@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.Registrations.Apis.Contracts;
+using Tiveriad.Registrations.Apis.Contracts.RegistrationModelContracts;
 using Xunit;
 
 namespace Tiveriad.Integration.Tests._0.Init;
@@ -28,7 +29,7 @@ public class InitDatabase : IntegrationTestBase
     [Fact]
     public async void InitRegistrationMode()
     {
-        var registrationModelWriterModel = new RegistrationModelWriterModel
+        var registrationModelWriterModel = new RegistrationModelWriterModelContract
         {
             Name = "Tiveriad.Registrations",
             Description = Faker.Company.CatchPhrase()
@@ -42,7 +43,7 @@ public class InitDatabase : IntegrationTestBase
             new StringContent(JsonSerializer.Serialize(registrationModelWriterModel), Encoding.UTF8, "application/json");
         
         var response = client.PostAsync("/api/registrationModels", content).Result;
-        var result = await Get<RegistrationModelReaderModel>(response);
+        var result = await Get<RegistrationModelReaderModelContract>(response);
         Assert.Equal(response.StatusCode, HttpStatusCode.OK);
         Assert.NotNull(result.Id);
         Assert.NotEmpty(result.Id);

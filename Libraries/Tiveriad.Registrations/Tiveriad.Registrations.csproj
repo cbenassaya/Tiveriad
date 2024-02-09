@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Components\Tiveriad.Apis\Tiveriad.Apis.csproj"/>
+        <ProjectReference Include="..\..\Components\Tiveriad.Core.Abstractions\Tiveriad.Core.Abstractions.csproj"/>
+        <ProjectReference Include="..\..\Components\Tiveriad.EnterpriseIntegrationPatterns\Tiveriad.EnterpriseIntegrationPatterns.csproj"/>
+        <ProjectReference Include="..\..\Components\Tiveriad.Repositories.EntityFrameworkCore\Tiveriad.Repositories.EntityFrameworkCore.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+        <PackageReference Include="AutoMapper" Version="12.0.1"/>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0"/>
+        <PackageReference Include="MediatR" Version="12.2.0"/>
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Applications\Queries\RegistrationQueries\" />
+    </ItemGroup>
+
+</Project>

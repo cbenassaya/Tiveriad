@@ -1,0 +1,125 @@
+2024-02-09T05:49:36.0138503+02:00  [INF] Subscribing to dynamic event $"OnSaveRegistrationDomainEvent" (922c1bd2)
+2024-02-09T05:49:36.7879047+02:00  [INF] Now listening on: "http://localhost:5105" (d826f4b8)
+2024-02-09T05:49:36.7897273+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2024-02-09T05:49:36.7912570+02:00  [INF] Hosting environment: "Development" (bc5a1a4e)
+2024-02-09T05:49:36.7928931+02:00  [INF] Content root path: "C:\Dev\Github\Tiiveriad\Integrations\Tiveriad.Integration" (cc26f24e)
+2024-02-09T05:50:23.8343806+02:00 0HN1948HCQOGA:00000003 [WRN] Failed to determine the https port for redirect. (ca76cc21)
+2024-02-09T05:50:24.2944816+02:00 0HN1948HCQOGA:00000003 [ERR] NullReferenceException occurred when executing rule for x => x.Registration.Description. If this property can be null you should add a null check using a When condition (792296ef)
+2024-02-09T05:50:55.1646634+02:00 0HN1948HCQOGA:00000004 [ERR] NullReferenceException occurred when executing rule for x => x.Registration.Description. If this property can be null you should add a null check using a When condition (792296ef)
+2024-02-09T05:52:50.3693168+02:00 0HN1948HCQOGA:00000005 [ERR] NullReferenceException occurred when executing rule for x => x.Registration.Description. If this property can be null you should add a null check using a When condition (792296ef)
+2024-02-09T05:52:56.4157721+02:00 0HN1948HCQOGA:00000006 [ERR] Failed executing DbCommand ("8"ms) [Parameters=["@__request_Registration_OrganizationName_0='sss' (Size = 3)"], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Data\", \"t\".\"DefaultLocale\", \"t\".\"Description\", \"t\".\"Email\", \"t\".\"Firstname\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Lastname\", \"t\".\"OrganizationName\", \"t\".\"Password\", \"t\".\"RegistrationModelId\", \"t\".\"Username\"
+FROM \"T_Registration\" AS \"t\"
+WHERE \"t\".\"OrganizationName\" = @__request_Registration_OrganizationName_0" (627a98df)
+2024-02-09T05:52:56.4496681+02:00 0HN1948HCQOGA:00000006 [ERR] An exception occurred while iterating over the results of a query for context type '"Tiveriad.Integration.Persistence.DefaultContext"'."
+""Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such column: t.Password'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Storage.NonRetryingExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()" (f5c7ac34)
+Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 1: 'no such column: t.Password'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteCommand.PrepareAndEnumerateStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteCommand.GetStatements()+MoveNext()
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.InitializeReader(Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.<>c.<MoveNext>b__21_0(DbContext _, Enumerator enumerator)
+   at Microsoft.EntityFrameworkCore.Storage.NonRetryingExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.Enumerator.MoveNext()
+2024-02-09T05:54:09.2126097+02:00  [INF] Subscribing to dynamic event $"OnSaveRegistrationDomainEvent" (922c1bd2)
+2024-02-09T05:54:09.8922657+02:00  [INF] Now listening on: "http://localhost:5105" (d826f4b8)
+2024-02-09T05:54:09.8924290+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2024-02-09T05:54:09.8924654+02:00  [INF] Hosting environment: "Development" (bc5a1a4e)
+2024-02-09T05:54:09.8924765+02:00  [INF] Content root path: "C:\Dev\Github\Tiiveriad\Integrations\Tiveriad.Integration" (cc26f24e)
+2024-02-09T05:54:33.1388615+02:00 0HN194B2SCRIA:00000003 [WRN] Failed to determine the https port for redirect. (ca76cc21)
+2024-02-09T05:54:33.5419158+02:00 0HN194B2SCRIA:00000003 [INF] Executed DbCommand ("5"ms) [Parameters=["@__request_Registration_OrganizationName_0='sss' (Size = 3)"], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Data\", \"t\".\"DefaultLocale\", \"t\".\"Description\", \"t\".\"Email\", \"t\".\"Firstname\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Lastname\", \"t\".\"OrganizationName\", \"t\".\"RegistrationModelId\", \"t\".\"Username\"
+FROM \"T_Registration\" AS \"t\"
+WHERE \"t\".\"OrganizationName\" = @__request_Registration_OrganizationName_0" (0723d8ff)
+2024-02-09T05:54:33.5537805+02:00 0HN194B2SCRIA:00000003 [ERR] Registration_DefaultLocale_XNotEmptyRule (2b7c40cb)
+2024-02-09T05:55:04.1987541+02:00 0HN194B2SCRIA:00000004 [INF] Executed DbCommand ("0"ms) [Parameters=["@__request_Registration_OrganizationName_0='sss' (Size = 3)"], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Data\", \"t\".\"DefaultLocale\", \"t\".\"Description\", \"t\".\"Email\", \"t\".\"Firstname\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Lastname\", \"t\".\"OrganizationName\", \"t\".\"RegistrationModelId\", \"t\".\"Username\"
+FROM \"T_Registration\" AS \"t\"
+WHERE \"t\".\"OrganizationName\" = @__request_Registration_OrganizationName_0" (0723d8ff)
+2024-02-09T05:55:04.3585578+02:00 0HN194B2SCRIA:00000004 [INF] Executed DbCommand ("14"ms) [Parameters=["@p0='65c5a218c6220d94391975cf' (Nullable = false) (Size = 24), @p1='2024-02-09T05:55:04.2853792+02:00' (DbType = DateTime), @p2='' (Nullable = false), @p3=NULL, @p4='string' (Nullable = false) (Size = 6), @p5='sss' (Nullable = false) (Size = 3), @p6='string@gmail.com' (Nullable = false) (Size = 16), @p7='sss' (Nullable = false) (Size = 3), @p8=NULL (DbType = DateTime), @p9=NULL, @p10='sss' (Nullable = false) (Size = 3), @p11='sss' (Nullable = false) (Size = 3), @p12=NULL, @p13='sssssssssss' (Nullable = false) (Size = 11)"], CommandType='Text', CommandTimeout='30']"
+""INSERT INTO \"T_Registration\" (\"Id\", \"Created\", \"CreatedBy\", \"Data\", \"DefaultLocale\", \"Description\", \"Email\", \"Firstname\", \"LastModified\", \"LastModifiedBy\", \"Lastname\", \"OrganizationName\", \"RegistrationModelId\", \"Username\")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13);" (0723d8ff)
+2024-02-09T05:55:04.6708702+02:00  [INF] Executed DbCommand ("0"ms) [Parameters=["@__request_Email_0='string@gmail.com' (Size = 16)"], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Email\", \"t\".\"Firstname\", \"t\".\"LanguageId\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Lastname\", \"t\".\"LocaleId\", \"t\".\"ProfileImage\", \"t\".\"Properties\", \"t\".\"Username\", \"t0\".\"Id\", \"t0\".\"Code\", \"t0\".\"Created\", \"t0\".\"CreatedBy\", \"t0\".\"Descriptions\", \"t0\".\"LastModified\", \"t0\".\"LastModifiedBy\", \"t0\".\"Name\", \"t1\".\"Id\", \"t1\".\"Code\", \"t1\".\"Created\", \"t1\".\"CreatedBy\", \"t1\".\"Descriptions\", \"t1\".\"LastModified\", \"t1\".\"LastModifiedBy\", \"t1\".\"Name\"
+FROM \"T_User\" AS \"t\"
+LEFT JOIN \"T_Language\" AS \"t0\" ON \"t\".\"LanguageId\" = \"t0\".\"Id\"
+LEFT JOIN \"T_Locale\" AS \"t1\" ON \"t\".\"LocaleId\" = \"t1\".\"Id\"
+WHERE instr(\"t\".\"Email\", @__request_Email_0) > 0" (0723d8ff)
+2024-02-09T05:55:04.6815086+02:00  [INF] Executed DbCommand ("0"ms) [Parameters=["@__request_Username_0='sssssssssss' (Size = 11)"], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Email\", \"t\".\"Firstname\", \"t\".\"LanguageId\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Lastname\", \"t\".\"LocaleId\", \"t\".\"ProfileImage\", \"t\".\"Properties\", \"t\".\"Username\", \"t0\".\"Id\", \"t0\".\"Code\", \"t0\".\"Created\", \"t0\".\"CreatedBy\", \"t0\".\"Descriptions\", \"t0\".\"LastModified\", \"t0\".\"LastModifiedBy\", \"t0\".\"Name\", \"t1\".\"Id\", \"t1\".\"Code\", \"t1\".\"Created\", \"t1\".\"CreatedBy\", \"t1\".\"Descriptions\", \"t1\".\"LastModified\", \"t1\".\"LastModifiedBy\", \"t1\".\"Name\"
+FROM \"T_User\" AS \"t\"
+LEFT JOIN \"T_Language\" AS \"t0\" ON \"t\".\"LanguageId\" = \"t0\".\"Id\"
+LEFT JOIN \"T_Locale\" AS \"t1\" ON \"t\".\"LocaleId\" = \"t1\".\"Id\"
+WHERE instr(\"t\".\"Username\", @__request_Username_0) > 0" (0723d8ff)
+2024-02-09T05:57:53.6962702+02:00  [INF] Application is shutting down... (90f52c38)
+2024-02-09T05:58:11.9059320+02:00  [INF] Subscribing to dynamic event $"OnSaveRegistrationDomainEvent" (922c1bd2)
+2024-02-09T05:58:12.6470431+02:00  [INF] Now listening on: "http://localhost:5105" (d826f4b8)
+2024-02-09T05:58:12.6491284+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2024-02-09T05:58:12.6508343+02:00  [INF] Hosting environment: "Development" (bc5a1a4e)
+2024-02-09T05:58:12.6523993+02:00  [INF] Content root path: "C:\Dev\Github\Tiiveriad\Integrations\Tiveriad.Integration" (cc26f24e)
+2024-02-09T05:58:19.9206249+02:00 0HN194DB6AM58:00000003 [WRN] Failed to determine the https port for redirect. (ca76cc21)
+2024-02-09T05:58:20.3085027+02:00 0HN194DB6AM58:00000003 [INF] Executed DbCommand ("8"ms) [Parameters=["@__request_Registration_OrganizationName_0='sss' (Size = 3)"], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Data\", \"t\".\"DefaultLocale\", \"t\".\"Description\", \"t\".\"Email\", \"t\".\"Firstname\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Lastname\", \"t\".\"OrganizationName\", \"t\".\"RegistrationModelId\", \"t\".\"Username\"
+FROM \"T_Registration\" AS \"t\"
+WHERE \"t\".\"OrganizationName\" = @__request_Registration_OrganizationName_0" (0723d8ff)
+2024-02-09T05:58:20.5351478+02:00 0HN194DB6AM58:00000003 [INF] Executed DbCommand ("17"ms) [Parameters=["@p0='65c5a2dc855ec961f684042d' (Nullable = false) (Size = 24), @p1='2024-02-09T05:58:20.4213259+02:00' (DbType = DateTime), @p2='' (Nullable = false), @p3=NULL, @p4='string' (Nullable = false) (Size = 6), @p5='sss' (Nullable = false) (Size = 3), @p6='string@gmail.com' (Nullable = false) (Size = 16), @p7='sss' (Nullable = false) (Size = 3), @p8=NULL (DbType = DateTime), @p9=NULL, @p10='sss' (Nullable = false) (Size = 3), @p11='sss' (Nullable = false) (Size = 3), @p12=NULL, @p13='sssssssssss' (Nullable = false) (Size = 11)"], CommandType='Text', CommandTimeout='30']"
+""INSERT INTO \"T_Registration\" (\"Id\", \"Created\", \"CreatedBy\", \"Data\", \"DefaultLocale\", \"Description\", \"Email\", \"Firstname\", \"LastModified\", \"LastModifiedBy\", \"Lastname\", \"OrganizationName\", \"RegistrationModelId\", \"Username\")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13);" (0723d8ff)
+2024-02-09T05:58:29.1955410+02:00  [INF] Executed DbCommand ("4"ms) [Parameters=["@__request_Email_0='string@gmail.com' (Size = 16)"], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Email\", \"t\".\"Firstname\", \"t\".\"LanguageId\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Lastname\", \"t\".\"LocaleId\", \"t\".\"ProfileImage\", \"t\".\"Properties\", \"t\".\"Username\", \"t0\".\"Id\", \"t0\".\"Code\", \"t0\".\"Created\", \"t0\".\"CreatedBy\", \"t0\".\"Descriptions\", \"t0\".\"LastModified\", \"t0\".\"LastModifiedBy\", \"t0\".\"Name\", \"t1\".\"Id\", \"t1\".\"Code\", \"t1\".\"Created\", \"t1\".\"CreatedBy\", \"t1\".\"Descriptions\", \"t1\".\"LastModified\", \"t1\".\"LastModifiedBy\", \"t1\".\"Name\"
+FROM \"T_User\" AS \"t\"
+LEFT JOIN \"T_Language\" AS \"t0\" ON \"t\".\"LanguageId\" = \"t0\".\"Id\"
+LEFT JOIN \"T_Locale\" AS \"t1\" ON \"t\".\"LocaleId\" = \"t1\".\"Id\"
+WHERE instr(\"t\".\"Email\", @__request_Email_0) > 0" (0723d8ff)
+2024-02-09T05:58:29.2503811+02:00  [INF] Executed DbCommand ("4"ms) [Parameters=["@__request_Username_0='sssssssssss' (Size = 11)"], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Email\", \"t\".\"Firstname\", \"t\".\"LanguageId\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Lastname\", \"t\".\"LocaleId\", \"t\".\"ProfileImage\", \"t\".\"Properties\", \"t\".\"Username\", \"t0\".\"Id\", \"t0\".\"Code\", \"t0\".\"Created\", \"t0\".\"CreatedBy\", \"t0\".\"Descriptions\", \"t0\".\"LastModified\", \"t0\".\"LastModifiedBy\", \"t0\".\"Name\", \"t1\".\"Id\", \"t1\".\"Code\", \"t1\".\"Created\", \"t1\".\"CreatedBy\", \"t1\".\"Descriptions\", \"t1\".\"LastModified\", \"t1\".\"LastModifiedBy\", \"t1\".\"Name\"
+FROM \"T_User\" AS \"t\"
+LEFT JOIN \"T_Language\" AS \"t0\" ON \"t\".\"LanguageId\" = \"t0\".\"Id\"
+LEFT JOIN \"T_Locale\" AS \"t1\" ON \"t\".\"LocaleId\" = \"t1\".\"Id\"
+WHERE instr(\"t\".\"Username\", @__request_Username_0) > 0" (0723d8ff)
+2024-02-09T06:00:44.6986710+02:00  [INF] Subscribing to dynamic event $"OnSaveRegistrationDomainEvent" (922c1bd2)
+2024-02-09T06:00:45.3782560+02:00  [INF] Now listening on: "http://localhost:5105" (d826f4b8)
+2024-02-09T06:00:45.3784385+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2024-02-09T06:00:45.3784856+02:00  [INF] Hosting environment: "Development" (bc5a1a4e)
+2024-02-09T06:00:45.3784965+02:00  [INF] Content root path: "C:\Dev\Github\Tiiveriad\Integrations\Tiveriad.Integration" (cc26f24e)
+2024-02-09T06:00:49.1271680+02:00  [INF] Application is shutting down... (90f52c38)
+2024-02-09T06:00:56.6944902+02:00  [INF] Subscribing to dynamic event $"OnSaveRegistrationDomainEvent" (922c1bd2)
+2024-02-09T06:00:57.4307836+02:00  [INF] Now listening on: "http://localhost:5105" (d826f4b8)
+2024-02-09T06:00:57.4325650+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2024-02-09T06:00:57.4338138+02:00  [INF] Hosting environment: "Development" (bc5a1a4e)
+2024-02-09T06:00:57.4353315+02:00  [INF] Content root path: "C:\Dev\Github\Tiiveriad\Integrations\Tiveriad.Integration" (cc26f24e)
+2024-02-09T06:01:03.0959294+02:00 0HN194ESAT88G:00000003 [WRN] Failed to determine the https port for redirect. (ca76cc21)
+2024-02-09T06:01:03.4879628+02:00 0HN194ESAT88G:00000003 [INF] Executed DbCommand ("8"ms) [Parameters=["@__request_Registration_OrganizationName_0='sss' (Size = 3)"], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Data\", \"t\".\"DefaultLocale\", \"t\".\"Description\", \"t\".\"Email\", \"t\".\"Firstname\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Lastname\", \"t\".\"OrganizationName\", \"t\".\"RegistrationModelId\", \"t\".\"Username\"
+FROM \"T_Registration\" AS \"t\"
+WHERE \"t\".\"OrganizationName\" = @__request_Registration_OrganizationName_0" (0723d8ff)
+2024-02-09T06:01:03.7051559+02:00 0HN194ESAT88G:00000003 [INF] Executed DbCommand ("19"ms) [Parameters=["@p0='65c5a37f2430fe7b3bdf5d24' (Nullable = false) (Size = 24), @p1='2024-02-09T06:01:03.6008165+02:00' (DbType = DateTime), @p2='' (Nullable = false), @p3=NULL, @p4='string' (Nullable = false) (Size = 6), @p5='sss' (Nullable = false) (Size = 3), @p6='string@gmail.com' (Nullable = false) (Size = 16), @p7='sss' (Nullable = false) (Size = 3), @p8=NULL (DbType = DateTime), @p9=NULL, @p10='sss' (Nullable = false) (Size = 3), @p11='sss' (Nullable = false) (Size = 3), @p12=NULL, @p13='sssssssssss' (Nullable = false) (Size = 11)"], CommandType='Text', CommandTimeout='30']"
+""INSERT INTO \"T_Registration\" (\"Id\", \"Created\", \"CreatedBy\", \"Data\", \"DefaultLocale\", \"Description\", \"Email\", \"Firstname\", \"LastModified\", \"LastModifiedBy\", \"Lastname\", \"OrganizationName\", \"RegistrationModelId\", \"Username\")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13);" (0723d8ff)
+2024-02-09T06:01:06.3681920+02:00  [INF] Executed DbCommand ("4"ms) [Parameters=["@__request_Email_0='string@gmail.com' (Size = 16)"], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Email\", \"t\".\"Firstname\", \"t\".\"LanguageId\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Lastname\", \"t\".\"LocaleId\", \"t\".\"ProfileImage\", \"t\".\"Properties\", \"t\".\"Username\", \"t0\".\"Id\", \"t0\".\"Code\", \"t0\".\"Created\", \"t0\".\"CreatedBy\", \"t0\".\"Descriptions\", \"t0\".\"LastModified\", \"t0\".\"LastModifiedBy\", \"t0\".\"Name\", \"t1\".\"Id\", \"t1\".\"Code\", \"t1\".\"Created\", \"t1\".\"CreatedBy\", \"t1\".\"Descriptions\", \"t1\".\"LastModified\", \"t1\".\"LastModifiedBy\", \"t1\".\"Name\"
+FROM \"T_User\" AS \"t\"
+LEFT JOIN \"T_Language\" AS \"t0\" ON \"t\".\"LanguageId\" = \"t0\".\"Id\"
+LEFT JOIN \"T_Locale\" AS \"t1\" ON \"t\".\"LocaleId\" = \"t1\".\"Id\"
+WHERE instr(\"t\".\"Email\", @__request_Email_0) > 0" (0723d8ff)
+2024-02-09T06:01:06.4215188+02:00  [INF] Executed DbCommand ("3"ms) [Parameters=["@__request_Username_0='sssssssssss' (Size = 11)"], CommandType='Text', CommandTimeout='30']"
+""SELECT \"t\".\"Id\", \"t\".\"Created\", \"t\".\"CreatedBy\", \"t\".\"Email\", \"t\".\"Firstname\", \"t\".\"LanguageId\", \"t\".\"LastModified\", \"t\".\"LastModifiedBy\", \"t\".\"Lastname\", \"t\".\"LocaleId\", \"t\".\"ProfileImage\", \"t\".\"Properties\", \"t\".\"Username\", \"t0\".\"Id\", \"t0\".\"Code\", \"t0\".\"Created\", \"t0\".\"CreatedBy\", \"t0\".\"Descriptions\", \"t0\".\"LastModified\", \"t0\".\"LastModifiedBy\", \"t0\".\"Name\", \"t1\".\"Id\", \"t1\".\"Code\", \"t1\".\"Created\", \"t1\".\"CreatedBy\", \"t1\".\"Descriptions\", \"t1\".\"LastModified\", \"t1\".\"LastModifiedBy\", \"t1\".\"Name\"
+FROM \"T_User\" AS \"t\"
+LEFT JOIN \"T_Language\" AS \"t0\" ON \"t\".\"LanguageId\" = \"t0\".\"Id\"
+LEFT JOIN \"T_Locale\" AS \"t1\" ON \"t\".\"LocaleId\" = \"t1\".\"Id\"
+WHERE instr(\"t\".\"Username\", @__request_Username_0) > 0" (0723d8ff)

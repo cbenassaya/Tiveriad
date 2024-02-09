@@ -1,23 +1,21 @@
-#region
 
-using AutoMapper;
-using Tiveriad.Identities.Apis.Contracts;
+using Tiveriad.Identities.Apis.Contracts.OrganizationContracts;
 using Tiveriad.Identities.Core.Entities;
-
-#endregion
-
+using AutoMapper;
 namespace Tiveriad.Identities.Apis.Mappings;
 
 public class OrganizationProfile : Profile
 {
+
     public OrganizationProfile()
     {
-        CreateMap<Organization, OrganizationReaderModel>();
-        CreateMap<Organization, OrganizationReduceModel>();
-        CreateMap<OrganizationWriterModel, Organization>();
-        CreateMap<OrganizationUpdaterModel, Organization>();
-        
-        CreateMap<OrganizationState,string>().ConvertUsing(s => s.ToString());
-        CreateMap<string,OrganizationState>().ConvertUsing(s => Enum.Parse<OrganizationState>(s));
+
+        CreateMap<OrganizationIdModelContract, Organization>();
+        CreateMap<Organization, OrganizationReduceModelContract>();
+        CreateMap<Organization, OrganizationReaderModelContract>();
+        CreateMap<OrganizationWriterModelContract, Organization>();
     }
+
+
 }
+

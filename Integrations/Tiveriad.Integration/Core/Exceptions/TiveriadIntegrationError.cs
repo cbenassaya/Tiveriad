@@ -1,24 +1,24 @@
-namespace Tiveriad.Integration.Core.Exceptions
+namespace Tiveriad.Integration.Core.Exceptions;
+
+public class TiveriadIntegrationError
 {
-    public class TiveriadIntegrationError
+    private TiveriadIntegrationError(string code, string label)
     {
-        public static TiveriadIntegrationError VALIDATION_ERROR(string code) => new(code,"VALIDATION ERROR");
-        
-        private readonly string _code;
-        private readonly string _label;
+        Code = code;
+        Label = label;
+    }
 
-        private TiveriadIntegrationError(string code, string label)
-        {
-            _code = code;
-            _label = label;
-        }
+    public string Code { get; }
 
-        public override string ToString()
-        {
-            return _code;
-        }
-        
-        public string Code => _code;
-        public string Label => _label;
+    public string Label { get; }
+
+    public static TiveriadIntegrationError VALIDATION_ERROR(string code)
+    {
+        return new TiveriadIntegrationError(code, "VALIDATION ERROR");
+    }
+
+    public override string ToString()
+    {
+        return Code;
     }
 }

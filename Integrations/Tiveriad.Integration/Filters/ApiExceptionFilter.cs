@@ -1,6 +1,10 @@
+#region
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Tiveriad.Integration.Core.Exceptions;
+
+#endregion
 
 namespace Tiveriad.Integration.Filters;
 

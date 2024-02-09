@@ -4,6 +4,7 @@ public interface IDomainEvent<TKey> where TKey : IEquatable<TKey>
 {
     DateTimeOffset OccurredOn { get; }
     TKey Id { get; }
+    
 }
 
 /// <summary>

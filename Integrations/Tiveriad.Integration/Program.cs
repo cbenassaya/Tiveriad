@@ -1,4 +1,8 @@
+#region
+
 using Tiveriad.Integration.Extensions;
+
+#endregion
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.local.json");
@@ -37,8 +41,7 @@ app.Run();
 
 namespace Tiveriad.Integration
 {
-    public partial class Program
+    public class Program
     {
-    
     }
 }

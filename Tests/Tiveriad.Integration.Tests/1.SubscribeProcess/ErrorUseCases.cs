@@ -5,6 +5,8 @@ using System.Text;
 using System.Text.Json;
 using Faker;
 using Tiveriad.Registrations.Apis.Contracts;
+using Tiveriad.Registrations.Apis.Contracts.RegistrationContracts;
+using Tiveriad.Registrations.Apis.Contracts.RegistrationModelContracts;
 using Xunit;
 
 #endregion
@@ -17,9 +19,9 @@ public class ErrorUseCases : IntegrationTestBase
     public async void AddTwiceTheSameOrganization()
     {
         var registrationModels =
-            Get<List<RegistrationModelReaderModel>>("/api/registrationModels?name=Tiveriad.Registrations").Result;
+            Get<List<RegistrationModelReaderModelContract>>("/api/registrationModels?name=Tiveriad.Registrations").Result;
 
-        RegistrationWriterModel registration = new()
+        RegistrationWriterModelContract registration = new()
         {
             OrganizationName = Company.Name(),
             Description = Company.CatchPhrase(),
@@ -48,9 +50,9 @@ public class ErrorUseCases : IntegrationTestBase
     public async void OrganizationNameUsernamePasswordEmailMandatory()
     {
         var registrationModels =
-            Get<List<RegistrationModelReaderModel>>("/api/registrationModels?name=Tiveriad.Registrations").Result;
+            Get<List<RegistrationModelReaderModelContract>>("/api/registrationModels?name=Tiveriad.Registrations").Result;
 
-        RegistrationWriterModel registration = new()
+        RegistrationWriterModelContract registration = new()
         {
             Description = Company.CatchPhrase(),
             Firstname = Name.First(),
