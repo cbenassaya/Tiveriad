@@ -1,8 +1,10 @@
 #region
 
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using RabbitMQ.Client;
 using Tiveriad.Connections;
+using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.EnterpriseIntegrationPatterns.InMemory;
 using Tiveriad.EnterpriseIntegrationPatterns.InMemory.EventBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.RabbitMq;
@@ -11,6 +13,7 @@ using Tiveriad.Identities.Applications.Commands.OrganizationCommands;
 using Tiveriad.Identities.Applications.Commands.UserCommands;
 using Tiveriad.Identities.Applications.Queries.UserQueries;
 using Tiveriad.Identities.Core.Entities;
+using Tiveriad.Identities.Core.Services;
 using Tiveriad.Integration.Persistence;
 using Tiveriad.Registrations.Core.DomainEvents;
 
@@ -48,9 +51,10 @@ public class OnSaveRegistrationDomainEventSubscriber : RabbitMqSubscriber<OnSave
     public override async Task Handle(OnSaveRegistrationDomainEvent @event)
     {
         using var scope = _serviceScopeFactory.CreateAsyncScope();
-
-        var mediator = scope.ServiceProvider.GetService<IMediator>();
-        var context = scope.ServiceProvider.GetService<DefaultContext>();
+        
+        var currentUserService = scope.ServiceProvider.GetRequiredService<ICurrentUserService>();
+        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+        var context = scope.ServiceProvider.GetRequiredService<DefaultContext>();
         User? user = null;
         var users = await mediator.Send(new UserGetAllQueryHandlerRequest(
             Email: @event.Entity.Email
@@ -66,7 +70,9 @@ public class OnSaveRegistrationDomainEventSubscriber : RabbitMqSubscriber<OnSave
                 Email = @event.Entity.Email,
                 Firstname = @event.Entity.Firstname,
                 Lastname = @event.Entity.Lastname,
-                Username = @event.Entity.Username
+                Username = @event.Entity.Username,
+                Password = @event.Entity.Password
+                
             }));
         else
             user = users.First();
@@ -80,6 +86,23 @@ public class OnSaveRegistrationDomainEventSubscriber : RabbitMqSubscriber<OnSave
                 Owner = user
             }
         ));
+        
+        
+        foreach (var entry in context.ChangeTracker.Entries<IAuditable<string>>())
+            switch (entry.State)
+            {
+                case EntityState.Deleted:
+                    break;
+                case EntityState.Added:
+                    entry.Entity.CreatedBy = currentUserService.GetUserId();
+                    entry.Entity.Created = DateTime.Now;
+                    break;
+                case EntityState.Modified:
+                    entry.Entity.LastModifiedBy = currentUserService.GetUserId();
+                    entry.Entity.LastModified = DateTime.Now;
+                    break;
+            }
+        
         await context.SaveChangesAsync();
     }
 }
