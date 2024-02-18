@@ -16,6 +16,5 @@ public class Role : IEntity<string>, IAuditable<string>
     public string? LastModifiedBy { get; set; }
     public DateTime? LastModified { get; set; }
 
-
     [MaxLength(24)] [Required] public string Id { get; set; } = default!;
 }
