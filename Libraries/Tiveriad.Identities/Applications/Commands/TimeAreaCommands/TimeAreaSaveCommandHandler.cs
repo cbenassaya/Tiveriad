@@ -1,21 +1,19 @@
+#region
 
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Core.Abstractions.Entities;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+
+#endregion
+
 namespace Tiveriad.Identities.Applications.Commands.TimeAreaCommands;
 
 public class TimeAreaSaveCommandHandler : IRequestHandler<TimeAreaSaveCommandHandlerRequest, TimeArea>
 {
-    private IRepository<TimeArea, string> _timeAreaRepository;
+    private readonly IRepository<TimeArea, string> _timeAreaRepository;
+
     public TimeAreaSaveCommandHandler(IRepository<TimeArea, string> timeAreaRepository)
     {
         _timeAreaRepository = timeAreaRepository;
-
     }
 
 
@@ -30,4 +28,3 @@ public class TimeAreaSaveCommandHandler : IRequestHandler<TimeAreaSaveCommandHan
         //<-- END CUSTOM CODE-->
     }
 }
-

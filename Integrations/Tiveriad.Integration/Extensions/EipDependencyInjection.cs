@@ -4,7 +4,6 @@ using RabbitMQ.Client;
 using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection;
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
-using Tiveriad.EnterpriseIntegrationPatterns.InMemory;
 using Tiveriad.EnterpriseIntegrationPatterns.MessageBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.RabbitMq;
 using Tiveriad.Identities.Core.DomainEvents;

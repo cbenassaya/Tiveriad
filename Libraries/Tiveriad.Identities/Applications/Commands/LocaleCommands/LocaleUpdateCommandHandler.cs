@@ -1,21 +1,19 @@
+#region
 
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Core.Abstractions.Entities;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+
+#endregion
+
 namespace Tiveriad.Identities.Applications.Commands.LocaleCommands;
 
 public class LocaleUpdateCommandHandler : IRequestHandler<LocaleUpdateCommandHandlerRequest, Locale>
 {
-    private IRepository<Locale, string> _localeRepository;
+    private readonly IRepository<Locale, string> _localeRepository;
+
     public LocaleUpdateCommandHandler(IRepository<Locale, string> localeRepository)
     {
         _localeRepository = localeRepository;
-
     }
 
 
@@ -25,8 +23,7 @@ public class LocaleUpdateCommandHandler : IRequestHandler<LocaleUpdateCommandHan
         return Task.Run(async () =>
         {
             var query = _localeRepository.Queryable;
-
-
+            query = query.Where(x => x.Id == request.Locale.Id);
 
             var result = query.ToList().FirstOrDefault();
             if (result == null) throw new Exception();
@@ -40,4 +37,3 @@ public class LocaleUpdateCommandHandler : IRequestHandler<LocaleUpdateCommandHan
         //<-- END CUSTOM CODE-->
     }
 }
-

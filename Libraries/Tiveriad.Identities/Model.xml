@@ -11,34 +11,34 @@
                                 <Required/>
                             </Constraints>
                         </Id>
-                        <Property BusinessKey="true" IsCollection="false" Name="Name" Searchable="true" Type="string">
+                        <Property IsCollection="false" Name="Name" Searchable="true" Type="string">
                             <Constraints>
                                 <MaxLength Max="50"/>
                                 <Required/>
                                 <Unique/>
+                                <BusinessKey/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Logo" Searchable="false" Type="string">
+                        <Property IsCollection="false" Name="Logo" Type="string">
                             <Constraints>
                                 <MaxLength Max="50"/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Domain" Searchable="true"
-                                  Type="string">
+                        <Property IsCollection="false" Name="Domain" Searchable="true" Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
+                                <Required/>
+                                <Unique/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Description" Type="string">
+                        <Property IsCollection="false" Name="Description" Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="State" Searchable="true"
-                                  Type="OrganizationState"/>
-                        <Property BusinessKey="false" IsCollection="false" Name="Properties" Nullable="true"
-                                  Type="Metadata"/>
+                        <Property IsCollection="false" Name="State" Searchable="true" Type="OrganizationState"/>
+                        <Property IsCollection="false" Name="Properties" Nullable="true" Type="Metadata"/>
                     </Properties>
                     <RelationShips>
                         <ManyToOne Name="Owner" Type="User"/>
@@ -60,53 +60,56 @@
                                 <Required/>
                             </Constraints>
                         </Id>
-                        <Property BusinessKey="true" IsCollection="false" Name="Firstname" Searchable="true"
+                        <Property IsCollection="false" Name="Firstname" Searchable="true"
                                   Type="string" Displayed="true">
                             <Constraints>
                                 <MaxLength Max="100"/>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="true" IsCollection="false" Name="Lastname" Searchable="true"
+                        <Property IsCollection="false" Name="Lastname" Searchable="true"
                                   Type="string" Displayed="true">
                             <Constraints>
                                 <MaxLength Max="100"/>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="true" IsCollection="false" Name="Username" Searchable="true"
-                                  Type="string" Displayed="true">
+                        <Property IsCollection="false" Name="Username" Searchable="true"
+                                  Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
                                 <Required/>
+                                <Unique/>
+                                <BusinessKey/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="true" IsCollection="false" Name="Password" Searchable="true"
-                                  Type="string" Displayed="true" Transient="true">
+                        <Property IsCollection="false" Name="Password" Searchable="true"
+                                  Type="string" Transient="true">
                             <Constraints>
                                 <MaxLength Max="12"/>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="true" IsCollection="false" Name="Email" Searchable="true" Type="string"
-                                  Displayed="true">
+                        <Property IsCollection="false" Name="Email" Searchable="true" Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
                                 <Required/>
+                                <Unique/>
+                                <BusinessKey/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="true" IsCollection="false" Name="ProfileImage" Type="string" Nullable="true"
-                                  Displayed="true">
+                        <Property IsCollection="false" Name="Avatar" Type="string" Nullable="true">
                             <Constraints>
                                 <MaxLength Max="24"/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Properties" Nullable="true"
-                                  Type="Metadata"/>
+                        <Property IsCollection="false" Name="DateOfBirth" Nullable="true" Type="DateTime"/>
+                        <Property IsCollection="false" Name="Properties" Nullable="true" Type="Metadata"/>
                     </Properties>
                     <RelationShips>
                         <ManyToOne Name="Language" Type="Language"/>
                         <ManyToOne Name="Locale" Type="Locale"/>
+                        <ManyToOne Name="Civility" Type="Civility"/>
                     </RelationShips>
                     <Persistence Auditable="true" Name="T_User" AuditableKeyType="string"/>
                     <DomainEvents>
@@ -124,13 +127,13 @@
                                 <Required/>
                             </Constraints>
                         </Id>
-                        <Property BusinessKey="true" IsCollection="false" Name="State" Type="MembershipState"/>
-                        <Property BusinessKey="false" IsCollection="false" Name="Properties" Nullable="true"
-                                  Type="Metadata"/>
+                        <Property IsCollection="false" Name="State" Type="MembershipState"/>
+                        <Property IsCollection="false" Name="Properties" Nullable="true" Type="Metadata"/>
                     </Properties>
                     <RelationShips>
                         <ManyToOne Name="User" Type="User"/>
                         <ManyToOne Name="Organization" Type="Organization"/>
+                        <OneToMany Name="Roles" Type="Role"/>
                     </RelationShips>
                     <Persistence Auditable="true" Name="T_Membership" AuditableKeyType="string"/>
                     <DomainEvents>
@@ -138,6 +141,33 @@
                         <DomainEvent Event="OnUpdate"/>
                         <DomainEvent Event="OnDelete"/>
                     </DomainEvents>
+                </Entity>
+
+                <Entity BusinessEntity="true" Name="Civility" PluralName="Civilities">
+                    <Properties>
+                        <Id Displayed="false" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                                <Required/>
+                            </Constraints>
+                        </Id>
+                        <Property IsCollection="false" Name="Name" Type="string" Displayed="true">
+                            <Constraints>
+                                <Unique/>
+                                <MaxLength Max="50"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property IsCollection="false" Name="Code" Type="string">
+                            <Constraints>
+                                <Unique/>
+                                <MaxLength Max="24"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property IsCollection="false" Name="Descriptions" Type="string"/>
+                    </Properties>
+                    <Persistence Auditable="true" Name="T_Civility" AuditableKeyType="string"/>
                 </Entity>
 
                 <Entity BusinessEntity="true" Name="Language" PluralName="Languages">
@@ -148,21 +178,21 @@
                                 <Required/>
                             </Constraints>
                         </Id>
-                        <Property BusinessKey="false" IsCollection="false" Name="Name" Type="string" Displayed="true">
+                        <Property IsCollection="false" Name="Name" Type="string" Displayed="true">
                             <Constraints>
                                 <Unique/>
                                 <MaxLength Max="50"/>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Code" Type="string">
+                        <Property IsCollection="false" Name="Code" Type="string">
                             <Constraints>
                                 <Unique/>
                                 <MaxLength Max="24"/>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Descriptions" Type="string"/>
+                        <Property IsCollection="false" Name="Descriptions" Type="string"/>
                     </Properties>
                     <Persistence Auditable="true" Name="T_Language" AuditableKeyType="string"/>
                 </Entity>
@@ -175,21 +205,21 @@
                                 <Required/>
                             </Constraints>
                         </Id>
-                        <Property BusinessKey="false" IsCollection="false" Name="Name" Type="string" Displayed="true">
+                        <Property IsCollection="false" Name="Name" Type="string" Displayed="true">
                             <Constraints>
                                 <Unique/>
                                 <MaxLength Max="50"/>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Code" Type="string">
+                        <Property IsCollection="false" Name="Code" Type="string">
                             <Constraints>
                                 <Unique/>
                                 <MaxLength Max="24"/>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Descriptions" Type="string"/>
+                        <Property IsCollection="false" Name="Descriptions" Type="string"/>
                     </Properties>
                     <Persistence Auditable="true" Name="T_Locale" AuditableKeyType="string"/>
                 </Entity>
@@ -202,27 +232,25 @@
                                 <Required/>
                             </Constraints>
                         </Id>
-                        <Property BusinessKey="false" IsCollection="false" Name="Name" Type="string" Displayed="true">
+                        <Property IsCollection="false" Name="Name" Type="string" Displayed="true">
                             <Constraints>
                                 <Unique/>
                                 <MaxLength Max="50"/>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Code" Type="string">
+                        <Property IsCollection="false" Name="Code" Type="string">
                             <Constraints>
                                 <Unique/>
                                 <MaxLength Max="24"/>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Descriptions" Type="string"/>
+                        <Property IsCollection="false" Name="Descriptions" Type="string"/>
                     </Properties>
                     <Persistence Auditable="true" Name="T_TimeArea" AuditableKeyType="string"/>
                 </Entity>
-                
-                <Entity BusinessEntity="true" Name="A"
-                
+
                 <Entity BusinessEntity="true" Name="Realm" PluralName="Realms">
                     <Properties>
                         <Id Displayed="false" Type="string">
@@ -231,29 +259,61 @@
                                 <Required/>
                             </Constraints>
                         </Id>
-                        <Property BusinessKey="true" IsCollection="false" Name="Name" Searchable="true" Type="string">
+                        <Property IsCollection="false" Name="Name" Searchable="true" Type="string">
                             <Constraints>
                                 <MaxLength Max="50"/>
                                 <Required/>
                                 <Unique/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Description" Type="string">
+                        <Property IsCollection="false" Name="Description" Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Properties" Nullable="true"
-                                  Type="Metadata"/>
+                        <Property IsCollection="false" Name="Properties" Nullable="true" Type="Metadata"/>
                     </Properties>
-                    
+
                     <RelationShips>
-                        <OneToMany Name="Roles" Type="Role" />
+                        <OneToMany Name="Features" Type="Feature"/>
                     </RelationShips>
                     <Persistence Auditable="true" Name="T_Realm" AuditableKeyType="string"/>
                 </Entity>
-                
+
+                <Entity BusinessEntity="false" Name="Feature" PluralName="Features">
+                    <Properties>
+                        <Id Displayed="false" Type="string">
+                            <Constraints>
+                                <MaxLength Max="24"/>
+                                <Required/>
+                            </Constraints>
+                        </Id>
+                        <Property IsCollection="false" Name="Name" Searchable="true" Type="string">
+                            <Constraints>
+                                <MaxLength Max="50"/>
+                                <Required/>
+                                <Unique/>
+                            </Constraints>
+                        </Property>
+                        <Property IsCollection="false" Name="Description" Type="string">
+                            <Constraints>
+                                <MaxLength Max="100"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property IsCollection="false" Name="Code" Nullable="true"
+                                  Type="string">
+                            <Constraints>
+                                <MaxLength Max="12"/>
+                                <Required/>
+                                <Unique/>
+                            </Constraints>
+                        </Property>
+                    </Properties>
+                    <Persistence Auditable="true" Name="T_Feature" AuditableKeyType="string"/>
+                </Entity>
+
                 <Entity BusinessEntity="true" Name="Role" PluralName="Roles">
                     <Properties>
                         <Id Displayed="false" Type="string">
@@ -262,24 +322,27 @@
                                 <Required/>
                             </Constraints>
                         </Id>
-                        <Property BusinessKey="true" IsCollection="false" Name="Name" Searchable="true" Type="string">
+                        <Property IsCollection="false" Name="Name" Searchable="true" Type="string">
                             <Constraints>
                                 <MaxLength Max="50"/>
                                 <Required/>
                                 <Unique/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Description" Type="string">
+                        <Property IsCollection="false" Name="Description" Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
                                 <Required/>
                             </Constraints>
                         </Property>
                     </Properties>
+                    <RelationShips>
+                        <ManyToOne Name="Realm" Type="Realm"/>
+                    </RelationShips>
                     <Persistence Auditable="true" Name="T_Role" AuditableKeyType="string"/>
                 </Entity>
-                
-                <Entity BusinessEntity="true" Name="Feature" PluralName="Features">
+
+                <Entity BusinessEntity="true" Name="Policy" PluralName="Policies">
                     <Properties>
                         <Id Displayed="false" Type="string">
                             <Constraints>
@@ -287,28 +350,20 @@
                                 <Required/>
                             </Constraints>
                         </Id>
-                        <Property BusinessKey="true" IsCollection="false" Name="Name" Searchable="true" Type="string">
+                        <Property IsCollection="false" Name="Name" Searchable="true" Type="string">
                             <Constraints>
                                 <MaxLength Max="50"/>
                                 <Required/>
                                 <Unique/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Description" Type="string">
-                            <Constraints>
-                                <MaxLength Max="100"/>
-                                <Required/>
-                            </Constraints>
-                        </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Code" Nullable="true"  Type="string"/>
-                            <Constraints>
-                                <MaxLength Max="12"/>
-                                <Required/>
-                                <Unique/>
-                            </Constraints>  
-                        </Property>
                     </Properties>
-                    <Persistence Auditable="true" Name="T_Feature" AuditableKeyType="string"/>
+                    <RelationShips>
+                        <ManyToOne Name="Realm" Type="Realm"/>
+                        <ManyToOne Name="Role" Type="Role"/>
+                        <ManyToOne Name="Feature" Type="Feature"/>
+                    </RelationShips>
+                    <Persistence Auditable="true" Name="T_Policy" AuditableKeyType="string"/>
                 </Entity>
             </Entities>
             <Enums>

@@ -113,6 +113,8 @@ public class StateMachineTestModule : TestBase<StateMachineStartup>
         
         var stateMachine = GetRequiredService<IStateMachine<InvoiceState, Events>>();
         var currentStateExtension = GetRequiredService<CurrentStateExtension>();
+        
+        
         await stateMachine.Fire(
             Events.Activate);
         currentStateExtension.CurrentState.Should().Be(InvoiceState.Active);

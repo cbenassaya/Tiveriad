@@ -1,30 +1,33 @@
+#region
 
-using Tiveriad.Identities.Apis.Contracts.LocaleContracts;
-using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Identities.Applications.Commands.LocaleCommands;
-using Microsoft.AspNetCore.Mvc;
-using MediatR;
 using AutoMapper;
-using System.Threading;
-using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Tiveriad.Identities.Apis.Contracts.LocaleContracts;
+using Tiveriad.Identities.Applications.Commands.LocaleCommands;
+using Tiveriad.Identities.Core.Entities;
+
+#endregion
+
 namespace Tiveriad.Identities.Apis.EndPoints.LocaleEndPoints;
 
 public class PostEndPoint : ControllerBase
 {
-    private IMediator _mediator;
-    private IMapper _mapper;
+    private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
+
     public PostEndPoint(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
         _mapper = mapper;
-
     }
 
     [HttpPost("/api/locales")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<LocaleReaderModelContract>> HandleAsync([FromBody] LocaleWriterModelContract model, CancellationToken cancellationToken)
+    public async Task<ActionResult<LocaleReaderModelContract>> HandleAsync([FromBody] LocaleWriterModelContract model,
+        CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
         var locale = _mapper.Map<LocaleWriterModelContract, Locale>(model);
@@ -34,4 +37,3 @@ public class PostEndPoint : ControllerBase
         //<-- END CUSTOM CODE-->
     }
 }
-

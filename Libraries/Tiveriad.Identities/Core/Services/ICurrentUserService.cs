@@ -1,8 +1,4 @@
-#region
-
 using Tiveriad.Identities.Core.Entities;
-
-#endregion
 
 namespace Tiveriad.Identities.Core.Services;
 

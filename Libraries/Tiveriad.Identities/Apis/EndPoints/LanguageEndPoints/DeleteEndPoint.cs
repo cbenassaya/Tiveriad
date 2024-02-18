@@ -1,27 +1,29 @@
+#region
 
-using Tiveriad.Identities.Applications.Commands.LanguageCommands;
-using Microsoft.AspNetCore.Mvc;
-using MediatR;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Threading;
-using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Tiveriad.Identities.Applications.Commands.LanguageCommands;
+
+#endregion
+
 namespace Tiveriad.Identities.Apis.EndPoints.LanguageEndPoints;
 
 public class DeleteEndPoint : ControllerBase
 {
-    private IMediator _mediator;
+    private readonly IMediator _mediator;
+
     public DeleteEndPoint(IMediator mediator)
     {
         _mediator = mediator;
-
     }
 
     [HttpDelete("/api/languages/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<bool>> HandleAsync([FromRoute][Required] string id, CancellationToken cancellationToken)
+    public async Task<ActionResult<bool>> HandleAsync([FromRoute] [Required] string id,
+        CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
         if (string.IsNullOrEmpty(id)) return BadRequest("Id is mandatory");
@@ -30,4 +32,3 @@ public class DeleteEndPoint : ControllerBase
         //<-- END CUSTOM CODE-->
     }
 }
-

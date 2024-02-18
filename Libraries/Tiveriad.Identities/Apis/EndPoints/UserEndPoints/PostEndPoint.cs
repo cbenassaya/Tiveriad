@@ -1,30 +1,33 @@
+#region
 
-using Tiveriad.Identities.Apis.Contracts.UserContracts;
-using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Identities.Applications.Commands.UserCommands;
-using Microsoft.AspNetCore.Mvc;
-using MediatR;
 using AutoMapper;
-using System.Threading;
-using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Tiveriad.Identities.Apis.Contracts.UserContracts;
+using Tiveriad.Identities.Applications.Commands.UserCommands;
+using Tiveriad.Identities.Core.Entities;
+
+#endregion
+
 namespace Tiveriad.Identities.Apis.EndPoints.UserEndPoints;
 
 public class PostEndPoint : ControllerBase
 {
-    private IMediator _mediator;
-    private IMapper _mapper;
+    private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
+
     public PostEndPoint(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
         _mapper = mapper;
-
     }
 
     [HttpPost("/api/users")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<UserReaderModelContract>> HandleAsync([FromBody] UserWriterModelContract model, CancellationToken cancellationToken)
+    public async Task<ActionResult<UserReaderModelContract>> HandleAsync([FromBody] UserWriterModelContract model,
+        CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
         var user = _mapper.Map<UserWriterModelContract, User>(model);
@@ -34,4 +37,3 @@ public class PostEndPoint : ControllerBase
         //<-- END CUSTOM CODE-->
     }
 }
-

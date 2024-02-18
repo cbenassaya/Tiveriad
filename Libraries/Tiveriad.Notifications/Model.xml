@@ -10,12 +10,12 @@
                                 <MaxLength Max="24"/>
                             </Constraints>
                         </Id>
-                        <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="UserId" Type="string">
+                        <Property Displayed="false" IsCollection="false" Name="UserId" Type="string">
                             <Constraints>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="State"
+                        <Property Displayed="false" IsCollection="false" Name="State"
                                   Type="NotificationState">
                             <Constraints>
                                 <Required/>
@@ -35,20 +35,20 @@
                                 <MaxLength Max="24"/>
                             </Constraints>
                         </Id>
-                        <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="Name" Type="string">
+                        <Property Displayed="false" IsCollection="false" Name="Name" Type="string">
                             <Constraints>
                                 <Required/>
                                 <MaxLength Max="100"/>
                             </Constraints>
                         </Property>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                        <Property Displayed="true" Nullable="true" IsCollection="false"
                                   Name="Description" Type="InternationalizedString">
                             <Constraints>
                                 <Required/>
                                 <MaxLength Max="100"/>
                             </Constraints>
                         </Property>
-                        <Property Displayed="true" BusinessKey="true" IsCollection="false" Name="State"
+                        <Property Displayed="true" IsCollection="false" Name="State"
                                   Type="SubjectState">
                             <Constraints>
                                 <Required/>
@@ -68,23 +68,23 @@
                                 <MaxLength Max="24"/>
                             </Constraints>
                         </Id>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="Title"
+                        <Property Displayed="true" Nullable="true" IsCollection="false" Name="Title"
                                   Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="Body"
+                        <Property Displayed="true" Nullable="true" IsCollection="false" Name="Body"
                                   Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                        <Property Displayed="true" Nullable="true" IsCollection="false"
                                   Name="ConfirmLink" Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                        <Property Displayed="true" Nullable="true" IsCollection="false"
                                   Name="ConfirmText" Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                        <Property Displayed="true" Nullable="true" IsCollection="false"
                                   Name="ImageSmall" Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                        <Property Displayed="true" Nullable="true" IsCollection="false"
                                   Name="ImageLarge" Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                        <Property Displayed="true" Nullable="true" IsCollection="false"
                                   Name="LinkUrl" Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                        <Property Displayed="true" Nullable="true" IsCollection="false"
                                   Name="LinkText" Type="InternationalizedString"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                        <Property Displayed="true" Nullable="true" IsCollection="false"
                                   Name="ConfirmMode" Type="ConfirmMode"/>
                     </Properties>
                     <Persistence Auditable="true" AuditableKeyType="string" Name="T_NotificationMessage"/>
@@ -96,19 +96,19 @@
                                 <MaxLength Max="24"/>
                             </Constraints>
                         </Id>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                        <Property Displayed="true" Nullable="true" IsCollection="false"
                                   Name="OrganizationId" Type="string"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                        <Property Displayed="true" Nullable="true" IsCollection="false"
                                   Name="ClientId" Type="string"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="RoleId"
+                        <Property Displayed="true" Nullable="true" IsCollection="false" Name="RoleId"
                                   Type="string"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                        <Property Displayed="true" Nullable="true" IsCollection="false"
                                   Name="GroupId" Type="string"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false" Name="UserId"
+                        <Property Displayed="true" Nullable="true" IsCollection="false" Name="UserId"
                                   Type="string"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                        <Property Displayed="true" Nullable="true" IsCollection="false"
                                   Name="ReferenceType" Type="string"/>
-                        <Property Displayed="true" Nullable="true" BusinessKey="true" IsCollection="false"
+                        <Property Displayed="true" Nullable="true" IsCollection="false"
                                   Name="ReferenceId" Type="string"/>
                     </Properties>
                     <Persistence Auditable="true" AuditableKeyType="string" Name="T_Scope"/>

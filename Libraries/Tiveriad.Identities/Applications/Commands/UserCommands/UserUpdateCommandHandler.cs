@@ -1,25 +1,25 @@
+#region
 
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Core.Abstractions.Entities;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+
+#endregion
+
 namespace Tiveriad.Identities.Applications.Commands.UserCommands;
 
 public class UserUpdateCommandHandler : IRequestHandler<UserUpdateCommandHandlerRequest, User>
 {
-    private IRepository<User, string> _userRepository;
-    private IRepository<Language, string> _languageRepository;
-    private IRepository<Locale, string> _localeRepository;
-    public UserUpdateCommandHandler(IRepository<User, string> userRepository, IRepository<Language, string> languageRepository, IRepository<Locale, string> localeRepository)
+    private readonly IRepository<Language, string> _languageRepository;
+    private readonly IRepository<Locale, string> _localeRepository;
+    private readonly IRepository<User, string> _userRepository;
+
+    public UserUpdateCommandHandler(IRepository<User, string> userRepository,
+        IRepository<Language, string> languageRepository, IRepository<Locale, string> localeRepository)
     {
         _userRepository = userRepository;
         _languageRepository = languageRepository;
         _localeRepository = localeRepository;
-
     }
 
 
@@ -29,10 +29,10 @@ public class UserUpdateCommandHandler : IRequestHandler<UserUpdateCommandHandler
         return Task.Run(async () =>
         {
             var query = _userRepository.Queryable.Include(x => x.Language)
-    .Include(x => x.Locale).AsQueryable();
+                .Include(x => x.Locale).AsQueryable();
+            query = query.Where(x => x.Id == request.User.Id);
 
-
-
+    
             var result = query.ToList().FirstOrDefault();
             if (result == null) throw new Exception();
 
@@ -41,13 +41,15 @@ public class UserUpdateCommandHandler : IRequestHandler<UserUpdateCommandHandler
             result.Username = request.User.Username;
             result.Password = request.User.Password;
             result.Email = request.User.Email;
-            result.ProfileImage = request.User.ProfileImage;
+            result.Avatar = request.User.Avatar;
+            result.DateOfBirth = request.User.DateOfBirth;
             result.Properties = request.User.Properties;
-            if (request.User.Language != null) result.Language = await _languageRepository.GetByIdAsync(request.User.Language.Id, cancellationToken);
-            if (request.User.Locale != null) result.Locale = await _localeRepository.GetByIdAsync(request.User.Locale.Id, cancellationToken);
+            if (request.User.Language != null)
+                result.Language = await _languageRepository.GetByIdAsync(request.User.Language.Id, cancellationToken);
+            if (request.User.Locale != null)
+                result.Locale = await _localeRepository.GetByIdAsync(request.User.Locale.Id, cancellationToken);
             return result;
         }, cancellationToken);
         //<-- END CUSTOM CODE-->
     }
 }
-

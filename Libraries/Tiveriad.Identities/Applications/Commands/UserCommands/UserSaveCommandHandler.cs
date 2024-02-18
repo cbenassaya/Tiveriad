@@ -1,20 +1,21 @@
+#region
 
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Core.Abstractions.Entities;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+
+#endregion
+
 namespace Tiveriad.Identities.Applications.Commands.UserCommands;
 
 public class UserSaveCommandHandler : IRequestHandler<UserSaveCommandHandlerRequest, User>
 {
-    private IRepository<User, string> _userRepository;
+
     private IRepository<Language, string> _languageRepository;
     private IRepository<Locale, string> _localeRepository;
-    public UserSaveCommandHandler(IRepository<User, string> userRepository, IRepository<Language, string> languageRepository, IRepository<Locale, string> localeRepository)
+    private readonly IRepository<User, string> _userRepository;
+
+    public UserSaveCommandHandler(IRepository<User, string> userRepository,
+        IRepository<Language, string> languageRepository, IRepository<Locale, string> localeRepository)
     {
         _userRepository = userRepository;
         _languageRepository = languageRepository;
@@ -28,10 +29,14 @@ public class UserSaveCommandHandler : IRequestHandler<UserSaveCommandHandlerRequ
         //<-- START CUSTOM CODE-->
         return Task.Run(async () =>
         {
+            if (request.User.Language != null)
+                request.User.Language = await _languageRepository.GetByIdAsync(request.User.Language.Id, cancellationToken);
+            if (request.User.Locale != null)
+                request.User.Locale = await _localeRepository.GetByIdAsync(request.User.Locale.Id, cancellationToken);
+            
             await _userRepository.AddOneAsync(request.User, cancellationToken);
             return request.User;
         }, cancellationToken);
         //<-- END CUSTOM CODE-->
     }
 }
-

@@ -10,38 +10,38 @@
                                 <MaxLength Max="24"/>
                             </Constraints>
                         </Id>
-                        <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="Name" Type="string">
+                        <Property Displayed="false" IsCollection="false" Name="Name" Type="string">
                             <Constraints>
                                 <Required/>
                                 <MaxLength Max="100"/>
                             </Constraints>
                         </Property>
-                        <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="State"
+                        <Property Displayed="false" IsCollection="false" Name="State"
                                   Type="DocumentState">
                             <Constraints>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Description" Nullable="true"
+                        <Property IsCollection="false" Name="Description" Nullable="true"
                                   Type="InternationalizedString"/>
-                        <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="Path" Type="string">
+                        <Property Displayed="false" IsCollection="false" Name="Path" Type="string">
                             <Constraints>
                                 <Required/>
                                 <MaxLength Max="100"/>
                             </Constraints>
                         </Property>
-                        <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="Provider"
+                        <Property Displayed="false" IsCollection="false" Name="Provider"
                                   Type="string">
                             <Constraints>
                                 <Required/>
                                 <MaxLength Max="20"/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Reference" Nullable="true"
+                        <Property IsCollection="false" Name="Reference" Nullable="true"
                                   Type="string"/>
-                        <Property BusinessKey="false" IsCollection="false" Name="ReferenceType" Nullable="true"
+                        <Property IsCollection="false" Name="ReferenceType" Nullable="true"
                                   Type="string"/>
-                        <Property BusinessKey="false" IsCollection="false" Name="Properties" Nullable="true"
+                        <Property IsCollection="false" Name="Properties" Nullable="true"
                                   Type="Metadata"/>
                     </Properties>
                     <RelationShips>
@@ -56,12 +56,12 @@
                                 <MaxLength Max="24"/>
                             </Constraints>
                         </Id>
-                        <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="Name" Type="string">
+                        <Property Displayed="false" IsCollection="false" Name="Name" Type="string">
                             <Constraints>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property Displayed="false" BusinessKey="true" IsCollection="false" Name="Code" Type="string">
+                        <Property Displayed="false" IsCollection="false" Name="Code" Type="string">
                             <Constraints>
                                 <Required/>
                             </Constraints>

@@ -1,15 +1,15 @@
+#region
 
-using System;
-using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Core.Abstractions.Entities;
-using Tiveriad.Identities.Apis.Contracts.UserContracts;
 using Tiveriad.Identities.Apis.Contracts.TimeAreaContracts;
+using Tiveriad.Identities.Apis.Contracts.UserContracts;
+using Tiveriad.Identities.Core.Entities;
+
+#endregion
+
 namespace Tiveriad.Identities.Apis.Contracts.OrganizationContracts;
 
 public class OrganizationReaderModelContract
 {
-
-
     public string? Id { get; set; }
     public string? Name { get; set; }
     public string? Logo { get; set; }
@@ -23,6 +23,4 @@ public class OrganizationReaderModelContract
     public DateTime? LastModified { get; set; }
     public UserReduceModelContract? Owner { get; set; }
     public TimeAreaReduceModelContract? TimeArea { get; set; }
-
 }
-

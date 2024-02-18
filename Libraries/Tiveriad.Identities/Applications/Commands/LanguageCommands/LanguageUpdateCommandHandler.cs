@@ -1,21 +1,19 @@
+#region
 
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Core.Abstractions.Entities;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+
+#endregion
+
 namespace Tiveriad.Identities.Applications.Commands.LanguageCommands;
 
 public class LanguageUpdateCommandHandler : IRequestHandler<LanguageUpdateCommandHandlerRequest, Language>
 {
-    private IRepository<Language, string> _languageRepository;
+    private readonly IRepository<Language, string> _languageRepository;
+
     public LanguageUpdateCommandHandler(IRepository<Language, string> languageRepository)
     {
         _languageRepository = languageRepository;
-
     }
 
 
@@ -25,7 +23,7 @@ public class LanguageUpdateCommandHandler : IRequestHandler<LanguageUpdateComman
         return Task.Run(async () =>
         {
             var query = _languageRepository.Queryable;
-
+            query = query.Where(x => x.Id == request.Language.Id);
 
 
             var result = query.ToList().FirstOrDefault();
@@ -40,4 +38,3 @@ public class LanguageUpdateCommandHandler : IRequestHandler<LanguageUpdateComman
         //<-- END CUSTOM CODE-->
     }
 }
-

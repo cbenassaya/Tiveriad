@@ -1,31 +1,33 @@
+#region
 
-using Tiveriad.Identities.Apis.Contracts.LanguageContracts;
-using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Identities.Applications.Commands.LanguageCommands;
-using Microsoft.AspNetCore.Mvc;
-using MediatR;
 using AutoMapper;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Tiveriad.Identities.Apis.Contracts.LanguageContracts;
+using Tiveriad.Identities.Applications.Commands.LanguageCommands;
+using Tiveriad.Identities.Core.Entities;
+
+#endregion
+
 namespace Tiveriad.Identities.Apis.EndPoints.LanguageEndPoints;
 
 public class PutEndPoint : ControllerBase
 {
-    private IMediator _mediator;
-    private IMapper _mapper;
+    private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
+
     public PutEndPoint(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
         _mapper = mapper;
-
     }
 
     [HttpPut("/api/languages/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<LanguageReaderModelContract>> HandleAsync([FromRoute] string id, [FromBody] LanguageWriterModelContract model, CancellationToken cancellationToken)
+    public async Task<ActionResult<LanguageReaderModelContract>> HandleAsync([FromRoute] string id,
+        [FromBody] LanguageWriterModelContract model, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
 
@@ -37,4 +39,3 @@ public class PutEndPoint : ControllerBase
         //<-- END CUSTOM CODE-->
     }
 }
-

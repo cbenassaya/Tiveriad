@@ -11,13 +11,13 @@
                                 <Required/>
                             </Constraints>
                         </Id>
-                        <Property BusinessKey="true" IsCollection="false" Name="Description" Type="string">
+                        <Property IsCollection="false" Name="Description" Type="string">
                             <Constraints>
                                 <MaxLength Max="500"/>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="true" IsCollection="false" Name="OrganizationName" Searchable="true"
+                        <Property IsCollection="false" Name="OrganizationName" Searchable="true"
                                   Type="string">
                             <Constraints>
                                 <MaxLength Max="50"/>
@@ -25,22 +25,14 @@
                                 <Unique/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="true" IsCollection="false" Name="Firstname" Searchable="true"
+                        <Property IsCollection="false" Name="Firstname" Searchable="true"
                                   Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="true" IsCollection="false" Name="Lastname" Searchable="true"
-                                  Type="string">
-                            <Constraints>
-                                <MaxLength Max="100"/>
-                                <Required/>
-                            </Constraints>
-                        </Property>
-
-                        <Property BusinessKey="true" IsCollection="false" Name="Username" Searchable="true"
+                        <Property IsCollection="false" Name="Lastname" Searchable="true"
                                   Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
@@ -48,7 +40,15 @@
                             </Constraints>
                         </Property>
 
-                        <Property BusinessKey="true" IsCollection="false" Name="Password" Searchable="true"
+                        <Property IsCollection="false" Name="Username" Searchable="true"
+                                  Type="string">
+                            <Constraints>
+                                <MaxLength Max="100"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+
+                        <Property IsCollection="false" Name="Password" Searchable="true"
                                   Type="string" Transient="true">
                             <Constraints>
                                 <MaxLength Max="12"/>
@@ -57,20 +57,20 @@
                             </Constraints>
                         </Property>
 
-                        <Property BusinessKey="true" IsCollection="false" Name="Email" Searchable="true" Type="string">
+                        <Property IsCollection="false" Name="Email" Searchable="true" Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="true" IsCollection="false" Name="DefaultLocale" Searchable="true"
+                        <Property IsCollection="false" Name="DefaultLocale" Searchable="true"
                                   Type="string">
                             <Constraints>
                                 <MaxLength Max="12"/>
                                 <Required/>
                             </Constraints>
                         </Property>
-                        <Property BusinessKey="false" IsCollection="false" Name="Data" Nullable="true" Type="Metadata"/>
+                        <Property IsCollection="false" Name="Data" Nullable="true" Type="Metadata"/>
                     </Properties>
                     <RelationShips>
                         <ManyToOne Name="RegistrationModel" Type="RegistrationModel"/>
@@ -88,21 +88,21 @@
                                 <Required/>
                             </Constraints>
                         </Id>
-                        <Property BusinessKey="true" IsCollection="false" Name="Name" Searchable="true" Type="string">
+                        <Property IsCollection="false" Name="Name" Searchable="true" Type="string">
                             <Constraints>
                                 <MaxLength Max="50"/>
                                 <Required/>
                             </Constraints>
                         </Property>
 
-                        <Property BusinessKey="true" IsCollection="false" Name="Description" Type="string">
+                        <Property IsCollection="false" Name="Description" Type="string">
                             <Constraints>
                                 <MaxLength Max="500"/>
                                 <Required/>
                             </Constraints>
                         </Property>
 
-                        <Property BusinessKey="true" IsCollection="false" Name="Model" Type="Metadata">
+                        <Property IsCollection="false" Name="Model" Type="Metadata">
                             <Constraints>
                                 <MaxLength Max="1000"/>
                                 <Required/>

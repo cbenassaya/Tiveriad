@@ -1,15 +1,15 @@
+#region
 
 using Microsoft.EntityFrameworkCore;
-using Tiveriad.Identities.Core.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Tiveriad.Identities.Core.Entities;
+
+#endregion
+
 namespace Tiveriad.Identities.Persistence.Configurations;
 
 public class LocaleConfiguration : IEntityTypeConfiguration<Locale>
 {
-
-
-
-
     public void Configure(EntityTypeBuilder<Locale> builder)
     {
         builder.ToTable("T_Locale");
@@ -22,7 +22,5 @@ public class LocaleConfiguration : IEntityTypeConfiguration<Locale>
         // <-- Enum -->
 
         // <-- Object -->
-
     }
 }
-

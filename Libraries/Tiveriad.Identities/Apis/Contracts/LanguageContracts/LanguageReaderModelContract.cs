@@ -1,11 +1,7 @@
-
-using System;
 namespace Tiveriad.Identities.Apis.Contracts.LanguageContracts;
 
 public class LanguageReaderModelContract
 {
-
-
     public string? Id { get; set; }
     public string? Name { get; set; }
     public string? Code { get; set; }
@@ -14,6 +10,4 @@ public class LanguageReaderModelContract
     public DateTime? Created { get; set; }
     public string? LastModifiedBy { get; set; }
     public DateTime? LastModified { get; set; }
-
 }
-

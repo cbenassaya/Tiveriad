@@ -1,6 +1,9 @@
+#region
 
 using MediatR;
-using System;
+
+#endregion
+
 namespace Tiveriad.Identities.Applications.Commands.UserCommands;
 
 public record UserDeleteCommandHandlerRequest(string Id) : IRequest<bool>;

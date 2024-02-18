@@ -1,21 +1,19 @@
+#region
 
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Core.Abstractions.Entities;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+
+#endregion
+
 namespace Tiveriad.Identities.Applications.Commands.TimeAreaCommands;
 
 public class TimeAreaUpdateCommandHandler : IRequestHandler<TimeAreaUpdateCommandHandlerRequest, TimeArea>
 {
-    private IRepository<TimeArea, string> _timeAreaRepository;
+    private readonly IRepository<TimeArea, string> _timeAreaRepository;
+
     public TimeAreaUpdateCommandHandler(IRepository<TimeArea, string> timeAreaRepository)
     {
         _timeAreaRepository = timeAreaRepository;
-
     }
 
 
@@ -25,7 +23,7 @@ public class TimeAreaUpdateCommandHandler : IRequestHandler<TimeAreaUpdateComman
         return Task.Run(async () =>
         {
             var query = _timeAreaRepository.Queryable;
-
+            query = query.Where(x => x.Id == request.TimeArea.Id);
 
 
             var result = query.ToList().FirstOrDefault();
@@ -40,4 +38,3 @@ public class TimeAreaUpdateCommandHandler : IRequestHandler<TimeAreaUpdateComman
         //<-- END CUSTOM CODE-->
     }
 }
-

@@ -1,21 +1,19 @@
+#region
 
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Core.Abstractions.Entities;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+
+#endregion
+
 namespace Tiveriad.Identities.Applications.Commands.LanguageCommands;
 
 public class LanguageSaveCommandHandler : IRequestHandler<LanguageSaveCommandHandlerRequest, Language>
 {
-    private IRepository<Language, string> _languageRepository;
+    private readonly IRepository<Language, string> _languageRepository;
+
     public LanguageSaveCommandHandler(IRepository<Language, string> languageRepository)
     {
         _languageRepository = languageRepository;
-
     }
 
 
@@ -30,4 +28,3 @@ public class LanguageSaveCommandHandler : IRequestHandler<LanguageSaveCommandHan
         //<-- END CUSTOM CODE-->
     }
 }
-
