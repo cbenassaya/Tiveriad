@@ -83,7 +83,7 @@ public class RoleUseCases : IntegrationTestBase
         var role = new RoleWriterModelContract
         {
             Name = "Admin",
-            Code = "ADM",
+            //Code = "ADM",
         };
     }
     
