@@ -32,8 +32,7 @@ public class PutEndPoint : ControllerBase
         //<-- START CUSTOM CODE-->
 
         var language = _mapper.Map<LanguageWriterModelContract, Language>(model);
-        language.Id = id;
-        var result = await _mediator.Send(new LanguageUpdateCommandHandlerRequest(language), cancellationToken);
+        var result = await _mediator.Send(new LanguageUpdateCommandHandlerRequest(id,language), cancellationToken);
         var data = _mapper.Map<Language, LanguageReaderModelContract>(result);
         return Ok(data);
         //<-- END CUSTOM CODE-->

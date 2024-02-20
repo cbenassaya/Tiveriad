@@ -7,6 +7,4 @@ using Tiveriad.Identities.Core.Entities;
 
 namespace Tiveriad.Identities.Applications.Commands.OrganizationCommands;
 
-public record OrganizationUpdateCommandHandlerRequest(Organization Organization) : IRequest<Organization>;
-
-public record OrganizationStateUpdateCommandHandlerRequest(string Id, OrganizationEvent Event) : IRequest<Organization>;
+public record OrganizationUpdateCommandHandlerRequest(string Id, Organization Organization) : IRequest<Organization>;

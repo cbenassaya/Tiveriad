@@ -7,4 +7,4 @@ using Tiveriad.Identities.Core.Entities;
 
 namespace Tiveriad.Identities.Applications.Queries.RoleQueries;
 
-public record RoleGetByIdQueryHandlerRequest(string Id) : IRequest<Role?>;
+public record RoleGetByIdQueryHandlerRequest(string OrganizationId, string Id) : IRequest<Role?>;

@@ -32,8 +32,7 @@ public class PutEndPoint : ControllerBase
         //<-- START CUSTOM CODE-->
 
         var membership = _mapper.Map<MembershipWriterModelContract, Membership>(model);
-        membership.Id = id;
-        var result = await _mediator.Send(new MembershipUpdateCommandHandlerRequest(membership), cancellationToken);
+        var result = await _mediator.Send(new MembershipUpdateCommandHandlerRequest(id,membership), cancellationToken);
         var data = _mapper.Map<Membership, MembershipReaderModelContract>(result);
         return Ok(data);
         //<-- END CUSTOM CODE-->

@@ -1,5 +1,6 @@
 #region
 
+using Tiveriad.Identities.Apis.Contracts.OrganizationContracts;
 using Tiveriad.Identities.Apis.Contracts.RealmContracts;
 
 #endregion
@@ -15,5 +16,5 @@ public class RoleReaderModelContract
     public DateTime? Created { get; set; }
     public string? LastModifiedBy { get; set; }
     public DateTime? LastModified { get; set; }
-    public RealmReduceModelContract? Realm { get; set; }
+    public OrganizationReduceModelContract? Organization { get; set; }
 }

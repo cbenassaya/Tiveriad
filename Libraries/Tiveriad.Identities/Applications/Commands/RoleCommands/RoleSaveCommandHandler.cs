@@ -9,13 +9,13 @@ namespace Tiveriad.Identities.Applications.Commands.RoleCommands;
 
 public class RoleSaveCommandHandler : IRequestHandler<RoleSaveCommandHandlerRequest, Role>
 {
-    private IRepository<Realm, string> _realmRepository;
+    private IRepository<Organization, string> _organizationRepository;
     private readonly IRepository<Role, string> _roleRepository;
 
-    public RoleSaveCommandHandler(IRepository<Role, string> roleRepository, IRepository<Realm, string> realmRepository)
+    public RoleSaveCommandHandler(IRepository<Role, string> roleRepository, IRepository<Organization, string> organizationRepository)
     {
         _roleRepository = roleRepository;
-        _realmRepository = realmRepository;
+        _organizationRepository = organizationRepository;
     }
 
 
@@ -24,6 +24,7 @@ public class RoleSaveCommandHandler : IRequestHandler<RoleSaveCommandHandlerRequ
         //<-- START CUSTOM CODE-->
         return Task.Run(async () =>
         {
+            request.Role.Organization = _organizationRepository.GetById(request.OrganizationId);
             await _roleRepository.AddOneAsync(request.Role, cancellationToken);
             return request.Role;
         }, cancellationToken);

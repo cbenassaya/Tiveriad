@@ -34,18 +34,11 @@ public class MembershipUpdateCommandHandler : IRequestHandler<MembershipUpdateCo
             var query = _membershipRepository.Queryable.Include(x => x.User)
                 .Include(x => x.Organization).AsQueryable();
     
-            query = query.Where(x => x.Id == request.Membership.Id);
+            query = query.Where(x => x.Id == request.Id);
 
             var result = query.ToList().FirstOrDefault();
             if (result == null) throw new Exception();
-
-            result.State = request.Membership.State;
             result.Properties = request.Membership.Properties;
-            if (request.Membership.User != null)
-                result.User = await _userRepository.GetByIdAsync(request.Membership.User.Id, cancellationToken);
-            if (request.Membership.Organization != null)
-                result.Organization =
-                    await _organizationRepository.GetByIdAsync(request.Membership.Organization.Id, cancellationToken);
             request.Membership.Roles = request.Membership.Roles.Select( x => _roleRepository.GetById(x.Id)).ToList();
             return result;
         }, cancellationToken);

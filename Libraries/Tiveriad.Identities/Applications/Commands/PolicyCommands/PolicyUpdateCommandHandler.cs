@@ -39,7 +39,6 @@ public class PolicyUpdateCommandHandler : IRequestHandler<PolicyUpdateCommandHan
             var result = query.ToList().FirstOrDefault();
             if (result == null) throw new Exception();
 
-            result.Name = request.Policy.Name;
             if (request.Policy.Realm != null)
                 result.Realm = await _realmRepository.GetByIdAsync(request.Policy.Realm.Id, cancellationToken);
             if (request.Policy.Role != null)

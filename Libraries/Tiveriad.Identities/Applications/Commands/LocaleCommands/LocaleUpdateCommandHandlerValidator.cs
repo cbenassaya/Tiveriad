@@ -15,8 +15,8 @@ public class LocaleUpdateCommandHandlerValidator : AbstractValidator<LocaleUpdat
     {
         _repository = repository;
 
+        RuleFor(x => x.Id).NotEmpty().WithErrorCode(ErrorCodes.LocaleUpdateCommandHandler_Id_XNotEmptyRule);
         RuleFor(x => x.Locale).NotNull().WithErrorCode(ErrorCodes.LocaleUpdateCommandHandler_Locale_XNotNullRule);
-        RuleFor(x => x.Locale.Id).NotNull().WithErrorCode(ErrorCodes.Locale_Id_XNotNullRule);
         RuleFor(x => x.Locale.Name).MaximumLength(50).WithErrorCode(ErrorCodes.Locale_Name_XMaxLengthRule_Max_50);
         RuleFor(x => x.Locale.Name).NotEmpty().WithErrorCode(ErrorCodes.Locale_Name_XNotEmptyRule);
         RuleFor(x => x.Locale.Code).MaximumLength(24).WithErrorCode(ErrorCodes.Locale_Code_XMaxLengthRule_Max_24);
@@ -25,7 +25,7 @@ public class LocaleUpdateCommandHandlerValidator : AbstractValidator<LocaleUpdat
             .Must(request =>
                 {
                     var query = repository.Queryable;
-                    query = query.Where(x => x.Id != request.Locale.Id);
+                    query = query.Where(x => x.Id != request.Id);
                     query = query.Where(x => x.Name == request.Locale.Name);
                     return !query.ToList().Any();
                 }
@@ -34,7 +34,7 @@ public class LocaleUpdateCommandHandlerValidator : AbstractValidator<LocaleUpdat
             .Must(request =>
                 {
                     var query = repository.Queryable;
-                    query = query.Where(x => x.Id != request.Locale.Id);
+                    query = query.Where(x => x.Id != request.Id);
                     query = query.Where(x => x.Code == request.Locale.Code);
                     return !query.ToList().Any();
                 }

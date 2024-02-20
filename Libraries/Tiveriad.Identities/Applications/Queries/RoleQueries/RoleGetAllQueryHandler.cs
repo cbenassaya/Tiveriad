@@ -23,11 +23,10 @@ public class RoleGetAllQueryHandler : IRequestHandler<RoleGetAllQueryHandlerRequ
     public Task<List<Role>> Handle(RoleGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
-        var query = _roleRepository.Queryable.Include(x => x.Realm).AsQueryable();
+        var query = _roleRepository.Queryable.Include(x => x.Organization).AsQueryable();
         if (request.Id != null) query = query.Where(x => x.Id == request.Id);
+        if (request.OrganizationId != null) query = query.Where(x => x.Organization.Id == request.OrganizationId);
         if (request.Name != null) query = query.Where(x => x.Name.Contains(request.Name));
-
-
         if (request.Orders != null && request.Orders.Any())
             foreach (var order in request.Orders)
                 query = order.StartsWith("-") ? query.OrderByDescending(order.Substring(1)) : query.OrderBy(order);

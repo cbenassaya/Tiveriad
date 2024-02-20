@@ -11,7 +11,7 @@ public class Organization : IEntity<string>, IAuditable<string>
     [MaxLength(50)] [Required] public string Name { get; set; } = default!;
     [MaxLength(50)] public string? Logo { get; set; }
     [MaxLength(100)] [Required] public string Domain { get; set; } = default!;
-    [MaxLength(100)] [Required] public string Description { get; set; } = default!;
+    [MaxLength(100)] public string? Description { get; set; }
     public OrganizationState State { get; set; }
     public Metadata? Properties { get; set; }
     public User? Owner { get; set; }

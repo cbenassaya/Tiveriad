@@ -30,6 +30,12 @@ public class PolicySaveCommandHandler : IRequestHandler<PolicySaveCommandHandler
         //<-- START CUSTOM CODE-->
         return Task.Run(async () =>
         {
+            if (request.Policy.Realm != null)
+                request.Policy.Realm = await _realmRepository.GetByIdAsync(request.Policy.Realm.Id, cancellationToken);
+            if (request.Policy.Role != null)
+                request.Policy.Role = await _roleRepository.GetByIdAsync(request.Policy.Role.Id, cancellationToken);
+            if (request.Policy.Feature != null)
+                request.Policy.Feature = await _featureRepository.GetByIdAsync(request.Policy.Feature.Id, cancellationToken);
             await _policyRepository.AddOneAsync(request.Policy, cancellationToken);
             return request.Policy;
         }, cancellationToken);

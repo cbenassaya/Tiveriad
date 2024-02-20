@@ -12,7 +12,10 @@ public class FeatureProfile : Profile
 {
     public FeatureProfile()
     {
+        CreateMap<FeatureWriterModelContract, Feature>()
+            .ForMember(dest => dest.Realm, opt => opt.MapFrom(src => new Realm() { Id = src.RealmId }));
         CreateMap<FeatureIdModelContract, Feature>();
         CreateMap<Feature, FeatureReduceModelContract>();
+        CreateMap<Feature, FeatureReaderModelContract>();
     }
 }

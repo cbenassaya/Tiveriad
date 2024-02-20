@@ -11,6 +11,7 @@ public static class ErrorCodes
         "MembershipGetByIdQueryHandler_Id_XNotNullRule";
 
     public static string LanguageGetByIdQueryHandler_Id_XNotNullRule = "LanguageGetByIdQueryHandler_Id_XNotNullRule";
+    public static string FeatureGetByIdQueryHandler_Id_XNotNullRule = "FeatureGetByIdQueryHandler_Id_XNotNullRule";
     public static string LocaleGetByIdQueryHandler_Id_XNotNullRule = "LocaleGetByIdQueryHandler_Id_XNotNullRule";
     public static string TimeAreaGetByIdQueryHandler_Id_XNotNullRule = "TimeAreaGetByIdQueryHandler_Id_XNotNullRule";
     public static string RealmGetByIdQueryHandler_Id_XNotNullRule = "RealmGetByIdQueryHandler_Id_XNotNullRule";
@@ -51,6 +52,9 @@ public static class ErrorCodes
 
     public static string MembershipSaveCommandHandler_Membership_XNotNullRule =
         "MembershipSaveCommandHandler_Membership_XNotNullRule";
+    
+    public static string MembershipSaveCommandHandler_Membership_XUniqueRule =
+        "MembershipSaveCommandHandler_Membership_XUniqueRule";
 
     public static string LanguageSaveCommandHandler_Language_XNotNullRule =
         "LanguageSaveCommandHandler_Language_XNotNullRule";
@@ -61,6 +65,17 @@ public static class ErrorCodes
     public static string Language_Code_XNotEmptyRule = "Language_Code_XNotEmptyRule";
     public static string Language_Name_XUniqueRule = "Language_Name_XUniqueRule";
     public static string Language_Code_XUniqueRule = "Language_Code_XUniqueRule";
+    
+    public static string FeatureSaveCommandHandler_Feature_XNotNullRule =
+        "FeatureSaveCommandHandler_Feature_XNotNullRule";
+
+    public static string Feature_Name_XMaxLengthRule_Max_50 = "Feature_Name_XMaxLengthRule_Max_50";
+    public static string Feature_Name_XNotEmptyRule = "Feature_Name_XNotEmptyRule";
+    public static string Feature_Code_XMaxLengthRule_Max_24 = "Feature_Code_XMaxLengthRule_Max_24";
+    public static string Feature_Code_XNotEmptyRule = "Feature_Code_XNotEmptyRule";
+    public static string Feature_Name_XUniqueRule = "Feature_Name_XUniqueRule";
+    public static string Feature_Code_XUniqueRule = "Feature_Code_XUniqueRule";
+    
     public static string LocaleSaveCommandHandler_Locale_XNotNullRule = "LocaleSaveCommandHandler_Locale_XNotNullRule";
     public static string Locale_Name_XMaxLengthRule_Max_50 = "Locale_Name_XMaxLengthRule_Max_50";
     public static string Locale_Name_XNotEmptyRule = "Locale_Name_XNotEmptyRule";
@@ -85,10 +100,10 @@ public static class ErrorCodes
     public static string Realm_Description_XNotEmptyRule = "Realm_Description_XNotEmptyRule";
     public static string Realm_Name_XUniqueRule = "Realm_Name_XUniqueRule";
     public static string RoleSaveCommandHandler_Role_XNotNullRule = "RoleSaveCommandHandler_Role_XNotNullRule";
+    public static string RoleSaveCommandHandler_OrganizationId_XNotEmptyRule = "RoleSaveCommandHandler_OrganizationId_XNotEmptyRule";
     public static string Role_Name_XMaxLengthRule_Max_50 = "Role_Name_XMaxLengthRule_Max_50";
     public static string Role_Name_XNotEmptyRule = "Role_Name_XNotEmptyRule";
     public static string Role_Description_XMaxLengthRule_Max_100 = "Role_Description_XMaxLengthRule_Max_100";
-    public static string Role_Description_XNotEmptyRule = "Role_Description_XNotEmptyRule";
     public static string Role_Name_XUniqueRule = "Role_Name_XUniqueRule";
     public static string PolicySaveCommandHandler_Policy_XNotNullRule = "PolicySaveCommandHandler_Policy_XNotNullRule";
     public static string Policy_Name_XMaxLengthRule_Max_50 = "Policy_Name_XMaxLengthRule_Max_50";
@@ -97,35 +112,49 @@ public static class ErrorCodes
 
     public static string OrganizationUpdateCommandHandler_Organization_XNotNullRule =
         "OrganizationUpdateCommandHandler_Organization_XNotNullRule";
+    
+    public static string OrganizationUpdateCommandHandler_Id_XNotEmptyRule =
+        "OrganizationUpdateCommandHandler_Id_XNotEmptyRule";
 
-    public static string Organization_Id_XNotNullRule = "Organization_Id_XNotNullRule";
     public static string UserUpdateCommandHandler_User_XNotNullRule = "UserUpdateCommandHandler_User_XNotNullRule";
-    public static string User_Id_XNotNullRule = "User_Id_XNotNullRule";
+    public static string UserUpdateCommandHandler_Id_XNotEmptyRule = "UserUpdateCommandHandler_Id_XNotEmptyRule";
 
     public static string MembershipUpdateCommandHandler_Membership_XNotNullRule =
         "MembershipUpdateCommandHandler_Membership_XNotNullRule";
 
-    public static string Membership_Id_XNotNullRule = "Membership_Id_XNotNullRule";
+    public static string MembershipUpdateCommandHandler_Id_XNotEmptyRule =
+        "MembershipUpdateCommandHandler_Id_XNotEmptyRule";
+    
 
 
     public static string LanguageUpdateCommandHandler_Language_XNotNullRule =
         "LanguageUpdateCommandHandler_Language_XNotNullRule";
 
-    public static string Language_Id_XNotNullRule = "Language_Id_XNotNullRule";
+    public static string LanguageUpdateCommandHandler_Id_XNotEmptyRule =
+        "LanguageUpdateCommandHandler_Id_XNotEmptyRule";
+    
 
+    public static string FeatureUpdateCommandHandler_Feature_XNotNullRule =
+        "FeatureUpdateCommandHandler_Feature_XNotNullRule";
+
+    public static string FeatureUpdateCommandHandler_Id_XNotEmptyRule =
+        "FeatureUpdateCommandHandler_Id_XNotEmptyRule";
+    
+    public static string LocaleUpdateCommandHandler_Id_XNotEmptyRule =
+        "LocaleUpdateCommandHandler_Id_XNotEmptyRule";
+    
     public static string LocaleUpdateCommandHandler_Locale_XNotNullRule =
         "LocaleUpdateCommandHandler_Locale_XNotNullRule";
 
-    public static string Locale_Id_XNotNullRule = "Locale_Id_XNotNullRule";
 
     public static string TimeAreaUpdateCommandHandler_TimeArea_XNotNullRule =
         "TimeAreaUpdateCommandHandler_TimeArea_XNotNullRule";
-
-    public static string TimeArea_Id_XNotNullRule = "TimeArea_Id_XNotNullRule";
+    public static string TimeAreaUpdateCommandHandler_Id_XNotEmptyRule =
+        "TimeAreaUpdateCommandHandler_Id_XNotEmptyRule";
     public static string RealmUpdateCommandHandler_Realm_XNotNullRule = "RealmUpdateCommandHandler_Realm_XNotNullRule";
     public static string Realm_Id_XNotNullRule = "Realm_Id_XNotNullRule";
     public static string RoleUpdateCommandHandler_Role_XNotNullRule = "RoleUpdateCommandHandler_Role_XNotNullRule";
-    public static string Role_Id_XNotNullRule = "Role_Id_XNotNullRule";
+    public static string RoleUpdateCommandHandler_Id_XNotEmptyRule = "RoleUpdateCommandHandler_Id_XNotEmptyRule";
 
     public static string PolicyUpdateCommandHandler_Policy_XNotNullRule =
         "PolicyUpdateCommandHandler_Policy_XNotNullRule";
@@ -141,9 +170,11 @@ public static class ErrorCodes
         "MembershipDeleteCommandHandler_Id_XNotNullRule";
 
     public static string LanguageDeleteCommandHandler_Id_XNotNullRule = "LanguageDeleteCommandHandler_Id_XNotNullRule";
+    public static string FeatureDeleteCommandHandler_Id_XNotNullRule = "FeatureDeleteCommandHandler_Id_XNotNullRule";
     public static string LocaleDeleteCommandHandler_Id_XNotNullRule = "LocaleDeleteCommandHandler_Id_XNotNullRule";
     public static string TimeAreaDeleteCommandHandler_Id_XNotNullRule = "TimeAreaDeleteCommandHandler_Id_XNotNullRule";
     public static string RealmDeleteCommandHandler_Id_XNotNullRule = "RealmDeleteCommandHandler_Id_XNotNullRule";
     public static string RoleDeleteCommandHandler_Id_XNotNullRule = "RoleDeleteCommandHandler_Id_XNotNullRule";
+    public static string RoleDeleteCommandHandler_OrganizationId_XNotNullRule = "RoleDeleteCommandHandler_OrganizationId_XNotNullRule";
     public static string PolicyDeleteCommandHandler_Id_XNotNullRule = "PolicyDeleteCommandHandler_Id_XNotNullRule";
 }

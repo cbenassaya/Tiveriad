@@ -26,10 +26,8 @@ public class RoleDeleteCommandHandler : IRequestHandler<RoleDeleteCommandHandler
         return Task.Run(() =>
         {
             //<-- START CUSTOM CODE-->
-            var query = _roleRepository.Queryable.Include(x => x.Realm).AsQueryable();
+            var query = _roleRepository.Queryable.AsQueryable();
             query = query.Where(x => x.Id == request.Id);
-
-
             var role = query.FirstOrDefault();
             if (role == null) throw new Exception();
             return _roleRepository.DeleteMany(x => x.Id == request.Id) == 1;

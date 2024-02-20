@@ -14,13 +14,12 @@ public class RoleSaveCommandHandlerValidator : AbstractValidator<RoleSaveCommand
     public RoleSaveCommandHandlerValidator(IRepository<Role, string> repository)
     {
         _repository = repository;
-
+        RuleFor(x => x.OrganizationId).NotEmpty().WithErrorCode(ErrorCodes.RoleSaveCommandHandler_OrganizationId_XNotEmptyRule);
         RuleFor(x => x.Role).NotNull().WithErrorCode(ErrorCodes.RoleSaveCommandHandler_Role_XNotNullRule);
         RuleFor(x => x.Role.Name).MaximumLength(50).WithErrorCode(ErrorCodes.Role_Name_XMaxLengthRule_Max_50);
         RuleFor(x => x.Role.Name).NotEmpty().WithErrorCode(ErrorCodes.Role_Name_XNotEmptyRule);
         RuleFor(x => x.Role.Description).MaximumLength(100)
             .WithErrorCode(ErrorCodes.Role_Description_XMaxLengthRule_Max_100);
-        RuleFor(x => x.Role.Description).NotEmpty().WithErrorCode(ErrorCodes.Role_Description_XNotEmptyRule);
         RuleFor(x => x)
             .Must(request =>
                 {

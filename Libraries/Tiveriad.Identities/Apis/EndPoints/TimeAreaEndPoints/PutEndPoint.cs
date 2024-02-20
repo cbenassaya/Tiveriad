@@ -33,7 +33,7 @@ public class PutEndPoint : ControllerBase
 
         var timeArea = _mapper.Map<TimeAreaWriterModelContract, TimeArea>(model);
         timeArea.Id = id;
-        var result = await _mediator.Send(new TimeAreaUpdateCommandHandlerRequest(timeArea), cancellationToken);
+        var result = await _mediator.Send(new TimeAreaUpdateCommandHandlerRequest(id,timeArea), cancellationToken);
         var data = _mapper.Map<TimeArea, TimeAreaReaderModelContract>(result);
         return Ok(data);
         //<-- END CUSTOM CODE-->

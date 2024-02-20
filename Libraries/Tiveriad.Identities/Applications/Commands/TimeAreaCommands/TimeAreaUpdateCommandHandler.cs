@@ -23,7 +23,7 @@ public class TimeAreaUpdateCommandHandler : IRequestHandler<TimeAreaUpdateComman
         return Task.Run(async () =>
         {
             var query = _timeAreaRepository.Queryable;
-            query = query.Where(x => x.Id == request.TimeArea.Id);
+            query = query.Where(x => x.Id == request.Id);
 
 
             var result = query.ToList().FirstOrDefault();

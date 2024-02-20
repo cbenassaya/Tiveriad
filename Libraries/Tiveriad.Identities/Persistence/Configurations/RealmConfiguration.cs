@@ -17,8 +17,7 @@ public class RealmConfiguration : IEntityTypeConfiguration<Realm>
         builder.HasKey(b => b.Id).HasName("PK_RealmId");
         // <-- ManyToOne -->
 
-        // <-- OneToMany -->
-        builder.HasMany(b => b.Features);
+
         // <-- Enum -->
 
         // <-- Object -->

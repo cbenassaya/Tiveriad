@@ -17,13 +17,5 @@ public class Membership : IEntity<string>, IAuditable<string>
     [Required] public DateTime Created { get; set; } = default!;
     public string? LastModifiedBy { get; set; }
     public DateTime? LastModified { get; set; }
-
-
     [MaxLength(24)] [Required] public string Id { get; set; } = default!;
-}
-
-public class MembershipRole
-{
-    public string MembershipId { get; set; } = default!;
-    public string RoleId { get; set; } = default!;
 }

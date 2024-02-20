@@ -15,9 +15,10 @@ public class OrganizationUpdateCommandHandlerValidator : AbstractValidator<Organ
     {
         _repository = repository;
 
+        RuleFor(x => x.Id).NotEmpty()
+            .WithErrorCode(ErrorCodes.OrganizationUpdateCommandHandler_Id_XNotEmptyRule);
         RuleFor(x => x.Organization).NotNull()
             .WithErrorCode(ErrorCodes.OrganizationUpdateCommandHandler_Organization_XNotNullRule);
-        RuleFor(x => x.Organization.Id).NotNull().WithErrorCode(ErrorCodes.Organization_Id_XNotNullRule);
         RuleFor(x => x.Organization.Name).MaximumLength(50)
             .WithErrorCode(ErrorCodes.Organization_Name_XMaxLengthRule_Max_50);
         RuleFor(x => x.Organization.Name).NotEmpty().WithErrorCode(ErrorCodes.Organization_Name_XNotEmptyRule);
@@ -34,7 +35,7 @@ public class OrganizationUpdateCommandHandlerValidator : AbstractValidator<Organ
             .Must(request =>
                 {
                     var query = repository.Queryable;
-                    query = query.Where(x => x.Id != request.Organization.Id);
+                    query = query.Where(x => x.Id != request.Id);
                     query = query.Where(x => x.Name == request.Organization.Name);
                     return !query.ToList().Any();
                 }
@@ -43,7 +44,7 @@ public class OrganizationUpdateCommandHandlerValidator : AbstractValidator<Organ
             .Must(request =>
                 {
                     var query = repository.Queryable;
-                    query = query.Where(x => x.Id != request.Organization.Id);
+                    query = query.Where(x => x.Id != request.Id);
                     query = query.Where(x => x.Domain == request.Organization.Domain);
                     return !query.ToList().Any();
                 }
@@ -52,7 +53,7 @@ public class OrganizationUpdateCommandHandlerValidator : AbstractValidator<Organ
             .Must(request =>
                 {
                     var query = repository.Queryable;
-                    query = query.Where(x => x.Id != request.Organization.Id);
+                    query = query.Where(x => x.Id != request.Id);
                     query = query.Where(x => x.Name == request.Organization.Name);
                     return !query.ToList().Any();
                 }

@@ -16,7 +16,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         // <-- Id -->
         builder.HasKey(b => b.Id).HasName("PK_RoleId");
         // <-- ManyToOne -->
-        builder.HasOne(b => b.Realm);
+        builder.HasOne(b => b.Organization);
         // <-- OneToMany -->
 
         // <-- Enum -->

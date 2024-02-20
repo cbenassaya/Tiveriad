@@ -23,7 +23,7 @@ public class LocaleUpdateCommandHandler : IRequestHandler<LocaleUpdateCommandHan
         return Task.Run(async () =>
         {
             var query = _localeRepository.Queryable;
-            query = query.Where(x => x.Id == request.Locale.Id);
+            query = query.Where(x => x.Id == request.Id);
 
             var result = query.ToList().FirstOrDefault();
             if (result == null) throw new Exception();

@@ -32,8 +32,7 @@ public class PutEndPoint : ControllerBase
         //<-- START CUSTOM CODE-->
 
         var locale = _mapper.Map<LocaleWriterModelContract, Locale>(model);
-        locale.Id = id;
-        var result = await _mediator.Send(new LocaleUpdateCommandHandlerRequest(locale), cancellationToken);
+        var result = await _mediator.Send(new LocaleUpdateCommandHandlerRequest(id,locale), cancellationToken);
         var data = _mapper.Map<Locale, LocaleReaderModelContract>(result);
         return Ok(data);
         //<-- END CUSTOM CODE-->

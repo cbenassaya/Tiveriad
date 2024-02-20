@@ -16,5 +16,4 @@ public class RealmReaderModelContract
     public DateTime? Created { get; set; }
     public string? LastModifiedBy { get; set; }
     public DateTime? LastModified { get; set; }
-    public List<FeatureReduceModelContract>? Features { get; set; } = new();
 }

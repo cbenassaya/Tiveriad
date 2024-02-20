@@ -30,7 +30,7 @@ public class UserUpdateCommandHandler : IRequestHandler<UserUpdateCommandHandler
         {
             var query = _userRepository.Queryable.Include(x => x.Language)
                 .Include(x => x.Locale).AsQueryable();
-            query = query.Where(x => x.Id == request.User.Id);
+            query = query.Where(x => x.Id == request.Id);
 
     
             var result = query.ToList().FirstOrDefault();

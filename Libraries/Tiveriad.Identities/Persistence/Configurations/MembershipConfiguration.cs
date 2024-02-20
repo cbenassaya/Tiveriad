@@ -19,7 +19,8 @@ public class MembershipConfiguration : IEntityTypeConfiguration<Membership>
         builder.HasOne(b => b.User);
         builder.HasOne(b => b.Organization);
         // <-- OneToMany -->
-        builder.HasMany(b => b.Roles).WithMany().UsingEntity<MembershipRole>();
+        builder.HasMany(b => b.Roles).WithMany()
+            .UsingEntity<MembershipRole>(x=>x.ToTable("J_MembershipRole"));
         // <-- Enum -->
         builder.Property(e => e.State)
             .HasConversion(v => v.ToString(), v => (MembershipState)Enum.Parse(typeof(MembershipState), v));

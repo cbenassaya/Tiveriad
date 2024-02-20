@@ -12,7 +12,7 @@ public class TimeArea : IEntity<string>, IAuditable<string>
     [MaxLength(24)] [Required] public string Code { get; set; } = default!;
     public int? UtcOffSet { get; set; }
     [MaxLength(6)] public string? CountryCode { get; set; }
-    public string? Descriptions { get; set; }
+    [MaxLength(100)] public string? Descriptions { get; set; }
     [Required] public string CreatedBy { get; set; } = default!;
     [Required] public DateTime Created { get; set; } = default!;
     public string? LastModifiedBy { get; set; }

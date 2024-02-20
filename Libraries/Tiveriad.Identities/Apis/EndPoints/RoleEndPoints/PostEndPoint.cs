@@ -1,5 +1,6 @@
 #region
 
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,16 +23,18 @@ public class PostEndPoint : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost("/api/roles")]
+    [HttpPost("/api/organizations/{organizationId}/roles")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<RoleReaderModelContract>> HandleAsync([FromBody] RoleWriterModelContract model,
+    public async Task<ActionResult<RoleReaderModelContract>> HandleAsync(
+        [FromRoute] [Required] string organizationId,
+        [FromBody] RoleWriterModelContract model,
         CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
         var role = _mapper.Map<RoleWriterModelContract, Role>(model);
-        var result = await _mediator.Send(new RoleSaveCommandHandlerRequest(role), cancellationToken);
+        var result = await _mediator.Send(new RoleSaveCommandHandlerRequest(organizationId,role), cancellationToken);
         var data = _mapper.Map<Role, RoleReaderModelContract>(result);
         return Ok(data);
         //<-- END CUSTOM CODE-->

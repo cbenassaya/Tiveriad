@@ -6,10 +6,3 @@ public enum MembershipState
     Validated,
     Canceled
 }
-
-
-public enum MembershipEvent
-{
-    Validate,
-    Cancel
-}

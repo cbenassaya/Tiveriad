@@ -14,7 +14,7 @@ public class RoleDeleteCommandHandlerValidator : AbstractValidator<RoleDeleteCom
     public RoleDeleteCommandHandlerValidator(IRepository<Role, string> repository)
     {
         _repository = repository;
-
         RuleFor(x => x.Id).NotNull().WithErrorCode(ErrorCodes.RoleDeleteCommandHandler_Id_XNotNullRule);
+        RuleFor(x => x.OrganizationId).NotNull().WithErrorCode(ErrorCodes.RoleDeleteCommandHandler_OrganizationId_XNotNullRule);
     }
 }

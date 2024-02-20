@@ -33,7 +33,7 @@ public class PutEndPoint : ControllerBase
 
         var user = _mapper.Map<UserWriterModelContract, User>(model);
         user.Id = id;
-        var result = await _mediator.Send(new UserUpdateCommandHandlerRequest(user), cancellationToken);
+        var result = await _mediator.Send(new UserUpdateCommandHandlerRequest(id,user), cancellationToken);
         var data = _mapper.Map<User, UserReaderModelContract>(result);
         return Ok(data);
         //<-- END CUSTOM CODE-->

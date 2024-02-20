@@ -8,7 +8,6 @@ namespace Tiveriad.Identities.Core.Entities;
 
 public class Policy : IEntity<string>, IAuditable<string>
 {
-    [MaxLength(50)] [Required] public string Name { get; set; } = default!;
     public Realm? Realm { get; set; }
     public Role? Role { get; set; }
     public Feature? Feature { get; set; }

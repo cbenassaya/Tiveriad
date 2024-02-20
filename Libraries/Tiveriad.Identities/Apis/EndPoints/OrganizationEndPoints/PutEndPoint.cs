@@ -35,8 +35,7 @@ public class PutEndPoint : ControllerBase
         //<-- START CUSTOM CODE-->
 
         var organization = _mapper.Map<OrganizationUpdaterModelContract, Organization>(model);
-        organization.Id = id;
-        var result = await _mediator.Send(new OrganizationUpdateCommandHandlerRequest(organization), cancellationToken);
+        var result = await _mediator.Send(new OrganizationUpdateCommandHandlerRequest(id,organization), cancellationToken);
         var data = _mapper.Map<Organization, OrganizationReaderModelContract>(result);
         return Ok(data);
         //<-- END CUSTOM CODE-->

@@ -3,9 +3,6 @@ using System.Text;
 using System.Text.Json;
 using Tiveriad.Identities.Apis.Contracts.LanguageContracts;
 using Tiveriad.Identities.Apis.Contracts.LocaleContracts;
-using Tiveriad.Identities.Apis.Contracts.MembershipContracts;
-using Tiveriad.Identities.Apis.Contracts.OrganizationContracts;
-using Tiveriad.Identities.Apis.Contracts.RoleContracts;
 using Tiveriad.Identities.Apis.Contracts.UserContracts;
 using Xunit;
 
@@ -70,42 +67,5 @@ public class UserUseCases: IntegrationTestBase
             new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json");
         var response = await client.PostAsync("/api/users", content );
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-    }
-}
-
-public class RoleUseCases : IntegrationTestBase
-{
-    [Fact]
-    public async void PostNewMembership()
-    {
-        var client = GetRequiredService<HttpClient>();
-        var organizations = Get<List<OrganizationReaderModelContract>>(client.GetAsync("/api/organizations/State=Validated").Result).Result;
-        var role = new RoleWriterModelContract
-        {
-            Name = "Admin",
-            //Code = "ADM",
-        };
-    }
-    
-}
-
-
-public class MembershipUseCases : IntegrationTestBase
-{
-    [Fact]
-    public async void PostNewMembership()
-    {
-        var client = GetRequiredService<HttpClient>();
-        var users = Get<List<UserReaderModelContract>>(client.GetAsync("/api/users").Result).Result;
-        var organizations = Get<List<OrganizationReaderModelContract>>(client.GetAsync("/api/organizations").Result).Result;
-        var roles = Get<List<RoleReaderModelContract>>(client.GetAsync("/api/roles").Result).Result;
-        
-        var membership = new MembershipWriterModelContract
-        {
-            UserId = users.First().Id,
-            OrganizationId = organizations.First().Id,
- 
-        };
-            
     }
 }

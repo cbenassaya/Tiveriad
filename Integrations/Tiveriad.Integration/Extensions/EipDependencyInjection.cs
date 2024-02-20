@@ -26,8 +26,8 @@ public static class EipDependencyInjection
     {
         services.AddTransient<ICurrentUserService, CurrentUserService>();
         
-        services.AddSingleton<IPublisher<OnSaveRegistrationDomainEvent, string>, OnSaveRegistrationDomainEventPublisher>();
-        services.AddSingleton<ISubscriber<OnSaveRegistrationDomainEvent, string>, OnSaveRegistrationDomainEventSubscriber>();
+        //services.AddSingleton<IPublisher<OnSaveRegistrationDomainEvent, string>, OnSaveRegistrationDomainEventPublisher>();
+        //services.AddSingleton<ISubscriber<OnSaveRegistrationDomainEvent, string>, OnSaveRegistrationDomainEventSubscriber>();
         return services;
     }
 
@@ -58,7 +58,7 @@ public static class EipDependencyInjection
 
     public static IServiceCollection AddWorkers(this IServiceCollection services)
     {
-        services.AddHostedService<RegistrationWorker>();
+        //services.AddHostedService<RegistrationWorker>();
         return services;
     }
 }

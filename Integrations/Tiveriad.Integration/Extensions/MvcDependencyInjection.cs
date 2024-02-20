@@ -13,6 +13,7 @@ using Tiveriad.Notifications.Apis.Contracts.NotificationContracts;
 using Tiveriad.Notifications.Applications.Commands.NotificationCommands;
 using Tiveriad.Registrations.Apis.Contracts.RegistrationContracts;
 using Tiveriad.Registrations.Applications.Commands.RegistrationCommands;
+using IHostingEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
 
 #endregion
 
@@ -33,7 +34,7 @@ public static class MvcDependencyInjection
             //opt.Filters.Add<RegistrationDomainEventActionFilter>();
             //opt.Filters.Add<IdentityDomainEventActionFilter>();
             opt.Filters.Add<MultiTenancyActionFilter>();
-            opt.Filters.Add<DomainEventActionFilter>();
+            //opt.Filters.Add<DomainEventActionFilter>();
             opt.Filters.Add<TransactionActionFilter>();
             opt.Filters.Add<ApiExceptionFilter>();
         });
@@ -61,7 +62,11 @@ public static class MvcDependencyInjection
 
     public static void UseLoggerFile(this IApplicationBuilder application)
     {
+        var hostingEnvironment = application.ApplicationServices.GetRequiredService<IHostingEnvironment>();
+        
         var loggerFactory = application.ApplicationServices.GetRequiredService<ILoggerFactory>();
-        loggerFactory.AddFile("Logs/Log-{Date}.txt");
+        
+        var logsPath = Path.Combine(hostingEnvironment.ContentRootPath,"Logs", "Log-{Date}.txt");
+        loggerFactory.AddFile(logsPath);
     }
 }

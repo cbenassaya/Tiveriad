@@ -7,4 +7,4 @@ using Tiveriad.Identities.Core.Entities;
 
 namespace Tiveriad.Identities.Applications.Commands.MembershipCommands;
 
-public record MembershipUpdateCommandHandlerRequest(Membership Membership) : IRequest<Membership>;
+public record MembershipUpdateCommandHandlerRequest(string Id, Membership Membership) : IRequest<Membership>;

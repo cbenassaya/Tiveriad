@@ -23,9 +23,9 @@ public class RoleGetByIdQueryHandler : IRequestHandler<RoleGetByIdQueryHandlerRe
     public Task<Role?> Handle(RoleGetByIdQueryHandlerRequest request, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
-        var query = _roleRepository.Queryable.Include(x => x.Realm).AsQueryable();
+        var query = _roleRepository.Queryable.Include(x => x.Organization).AsQueryable();
         query = query.Where(x => x.Id == request.Id);
-        query = query.Where(x => x.Id == request.Id);
+        query = query.Where(x => x.Organization.Id == request.OrganizationId);
 
 
         return Task.Run(() => query.ToList().FirstOrDefault(), cancellationToken);

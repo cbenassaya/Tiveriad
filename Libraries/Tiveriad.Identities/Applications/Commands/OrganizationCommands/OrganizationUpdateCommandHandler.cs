@@ -3,7 +3,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Identities.Core.StateMachines;
 
 #endregion
 
@@ -33,7 +32,7 @@ public class OrganizationUpdateCommandHandler : IRequestHandler<OrganizationUpda
             var query = _organizationRepository.Queryable.Include(x => x.Owner)
                 .Include(x => x.TimeArea).AsQueryable();
 
-            query = query.Where(x => x.Id == request.Organization.Id);
+            query = query.Where(x => x.Id == request.Id);
             var result = query.ToList().FirstOrDefault();
             if (result == null) throw new Exception();
             result.Name = request.Organization.Name;
@@ -43,36 +42,6 @@ public class OrganizationUpdateCommandHandler : IRequestHandler<OrganizationUpda
             if (request.Organization.TimeArea != null)
                 result.TimeArea =
                     await _timeAreaRepository.GetByIdAsync(request.Organization.TimeArea.Id, cancellationToken);
-            return result;
-        }, cancellationToken);
-        //<-- END CUSTOM CODE-->
-    }
-}
-
-
-public class OrganizationStateUpdateCommandHandler : IRequestHandler<OrganizationStateUpdateCommandHandlerRequest, Organization>
-{
-    private readonly IRepository<Organization, string> _organizationRepository;
-
-    public OrganizationStateUpdateCommandHandler(IRepository<Organization, string> organizationRepository)
-    {
-        _organizationRepository = organizationRepository;
-    }
-
-
-    public Task<Organization> Handle(OrganizationStateUpdateCommandHandlerRequest request,
-        CancellationToken cancellationToken)
-    {
-        //<-- START CUSTOM CODE-->
-        return Task.Run(async () =>
-        {
-            var query = _organizationRepository.Queryable.AsQueryable();
-            query = query.Where(x => x.Id == request.Id);
-            var result = query.ToList().FirstOrDefault();
-            if (result == null) throw new Exception();
-            var sm = result.State.GetStateMachine();
-            sm.Fire(request.Event);
-            result.State = sm.GetCurrentState();
             return result;
         }, cancellationToken);
         //<-- END CUSTOM CODE-->

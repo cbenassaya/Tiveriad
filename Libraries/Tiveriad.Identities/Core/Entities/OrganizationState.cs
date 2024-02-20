@@ -6,10 +6,3 @@ public enum OrganizationState
     Validated,
     Canceled
 }
-
-
-public enum OrganizationEvent
-{
-    Validate,
-    Cancel
-}

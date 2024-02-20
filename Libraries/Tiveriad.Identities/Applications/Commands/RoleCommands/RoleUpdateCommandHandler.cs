@@ -26,17 +26,13 @@ public class RoleUpdateCommandHandler : IRequestHandler<RoleUpdateCommandHandler
         //<-- START CUSTOM CODE-->
         return Task.Run(async () =>
         {
-            var query = _roleRepository.Queryable.Include(x => x.Realm).AsQueryable();
-            query = query.Where(x => x.Id == request.Role.Id);
-
-
+            var query = _roleRepository.Queryable.AsQueryable();
+            query = query.Where(x => x.Id == request.Id);
+            query = query.Where(x => x.Organization.Id == request.OrganizationId);
             var result = query.ToList().FirstOrDefault();
             if (result == null) throw new Exception();
-
             result.Name = request.Role.Name;
             result.Description = request.Role.Description;
-            if (request.Role.Realm != null)
-                result.Realm = await _realmRepository.GetByIdAsync(request.Role.Realm.Id, cancellationToken);
             return result;
         }, cancellationToken);
         //<-- END CUSTOM CODE-->

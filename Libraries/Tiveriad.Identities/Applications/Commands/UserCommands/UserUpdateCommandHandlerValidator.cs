@@ -15,8 +15,8 @@ public class UserUpdateCommandHandlerValidator : AbstractValidator<UserUpdateCom
     {
         _repository = repository;
 
+        RuleFor(x => x.Id).NotEmpty().WithErrorCode(ErrorCodes.UserUpdateCommandHandler_Id_XNotEmptyRule);
         RuleFor(x => x.User).NotNull().WithErrorCode(ErrorCodes.UserUpdateCommandHandler_User_XNotNullRule);
-        RuleFor(x => x.User.Id).NotNull().WithErrorCode(ErrorCodes.User_Id_XNotNullRule);
         RuleFor(x => x.User.Firstname).MaximumLength(100)
             .WithErrorCode(ErrorCodes.User_Firstname_XMaxLengthRule_Max_100);
         RuleFor(x => x.User.Firstname).NotEmpty().WithErrorCode(ErrorCodes.User_Firstname_XNotEmptyRule);
@@ -33,7 +33,7 @@ public class UserUpdateCommandHandlerValidator : AbstractValidator<UserUpdateCom
             .Must(request =>
                 {
                     var query = repository.Queryable;
-                    query = query.Where(x => x.Id != request.User.Id);
+                    query = query.Where(x => x.Id != request.Id);
                     query = query.Where(x => x.Username == request.User.Username);
                     return !query.ToList().Any();
                 }
@@ -42,7 +42,7 @@ public class UserUpdateCommandHandlerValidator : AbstractValidator<UserUpdateCom
             .Must(request =>
                 {
                     var query = repository.Queryable;
-                    query = query.Where(x => x.Id != request.User.Id);
+                    query = query.Where(x => x.Id != request.Id);
                     query = query.Where(x => x.Email == request.User.Email);
                     return !query.ToList().Any();
                 }
@@ -51,7 +51,7 @@ public class UserUpdateCommandHandlerValidator : AbstractValidator<UserUpdateCom
             .Must(request =>
                 {
                     var query = repository.Queryable;
-                    query = query.Where(x => x.Id != request.User.Id);
+                    query = query.Where(x => x.Id != request.Id);
                     query = query.Where(x => x.Username == request.User.Username);
                     query = query.Where(x => x.Email == request.User.Email);
                     return !query.ToList().Any();

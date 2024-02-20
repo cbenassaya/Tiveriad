@@ -17,5 +17,16 @@ public class MembershipSaveCommandHandlerValidator : AbstractValidator<Membershi
 
         RuleFor(x => x.Membership).NotNull()
             .WithErrorCode(ErrorCodes.MembershipSaveCommandHandler_Membership_XNotNullRule);
+        
+        RuleFor(x => x.Membership)
+            .Must(request =>
+                {
+                    var query = repository.Queryable;
+                    query = query.Where(x => x.User.Id == request.User.Id);
+                    query = query.Where(x => x.Organization.Id == request.Organization.Id);
+                    return !query.ToList().Any();
+                }
+            ).WithErrorCode(ErrorCodes.MembershipSaveCommandHandler_Membership_XUniqueRule);
+        
     }
 }

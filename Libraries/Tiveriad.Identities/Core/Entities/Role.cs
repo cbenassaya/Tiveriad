@@ -9,8 +9,8 @@ namespace Tiveriad.Identities.Core.Entities;
 public class Role : IEntity<string>, IAuditable<string>
 {
     [MaxLength(50)] [Required] public string Name { get; set; } = default!;
-    [MaxLength(100)] [Required] public string Description { get; set; } = default!;
-    public Organization? Organization { get; set; }
+    [MaxLength(100)] public string? Description { get; set; }
+    [Required] public Organization? Organization { get; set; }
     [Required] public string CreatedBy { get; set; } = default!;
     [Required] public DateTime Created { get; set; } = default!;
     public string? LastModifiedBy { get; set; }

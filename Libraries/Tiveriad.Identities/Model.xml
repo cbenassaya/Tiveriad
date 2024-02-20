@@ -281,7 +281,7 @@
                     <Persistence Auditable="true" Name="T_Realm" AuditableKeyType="string"/>
                 </Entity>
 
-                <Entity BusinessEntity="false" Name="Feature" PluralName="Features">
+                <Entity BusinessEntity="true" Name="Feature" PluralName="Features">
                     <Properties>
                         <Id Displayed="false" Type="string">
                             <Constraints>
@@ -299,7 +299,6 @@
                         <Property IsCollection="false" Name="Description" Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
-                                <Required/>
                             </Constraints>
                         </Property>
                         <Property IsCollection="false" Name="Code" Nullable="true"
@@ -311,6 +310,9 @@
                             </Constraints>
                         </Property>
                     </Properties>
+                    <RelationShips>
+                        <ManyToOne Name="Realm" Type="Realm"/>
+                    </RelationShips>
                     <Persistence Auditable="true" Name="T_Feature" AuditableKeyType="string"/>
                 </Entity>
 

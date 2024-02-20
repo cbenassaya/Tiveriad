@@ -23,7 +23,7 @@ public class LanguageUpdateCommandHandler : IRequestHandler<LanguageUpdateComman
         return Task.Run(async () =>
         {
             var query = _languageRepository.Queryable;
-            query = query.Where(x => x.Id == request.Language.Id);
+            query = query.Where(x => x.Id == request.Id);
 
 
             var result = query.ToList().FirstOrDefault();

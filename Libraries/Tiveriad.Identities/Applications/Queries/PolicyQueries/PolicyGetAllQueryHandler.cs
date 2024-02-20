@@ -29,13 +29,11 @@ public class PolicyGetAllQueryHandler : IRequestHandler<PolicyGetAllQueryHandler
     public Task<List<Policy>> Handle(PolicyGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
-        var query = _policyRepository.Queryable.Include(x => x.Realm)
+        var query = _policyRepository.Queryable
+            .Include(x => x.Realm)
             .Include(x => x.Role)
             .Include(x => x.Feature).AsQueryable();
         if (request.Id != null) query = query.Where(x => x.Id == request.Id);
-        if (request.Name != null) query = query.Where(x => x.Name.Contains(request.Name));
-
-
         if (request.Orders != null && request.Orders.Any())
             foreach (var order in request.Orders)
                 query = order.StartsWith("-") ? query.OrderByDescending(order.Substring(1)) : query.OrderBy(order);
