@@ -22,17 +22,19 @@ public class GetAllEndPoint : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpGet("/api/policies")]
+    [HttpGet("/api/realms/{realmId}/roles/{roleId}/policies")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<List<PolicyReaderModelContract>>> HandleAsync([FromQuery] string? id,
+    public async Task<ActionResult<List<PolicyReaderModelContract>>> HandleAsync(
+        [FromRoute] string realmId,[FromRoute] string roleId,
+        [FromQuery] string? id,
         [FromQuery] string? name, [FromQuery] int? page, [FromQuery] int? limit, [FromQuery] string? q,
         [FromQuery] IEnumerable<string>? orders, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
-        var result = await _mediator.Send(new PolicyGetAllQueryHandlerRequest(id, name, page, limit, q, orders),
+        var result = await _mediator.Send(new PolicyGetAllQueryHandlerRequest(realmId, roleId, id, name, page, limit, q, orders),
             cancellationToken);
         if (!result.Any()) return NoContent();
         var data = _mapper.Map<List<Policy>, List<PolicyReaderModelContract>>(result);

@@ -8,6 +8,8 @@ using Tiveriad.Identities.Core.Entities;
 namespace Tiveriad.Identities.Applications.Queries.PolicyQueries;
 
 public record PolicyGetAllQueryHandlerRequest(
+    string? RealmId = null,
+    string? RoleId = null,
     string? Id = null,
     string? Name = null,
     int? Page = null,

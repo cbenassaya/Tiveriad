@@ -18,7 +18,7 @@ public class PolicyConfiguration : IEntityTypeConfiguration<Policy>
         // <-- ManyToOne -->
         builder.HasOne(b => b.Realm);
         builder.HasOne(b => b.Role);
-        builder.HasOne(b => b.Feature);
+        builder.HasMany(b => b.Features).WithMany().UsingEntity<PolicyFeature>();
         // <-- OneToMany -->
 
         // <-- Enum -->

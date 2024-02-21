@@ -7,4 +7,4 @@ using Tiveriad.Identities.Core.Entities;
 
 namespace Tiveriad.Identities.Applications.Queries.PolicyQueries;
 
-public record PolicyGetByIdQueryHandlerRequest(string Id) : IRequest<Policy?>;
+public record PolicyGetByIdQueryHandlerRequest(string RealmId, string RoleId, string Id) : IRequest<Policy?>;

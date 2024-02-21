@@ -13,6 +13,9 @@ public class PolicyProfile : Profile
     public PolicyProfile()
     {
         CreateMap<Policy, PolicyReaderModelContract>();
-        CreateMap<PolicyWriterModelContract, Policy>();
+        CreateMap<PolicyWriterModelContract, Policy>()
+            .ForMember(dest => dest.Role, opt => opt.MapFrom(src=>new Role(){Id = src.RoleId}))
+            .ForMember(dest => dest.Realm, opt => opt.MapFrom(src=>new Realm(){Id = src.RealmId}))
+            .ForMember(dest => dest.Features, opt => opt.MapFrom(src=>src.FeaturesId.Select(x=>new Feature(){Id=x}).ToList()));
     }
 }

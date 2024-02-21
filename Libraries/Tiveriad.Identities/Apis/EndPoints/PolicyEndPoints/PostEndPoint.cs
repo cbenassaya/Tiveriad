@@ -22,16 +22,18 @@ public class PostEndPoint : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost("/api/policies")]
+    [HttpPost("/api/realms/{realmId}/roles/{roleId}/policies")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<PolicyReaderModelContract>> HandleAsync([FromBody] PolicyWriterModelContract model,
+    public async Task<ActionResult<PolicyReaderModelContract>> HandleAsync(
+        [FromRoute] string realmId,[FromRoute] string roleId,
+        [FromBody] PolicyWriterModelContract model,
         CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
         var policy = _mapper.Map<PolicyWriterModelContract, Policy>(model);
-        var result = await _mediator.Send(new PolicySaveCommandHandlerRequest(policy), cancellationToken);
+        var result = await _mediator.Send(new PolicySaveCommandHandlerRequest(realmId,roleId,policy), cancellationToken);
         var data = _mapper.Map<Policy, PolicyReaderModelContract>(result);
         return Ok(data);
         //<-- END CUSTOM CODE-->

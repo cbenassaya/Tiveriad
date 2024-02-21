@@ -10,6 +10,5 @@ public class PolicyWriterModelContract
 {
     [Required] public string RealmId { get; set; } = default!;
     [Required] public string RoleId { get; set; } = default!;
-    [Required] public string FeatureId { get; set; } = default!;
-    
+    [Required] public List<string> FeaturesId { get; set; } = default!;
 }

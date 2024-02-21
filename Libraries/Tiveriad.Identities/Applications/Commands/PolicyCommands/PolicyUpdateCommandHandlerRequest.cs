@@ -7,4 +7,8 @@ using Tiveriad.Identities.Core.Entities;
 
 namespace Tiveriad.Identities.Applications.Commands.PolicyCommands;
 
-public record PolicyUpdateCommandHandlerRequest(Policy Policy) : IRequest<Policy>;
+public record PolicyUpdateCommandHandlerRequest(
+    string RealmId,
+    string RoleId,
+    string Id,
+    Policy Policy) : IRequest<Policy>;

@@ -23,16 +23,18 @@ public class GetByIdEndPoint : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpGet("/api/policies/{id}")]
+    [HttpGet("/api/realms/{realmId}/roles/{roleId}/policies/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<PolicyReaderModelContract>> HandleAsync([FromRoute] [Required] string id,
+    public async Task<ActionResult<PolicyReaderModelContract>> HandleAsync(
+        [FromRoute] string realmId,[FromRoute] string roleId,
+        [FromRoute] [Required] string id,
         CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
-        var result = await _mediator.Send(new PolicyGetByIdQueryHandlerRequest(id), cancellationToken);
+        var result = await _mediator.Send(new PolicyGetByIdQueryHandlerRequest(realmId,roleId,id), cancellationToken);
         if (result == null) return NoContent();
         var data = _mapper.Map<Policy, PolicyReaderModelContract>(result);
         return Ok(data);

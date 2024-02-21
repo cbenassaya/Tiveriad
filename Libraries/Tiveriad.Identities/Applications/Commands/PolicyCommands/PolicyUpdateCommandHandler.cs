@@ -33,18 +33,23 @@ public class PolicyUpdateCommandHandler : IRequestHandler<PolicyUpdateCommandHan
         {
             var query = _policyRepository.Queryable.Include(x => x.Realm)
                 .Include(x => x.Role)
-                .Include(x => x.Feature).AsQueryable();
-
+                .Include(x => x.Features).AsQueryable();
+            query = query.Where(x => x.Id == request.Id);
+            query = query.Where(x => x.Role.Id == request.RoleId);
+            query = query.Where(x => x.Realm.Id == request.RealmId);
 
             var result = query.ToList().FirstOrDefault();
             if (result == null) throw new Exception();
 
-            if (request.Policy.Realm != null)
-                result.Realm = await _realmRepository.GetByIdAsync(request.Policy.Realm.Id, cancellationToken);
-            if (request.Policy.Role != null)
-                result.Role = await _roleRepository.GetByIdAsync(request.Policy.Role.Id, cancellationToken);
-            if (request.Policy.Feature != null)
-                result.Feature = await _featureRepository.GetByIdAsync(request.Policy.Feature.Id, cancellationToken);
+            if (request.Policy.Features != null)
+            {
+                request.Policy.Features.RemoveAll(x=>true);
+                request.Policy.Features =
+                    request.Policy.Features.Select(x=>
+                        _featureRepository.GetByIdAsync(x.Id, cancellationToken).Result
+                    ).ToList();
+            }
+
             return result;
         }, cancellationToken);
         //<-- END CUSTOM CODE-->

@@ -32,8 +32,10 @@ public class PolicyGetAllQueryHandler : IRequestHandler<PolicyGetAllQueryHandler
         var query = _policyRepository.Queryable
             .Include(x => x.Realm)
             .Include(x => x.Role)
-            .Include(x => x.Feature).AsQueryable();
+            .Include(x => x.Features).AsQueryable();
         if (request.Id != null) query = query.Where(x => x.Id == request.Id);
+        if (request.RealmId != null) query = query.Where(x => x.Realm.Id == request.RealmId);
+        if (request.RoleId != null) query = query.Where(x => x.Role.Id == request.RoleId);
         if (request.Orders != null && request.Orders.Any())
             foreach (var order in request.Orders)
                 query = order.StartsWith("-") ? query.OrderByDescending(order.Substring(1)) : query.OrderBy(order);

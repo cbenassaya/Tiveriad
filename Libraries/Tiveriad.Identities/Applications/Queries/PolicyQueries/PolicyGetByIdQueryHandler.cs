@@ -31,9 +31,10 @@ public class PolicyGetByIdQueryHandler : IRequestHandler<PolicyGetByIdQueryHandl
         //<-- START CUSTOM CODE-->
         var query = _policyRepository.Queryable.Include(x => x.Realm)
             .Include(x => x.Role)
-            .Include(x => x.Feature).AsQueryable();
+            .Include(x => x.Features).AsQueryable();
         query = query.Where(x => x.Id == request.Id);
-        query = query.Where(x => x.Id == request.Id);
+        query = query.Where(x => x.Role.Id == request.RoleId);
+        query = query.Where(x => x.Realm.Id == request.RealmId);
 
 
         return Task.Run(() => query.ToList().FirstOrDefault(), cancellationToken);

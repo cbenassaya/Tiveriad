@@ -6,4 +6,4 @@ using MediatR;
 
 namespace Tiveriad.Identities.Applications.Commands.PolicyCommands;
 
-public record PolicyDeleteCommandHandlerRequest(string Id) : IRequest<bool>;
+public record PolicyDeleteCommandHandlerRequest(string RealmId, string RoleId, string Id) : IRequest<bool>;

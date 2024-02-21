@@ -22,18 +22,19 @@ public class PutEndPoint : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPut("/api/policies/{id}")]
+    [HttpPut("/api/realms/{realmId}/roles/{roleId}/policies/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<PolicyReaderModelContract>> HandleAsync([FromRoute] string id,
+    public async Task<ActionResult<PolicyReaderModelContract>> HandleAsync(
+        [FromRoute] string realmId,[FromRoute] string roleId,
+        [FromRoute] string id,
         [FromBody] PolicyWriterModelContract model, CancellationToken cancellationToken)
     {
         //<-- START CUSTOM CODE-->
 
         var policy = _mapper.Map<PolicyWriterModelContract, Policy>(model);
-        policy.Id = id;
-        var result = await _mediator.Send(new PolicyUpdateCommandHandlerRequest(policy), cancellationToken);
+        var result = await _mediator.Send(new PolicyUpdateCommandHandlerRequest(realmId, roleId, id , policy), cancellationToken);
         var data = _mapper.Map<Policy, PolicyReaderModelContract>(result);
         return Ok(data);
         //<-- END CUSTOM CODE-->

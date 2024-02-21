@@ -17,5 +17,5 @@ public class PolicyReaderModelContract
     public DateTime? LastModified { get; set; }
     public RealmReduceModelContract? Realm { get; set; }
     public RoleReduceModelContract? Role { get; set; }
-    public FeatureReduceModelContract? Feature { get; set; }
+    public List<FeatureReduceModelContract> Features { get; set; } = new();
 }

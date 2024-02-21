@@ -7,4 +7,7 @@ using Tiveriad.Identities.Core.Entities;
 
 namespace Tiveriad.Identities.Applications.Commands.PolicyCommands;
 
-public record PolicySaveCommandHandlerRequest(Policy Policy) : IRequest<Policy>;
+public record PolicySaveCommandHandlerRequest(
+    string RealmId,
+    string RoleId,
+    Policy Policy) : IRequest<Policy>;
