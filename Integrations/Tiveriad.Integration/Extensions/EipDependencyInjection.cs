@@ -8,6 +8,7 @@ using Tiveriad.EnterpriseIntegrationPatterns.MessageBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.RabbitMq;
 using Tiveriad.Identities.Core.DomainEvents;
 using Tiveriad.Identities.Core.Services;
+using Tiveriad.Integration.Core.Services;
 using Tiveriad.Integration.Infrastructure.Publishers;
 using Tiveriad.Integration.Infrastructure.Services;
 using Tiveriad.Integration.Infrastructure.Subscribers;

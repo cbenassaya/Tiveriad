@@ -2,6 +2,7 @@
 
 using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.Identities.Core.Services;
+using Tiveriad.Integration.Core.Services;
 using Tiveriad.Integration.Infrastructure.Services;
 
 #endregion

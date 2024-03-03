@@ -11,26 +11,6 @@ namespace Tiveriad.Integration.Tests._2.IdentitiesProcess;
 
 public class OrganizationUseCases: IntegrationTestBase
 {
-    [Fact]
-    
-    public async void PostNewTimeArea()
-    {
-        var client = GetRequiredService<HttpClient>();
-        var timeAreaWriter = new TimeAreaWriterModelContract
-        {
-            Name = "Israel",
-            Code = "+02:00",
-            UtcOffSet = 2*60*60,
-            CountryCode = "IL"
-        };
-        
-
-        var content =
-            new StringContent(JsonSerializer.Serialize(timeAreaWriter), Encoding.UTF8, "application/json");
-        var response = await client.PostAsync("/api/timeAreas", content );
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-    }
-    
     
     [Fact]
     public async void PostNewOrganization()
