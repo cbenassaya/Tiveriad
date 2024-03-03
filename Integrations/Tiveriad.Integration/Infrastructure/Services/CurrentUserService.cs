@@ -1,6 +1,7 @@
 ﻿#region
 
 using Tiveriad.Identities.Core.Services;
+using Tiveriad.Integration.Core.Services;
 
 #endregion
 

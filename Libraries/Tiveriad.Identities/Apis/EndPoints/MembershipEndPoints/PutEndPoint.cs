@@ -1,5 +1,6 @@
 #region
 
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,20 @@ public class PutEndPoint : ControllerBase
 
         var membership = _mapper.Map<MembershipWriterModelContract, Membership>(model);
         var result = await _mediator.Send(new MembershipUpdateCommandHandlerRequest(id,membership), cancellationToken);
+        var data = _mapper.Map<Membership, MembershipReaderModelContract>(result);
+        return Ok(data);
+        //<-- END CUSTOM CODE-->
+    }
+    
+    [HttpPut("/api/organizations/{id}/events")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<MembershipReaderModelContract>> HandleAsync([FromRoute][Required] string id,
+        [FromBody] MembershipEventModelContract model, CancellationToken cancellationToken)
+    {
+        //<-- START CUSTOM CODE-->
+        var result = await _mediator.Send(new MembershipStateUpdateCommandHandlerRequest(id, model.Event), cancellationToken);
         var data = _mapper.Map<Membership, MembershipReaderModelContract>(result);
         return Ok(data);
         //<-- END CUSTOM CODE-->

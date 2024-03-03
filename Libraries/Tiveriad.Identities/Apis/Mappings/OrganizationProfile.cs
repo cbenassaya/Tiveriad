@@ -16,10 +16,8 @@ public class OrganizationProfile : Profile
         CreateMap<Organization, OrganizationReduceModelContract>();
         CreateMap<Organization, OrganizationReaderModelContract>();
         CreateMap<OrganizationWriterModelContract, Organization>()
-            .ForMember(x => x.Owner, opt => opt.MapFrom(src => new User() { Id = src.OwnerId }))
-            .ForMember(x => x.TimeArea, opt => opt.MapFrom(src => new TimeArea() { Id = src.TimeAreaId }));
+            .ForMember(x => x.Owner, opt => opt.MapFrom(src => new User() { Id = src.OwnerId }));
         
-        CreateMap<OrganizationUpdaterModelContract, Organization>()
-            .ForMember(x => x.TimeArea, opt => opt.MapFrom(src => new TimeArea() { Id = src.TimeAreaId }));
+        CreateMap<OrganizationUpdaterModelContract, Organization>();
     }
 }

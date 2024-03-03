@@ -10,35 +10,7 @@ namespace Tiveriad.Integration.Tests._2.IdentitiesProcess;
 
 public class UserUseCases: IntegrationTestBase
 {
-    [Fact]
-    public async void PostNewLanguage()
-    {
-        var client = GetRequiredService<HttpClient>();
-        var language = new LanguageWriterModelContract
-        {
-            Name = Faker.Country.Name(),
-            Code = Faker.Country.TwoLetterCode(),
-        };
-        var content =
-            new StringContent(JsonSerializer.Serialize(language), Encoding.UTF8, "application/json");
-        var response = await client.PostAsync("/api/languages", content );
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-    }
-    
-    [Fact]
-    public async void PostNewLocale()
-    {
-        var client = GetRequiredService<HttpClient>();
-        var locale = new LocaleWriterModelContract()
-        {
-            Name = Faker.Country.Name(),
-            Code = Faker.Country.TwoLetterCode(),
-        };
-        var content =
-            new StringContent(JsonSerializer.Serialize(locale), Encoding.UTF8, "application/json");
-        var response = await client.PostAsync("/api/locales", content );
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-    }
+
     
     
     

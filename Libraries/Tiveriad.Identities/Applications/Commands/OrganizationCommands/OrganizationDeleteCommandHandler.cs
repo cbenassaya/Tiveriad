@@ -11,15 +11,13 @@ namespace Tiveriad.Identities.Applications.Commands.OrganizationCommands;
 public class OrganizationDeleteCommandHandler : IRequestHandler<OrganizationDeleteCommandHandlerRequest, bool>
 {
     private readonly IRepository<Organization, string> _organizationRepository;
-    private IRepository<TimeArea, string> _timeAreaRepository;
     private IRepository<User, string> _userRepository;
 
     public OrganizationDeleteCommandHandler(IRepository<Organization, string> organizationRepository,
-        IRepository<User, string> userRepository, IRepository<TimeArea, string> timeAreaRepository)
+        IRepository<User, string> userRepository)
     {
         _organizationRepository = organizationRepository;
         _userRepository = userRepository;
-        _timeAreaRepository = timeAreaRepository;
     }
 
 
@@ -28,8 +26,7 @@ public class OrganizationDeleteCommandHandler : IRequestHandler<OrganizationDele
         return Task.Run(() =>
         {
             //<-- START CUSTOM CODE-->
-            var query = _organizationRepository.Queryable.Include(x => x.Owner)
-                .Include(x => x.TimeArea).AsQueryable();
+            var query = _organizationRepository.Queryable.AsQueryable();
             query = query.Where(x => x.Id == request.Id);
 
 

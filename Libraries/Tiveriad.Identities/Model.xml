@@ -24,6 +24,12 @@
                                 <MaxLength Max="50"/>
                             </Constraints>
                         </Property>
+                        <Property IsCollection="false" Name="TimeZone" Type="string">
+                            <Constraints>
+                                <MaxLength Max="12"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
                         <Property IsCollection="false" Name="Domain" Searchable="true" Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
@@ -42,7 +48,6 @@
                     </Properties>
                     <RelationShips>
                         <ManyToOne Name="Owner" Type="User"/>
-                        <ManyToOne Name="TimeArea" Type="TimeArea"/>
                     </RelationShips>
                     <Persistence Auditable="true" Name="T_Organization" AuditableKeyType="string"/>
                     <DomainEvents>
@@ -90,6 +95,18 @@
                                 <Required/>
                             </Constraints>
                         </Property>
+                        <Property IsCollection="false" Name="Language" Searchable="true" Type="string" >
+                            <Constraints>
+                                <MaxLength Max="12"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
+                        <Property IsCollection="false" Name="Locale" Searchable="true"  Type="string" >
+                            <Constraints>
+                                <MaxLength Max="12"/>
+                                <Required/>
+                            </Constraints>
+                        </Property>
                         <Property IsCollection="false" Name="Email" Searchable="true" Type="string">
                             <Constraints>
                                 <MaxLength Max="100"/>
@@ -106,11 +123,6 @@
                         <Property IsCollection="false" Name="DateOfBirth" Nullable="true" Type="DateTime"/>
                         <Property IsCollection="false" Name="Properties" Nullable="true" Type="Metadata"/>
                     </Properties>
-                    <RelationShips>
-                        <ManyToOne Name="Language" Type="Language"/>
-                        <ManyToOne Name="Locale" Type="Locale"/>
-                        <ManyToOne Name="Civility" Type="Civility"/>
-                    </RelationShips>
                     <Persistence Auditable="true" Name="T_User" AuditableKeyType="string"/>
                     <DomainEvents>
                         <DomainEvent Event="OnSave"/>
@@ -131,8 +143,8 @@
                         <Property IsCollection="false" Name="Properties" Nullable="true" Type="Metadata"/>
                     </Properties>
                     <RelationShips>
-                        <ManyToOne Name="User" Type="User"/>
-                        <ManyToOne Name="Organization" Type="Organization"/>
+                        <ManyToOne Name="User" Type="User" Searchable="true" />
+                        <ManyToOne Name="Organization" Type="Organization" Searchable="true"/>
                         <OneToMany Name="Roles" Type="Role"/>
                     </RelationShips>
                     <Persistence Auditable="true" Name="T_Membership" AuditableKeyType="string"/>
@@ -141,114 +153,6 @@
                         <DomainEvent Event="OnUpdate"/>
                         <DomainEvent Event="OnDelete"/>
                     </DomainEvents>
-                </Entity>
-
-                <Entity BusinessEntity="true" Name="Civility" PluralName="Civilities">
-                    <Properties>
-                        <Id Displayed="false" Type="string">
-                            <Constraints>
-                                <MaxLength Max="24"/>
-                                <Required/>
-                            </Constraints>
-                        </Id>
-                        <Property IsCollection="false" Name="Name" Type="string" Displayed="true">
-                            <Constraints>
-                                <Unique/>
-                                <MaxLength Max="50"/>
-                                <Required/>
-                            </Constraints>
-                        </Property>
-                        <Property IsCollection="false" Name="Code" Type="string">
-                            <Constraints>
-                                <Unique/>
-                                <MaxLength Max="24"/>
-                                <Required/>
-                            </Constraints>
-                        </Property>
-                        <Property IsCollection="false" Name="Descriptions" Type="string"/>
-                    </Properties>
-                    <Persistence Auditable="true" Name="T_Civility" AuditableKeyType="string"/>
-                </Entity>
-
-                <Entity BusinessEntity="true" Name="Language" PluralName="Languages">
-                    <Properties>
-                        <Id Displayed="false" Type="string">
-                            <Constraints>
-                                <MaxLength Max="24"/>
-                                <Required/>
-                            </Constraints>
-                        </Id>
-                        <Property IsCollection="false" Name="Name" Type="string" Displayed="true">
-                            <Constraints>
-                                <Unique/>
-                                <MaxLength Max="50"/>
-                                <Required/>
-                            </Constraints>
-                        </Property>
-                        <Property IsCollection="false" Name="Code" Type="string">
-                            <Constraints>
-                                <Unique/>
-                                <MaxLength Max="24"/>
-                                <Required/>
-                            </Constraints>
-                        </Property>
-                        <Property IsCollection="false" Name="Descriptions" Type="string"/>
-                    </Properties>
-                    <Persistence Auditable="true" Name="T_Language" AuditableKeyType="string"/>
-                </Entity>
-
-                <Entity BusinessEntity="true" Name="Locale" PluralName="Locales">
-                    <Properties>
-                        <Id Displayed="false" Type="string">
-                            <Constraints>
-                                <MaxLength Max="24"/>
-                                <Required/>
-                            </Constraints>
-                        </Id>
-                        <Property IsCollection="false" Name="Name" Type="string" Displayed="true">
-                            <Constraints>
-                                <Unique/>
-                                <MaxLength Max="50"/>
-                                <Required/>
-                            </Constraints>
-                        </Property>
-                        <Property IsCollection="false" Name="Code" Type="string">
-                            <Constraints>
-                                <Unique/>
-                                <MaxLength Max="24"/>
-                                <Required/>
-                            </Constraints>
-                        </Property>
-                        <Property IsCollection="false" Name="Descriptions" Type="string"/>
-                    </Properties>
-                    <Persistence Auditable="true" Name="T_Locale" AuditableKeyType="string"/>
-                </Entity>
-
-                <Entity BusinessEntity="true" Name="TimeArea" PluralName="TimeArea">
-                    <Properties>
-                        <Id Displayed="false" Type="string">
-                            <Constraints>
-                                <MaxLength Max="24"/>
-                                <Required/>
-                            </Constraints>
-                        </Id>
-                        <Property IsCollection="false" Name="Name" Type="string" Displayed="true">
-                            <Constraints>
-                                <Unique/>
-                                <MaxLength Max="50"/>
-                                <Required/>
-                            </Constraints>
-                        </Property>
-                        <Property IsCollection="false" Name="Code" Type="string">
-                            <Constraints>
-                                <Unique/>
-                                <MaxLength Max="24"/>
-                                <Required/>
-                            </Constraints>
-                        </Property>
-                        <Property IsCollection="false" Name="Descriptions" Type="string"/>
-                    </Properties>
-                    <Persistence Auditable="true" Name="T_TimeArea" AuditableKeyType="string"/>
                 </Entity>
 
                 <Entity BusinessEntity="true" Name="Realm" PluralName="Realms">
@@ -311,7 +215,7 @@
                         </Property>
                     </Properties>
                     <RelationShips>
-                        <ManyToOne Name="Realm" Type="Realm"/>
+                        <ManyToOne Name="Realm" Type="Realm" Searchable="true"/>
                     </RelationShips>
                     <Persistence Auditable="true" Name="T_Feature" AuditableKeyType="string"/>
                 </Entity>
@@ -339,7 +243,7 @@
                         </Property>
                     </Properties>
                     <RelationShips>
-                        <ManyToOne Name="Realm" Type="Realm"/>
+                        <ManyToOne Name="Realm" Type="Realm" Searchable="true"/>
                     </RelationShips>
                     <Persistence Auditable="true" Name="T_Role" AuditableKeyType="string"/>
                 </Entity>
@@ -361,8 +265,8 @@
                         </Property>
                     </Properties>
                     <RelationShips>
-                        <ManyToOne Name="Realm" Type="Realm"/>
-                        <ManyToOne Name="Role" Type="Role"/>
+                        <ManyToOne Name="Realm" Type="Realm" Searchable="true"/>
+                        <ManyToOne Name="Role" Type="Role" Searchable="true"/>
                         <ManyToOne Name="Feature" Type="Feature"/>
                     </RelationShips>
                     <Persistence Auditable="true" Name="T_Policy" AuditableKeyType="string"/>

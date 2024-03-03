@@ -16,8 +16,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         // <-- Id -->
         builder.HasKey(b => b.Id).HasName("PK_UserId");
         // <-- ManyToOne -->
-        builder.HasOne(b => b.Language);
-        builder.HasOne(b => b.Locale);
         // <-- OneToMany -->
 
         // <-- Enum -->

@@ -8,7 +8,7 @@ namespace Tiveriad.Identities.Core.Entities;
 
 public class Membership : IEntity<string>, IAuditable<string>
 {
-    public MembershipState? State { get; set; }
+    public MembershipState State { get; set; }
     public Metadata? Properties { get; set; }
     public User? User { get; set; }
     public Organization? Organization { get; set; }

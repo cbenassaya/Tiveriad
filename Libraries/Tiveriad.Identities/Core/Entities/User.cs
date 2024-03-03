@@ -17,8 +17,8 @@ public class User : IEntity<string>, IAuditable<string>
     [MaxLength(24)] public string? Avatar { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public Metadata? Properties { get; set; }
-    public Language? Language { get; set; }
-    public Locale? Locale { get; set; }
+    public string? LanguageId { get; set; }
+    public string? LocaleId { get; set; }
     [Required] public string CreatedBy { get; set; } = default!;
     [Required] public DateTime Created { get; set; } = default!;
     public string? LastModifiedBy { get; set; }

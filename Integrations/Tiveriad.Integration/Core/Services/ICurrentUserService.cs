@@ -1,4 +1,4 @@
-namespace Tiveriad.Identities.Core.Services;
+namespace Tiveriad.Integration.Core.Services;
 
 public interface ICurrentUserService
 {

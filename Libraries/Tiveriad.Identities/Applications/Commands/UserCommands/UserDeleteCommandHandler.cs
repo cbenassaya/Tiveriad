@@ -10,16 +10,12 @@ namespace Tiveriad.Identities.Applications.Commands.UserCommands;
 
 public class UserDeleteCommandHandler : IRequestHandler<UserDeleteCommandHandlerRequest, bool>
 {
-    private IRepository<Language, string> _languageRepository;
-    private IRepository<Locale, string> _localeRepository;
+
     private readonly IRepository<User, string> _userRepository;
 
-    public UserDeleteCommandHandler(IRepository<User, string> userRepository,
-        IRepository<Language, string> languageRepository, IRepository<Locale, string> localeRepository)
+    public UserDeleteCommandHandler(IRepository<User, string> userRepository)
     {
         _userRepository = userRepository;
-        _languageRepository = languageRepository;
-        _localeRepository = localeRepository;
     }
 
 
@@ -28,10 +24,8 @@ public class UserDeleteCommandHandler : IRequestHandler<UserDeleteCommandHandler
         return Task.Run(() =>
         {
             //<-- START CUSTOM CODE-->
-            var query = _userRepository.Queryable.Include(x => x.Language)
-                .Include(x => x.Locale).AsQueryable();
+            var query = _userRepository.Queryable;
             query = query.Where(x => x.Id == request.Id);
-
 
             var user = query.FirstOrDefault();
             if (user == null) throw new Exception();

@@ -17,7 +17,6 @@ public class OrganizationConfiguration : IEntityTypeConfiguration<Organization>
         builder.HasKey(b => b.Id).HasName("PK_OrganizationId");
         // <-- ManyToOne -->
         builder.HasOne(b => b.Owner);
-        builder.HasOne(b => b.TimeArea);
         // <-- OneToMany -->
 
         // <-- Enum -->

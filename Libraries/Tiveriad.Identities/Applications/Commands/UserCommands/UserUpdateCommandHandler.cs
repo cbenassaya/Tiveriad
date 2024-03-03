@@ -10,16 +10,12 @@ namespace Tiveriad.Identities.Applications.Commands.UserCommands;
 
 public class UserUpdateCommandHandler : IRequestHandler<UserUpdateCommandHandlerRequest, User>
 {
-    private readonly IRepository<Language, string> _languageRepository;
-    private readonly IRepository<Locale, string> _localeRepository;
+
     private readonly IRepository<User, string> _userRepository;
 
-    public UserUpdateCommandHandler(IRepository<User, string> userRepository,
-        IRepository<Language, string> languageRepository, IRepository<Locale, string> localeRepository)
+    public UserUpdateCommandHandler(IRepository<User, string> userRepository)
     {
         _userRepository = userRepository;
-        _languageRepository = languageRepository;
-        _localeRepository = localeRepository;
     }
 
 
@@ -28,10 +24,8 @@ public class UserUpdateCommandHandler : IRequestHandler<UserUpdateCommandHandler
         //<-- START CUSTOM CODE-->
         return Task.Run(async () =>
         {
-            var query = _userRepository.Queryable.Include(x => x.Language)
-                .Include(x => x.Locale).AsQueryable();
+            var query = _userRepository.Queryable;
             query = query.Where(x => x.Id == request.Id);
-
     
             var result = query.ToList().FirstOrDefault();
             if (result == null) throw new Exception();
@@ -44,10 +38,8 @@ public class UserUpdateCommandHandler : IRequestHandler<UserUpdateCommandHandler
             result.Avatar = request.User.Avatar;
             result.DateOfBirth = request.User.DateOfBirth;
             result.Properties = request.User.Properties;
-            if (request.User.Language != null)
-                result.Language = await _languageRepository.GetByIdAsync(request.User.Language.Id, cancellationToken);
-            if (request.User.Locale != null)
-                result.Locale = await _localeRepository.GetByIdAsync(request.User.Locale.Id, cancellationToken);
+            result.LanguageId = request.User.LanguageId;
+            result.LocaleId = request.User.LocaleId;
             return result;
         }, cancellationToken);
         //<-- END CUSTOM CODE-->

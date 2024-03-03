@@ -78,38 +78,11 @@ public class DataReferenceControllerFeatureProvider : IApplicationFeatureProvide
             foreach (var genericType in GenericControllerDefinition.TypeInfos)
             {
                 var controllerType = genericType.MakeGenericType(typeParameters);
-                Console.WriteLine($"ADD ===> Controller: {controllerType.FullName}");
+               
                 if (feature.Controllers.Contains(controllerType.GetTypeInfo())) continue;
-
-                //var controller = CreateDerivedType(controllerType.GetTypeInfo().AsType(),$"{genericType.Name}<{type.Name},{keyType.Name}>");
-
+                
                 feature.Controllers.Add(controllerType.GetTypeInfo());
             }
         }
-    }
-
-
-    private Type CreateDerivedType(Type baseType, string name)
-    {
-        // Create a dynamic assembly
-        var assemblyName = new AssemblyName("DynamicAssembly");
-        var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
-
-        // Create a dynamic module
-        var moduleBuilder = assemblyBuilder.DefineDynamicModule("DynamicModule");
-
-        // Create a dynamic type derived from the abstract base type
-        var typeBuilder = moduleBuilder.DefineType(name, TypeAttributes.Public | TypeAttributes.Class, baseType);
-
-        // Define a default constructor
-        var constructorBuilder =
-            typeBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, Type.EmptyTypes);
-        var ilGenerator = constructorBuilder.GetILGenerator();
-        ilGenerator.Emit(OpCodes.Ret);
-
-        // Create the type
-        var generatedType = typeBuilder.CreateType();
-
-        return generatedType;
     }
 }
