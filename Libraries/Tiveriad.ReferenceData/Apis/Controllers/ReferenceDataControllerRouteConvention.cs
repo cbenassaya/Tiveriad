@@ -3,17 +3,15 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Tiveriad.Core.Abstractions.Entities;
 
 #endregion
 
-namespace Tiveriad.DataReferences.Apis.Controllers;
+namespace Tiveriad.ReferenceData.Apis.Controllers;
 
-public class DataReferenceControllerRouteConvention : IControllerModelConvention
+public class ReferenceDataControllerRouteConvention : IControllerModelConvention
 {
     public void Apply(ControllerModel controller)
     {
-        Console.WriteLine($"===> Controller: {controller.ControllerType.FullName}");
         if (controller.ControllerType.IsGenericType)
         {
             var genericType = controller.ControllerType.GenericTypeArguments[0];

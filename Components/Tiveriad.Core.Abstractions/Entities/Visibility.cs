@@ -16,10 +16,16 @@ public class Visibility
         _value = value;
     }
     
+    public override string ToString()
+    {
+        return _value;
+    }
+
+    
     public static implicit operator Visibility(string valuesString)
     {
-        if (string.IsNullOrEmpty(valuesString)) return Public;
-        return ((ReadOnlySpan<string>)["Public","Private"]).Contains(valuesString) ? new Visibility(valuesString) : Public;
+        if (string.IsNullOrEmpty(valuesString)) return Private;
+        return ((ReadOnlySpan<string>)["Public","Private"]).Contains(valuesString) ? new Visibility(valuesString) : Private;
     }
 
     public static implicit operator string(Visibility? visibility)
@@ -28,7 +34,7 @@ public class Visibility
         return visibility._value;
     }
     
-    public static Visibility Public => new Visibility("Public");
-    public static Visibility Private => new Visibility("Private");
+    public static Visibility Public => new ("Public");
+    public static Visibility Private => new ("Private");
     
 }

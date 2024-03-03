@@ -140,6 +140,9 @@
                             </Constraints>
                         </Id>
                         <Property IsCollection="false" Name="State" Type="MembershipState"/>
+
+                        <Property IsCollection="false" Name="Default" Type="bool"/>
+                        
                         <Property IsCollection="false" Name="Properties" Nullable="true" Type="Metadata"/>
                     </Properties>
                     <RelationShips>

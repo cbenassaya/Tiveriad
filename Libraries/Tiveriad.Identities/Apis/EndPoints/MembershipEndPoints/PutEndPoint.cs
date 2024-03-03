@@ -18,7 +18,6 @@ public class PutEndPoint : ControllerBase
     {
         _mediator = mediator;
         _mapper = mapper;
-
     }
 
     [HttpPut("/api/memberships/{id}")]
@@ -27,11 +26,25 @@ public class PutEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<MembershipReaderModelContract>> HandleAsync([FromRoute] string id, [FromBody] MembershipWriterModelContract model, CancellationToken cancellationToken)
     {
-
         var membership = _mapper.Map<MembershipWriterModelContract, Membership>(model);
         var result = await _mediator.Send(new MembershipUpdateCommandHandlerRequest(id, membership), cancellationToken);
         var data = _mapper.Map<Membership, MembershipReaderModelContract>(result);
         return Ok(data);
     }
+
+
+    [HttpPut("/api/organizations/{organizationId}/users/{userId}/memberships/default")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<MembershipReaderModelContract>> HandleAsync([FromRoute] string organizationId,
+        [FromBody] string userId, CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new DefaultMembershipUpdateCommandHandlerRequest(organizationId, userId),
+            cancellationToken);
+        var data = _mapper.Map<Membership, MembershipReaderModelContract>(result);
+        return Ok(data);
+    }
+
 }
 

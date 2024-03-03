@@ -9,6 +9,9 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
+using Tiveriad.Identities.Applications.Queries.MembershipQueries;
+using Tiveriad.Identities.Applications.Queries.PolicyQueries;
+
 namespace Tiveriad.Identities.Apis.EndPoints.UserEndPoints;
 
 public class GetByIdEndPoint : ControllerBase
@@ -29,8 +32,11 @@ public class GetByIdEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<UserReaderModelContract>> HandleAsync([FromRoute][Required] string id, CancellationToken cancellationToken)
     {
-        var result = await _mediator.Send(new UserGetByIdQueryHandlerRequest(id), cancellationToken);
-        if (result == null) return NoContent(); var data = _mapper.Map<User, UserReaderModelContract>(result);
+        var user = await _mediator.Send(new UserGetByIdQueryHandlerRequest(id), cancellationToken);
+        var membership = await _mediator.Send(new MembershipGetAllQueryHandlerRequest(UserId: id), cancellationToken);
+        //var policies = await _mediator.Send(new PolicyGetAllQueryHandlerRequest(UserId: id), cancellationToken);
+        
+        if (user == null) return NoContent(); var data = _mapper.Map<User, UserReaderModelContract>(user);
         return Ok(data);
     }
 }
