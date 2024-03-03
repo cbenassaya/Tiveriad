@@ -2,7 +2,6 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using Tiveriad.Identities.Apis.Contracts.OrganizationContracts;
-using Tiveriad.Identities.Apis.Contracts.TimeAreaContracts;
 using Tiveriad.Identities.Apis.Contracts.UserContracts;
 using Tiveriad.Identities.Core.Entities;
 using Xunit;
@@ -17,14 +16,13 @@ public class OrganizationUseCases: IntegrationTestBase
     {
         var client = GetRequiredService<HttpClient>();
         var users = Get<List<UserReaderModelContract>>(client.GetAsync("/api/users").Result).Result;
-        var timeAreas = Get<List<TimeAreaReaderModelContract>>(client.GetAsync("/api/timeAreas").Result).Result;
         
         var organization = new OrganizationWriterModelContract
         {
             Name = Faker.Company.Name(),
             Domain = Faker.Internet.DomainName(),
             OwnerId = users.First().Id,
-            TimeAreaId = timeAreas.First().Id,
+            TimeZone = "Europe/Paris",
             Description = Faker.Lorem.Sentence(3)
         };
         
@@ -75,7 +73,7 @@ public class OrganizationUseCases: IntegrationTestBase
             Domain = organization.Domain,
             Description = Faker.Lorem.Sentence(3),
             Properties = organization.Properties,
-            TimeAreaId = organization.TimeArea.Id
+            TimeZone = "Europe/Paris"
         };
         var content =
             new StringContent(JsonSerializer.Serialize(organizationUpdater), Encoding.UTF8, "application/json");

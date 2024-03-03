@@ -15,7 +15,7 @@ public class DeleteDocumentCategoryByIdRequestHandler : IRequestHandler<DeleteDo
     {
         return Task.Run(() =>
 {
-    //<-- START CUSTOM CODE-->
+    
     var query = _documentCategoryRepository.Queryable;
     query = query.Where(x => x.OrganizationId == request.OrganizationId);
     query = query.Where(x => x.Id == request.Id);
@@ -23,7 +23,7 @@ public class DeleteDocumentCategoryByIdRequestHandler : IRequestHandler<DeleteDo
     if (documentCategory == null) throw new Exception();
     return _documentCategoryRepository.DeleteMany(x => x.OrganizationId == request.OrganizationId && x.Id == request.Id) == 1;
 }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

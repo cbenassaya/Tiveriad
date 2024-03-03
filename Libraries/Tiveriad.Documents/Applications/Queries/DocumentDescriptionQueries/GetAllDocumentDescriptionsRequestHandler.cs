@@ -16,7 +16,7 @@ public class GetAllDocumentDescriptionsRequestHandler : IRequestHandler<GetAllDo
 
     public Task<IEnumerable<DocumentDescription>?> Handle(GetAllDocumentDescriptionsRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _documentDescriptionRepository.Queryable.Include(x => x.DocumentCategory).AsQueryable();
         query = query.Where(x => x.OrganizationId == request.OrganizationId);
         if (request.Id != null) query = query.Where(x => x.Id == request.Id);
@@ -28,7 +28,7 @@ public class GetAllDocumentDescriptionsRequestHandler : IRequestHandler<GetAllDo
         if (request.Page.HasValue && request.Limit.HasValue)
             query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
         return Task.Run(() => query.ToList().AsEnumerable(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

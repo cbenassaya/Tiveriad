@@ -31,11 +31,11 @@ public class PostEndPoint : ControllerBase
         [FromRoute] [Required] string? realmId,
         [FromBody] FeatureWriterModelContract model, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var feature = _mapper.Map<FeatureWriterModelContract, Feature>( model);
         var result = await _mediator.Send(new FeatureSaveCommandHandlerRequest(realmId,feature), cancellationToken);
         var data = _mapper.Map<Feature, FeatureReaderModelContract>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

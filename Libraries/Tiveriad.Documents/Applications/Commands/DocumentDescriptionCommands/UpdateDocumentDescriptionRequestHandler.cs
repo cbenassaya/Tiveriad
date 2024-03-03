@@ -16,7 +16,7 @@ public class UpdateDocumentDescriptionRequestHandler : IRequestHandler<UpdateDoc
 
     public Task<DocumentDescription> Handle(UpdateDocumentDescriptionRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             var query = _documentDescriptionRepository.Queryable.Include(x => x.DocumentCategory).AsQueryable();
@@ -35,7 +35,7 @@ public class UpdateDocumentDescriptionRequestHandler : IRequestHandler<UpdateDoc
             if (request.DocumentDescription.DocumentCategory != null) result.DocumentCategory = await _documentCategoryRepository.GetByIdAsync(request.DocumentDescription.DocumentCategory.Id, cancellationToken);
             return result;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

@@ -21,13 +21,13 @@ public class RegistrationModelGetByIdQueryHandler : IRequestHandler<Registration
 
     public Task<RegistrationModel?> Handle(RegistrationModelGetByIdQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _registrationModelRepository.Queryable;
         query = query.Where(x => x.Id == request.Id); query = query.Where(x => x.Id == request.Id);
 
 
         return Task.Run(() => query.ToList().FirstOrDefault(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

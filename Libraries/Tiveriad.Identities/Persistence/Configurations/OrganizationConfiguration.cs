@@ -1,15 +1,15 @@
-#region
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Tiveriad.Identities.Core.Entities;
-
-#endregion
-
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Tiveriad.Identities.Persistence.Configurations;
 
 public class OrganizationConfiguration : IEntityTypeConfiguration<Organization>
 {
+
+
+
+
     public void Configure(EntityTypeBuilder<Organization> builder)
     {
         builder.ToTable("T_Organization");
@@ -19,11 +19,14 @@ public class OrganizationConfiguration : IEntityTypeConfiguration<Organization>
         builder.HasOne(b => b.Owner);
         // <-- OneToMany -->
 
+        // <-- ManyToMany -->
+
         // <-- Enum -->
-        builder.Property(e => e.State).HasConversion(v => v.ToString(),
-            v => (OrganizationState)Enum.Parse(typeof(OrganizationState), v));
+        builder.Property(e => e.State).HasConversion(v => v.ToString(), v => (OrganizationState)Enum.Parse(typeof(OrganizationState), v));
+        // <-- Tiveriad Object -->
+        builder.Property(e => e.Properties).HasConversion(v => v == null ? string.Empty : v.ToString(), v => (string.IsNullOrEmpty(v) ? null : (Metadata?)v)!);
         // <-- Object -->
-        builder.Property(e => e.Properties).HasConversion(v => v == null ? string.Empty : v.ToString(),
-            v => string.IsNullOrEmpty(v) ? null : (Metadata)v);
+
     }
 }
+

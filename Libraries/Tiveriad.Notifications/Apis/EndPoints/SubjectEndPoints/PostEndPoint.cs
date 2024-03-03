@@ -26,12 +26,12 @@ public class PostEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<SubjectReaderModelContract>> HandleAsync([FromBody] SubjectWriterModelContract model, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var subject = _mapper.Map<SubjectWriterModelContract, Subject>(model);
         var result = await _mediator.Send(new SubjectSaveCommandHandlerRequest(subject), cancellationToken);
         var data = _mapper.Map<Subject, SubjectReaderModelContract>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

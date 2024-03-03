@@ -25,14 +25,14 @@ public class NotificationGetByIdQueryHandler : IRequestHandler<NotificationGetBy
 
     public Task<Notification?> Handle(NotificationGetByIdQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _notificationRepository.Queryable.Include(x => x.Subject)
         .Include(x => x.Message).AsQueryable();
         query = query.Where(x => x.Id == request.Id); query = query.Where(x => x.Id == request.Id);
 
 
         return Task.Run(() => query.ToList().FirstOrDefault(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

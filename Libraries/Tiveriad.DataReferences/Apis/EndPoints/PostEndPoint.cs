@@ -53,6 +53,6 @@ public class PostEndPoint<TEntity, TKey> : ControllerBase
             Visibility = result.Visibility.ToString()
         };
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

@@ -22,13 +22,13 @@ public class RealmGetByIdQueryHandler : IRequestHandler<RealmGetByIdQueryHandler
 
     public Task<Realm?> Handle(RealmGetByIdQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _realmRepository.Queryable;
         query = query.Where(x => x.Id == request.Id);
         query = query.Where(x => x.Id == request.Id);
 
 
         return Task.Run(() => query.ToList().FirstOrDefault(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

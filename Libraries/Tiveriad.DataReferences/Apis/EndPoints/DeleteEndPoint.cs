@@ -38,12 +38,12 @@ public class DeleteEndPoint<TEntity, TKey> : ControllerBase
     {
         if (string.IsNullOrEmpty(id))
             return BadRequest("Id is required");
-        //<-- START CUSTOM CODE-->
+        
         var result =
             await _mediator.Send(
                 new DeleteByIdRequest<TEntity, TKey>(_keyParser.Parse(id), _tenantService.GetCurrentOrganizationId()),
                 cancellationToken);
         return Ok(result);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

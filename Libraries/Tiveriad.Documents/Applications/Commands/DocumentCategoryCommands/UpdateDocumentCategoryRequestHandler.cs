@@ -13,7 +13,7 @@ public class UpdateDocumentCategoryRequestHandler : IRequestHandler<UpdateDocume
 
     public Task<DocumentCategory> Handle(UpdateDocumentCategoryRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             var query = _documentCategoryRepository.Queryable;
@@ -26,7 +26,7 @@ public class UpdateDocumentCategoryRequestHandler : IRequestHandler<UpdateDocume
 
             return result;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

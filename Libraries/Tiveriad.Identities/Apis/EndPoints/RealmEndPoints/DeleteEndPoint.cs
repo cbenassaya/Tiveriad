@@ -25,10 +25,10 @@ public class DeleteEndPoint : ControllerBase
     public async Task<ActionResult<bool>> HandleAsync([FromRoute] [Required] string id,
         CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         if (string.IsNullOrEmpty(id)) return BadRequest("Id is mandatory");
         var result = await _mediator.Send(new RealmDeleteCommandHandlerRequest(id), cancellationToken);
         return Ok(result);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

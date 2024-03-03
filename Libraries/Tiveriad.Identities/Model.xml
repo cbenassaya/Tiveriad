@@ -47,7 +47,7 @@
                         <Property IsCollection="false" Name="Properties" Nullable="true" Type="Metadata"/>
                     </Properties>
                     <RelationShips>
-                        <ManyToOne Name="Owner" Type="User"/>
+                        <ManyToOne Name="Owner" Type="User" Searchable="true"/>
                     </RelationShips>
                     <Persistence Auditable="true" Name="T_Organization" AuditableKeyType="string"/>
                     <DomainEvents>
@@ -88,7 +88,7 @@
                                 <BusinessKey/>
                             </Constraints>
                         </Property>
-                        <Property IsCollection="false" Name="Password" Searchable="true"
+                        <Property IsCollection="false" Name="Password" 
                                   Type="string" Transient="true">
                             <Constraints>
                                 <MaxLength Max="12"/>
@@ -143,8 +143,16 @@
                         <Property IsCollection="false" Name="Properties" Nullable="true" Type="Metadata"/>
                     </Properties>
                     <RelationShips>
-                        <ManyToOne Name="User" Type="User" Searchable="true" />
-                        <ManyToOne Name="Organization" Type="Organization" Searchable="true"/>
+                        <ManyToOne Name="User" Type="User" Searchable="true" >
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </ManyToOne>
+                        <ManyToOne Name="Organization" Type="Organization" Searchable="true">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </ManyToOne>
                         <OneToMany Name="Roles" Type="Role"/>
                     </RelationShips>
                     <Persistence Auditable="true" Name="T_Membership" AuditableKeyType="string"/>
@@ -215,7 +223,12 @@
                         </Property>
                     </Properties>
                     <RelationShips>
-                        <ManyToOne Name="Realm" Type="Realm" Searchable="true"/>
+                        <ManyToOne Name="Realm" Type="Realm" Searchable="true">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </ManyToOne>
+                        
                     </RelationShips>
                     <Persistence Auditable="true" Name="T_Feature" AuditableKeyType="string"/>
                 </Entity>
@@ -243,7 +256,16 @@
                         </Property>
                     </Properties>
                     <RelationShips>
-                        <ManyToOne Name="Realm" Type="Realm" Searchable="true"/>
+                        <ManyToOne Name="Realm" Type="Realm" Searchable="true">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </ManyToOne>
+                        <ManyToOne Name="Organization" Type="Organization" Searchable="true">
+                            <Constraints>
+                                <Required/>
+                            </Constraints>
+                        </ManyToOne>
                     </RelationShips>
                     <Persistence Auditable="true" Name="T_Role" AuditableKeyType="string"/>
                 </Entity>
@@ -266,8 +288,8 @@
                     </Properties>
                     <RelationShips>
                         <ManyToOne Name="Realm" Type="Realm" Searchable="true"/>
-                        <ManyToOne Name="Role" Type="Role" Searchable="true"/>
-                        <ManyToOne Name="Feature" Type="Feature"/>
+                        <ManyToOne Name="Role" Type="Role" Searchable="true" />
+                        <ManyToMany Name="Features" Type="Feature"/>
                     </RelationShips>
                     <Persistence Auditable="true" Name="T_Policy" AuditableKeyType="string"/>
                 </Entity>

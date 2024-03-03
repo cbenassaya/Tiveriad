@@ -33,11 +33,11 @@ public class GetByIdEndPoint : ControllerBase
         [FromRoute] [Required] string id,
         CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var result = await _mediator.Send(new FeatureGetByIdQueryHandlerRequest(realmId, id), cancellationToken);
         if (result == null) return NoContent();
         var data = _mapper.Map<Feature, FeatureReaderModelContract>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

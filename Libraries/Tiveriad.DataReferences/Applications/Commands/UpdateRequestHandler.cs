@@ -22,7 +22,7 @@ public class UpdateRequestHandler<TEntity, TKey> : IRequestHandler<UpdateRequest
 
     public Task<TEntity> Handle(UpdateRequest<TEntity, TKey> request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
 
         return Task.Run(async () =>
         {
@@ -33,6 +33,6 @@ public class UpdateRequestHandler<TEntity, TKey> : IRequestHandler<UpdateRequest
             await _repository.UpdateOneAsync(entity, cancellationToken);
             return entity;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

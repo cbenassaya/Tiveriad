@@ -23,7 +23,7 @@ public class RegistrationUpdateCommandHandler : IRequestHandler<RegistrationUpda
 
     public Task<Registration> Handle(RegistrationUpdateCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             var query = _registrationRepository.Queryable.Include(x => x.RegistrationModel).AsQueryable();
@@ -45,7 +45,7 @@ public class RegistrationUpdateCommandHandler : IRequestHandler<RegistrationUpda
             if (request.Registration.RegistrationModel != null) result.RegistrationModel = await _registrationModelRepository.GetByIdAsync(request.Registration.RegistrationModel.Id, cancellationToken);
             return result;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

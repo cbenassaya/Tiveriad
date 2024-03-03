@@ -40,7 +40,7 @@ public class GetByIdEndPoint<TEntity, TKey> : ControllerBase
     {
         if (string.IsNullOrEmpty(id))
             return BadRequest("Id is required");
-        //<-- START CUSTOM CODE-->
+        
         var result =
             await _mediator.Send(
                 new GetByIdRequest<TEntity, TKey>(_keyParser.Parse(id), _tenantService.GetCurrentOrganizationId()),
@@ -54,6 +54,6 @@ public class GetByIdEndPoint<TEntity, TKey> : ControllerBase
             Visibility = result.Visibility.ToString()
         };
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

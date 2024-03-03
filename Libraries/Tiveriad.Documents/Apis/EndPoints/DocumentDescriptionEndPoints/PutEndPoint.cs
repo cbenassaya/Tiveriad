@@ -26,13 +26,13 @@ public class PutEndPoint : ControllerBase
     public async Task<ActionResult<DocumentDescriptionReaderModel>> HandleAsync([FromRoute] string organizationId,
         [FromRoute] string id, [FromBody] DocumentDescriptionUpdaterModel model, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
 
         var documentDescription = _mapper.Map<DocumentDescriptionUpdaterModel, DocumentDescription>(model);
         var result = await _mediator.Send(new UpdateDocumentDescriptionRequest(organizationId, id, documentDescription),
             cancellationToken);
         var data = _mapper.Map<DocumentDescription, DocumentDescriptionReaderModel>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

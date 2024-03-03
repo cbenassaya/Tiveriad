@@ -25,13 +25,13 @@ public class SubjectSaveCommandHandler : IRequestHandler<SubjectSaveCommandHandl
 
     public Task<Subject> Handle(SubjectSaveCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             await _subjectRepository.AddOneAsync(request.Subject, cancellationToken);
             return request.Subject;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

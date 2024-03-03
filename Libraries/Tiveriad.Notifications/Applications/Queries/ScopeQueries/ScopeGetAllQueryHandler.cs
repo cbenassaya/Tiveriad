@@ -22,7 +22,7 @@ public class ScopeGetAllQueryHandler : IRequestHandler<ScopeGetAllQueryHandlerRe
 
     public Task<List<Scope>> Handle(ScopeGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _scopeRepository.Queryable;
         if (request.Id != null) query = query.Where(x => x.Id == request.Id);
 
@@ -35,7 +35,7 @@ public class ScopeGetAllQueryHandler : IRequestHandler<ScopeGetAllQueryHandlerRe
         if (request.Page.HasValue && request.Limit.HasValue)
             query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
         return Task.Run(() => query.ToList(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

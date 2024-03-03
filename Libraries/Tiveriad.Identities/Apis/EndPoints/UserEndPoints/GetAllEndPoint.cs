@@ -1,25 +1,25 @@
-#region
 
-using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
+using Tiveriad.Identities.Core.Entities;
 using Tiveriad.Identities.Apis.Contracts.UserContracts;
 using Tiveriad.Identities.Applications.Queries.UserQueries;
-using Tiveriad.Identities.Core.Entities;
-
-#endregion
-
+using Microsoft.AspNetCore.Mvc;
+using MediatR;
+using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 namespace Tiveriad.Identities.Apis.EndPoints.UserEndPoints;
 
 public class GetAllEndPoint : ControllerBase
 {
-    private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
-
+    private IMediator _mediator;
+    private IMapper _mapper;
     public GetAllEndPoint(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
         _mapper = mapper;
+
     }
 
     [HttpGet("/api/users")]
@@ -27,19 +27,11 @@ public class GetAllEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<List<UserReaderModelContract>>> HandleAsync([FromQuery] string? id,
-        [FromQuery] string? firstname, [FromQuery] string? lastname, [FromQuery] string? username,
-        [FromQuery] string? password, [FromQuery] string? email, [FromQuery] int? page, [FromQuery] int? limit,
-        [FromQuery] string? q, [FromQuery] IEnumerable<string>? orders, CancellationToken cancellationToken)
+    public async Task<ActionResult<List<UserReaderModelContract>>> HandleAsync([FromQuery] string? id = null, [FromQuery] string? firstname = null, [FromQuery] string? lastname = null, [FromQuery] string? username = null, [FromQuery] string? language = null, [FromQuery] string? locale = null, [FromQuery] string? email = null, [FromQuery] int? page = null, [FromQuery] int? limit = null, [FromQuery] string? q = null, [FromQuery] List<string>? orders = null, CancellationToken cancellationToken = default)
     {
-        //<-- START CUSTOM CODE-->
-        var result =
-            await _mediator.Send(
-                new UserGetAllQueryHandlerRequest(id, firstname, lastname, username, password, email, page, limit, q,
-                    orders), cancellationToken);
-        if (!result.Any()) return NoContent();
-        var data = _mapper.Map<List<User>, List<UserReaderModelContract>>(result);
+        var result = await _mediator.Send(new UserGetAllQueryHandlerRequest(id, firstname, lastname, username, language, locale, email, page, limit, q, orders), cancellationToken);
+        if (!result.Any()) return NoContent(); var data = _mapper.Map<List<User>, List<UserReaderModelContract>>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
     }
 }
+

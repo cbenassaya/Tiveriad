@@ -21,7 +21,7 @@ public class FeatureDeleteCommandHandler : IRequestHandler<FeatureDeleteCommandH
     {
         return Task.Run(() =>
         {
-            //<-- START CUSTOM CODE-->
+            
             var query = _languageRepository.Queryable;
             query = query.Where(x => x.Id == request.Id);
             query = query.Where(x => x.Realm.Id == request.RealmId);
@@ -30,6 +30,6 @@ public class FeatureDeleteCommandHandler : IRequestHandler<FeatureDeleteCommandH
             if (language == null) throw new Exception();
             return _languageRepository.DeleteMany(x => x.Id == request.Id) == 1;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

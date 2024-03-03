@@ -25,7 +25,7 @@ public class NotificationUpdateCommandHandler : IRequestHandler<NotificationUpda
 
     public Task<Notification> Handle(NotificationUpdateCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             var query = _notificationRepository.Queryable.Include(x => x.Subject)
@@ -42,7 +42,7 @@ public class NotificationUpdateCommandHandler : IRequestHandler<NotificationUpda
             if (request.Notification.Message != null) result.Message = await _notificationMessageRepository.GetByIdAsync(request.Notification.Message.Id, cancellationToken);
             return result;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

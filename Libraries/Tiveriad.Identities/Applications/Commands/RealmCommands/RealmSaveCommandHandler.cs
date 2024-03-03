@@ -22,12 +22,12 @@ public class RealmSaveCommandHandler : IRequestHandler<RealmSaveCommandHandlerRe
 
     public Task<Realm> Handle(RealmSaveCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             await _realmRepository.AddOneAsync(request.Realm, cancellationToken);
             return request.Realm;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

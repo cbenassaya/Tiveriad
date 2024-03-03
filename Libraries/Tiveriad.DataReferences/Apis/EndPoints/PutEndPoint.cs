@@ -43,7 +43,7 @@ public class PutEndPoint<TEntity, TKey> : ControllerBase
             Code = model.Code
         };
 
-        //<-- START CUSTOM CODE-->
+        
         entity.OrganizationId = _tenantService.GetCurrentOrganizationId();
         var result = await _mediator.Send(new UpdateRequest<TEntity, TKey>(entity), cancellationToken);
         var data = new DataReferenceReaderModel
@@ -55,6 +55,6 @@ public class PutEndPoint<TEntity, TKey> : ControllerBase
             Visibility = result.Visibility.ToString()
         };
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

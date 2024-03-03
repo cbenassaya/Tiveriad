@@ -1,8 +1,8 @@
 ﻿#region
 
 using System.Text.Json;
-using Tiveriad.Identities.Core.Services;
 using Tiveriad.Identities.Core.Entities;
+using Tiveriad.Integration.Core.Services;
 using Tiveriad.Keycloak.Apis;
 using Tiveriad.Keycloak.Models;
 
@@ -30,7 +30,7 @@ public class KeycloakIdentityService : IIdentityService
         };
     }
 
-    public async Task Update(Tiveriad.Identities.Core.Entities.User user, Tiveriad.Identities.Core.Entities.Organization organization)
+    public async Task Update(User user, Organization organization)
     {
         var userRepresentionApiReponse = await _userApi.GetUsersByRealm("kodin-dev-realm", false, user.Email);
         var userReprensentation = userRepresentionApiReponse?.Data?.FirstOrDefault();
@@ -86,3 +86,4 @@ public class KeycloakIdentityService : IIdentityService
         await _userApi.PostUser(_keycloakConfigurationService.Realm, userReprensentation);
     }
 }
+

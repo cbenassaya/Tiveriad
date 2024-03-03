@@ -22,7 +22,7 @@ public class RealmUpdateCommandHandler : IRequestHandler<RealmUpdateCommandHandl
 
     public Task<Realm> Handle(RealmUpdateCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             var query = _realmRepository.Queryable;
@@ -37,6 +37,6 @@ public class RealmUpdateCommandHandler : IRequestHandler<RealmUpdateCommandHandl
 
             return result;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

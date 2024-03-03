@@ -29,13 +29,13 @@ public class PutEndPoint : ControllerBase
     public async Task<ActionResult<RealmReaderModelContract>> HandleAsync([FromRoute] string id,
         [FromBody] RealmWriterModelContract model, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
 
         var realm = _mapper.Map<RealmWriterModelContract, Realm>(model);
         realm.Id = id;
         var result = await _mediator.Send(new RealmUpdateCommandHandlerRequest(realm), cancellationToken);
         var data = _mapper.Map<Realm, RealmReaderModelContract>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

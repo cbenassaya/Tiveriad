@@ -21,13 +21,13 @@ public class RoleSaveCommandHandler : IRequestHandler<RoleSaveCommandHandlerRequ
 
     public Task<Role> Handle(RoleSaveCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             request.Role.Organization = _organizationRepository.GetById(request.OrganizationId);
             await _roleRepository.AddOneAsync(request.Role, cancellationToken);
             return request.Role;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

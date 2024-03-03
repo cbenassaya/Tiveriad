@@ -21,13 +21,13 @@ public class ScopeSaveCommandHandler : IRequestHandler<ScopeSaveCommandHandlerRe
 
     public Task<Scope> Handle(ScopeSaveCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             await _scopeRepository.AddOneAsync(request.Scope, cancellationToken);
             return request.Scope;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

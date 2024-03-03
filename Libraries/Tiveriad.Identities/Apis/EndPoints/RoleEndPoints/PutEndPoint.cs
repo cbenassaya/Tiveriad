@@ -32,11 +32,11 @@ public class PutEndPoint : ControllerBase
         [FromRoute] string id,
         [FromBody] RoleWriterModelContract model, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var role = _mapper.Map<RoleWriterModelContract, Role>(model);
         var result = await _mediator.Send(new RoleUpdateCommandHandlerRequest(organizationId, id, role), cancellationToken);
         var data = _mapper.Map<Role, RoleReaderModelContract>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

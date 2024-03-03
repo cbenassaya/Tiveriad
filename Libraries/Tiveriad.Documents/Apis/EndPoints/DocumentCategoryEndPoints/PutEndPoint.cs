@@ -26,13 +26,13 @@ public class PutEndPoint : ControllerBase
     public async Task<ActionResult<DocumentCategoryReaderModel>> HandleAsync([FromRoute] string organizationId,
         [FromRoute] string id, [FromBody] DocumentCategoryUpdaterModel model, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
 
         var documentCategory = _mapper.Map<DocumentCategoryUpdaterModel, DocumentCategory>(model);
         var result = await _mediator.Send(new UpdateDocumentCategoryRequest(organizationId, id, documentCategory),
             cancellationToken);
         var data = _mapper.Map<DocumentCategory, DocumentCategoryReaderModel>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

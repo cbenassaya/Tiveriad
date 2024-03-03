@@ -17,7 +17,7 @@ public class MembershipStateUpdateCommandHandler : IRequestHandler<MembershipSta
     public Task<Membership> Handle(MembershipStateUpdateCommandHandlerRequest request,
         CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             var query = _membershipRepository.Queryable.AsQueryable();
@@ -29,6 +29,6 @@ public class MembershipStateUpdateCommandHandler : IRequestHandler<MembershipSta
             result.State = sm.GetCurrentState();
             return result;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

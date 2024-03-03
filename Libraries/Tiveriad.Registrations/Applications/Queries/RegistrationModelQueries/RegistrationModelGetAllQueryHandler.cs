@@ -22,7 +22,7 @@ public class RegistrationModelGetAllQueryHandler : IRequestHandler<RegistrationM
 
     public Task<List<RegistrationModel>> Handle(RegistrationModelGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _registrationModelRepository.Queryable;
         if (request.Id != null) query = query.Where(x => x.Id == request.Id);
         if (request.Name != null) query = query.Where(x => x.Name.Contains(request.Name));
@@ -36,7 +36,7 @@ public class RegistrationModelGetAllQueryHandler : IRequestHandler<RegistrationM
         if (request.Page.HasValue && request.Limit.HasValue)
             query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
         return Task.Run(() => query.ToList(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

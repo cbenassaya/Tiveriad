@@ -31,12 +31,12 @@ public class PutEndPoint : ControllerBase
         [FromRoute] string id,
         [FromBody] PolicyWriterModelContract model, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
 
         var policy = _mapper.Map<PolicyWriterModelContract, Policy>(model);
         var result = await _mediator.Send(new PolicyUpdateCommandHandlerRequest(realmId, roleId, id , policy), cancellationToken);
         var data = _mapper.Map<Policy, PolicyReaderModelContract>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

@@ -25,7 +25,7 @@ public class RegistrationDeleteCommandHandler : IRequestHandler<RegistrationDele
     {
         return Task.Run(() =>
 {
-    //<-- START CUSTOM CODE-->
+    
     var query = _registrationRepository.Queryable.Include(x => x.RegistrationModel).AsQueryable();
     query = query.Where(x => x.Id == request.Id);
 
@@ -34,7 +34,7 @@ public class RegistrationDeleteCommandHandler : IRequestHandler<RegistrationDele
     if (registration == null) throw new Exception();
     return _registrationRepository.DeleteMany(x => x.Id == request.Id) == 1;
 }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

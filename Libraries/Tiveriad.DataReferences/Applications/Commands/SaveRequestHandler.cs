@@ -22,13 +22,13 @@ public class SaveRequestHandler<TEntity, TKey> : IRequestHandler<SaveRequest<TEn
 
     public Task<TEntity> Handle(SaveRequest<TEntity, TKey> request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
 
         return Task.Run(async () =>
         {
             await _repository.AddOneAsync(request.Entity, cancellationToken);
             return request.Entity;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

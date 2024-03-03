@@ -29,13 +29,13 @@ public class GetByIdEndPoint : ControllerBase
         [FromRoute] [Required] string organizationId, [FromRoute] [Required] string id,
         CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         if (string.IsNullOrEmpty(organizationId)) return BadRequest("OrganizationId is mandatory");
         if (string.IsNullOrEmpty(id)) return BadRequest("Id is mandatory");
         var result = await _mediator.Send(new GetDocumentDescriptionByIdRequest(organizationId, id), cancellationToken);
         if (result == null) return NoContent();
         var data = _mapper.Map<DocumentDescription, DocumentDescriptionReaderModel>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

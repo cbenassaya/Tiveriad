@@ -4,10 +4,9 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.Core.Abstractions.Services;
-using Tiveriad.Identities.Core.Services;
-using Tiveriad.Integration.Core.Services;
 using Tiveriad.Registrations.Core.DomainEvents;
 using Tiveriad.Registrations.Core.Entities;
+using ICurrentUserService = Tiveriad.Integration.Core.Services.ICurrentUserService;
 
 #endregion
 

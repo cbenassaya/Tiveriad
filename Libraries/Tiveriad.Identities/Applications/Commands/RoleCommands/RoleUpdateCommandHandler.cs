@@ -23,7 +23,7 @@ public class RoleUpdateCommandHandler : IRequestHandler<RoleUpdateCommandHandler
 
     public Task<Role> Handle(RoleUpdateCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             var query = _roleRepository.Queryable.AsQueryable();
@@ -35,6 +35,6 @@ public class RoleUpdateCommandHandler : IRequestHandler<RoleUpdateCommandHandler
             result.Description = request.Role.Description;
             return result;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

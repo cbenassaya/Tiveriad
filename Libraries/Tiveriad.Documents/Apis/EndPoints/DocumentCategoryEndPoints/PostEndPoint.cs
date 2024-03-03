@@ -26,13 +26,13 @@ public class PostEndPoint : ControllerBase
     public async Task<ActionResult<DocumentCategoryReaderModel>> HandleAsync([FromRoute] string organizationId,
         [FromBody] DocumentCategoryWriterModel model, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var documentCategory = _mapper.Map<DocumentCategoryWriterModel, DocumentCategory>(model);
         documentCategory.OrganizationId = organizationId;
         var result = await _mediator.Send(new SaveDocumentCategoryRequest(organizationId, documentCategory),
             cancellationToken);
         var data = _mapper.Map<DocumentCategory, DocumentCategoryReaderModel>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

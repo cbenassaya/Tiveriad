@@ -15,13 +15,13 @@ public class SaveDocumentDescriptionRequestHandler : IRequestHandler<SaveDocumen
 
     public Task<DocumentDescription> Handle(SaveDocumentDescriptionRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             await _documentDescriptionRepository.AddOneAsync(request.DocumentDescription, cancellationToken);
             return request.DocumentDescription;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

@@ -26,7 +26,7 @@ public class SubjectGetAllQueryHandler : IRequestHandler<SubjectGetAllQueryHandl
 
     public Task<List<Subject>> Handle(SubjectGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _subjectRepository.Queryable.Include(x => x.Template).AsQueryable();
         if (request.Id != null) query = query.Where(x => x.Id == request.Id);
 
@@ -39,7 +39,7 @@ public class SubjectGetAllQueryHandler : IRequestHandler<SubjectGetAllQueryHandl
         if (request.Page.HasValue && request.Limit.HasValue)
             query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
         return Task.Run(() => query.ToList(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

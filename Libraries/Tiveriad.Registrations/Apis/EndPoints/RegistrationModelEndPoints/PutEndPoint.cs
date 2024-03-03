@@ -27,14 +27,14 @@ public class PutEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<RegistrationModelReaderModelContract>> HandleAsync([FromRoute] string id, [FromBody] RegistrationModelWriterModelContract model, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
 
         var registrationModel = _mapper.Map<RegistrationModelWriterModelContract, RegistrationModel>(model);
         registrationModel.Id = id;
         var result = await _mediator.Send(new RegistrationModelUpdateCommandHandlerRequest(registrationModel), cancellationToken);
         var data = _mapper.Map<RegistrationModel, RegistrationModelReaderModelContract>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

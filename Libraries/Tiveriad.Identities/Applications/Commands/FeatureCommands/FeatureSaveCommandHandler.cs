@@ -21,7 +21,6 @@ public class FeatureSaveCommandHandler : IRequestHandler<FeatureSaveCommandHandl
 
     public Task<Feature> Handle(FeatureSaveCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->s
         return Task.Run(async () =>
         {
             if (!string.IsNullOrEmpty(request.RealmId))
@@ -30,6 +29,6 @@ public class FeatureSaveCommandHandler : IRequestHandler<FeatureSaveCommandHandl
             await _languageRepository.AddOneAsync(request.Feature, cancellationToken);
             return request.Feature;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

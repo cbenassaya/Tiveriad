@@ -29,11 +29,11 @@ public class GetAllEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<List<ScopeReaderModelContract>>> HandleAsync([FromQuery] string? id, [FromQuery] int? page, [FromQuery] int? limit, [FromQuery] string? q, [FromQuery] IEnumerable<string>? orders, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var result = await _mediator.Send(new ScopeGetAllQueryHandlerRequest(id, page, limit, q, orders), cancellationToken);
         if (!result.Any()) return NoContent(); var data = _mapper.Map<List<Scope>, List<ScopeReaderModelContract>>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

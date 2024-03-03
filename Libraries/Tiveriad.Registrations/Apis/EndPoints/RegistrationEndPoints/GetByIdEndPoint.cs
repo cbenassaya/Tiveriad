@@ -29,11 +29,11 @@ public class GetByIdEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<RegistrationReaderModelContract>> HandleAsync([FromRoute][Required] string id, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var result = await _mediator.Send(new RegistrationGetByIdQueryHandlerRequest(id), cancellationToken);
         if (result == null) return NoContent(); var data = _mapper.Map<Registration, RegistrationReaderModelContract>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

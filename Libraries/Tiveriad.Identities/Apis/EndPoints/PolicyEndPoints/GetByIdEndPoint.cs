@@ -33,11 +33,11 @@ public class GetByIdEndPoint : ControllerBase
         [FromRoute] [Required] string id,
         CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var result = await _mediator.Send(new PolicyGetByIdQueryHandlerRequest(realmId,roleId,id), cancellationToken);
         if (result == null) return NoContent();
         var data = _mapper.Map<Policy, PolicyReaderModelContract>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

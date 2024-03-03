@@ -22,7 +22,7 @@ public class RoleGetAllQueryHandler : IRequestHandler<RoleGetAllQueryHandlerRequ
 
     public Task<List<Role>> Handle(RoleGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _roleRepository.Queryable.Include(x => x.Organization).AsQueryable();
         if (request.Id != null) query = query.Where(x => x.Id == request.Id);
         if (request.OrganizationId != null) query = query.Where(x => x.Organization.Id == request.OrganizationId);
@@ -33,6 +33,6 @@ public class RoleGetAllQueryHandler : IRequestHandler<RoleGetAllQueryHandlerRequ
         if (request.Page.HasValue && request.Limit.HasValue)
             query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
         return Task.Run(() => query.ToList(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

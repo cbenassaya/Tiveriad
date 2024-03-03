@@ -1,6 +1,6 @@
 #region
 
-using Tiveriad.Identities.Core.Services;
+using Tiveriad.Integration.Core.Services;
 using Tiveriad.Integration.Infrastructure.Services;
 using Tiveriad.Keycloak;
 using Tiveriad.Keycloak.Apis;

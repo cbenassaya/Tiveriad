@@ -8,5 +8,5 @@ public class OrganizationUpdaterModelContract
     public string? Domain { get; set; }
     public string? Description { get; set; }
     public Metadata? Properties { get; set; }
-    [Required] public string TimeAreaId { get; set; } = default!;
+    [Required] public string TimeZone { get; set; } = default!;
 }

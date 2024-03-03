@@ -28,7 +28,7 @@ public class PolicyGetByIdQueryHandler : IRequestHandler<PolicyGetByIdQueryHandl
 
     public Task<Policy?> Handle(PolicyGetByIdQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _policyRepository.Queryable.Include(x => x.Realm)
             .Include(x => x.Role)
             .Include(x => x.Features).AsQueryable();
@@ -38,6 +38,6 @@ public class PolicyGetByIdQueryHandler : IRequestHandler<PolicyGetByIdQueryHandl
 
 
         return Task.Run(() => query.ToList().FirstOrDefault(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

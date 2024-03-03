@@ -23,7 +23,7 @@ public class ScopeDeleteCommandHandler : IRequestHandler<ScopeDeleteCommandHandl
     {
         return Task.Run(() =>
 {
-    //<-- START CUSTOM CODE-->
+    
     var query = _scopeRepository.Queryable;
     query = query.Where(x => x.Id == request.Id);
 
@@ -32,7 +32,7 @@ public class ScopeDeleteCommandHandler : IRequestHandler<ScopeDeleteCommandHandl
     if (scope == null) throw new Exception();
     return _scopeRepository.DeleteMany(x => x.Id == request.Id) == 1;
 }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

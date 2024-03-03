@@ -40,7 +40,7 @@ public class GetAllEndPoint<TEntity, TKey> : ControllerBase
         [FromQuery] string? q, [FromQuery] string[]? orders,
         CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var result = await _mediator.Send(new GetAllRequest<TEntity, TKey>(
             string.IsNullOrEmpty(id) ? default : _keyParser.Parse(id),
             _tenantService.GetCurrentOrganizationId(),
@@ -59,6 +59,6 @@ public class GetAllEndPoint<TEntity, TKey> : ControllerBase
             Visibility = x.Visibility.ToString()
         }).ToList();
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

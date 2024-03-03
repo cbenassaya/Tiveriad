@@ -1,8 +1,6 @@
 using System.Net;
 using System.Text;
 using System.Text.Json;
-using Tiveriad.Identities.Apis.Contracts.LanguageContracts;
-using Tiveriad.Identities.Apis.Contracts.LocaleContracts;
 using Tiveriad.Identities.Apis.Contracts.UserContracts;
 using Xunit;
 
@@ -20,8 +18,6 @@ public class UserUseCases: IntegrationTestBase
     {
         var client = GetRequiredService<HttpClient>();
         
-        var locales = Get<List<LocaleReaderModelContract>>(client.GetAsync("/api/locales").Result).Result;
-        var languages = Get<List<LanguageReaderModelContract>>(client.GetAsync("/api/languages").Result).Result;
         
         var user = new UserWriterModelContract
         {
@@ -31,8 +27,8 @@ public class UserUseCases: IntegrationTestBase
             Password = "ABCD1234qw@$",
             Email = Faker.Internet.Email(),
             DateOfBirth = Faker.Identification.DateOfBirth(),
-            LanguageId = languages.First().Id,
-            LocaleId = locales.First().Id,
+            Language = "en",
+            Locale = "en-US",
             
         };
         var content =

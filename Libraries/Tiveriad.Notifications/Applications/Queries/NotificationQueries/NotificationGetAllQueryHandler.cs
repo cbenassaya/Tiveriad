@@ -26,7 +26,7 @@ public class NotificationGetAllQueryHandler : IRequestHandler<NotificationGetAll
 
     public Task<List<Notification>> Handle(NotificationGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _notificationRepository.Queryable.Include(x => x.Subject)
         .Include(x => x.Message).AsQueryable();
         if (request.Id != null) query = query.Where(x => x.Id == request.Id);
@@ -40,7 +40,7 @@ public class NotificationGetAllQueryHandler : IRequestHandler<NotificationGetAll
         if (request.Page.HasValue && request.Limit.HasValue)
             query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
         return Task.Run(() => query.ToList(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

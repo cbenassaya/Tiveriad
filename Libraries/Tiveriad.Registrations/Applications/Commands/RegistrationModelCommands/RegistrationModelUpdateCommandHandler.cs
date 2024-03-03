@@ -21,7 +21,7 @@ public class RegistrationModelUpdateCommandHandler : IRequestHandler<Registratio
 
     public Task<RegistrationModel> Handle(RegistrationModelUpdateCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             var query = _registrationModelRepository.Queryable;
@@ -37,7 +37,7 @@ public class RegistrationModelUpdateCommandHandler : IRequestHandler<Registratio
 
             return result;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

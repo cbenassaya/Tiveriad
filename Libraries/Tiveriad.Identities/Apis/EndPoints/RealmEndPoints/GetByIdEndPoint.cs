@@ -31,11 +31,11 @@ public class GetByIdEndPoint : ControllerBase
     public async Task<ActionResult<RealmReaderModelContract>> HandleAsync([FromRoute] [Required] string id,
         CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var result = await _mediator.Send(new RealmGetByIdQueryHandlerRequest(id), cancellationToken);
         if (result == null) return NoContent();
         var data = _mapper.Map<Realm, RealmReaderModelContract>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

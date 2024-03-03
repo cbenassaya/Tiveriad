@@ -21,7 +21,7 @@ public class ScopeUpdateCommandHandler : IRequestHandler<ScopeUpdateCommandHandl
 
     public Task<Scope> Handle(ScopeUpdateCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             var query = _scopeRepository.Queryable;
@@ -40,7 +40,7 @@ public class ScopeUpdateCommandHandler : IRequestHandler<ScopeUpdateCommandHandl
 
             return result;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

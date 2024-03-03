@@ -21,4 +21,10 @@
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Core\Entities\PolicyFeature.cs" />
+      <Compile Remove="Persistence\Configurations\PolicyFeatureConfiguration.cs" />
+      <Compile Remove="Apis\Mappings\PolicyFeatureProfile.cs" />
+    </ItemGroup>
+
 </Project>

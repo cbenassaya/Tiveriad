@@ -27,7 +27,7 @@ public class PolicySaveCommandHandler : IRequestHandler<PolicySaveCommandHandler
 
     public Task<Policy> Handle(PolicySaveCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             if (request.Policy.Realm != null)
@@ -42,6 +42,6 @@ public class PolicySaveCommandHandler : IRequestHandler<PolicySaveCommandHandler
             await _policyRepository.AddOneAsync(request.Policy, cancellationToken);
             return request.Policy;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

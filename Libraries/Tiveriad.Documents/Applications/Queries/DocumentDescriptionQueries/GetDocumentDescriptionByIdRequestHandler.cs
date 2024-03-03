@@ -16,12 +16,12 @@ public class GetDocumentDescriptionByIdRequestHandler : IRequestHandler<GetDocum
 
     public Task<DocumentDescription?> Handle(GetDocumentDescriptionByIdRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _documentDescriptionRepository.Queryable.Include(x => x.DocumentCategory).AsQueryable();
         query = query.Where(x => x.OrganizationId == request.OrganizationId);
         query = query.Where(x => x.Id == request.Id);
         return Task.Run(() => query.ToList().FirstOrDefault(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

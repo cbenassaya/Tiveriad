@@ -28,13 +28,13 @@ public class GetAllEndPoint : ControllerBase
         [FromRoute] string organizationId, [FromRoute] string? id, [FromQuery] int? page, [FromQuery] int? limit,
         [FromQuery] string? q, [FromQuery] IEnumerable<string>? orders, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var result =
             await _mediator.Send(new GetAllDocumentCategoriesRequest(organizationId, id, page, limit, q, orders),
                 cancellationToken);
         if (result == null || !result.Any()) return NoContent();
         var data = _mapper.Map<IEnumerable<DocumentCategory>, IEnumerable<DocumentCategoryReaderModel>>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

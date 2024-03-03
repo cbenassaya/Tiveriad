@@ -6,7 +6,7 @@ using Tiveriad.Documents.Apis.Contracts.DocumentDescriptionContracts;
 using Tiveriad.Documents.Applications.Commands.DocumentCategoryCommands;
 using Tiveriad.Documents.Applications.Commands.DocumentDescriptionCommands;
 using Tiveriad.Identities.Apis.Contracts.UserContracts;
-using Tiveriad.Identities.Applications.Commands.LanguageCommands;
+using Tiveriad.Identities.Applications.Commands.UserCommands;
 using Tiveriad.Integration.Applications.Pipelines;
 using Tiveriad.Integration.Filters;
 using Tiveriad.Notifications.Apis.Contracts.NotificationContracts;
@@ -39,7 +39,7 @@ public static class MvcDependencyInjection
             opt.Filters.Add<ApiExceptionFilter>();
         });
 
-        services.AddValidatorsFromAssembly(typeof(LanguageSaveCommandHandlerValidator).Assembly);
+        services.AddValidatorsFromAssembly(typeof(UserSaveCommandHandlerValidator).Assembly);
         services.AddValidatorsFromAssembly(typeof(RegistrationSaveCommandHandlerValidator).Assembly);
         services.AddValidatorsFromAssembly(typeof(NotificationSaveCommandHandlerValidator).Assembly);
         services.AddValidatorsFromAssembly(typeof(UpdateDocumentCategoryPreValidator).Assembly);
@@ -48,7 +48,7 @@ public static class MvcDependencyInjection
         services.AddMediatR(cfg =>
         {
             cfg.Lifetime = ServiceLifetime.Scoped;
-            cfg.RegisterServicesFromAssemblyContaining<LanguageSaveCommandHandlerRequest>();
+            cfg.RegisterServicesFromAssemblyContaining<UserSaveCommandHandlerRequest>();
             cfg.RegisterServicesFromAssemblyContaining<RegistrationSaveCommandHandlerRequest>();
             cfg.RegisterServicesFromAssemblyContaining<NotificationSaveCommandHandlerRequest>();
             cfg.RegisterServicesFromAssemblyContaining<SaveDocumentDescriptionRequest>();

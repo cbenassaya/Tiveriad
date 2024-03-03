@@ -24,11 +24,11 @@ public class DeleteEndPoint : ControllerBase
     public async Task<ActionResult<bool>> HandleAsync([FromRoute] [Required] string organizationId,
         [FromRoute] [Required] string id, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         if (string.IsNullOrEmpty(organizationId)) return BadRequest("OrganizationId is mandatory");
         if (string.IsNullOrEmpty(id)) return BadRequest("Id is mandatory");
         var result = await _mediator.Send(new DeleteDocumentCategoryByIdRequest(organizationId, id), cancellationToken);
         return Ok(result);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

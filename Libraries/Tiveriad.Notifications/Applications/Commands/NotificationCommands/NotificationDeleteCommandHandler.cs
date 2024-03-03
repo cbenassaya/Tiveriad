@@ -27,7 +27,7 @@ public class NotificationDeleteCommandHandler : IRequestHandler<NotificationDele
     {
         return Task.Run(() =>
 {
-    //<-- START CUSTOM CODE-->
+    
     var query = _notificationRepository.Queryable.Include(x => x.Subject)
     .Include(x => x.Message).AsQueryable();
     query = query.Where(x => x.Id == request.Id);
@@ -37,7 +37,7 @@ public class NotificationDeleteCommandHandler : IRequestHandler<NotificationDele
     if (notification == null) throw new Exception();
     return _notificationRepository.DeleteMany(x => x.Id == request.Id) == 1;
 }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

@@ -27,7 +27,7 @@ public class SubjectDeleteCommandHandler : IRequestHandler<SubjectDeleteCommandH
     {
         return Task.Run(() =>
 {
-    //<-- START CUSTOM CODE-->
+    
     var query = _subjectRepository.Queryable.Include(x => x.Template).AsQueryable();
     query = query.Where(x => x.Id == request.Id);
 
@@ -36,7 +36,7 @@ public class SubjectDeleteCommandHandler : IRequestHandler<SubjectDeleteCommandH
     if (subject == null) throw new Exception();
     return _subjectRepository.DeleteMany(x => x.Id == request.Id) == 1;
 }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

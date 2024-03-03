@@ -28,7 +28,7 @@ public class PolicyUpdateCommandHandler : IRequestHandler<PolicyUpdateCommandHan
 
     public Task<Policy> Handle(PolicyUpdateCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             var query = _policyRepository.Queryable.Include(x => x.Realm)
@@ -52,6 +52,6 @@ public class PolicyUpdateCommandHandler : IRequestHandler<PolicyUpdateCommandHan
 
             return result;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

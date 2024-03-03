@@ -30,7 +30,7 @@ public class PolicyDeleteCommandHandler : IRequestHandler<PolicyDeleteCommandHan
     {
         return Task.Run(() =>
         {
-            //<-- START CUSTOM CODE-->
+            
             var query = _policyRepository.Queryable.Include(x => x.Realm)
                 .Include(x => x.Role)
                 .Include(x => x.Features).AsQueryable();
@@ -43,6 +43,6 @@ public class PolicyDeleteCommandHandler : IRequestHandler<PolicyDeleteCommandHan
             if (policy == null) throw new Exception();
             return _policyRepository.DeleteMany(x => x.Id == request.Id) == 1;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

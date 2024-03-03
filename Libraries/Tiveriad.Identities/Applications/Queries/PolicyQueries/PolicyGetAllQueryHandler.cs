@@ -28,7 +28,7 @@ public class PolicyGetAllQueryHandler : IRequestHandler<PolicyGetAllQueryHandler
 
     public Task<List<Policy>> Handle(PolicyGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _policyRepository.Queryable
             .Include(x => x.Realm)
             .Include(x => x.Role)
@@ -42,6 +42,6 @@ public class PolicyGetAllQueryHandler : IRequestHandler<PolicyGetAllQueryHandler
         if (request.Page.HasValue && request.Limit.HasValue)
             query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
         return Task.Run(() => query.ToList(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

@@ -13,7 +13,6 @@ using Tiveriad.Identities.Applications.Commands.OrganizationCommands;
 using Tiveriad.Identities.Applications.Commands.UserCommands;
 using Tiveriad.Identities.Applications.Queries.UserQueries;
 using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Identities.Core.Services;
 using Tiveriad.Integration.Core.Services;
 using Tiveriad.Integration.Persistence;
 using Tiveriad.Registrations.Core.DomainEvents;

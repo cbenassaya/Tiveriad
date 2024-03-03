@@ -27,10 +27,10 @@ public class DeleteEndPoint : ControllerBase
         [FromRoute] [Required] string id,
         CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         if (string.IsNullOrEmpty(id)) return BadRequest("Id is mandatory");
         var result = await _mediator.Send(new RoleDeleteCommandHandlerRequest(organizationId,id), cancellationToken);
         return Ok(result);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

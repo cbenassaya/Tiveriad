@@ -21,7 +21,7 @@ public class FeatureUpdateCommandHandler : IRequestHandler<FeatureUpdateCommandH
 
     public Task<Feature> Handle(FeatureUpdateCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             var query = _languageRepository.Queryable;
@@ -36,6 +36,6 @@ public class FeatureUpdateCommandHandler : IRequestHandler<FeatureUpdateCommandH
      
             return result;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

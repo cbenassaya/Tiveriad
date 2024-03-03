@@ -1,41 +1,45 @@
-#region
 
-using MediatR;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using MediatR;
+using System.Collections.Generic;
 using Tiveriad.Identities.Core.Entities;
-
-#endregion
-
+using System;
+using Tiveriad.Core.Abstractions.Entities;
+using System.Threading;
+using System.Threading.Tasks;
 namespace Tiveriad.Identities.Applications.Queries.UserQueries;
 
 public class UserGetAllQueryHandler : IRequestHandler<UserGetAllQueryHandlerRequest, List<User>>
 {
-    private readonly IRepository<User, string> _userRepository;
-
+    private IRepository<User, string> _userRepository;
     public UserGetAllQueryHandler(IRepository<User, string> userRepository)
     {
         _userRepository = userRepository;
+
     }
 
 
     public Task<List<User>> Handle(UserGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
         var query = _userRepository.Queryable;
         if (request.Id != null) query = query.Where(x => x.Id == request.Id);
         if (request.Firstname != null) query = query.Where(x => x.Firstname.Contains(request.Firstname));
         if (request.Lastname != null) query = query.Where(x => x.Lastname.Contains(request.Lastname));
         if (request.Username != null) query = query.Where(x => x.Username.Contains(request.Username));
-        if (request.Password != null) query = query.Where(x => x.Password.Contains(request.Password));
+        if (request.Language != null) query = query.Where(x => x.Language.Contains(request.Language));
+        if (request.Locale != null) query = query.Where(x => x.Locale.Contains(request.Locale));
         if (request.Email != null) query = query.Where(x => x.Email.Contains(request.Email));
 
 
         if (request.Orders != null && request.Orders.Any())
             foreach (var order in request.Orders)
-                query = order.StartsWith("-") ? query.OrderByDescending(order.Substring(1)) : query.OrderBy(order);
+                query = order.StartsWith("-") ?
+                query.OrderByDescending(order.Substring(1)) :
+                query.OrderBy(order);
         if (request.Page.HasValue && request.Limit.HasValue)
             query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
         return Task.Run(() => query.ToList(), cancellationToken);
-        //<-- END CUSTOM CODE-->
     }
 }
+

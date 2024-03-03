@@ -17,7 +17,7 @@ public class OrganizationStateUpdateCommandHandler : IRequestHandler<Organizatio
     public Task<Organization> Handle(OrganizationStateUpdateCommandHandlerRequest request,
         CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             var query = _organizationRepository.Queryable.AsQueryable();
@@ -29,6 +29,6 @@ public class OrganizationStateUpdateCommandHandler : IRequestHandler<Organizatio
             result.State = sm.GetCurrentState();
             return result;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

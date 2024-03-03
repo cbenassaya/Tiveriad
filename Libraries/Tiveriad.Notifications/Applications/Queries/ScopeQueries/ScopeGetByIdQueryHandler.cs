@@ -21,13 +21,13 @@ public class ScopeGetByIdQueryHandler : IRequestHandler<ScopeGetByIdQueryHandler
 
     public Task<Scope?> Handle(ScopeGetByIdQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _scopeRepository.Queryable;
         query = query.Where(x => x.Id == request.Id); query = query.Where(x => x.Id == request.Id);
 
 
         return Task.Run(() => query.ToList().FirstOrDefault(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

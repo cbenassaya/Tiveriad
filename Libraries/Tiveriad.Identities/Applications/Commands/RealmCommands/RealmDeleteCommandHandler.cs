@@ -24,7 +24,7 @@ public class RealmDeleteCommandHandler : IRequestHandler<RealmDeleteCommandHandl
     {
         return Task.Run(() =>
         {
-            //<-- START CUSTOM CODE-->
+            
             var query = _realmRepository.Queryable;
             query = query.Where(x => x.Id == request.Id);
 
@@ -33,6 +33,6 @@ public class RealmDeleteCommandHandler : IRequestHandler<RealmDeleteCommandHandl
             if (realm == null) throw new Exception();
             return _realmRepository.DeleteMany(x => x.Id == request.Id) == 1;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

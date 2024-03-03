@@ -32,12 +32,12 @@ public class PutEndPoint : ControllerBase
         [FromRoute] string id,
         [FromBody] FeatureWriterModelContract model, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
 
         var feature = _mapper.Map<FeatureWriterModelContract, Feature>(model);
         var result = await _mediator.Send(new FeatureUpdateCommandHandlerRequest(realmId,id, feature), cancellationToken);
         var data = _mapper.Map<Feature, FeatureReaderModelContract>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

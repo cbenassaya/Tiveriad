@@ -22,7 +22,7 @@ public class DeleteByIdRequestHandler<TEntity, TKey> : IRequestHandler<DeleteByI
 
     public Task<long> Handle(DeleteByIdRequest<TEntity, TKey> request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
 
         var query = _repository.Queryable.Where(x =>
             x.Id.Equals(request.Id) && x.OrganizationId.Equals(request.OrganizationId));
@@ -34,6 +34,6 @@ public class DeleteByIdRequestHandler<TEntity, TKey> : IRequestHandler<DeleteByI
                 throw new Exception($"{typeof(TEntity).Name}_NOT_FOUND");
             return await _repository.DeleteOneAsync(entity, cancellationToken);
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

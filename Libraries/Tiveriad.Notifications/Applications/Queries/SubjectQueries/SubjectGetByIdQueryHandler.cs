@@ -25,13 +25,13 @@ public class SubjectGetByIdQueryHandler : IRequestHandler<SubjectGetByIdQueryHan
 
     public Task<Subject?> Handle(SubjectGetByIdQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _subjectRepository.Queryable.Include(x => x.Template).AsQueryable();
         query = query.Where(x => x.Id == request.Id); query = query.Where(x => x.Id == request.Id);
 
 
         return Task.Run(() => query.ToList().FirstOrDefault(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

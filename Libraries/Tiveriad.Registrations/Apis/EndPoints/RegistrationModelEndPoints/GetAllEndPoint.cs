@@ -29,11 +29,11 @@ public class GetAllEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<List<RegistrationModelReaderModelContract>>> HandleAsync([FromQuery] string? id, [FromQuery] string? name, [FromQuery] int? page, [FromQuery] int? limit, [FromQuery] string? q, [FromQuery] IEnumerable<string>? orders, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var result = await _mediator.Send(new RegistrationModelGetAllQueryHandlerRequest(id, name, page, limit, q, orders), cancellationToken);
         if (!result.Any()) return NoContent(); var data = _mapper.Map<List<RegistrationModel>, List<RegistrationModelReaderModelContract>>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

@@ -23,13 +23,13 @@ public class RegistrationSaveCommandHandler : IRequestHandler<RegistrationSaveCo
 
     public Task<Registration> Handle(RegistrationSaveCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             await _registrationRepository.AddOneAsync(request.Registration, cancellationToken);
             return request.Registration;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

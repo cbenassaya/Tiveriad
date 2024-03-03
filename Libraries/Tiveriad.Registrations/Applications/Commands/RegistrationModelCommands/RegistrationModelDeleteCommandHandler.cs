@@ -23,7 +23,7 @@ public class RegistrationModelDeleteCommandHandler : IRequestHandler<Registratio
     {
         return Task.Run(() =>
 {
-    //<-- START CUSTOM CODE-->
+    
     var query = _registrationModelRepository.Queryable;
     query = query.Where(x => x.Id == request.Id);
 
@@ -32,7 +32,7 @@ public class RegistrationModelDeleteCommandHandler : IRequestHandler<Registratio
     if (registrationModel == null) throw new Exception();
     return _registrationModelRepository.DeleteMany(x => x.Id == request.Id) == 1;
 }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

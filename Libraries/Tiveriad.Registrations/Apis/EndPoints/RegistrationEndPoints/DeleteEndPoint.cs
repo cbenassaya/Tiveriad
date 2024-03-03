@@ -23,11 +23,11 @@ public class DeleteEndPoint : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<bool>> HandleAsync([FromRoute][Required] string id, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         if (string.IsNullOrEmpty(id)) return BadRequest("Id is mandatory");
         var result = await _mediator.Send(new RegistrationDeleteCommandHandlerRequest(id), cancellationToken);
         return Ok(result);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

@@ -13,12 +13,12 @@ public class GetDocumentCategoryByIdRequestHandler : IRequestHandler<GetDocument
 
     public Task<DocumentCategory?> Handle(GetDocumentCategoryByIdRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _documentCategoryRepository.Queryable;
         query = query.Where(x => x.OrganizationId == request.OrganizationId);
         query = query.Where(x => x.Id == request.Id);
         return Task.Run(() => query.ToList().FirstOrDefault(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

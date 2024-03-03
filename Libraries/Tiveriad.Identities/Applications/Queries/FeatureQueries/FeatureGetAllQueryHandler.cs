@@ -19,7 +19,7 @@ public class FeatureGetAllQueryHandler : IRequestHandler<FeatureGetAllQueryHandl
 
     public Task<List<Feature>> Handle(FeatureGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _languageRepository.Queryable;
         if (request.Id != null) query = query.Where(x => x.Id == request.Id);
         if (request.RealmId != null) query = query.Where(x => x.Realm.Id == request.RealmId);
@@ -31,6 +31,6 @@ public class FeatureGetAllQueryHandler : IRequestHandler<FeatureGetAllQueryHandl
         if (request.Page.HasValue && request.Limit.HasValue)
             query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
         return Task.Run(() => query.ToList(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

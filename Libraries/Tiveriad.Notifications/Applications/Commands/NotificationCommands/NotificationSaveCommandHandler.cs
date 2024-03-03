@@ -25,13 +25,13 @@ public class NotificationSaveCommandHandler : IRequestHandler<NotificationSaveCo
 
     public Task<Notification> Handle(NotificationSaveCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             await _notificationRepository.AddOneAsync(request.Notification, cancellationToken);
             return request.Notification;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

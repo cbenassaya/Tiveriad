@@ -29,7 +29,7 @@ public class PostEndPoint : ControllerBase
     public async Task<ActionResult<DocumentDescriptionReaderModel>> HandleAsync([FromRoute] string organizationId,
         [FromForm] DocumentDescriptionWriterModel model, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var documentDescription = _mapper.Map<DocumentDescriptionWriterModel, DocumentDescription>(model);
         documentDescription.OrganizationId = organizationId;
         documentDescription.Provider = _blobServiceProvider.Get().Name;
@@ -44,6 +44,6 @@ public class PostEndPoint : ControllerBase
         }
         
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

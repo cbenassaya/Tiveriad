@@ -19,13 +19,13 @@ public class FeatureGetByIdQueryHandler : IRequestHandler<FeatureGetByIdQueryHan
 
     public Task<Feature?> Handle(FeatureGetByIdQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _languageRepository.Queryable;
         query = query.Where(x => x.Id == request.Id);
         query = query.Where(x => x.Realm.Id == request.RealmId);
 
 
         return Task.Run(() => query.ToList().FirstOrDefault(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

@@ -13,13 +13,13 @@ public class SaveDocumentCategoryRequestHandler : IRequestHandler<SaveDocumentCa
 
     public Task<DocumentCategory> Handle(SaveDocumentCategoryRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             await _documentCategoryRepository.AddOneAsync(request.DocumentCategory, cancellationToken);
             return request.DocumentCategory;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

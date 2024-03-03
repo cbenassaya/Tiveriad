@@ -31,12 +31,12 @@ public class GetAllEndPoint : ControllerBase
         [FromQuery] string? name, [FromQuery] int? page, [FromQuery] int? limit, [FromQuery] string? q,
         [FromQuery] IEnumerable<string>? orders, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var result = await _mediator.Send(new RealmGetAllQueryHandlerRequest(id, name, page, limit, q, orders),
             cancellationToken);
         if (!result.Any()) return NoContent();
         var data = _mapper.Map<List<Realm>, List<RealmReaderModelContract>>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

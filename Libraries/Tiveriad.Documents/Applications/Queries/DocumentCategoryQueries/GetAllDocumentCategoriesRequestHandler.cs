@@ -13,7 +13,7 @@ public class GetAllDocumentCategoriesRequestHandler : IRequestHandler<GetAllDocu
 
     public Task<IEnumerable<DocumentCategory>?> Handle(GetAllDocumentCategoriesRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var query = _documentCategoryRepository.Queryable;
         query = query.Where(x => x.OrganizationId == request.OrganizationId);
         if (request.Id != null) query = query.Where(x => x.Id == request.Id);
@@ -25,7 +25,7 @@ public class GetAllDocumentCategoriesRequestHandler : IRequestHandler<GetAllDocu
         if (request.Page.HasValue && request.Limit.HasValue)
             query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
         return Task.Run(() => query.ToList().AsEnumerable(), cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

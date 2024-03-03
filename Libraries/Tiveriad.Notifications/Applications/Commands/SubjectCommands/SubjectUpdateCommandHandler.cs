@@ -25,7 +25,7 @@ public class SubjectUpdateCommandHandler : IRequestHandler<SubjectUpdateCommandH
 
     public Task<Subject> Handle(SubjectUpdateCommandHandlerRequest request, CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         return Task.Run(async () =>
         {
             var query = _subjectRepository.Queryable.Include(x => x.Template).AsQueryable();
@@ -41,7 +41,7 @@ public class SubjectUpdateCommandHandler : IRequestHandler<SubjectUpdateCommandH
             if (request.Subject.Template != null) result.Template = await _notificationMessageRepository.GetByIdAsync(request.Subject.Template.Id, cancellationToken);
             return result;
         }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

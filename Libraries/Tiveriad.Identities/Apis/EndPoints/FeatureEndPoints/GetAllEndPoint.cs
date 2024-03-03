@@ -34,12 +34,12 @@ public class GetAllEndPoint : ControllerBase
         [FromQuery] int? page, [FromQuery] int? limit, [FromQuery] string? q, [FromQuery] IEnumerable<string>? orders,
         CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var result = await _mediator.Send(new FeatureGetAllQueryHandlerRequest(realmId,id, page, limit, q, orders),
             cancellationToken);
         if (!result.Any()) return NoContent();
         var data = _mapper.Map<List<Feature>, List<FeatureReaderModelContract>>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }

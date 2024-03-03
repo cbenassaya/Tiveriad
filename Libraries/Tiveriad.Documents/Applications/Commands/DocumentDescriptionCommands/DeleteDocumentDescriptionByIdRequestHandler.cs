@@ -18,7 +18,7 @@ public class DeleteDocumentDescriptionByIdRequestHandler : IRequestHandler<Delet
     {
         return Task.Run(() =>
 {
-    //<-- START CUSTOM CODE-->
+    
     var query = _documentDescriptionRepository.Queryable.Include(x => x.DocumentCategory).AsQueryable();
     query = query.Where(x => x.OrganizationId == request.OrganizationId);
     query = query.Where(x => x.Id == request.Id);
@@ -26,7 +26,7 @@ public class DeleteDocumentDescriptionByIdRequestHandler : IRequestHandler<Delet
     if (documentDescription == null) throw new Exception();
     return _documentDescriptionRepository.DeleteMany(x => x.OrganizationId == request.OrganizationId && x.Id == request.Id) == 1;
 }, cancellationToken);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
 

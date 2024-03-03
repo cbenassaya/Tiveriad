@@ -1,10 +1,7 @@
-#region
 
 using MediatR;
 using Tiveriad.Identities.Core.Entities;
-
-#endregion
-
+using System;
 namespace Tiveriad.Identities.Applications.Queries.UserQueries;
 
 public record UserGetByIdQueryHandlerRequest(string Id) : IRequest<User?>;

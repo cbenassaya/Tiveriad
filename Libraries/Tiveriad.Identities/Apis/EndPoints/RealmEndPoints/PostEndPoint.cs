@@ -29,11 +29,11 @@ public class PostEndPoint : ControllerBase
     public async Task<ActionResult<RealmReaderModelContract>> HandleAsync([FromBody] RealmWriterModelContract model,
         CancellationToken cancellationToken)
     {
-        //<-- START CUSTOM CODE-->
+        
         var realm = _mapper.Map<RealmWriterModelContract, Realm>(model);
         var result = await _mediator.Send(new RealmSaveCommandHandlerRequest(realm), cancellationToken);
         var data = _mapper.Map<Realm, RealmReaderModelContract>(result);
         return Ok(data);
-        //<-- END CUSTOM CODE-->
+        
     }
 }
