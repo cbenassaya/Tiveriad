@@ -16,12 +16,10 @@ public static class DocumentProviderDependencyInjection
         services.AddSingleton<IBlobServiceProvider>(container =>
         {
             var hostingEnvironment = services.BuildServiceProvider().GetRequiredService<IHostingEnvironment>();
-            var tenantService = services.BuildServiceProvider().GetRequiredService<ITenantService<string>>();
             var service = new BlobServiceProvider();
             service.Configure(configuration =>
             {
                 configuration
-                    .SetOrganizationIdProvider(tenantService.GetCurrentOrganizationId)
                     .SetRootPath(hostingEnvironment.ContentRootPath);
             });
             return service;

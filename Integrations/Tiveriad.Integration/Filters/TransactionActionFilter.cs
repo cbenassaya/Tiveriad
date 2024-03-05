@@ -6,7 +6,6 @@ using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.Registrations.Core.DomainEvents;
 using Tiveriad.Registrations.Core.Entities;
-using ICurrentUserService = Tiveriad.Integration.Core.Services.ICurrentUserService;
 
 #endregion
 
@@ -15,15 +14,13 @@ namespace Tiveriad.Integration.Filters;
 public class TransactionActionFilter : IAsyncActionFilter
 {
     private readonly DbContext _context;
-    private readonly ICurrentUserService _currentUserService;
     private readonly ILogger<TransactionActionFilter> _logger;
     private readonly IDomainEventStore _store;
 
-    public TransactionActionFilter(DbContext context, ICurrentUserService currentUserService,
+    public TransactionActionFilter(DbContext context, 
         ILogger<TransactionActionFilter> logger, IDomainEventStore store)
     {
         _context = context;
-        _currentUserService = currentUserService;
         _logger = logger;
         _store = store;
     }
@@ -53,11 +50,9 @@ public class TransactionActionFilter : IAsyncActionFilter
                     case EntityState.Deleted:
                         break;
                     case EntityState.Added:
-                        entry.Entity.CreatedBy = _currentUserService.GetUserId();
                         entry.Entity.Created = DateTime.Now;
                         break;
                     case EntityState.Modified:
-                        entry.Entity.LastModifiedBy = _currentUserService.GetUserId();
                         entry.Entity.LastModified = DateTime.Now;
                         break;
                 }

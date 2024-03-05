@@ -18,6 +18,7 @@ public static class DatabaseDependencyInjection
 {
     public static IServiceCollection AddDatabase(this IServiceCollection servicesCollection)
     {
+        //DBContext
         servicesCollection.AddDbContextPool<DbContext, DefaultContext>(options =>
         {
             
@@ -31,16 +32,14 @@ public static class DatabaseDependencyInjection
             var databasePath = Path.Combine(hostingEnvironment.ContentRootPath, "database.db");
             options.UseSqlite($"Data Source={databasePath}");
         });
-
-        servicesCollection.AddRepositories(typeof(EFRepository<,>),
-            typeof(DocumentDescription).Assembly,
-            typeof(Notification).Assembly,
-            typeof(User).Assembly, typeof(Registration).Assembly);
-        ;
-
+        
         var serviceProvider = servicesCollection.BuildServiceProvider();
         var defaultContext = serviceProvider.GetRequiredService<DbContext>();
-        var sql = defaultContext.Database.EnsureCreated();
+        defaultContext.Database.EnsureCreated();
+        
+        //Repositories
+
+
 
 
         return servicesCollection;

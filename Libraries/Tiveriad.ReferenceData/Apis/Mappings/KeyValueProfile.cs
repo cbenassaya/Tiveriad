@@ -10,10 +10,13 @@ public class KeyValueProfile : Profile
     public KeyValueProfile()
     {
 
-        CreateMap<KeyValue, KeyValueReaderModelContract>()
+        CreateMap<KeyValue, KeyValueReaderModel>()
             .ForMember(dest => dest.Value,
                 opt => opt.Ignore());
         CreateMap<KeyValueWriterModelContract, KeyValue>();
+        
+        CreateMap<KeyValueReaderModel, KeyInternationalizedValueReaderModelContract>();
+        CreateMap<KeyValueReaderModel, KeyValueReaderModelContract>();
     }
 
 

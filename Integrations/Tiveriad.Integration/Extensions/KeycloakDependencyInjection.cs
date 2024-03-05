@@ -1,6 +1,5 @@
 #region
 
-using Tiveriad.Integration.Core.Services;
 using Tiveriad.Integration.Infrastructure.Services;
 using Tiveriad.Keycloak;
 using Tiveriad.Keycloak.Apis;
@@ -49,7 +48,6 @@ public static class KeycloakDependencyInjection
         services.AddScoped<IRoleApi, RoleApi>();
         services.AddScoped<IUserApi, UserApi>();
         services.AddScoped<IRoleMapperApi, RoleMapperApi>();
-        services.AddScoped<IIdentityService, KeycloakIdentityService>();
 
         return services;
     }

@@ -6,7 +6,6 @@ using Tiveriad.EnterpriseIntegrationPatterns.DependencyInjection;
 using Tiveriad.EnterpriseIntegrationPatterns.EventBrokers;
 using Tiveriad.EnterpriseIntegrationPatterns.RabbitMq;
 using Tiveriad.Identities.Core.DomainEvents;
-using Tiveriad.Integration.Core.Services;
 using Tiveriad.Integration.Infrastructure.Publishers;
 using Tiveriad.Integration.Infrastructure.Services;
 using Tiveriad.Integration.Infrastructure.Subscribers;
@@ -23,7 +22,6 @@ public static class EipDependencyInjection
 {
     public static IServiceCollection AddPublisher(this IServiceCollection services)
     {
-        services.AddTransient<ICurrentUserService, CurrentUserService>();
         
         //services.AddSingleton<IPublisher<OnSaveRegistrationDomainEvent, string>, OnSaveRegistrationDomainEventPublisher>();
         //services.AddSingleton<ISubscriber<OnSaveRegistrationDomainEvent, string>, OnSaveRegistrationDomainEventSubscriber>();

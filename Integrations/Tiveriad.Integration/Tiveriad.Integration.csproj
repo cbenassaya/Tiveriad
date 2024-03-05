@@ -32,6 +32,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Core\Services\" />
         <Folder Include="Logs\"/>
     </ItemGroup>
 

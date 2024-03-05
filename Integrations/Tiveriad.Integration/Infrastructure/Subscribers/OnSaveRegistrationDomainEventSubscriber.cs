@@ -13,7 +13,6 @@ using Tiveriad.Identities.Applications.Commands.OrganizationCommands;
 using Tiveriad.Identities.Applications.Commands.UserCommands;
 using Tiveriad.Identities.Applications.Queries.UserQueries;
 using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Integration.Core.Services;
 using Tiveriad.Integration.Persistence;
 using Tiveriad.Registrations.Core.DomainEvents;
 
@@ -51,8 +50,7 @@ public class OnSaveRegistrationDomainEventSubscriber : RabbitMqSubscriber<OnSave
     public override async Task Handle(OnSaveRegistrationDomainEvent @event)
     {
         using var scope = _serviceScopeFactory.CreateAsyncScope();
-        
-        var currentUserService = scope.ServiceProvider.GetRequiredService<ICurrentUserService>();
+
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
         var context = scope.ServiceProvider.GetRequiredService<DefaultContext>();
         User? user = null;
@@ -94,11 +92,9 @@ public class OnSaveRegistrationDomainEventSubscriber : RabbitMqSubscriber<OnSave
                 case EntityState.Deleted:
                     break;
                 case EntityState.Added:
-                    entry.Entity.CreatedBy = currentUserService.GetUserId();
                     entry.Entity.Created = DateTime.Now;
                     break;
                 case EntityState.Modified:
-                    entry.Entity.LastModifiedBy = currentUserService.GetUserId();
                     entry.Entity.LastModified = DateTime.Now;
                     break;
             }

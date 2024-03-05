@@ -33,7 +33,6 @@ public static class MvcDependencyInjection
         {
             //opt.Filters.Add<RegistrationDomainEventActionFilter>();
             //opt.Filters.Add<IdentityDomainEventActionFilter>();
-            opt.Filters.Add<MultiTenancyActionFilter>();
             //opt.Filters.Add<DomainEventActionFilter>();
             opt.Filters.Add<TransactionActionFilter>();
             opt.Filters.Add<ApiExceptionFilter>();

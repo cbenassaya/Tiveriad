@@ -2,7 +2,6 @@
 
 using System.Text.Json;
 using Tiveriad.Identities.Core.Entities;
-using Tiveriad.Integration.Core.Services;
 using Tiveriad.Keycloak.Apis;
 using Tiveriad.Keycloak.Models;
 
@@ -10,7 +9,7 @@ using Tiveriad.Keycloak.Models;
 
 namespace Tiveriad.Integration.Infrastructure.Services;
 
-public class KeycloakIdentityService : IIdentityService
+public class KeycloakIdentityService 
 {
     private readonly JsonSerializerOptions _jsonSerializerOptions;
     private readonly KeycloakConfigurationService _keycloakConfigurationService;

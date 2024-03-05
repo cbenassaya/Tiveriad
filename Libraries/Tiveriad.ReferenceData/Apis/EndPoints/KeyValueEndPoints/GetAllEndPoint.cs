@@ -32,12 +32,12 @@ public class GetAllEndPoint<TKeyValue> : ControllerBase
     {
         var result = await _mediator.Send(new KeyValueGetAllQueryHandlerRequest(organizationId, id, key, typeof(TKeyValue).Name, value, language, page, limit, q, orders), cancellationToken);
         if (!result.Any()) return NoContent();
-        var data = _mapper.Map<List<KeyValue>, List<KeyValueReaderModelContract>>(result);
+        var data = _mapper.Map<List<KeyValue>, List<KeyValueReaderModel>>(result);
         data.ForEach(x =>
         {
             x.Value = x.InternationalizedValues.FirstOrDefault(x => string.IsNullOrEmpty(language) ?  x.Default : x.Language.Equals(language))?.Value;
         });
-        return Ok(data);
+        return Ok(_mapper.Map<List<KeyValueReaderModel>, List<KeyValueReaderModelContract>>(data));
     }
 }
 

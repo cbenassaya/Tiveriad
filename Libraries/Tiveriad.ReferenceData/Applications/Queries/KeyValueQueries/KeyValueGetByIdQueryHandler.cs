@@ -29,20 +29,6 @@ public class KeyValueGetByIdQueryHandler : IRequestHandler<KeyValueGetByIdQueryH
         var query = _keyValueRepository.Queryable.Include(x => x.InternationalizedValues).AsQueryable();
         query = query.Where(x => x.Id == request.Id);
         query = query.Where(x => (x.OrganizationId == request.OrganizationId && x.Visibility == Visibility.Private) || x.Visibility == Visibility.Public);
-        
-        if (request.Language != null)
-        {
-            Expression<Func<KeyValue, bool>>? predicateBuilder = PredicateBuilder.New<KeyValue>(true);
-            predicateBuilder = predicateBuilder.And(x => x.InternationalizedValues.Any(x => x.Language.Equals(request.Language)));
-            query = query.Where(predicateBuilder);
-        }
-        else
-        {
-            Expression<Func<KeyValue, bool>>? predicateBuilder = PredicateBuilder.New<KeyValue>(true);
-            predicateBuilder = predicateBuilder.And(x => x.InternationalizedValues.Any(x => x.Default));
-            query = query.Where(predicateBuilder);
-        }
-
         return Task.Run(() => query.ToList().FirstOrDefault(), cancellationToken);
     }
 }

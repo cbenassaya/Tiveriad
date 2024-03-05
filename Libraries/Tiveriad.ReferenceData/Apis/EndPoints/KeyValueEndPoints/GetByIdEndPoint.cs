@@ -28,13 +28,12 @@ public class GetByIdEndPoint<TKeyValue> : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<KeyValueReaderModelContract>> HandleAsync([FromRoute][Required] string organizationId, [FromRoute][Required] string id, [FromQuery] string? language = null,  CancellationToken cancellationToken  = default)
+    public async Task<ActionResult<KeyInternationalizedValueReaderModelContract>> HandleAsync([FromRoute][Required] string organizationId, [FromRoute][Required] string id,  CancellationToken cancellationToken  = default)
     {
-        var result = await _mediator.Send(new KeyValueGetByIdQueryHandlerRequest(organizationId, id, language), cancellationToken);
+        var result = await _mediator.Send(new KeyValueGetByIdQueryHandlerRequest(organizationId, id), cancellationToken);
         if (result == null) return NoContent();
-        var data = _mapper.Map<KeyValue, KeyValueReaderModelContract>(result);
-        data.Value = data.InternationalizedValues.FirstOrDefault(x => string.IsNullOrEmpty(language) ?  x.Default : x.Language.Equals(language))?.Value;
-        return Ok(data);
+        var data = _mapper.Map<KeyValue, KeyValueReaderModel>(result);
+        return Ok(_mapper.Map<KeyValueReaderModel, KeyInternationalizedValueReaderModelContract>(data));
     }
 }
 
