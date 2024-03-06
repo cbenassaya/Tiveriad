@@ -7,6 +7,7 @@ using ReferenceData.Integration.Core.Entities;
 using ReferenceData.Integration.Core.Services;
 using ReferenceData.Integration.Infrastructure.Services;
 using ReferenceData.Integration.Persistence;
+using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.ReferenceData.Apis.Controllers;
 using Tiveriad.ReferenceData.Apis.Mappings;
 using Tiveriad.ReferenceData.Applications.Commands.KeyValueCommands;
@@ -52,7 +53,8 @@ public static class ServiceCollectionExtensions
     {
         servicesCollection.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         servicesCollection.AddScoped<ICurrentUserService, CurrentUserService>();
-        servicesCollection.AddScoped<IMultiTenantService, MultiTenantService>();
+        servicesCollection.AddScoped<ITenantService<string>, TenantService>();
+        servicesCollection.AddScoped<ILanguageService<string>, LanguageService>();
         return servicesCollection;
     }
 
@@ -95,7 +97,6 @@ public static class ServiceCollectionExtensions
         
         servicesCollection.AddMvc(opt =>
         {
-            opt.Filters.Add<MultiTenantActionFilter>();
             opt.Filters.Add<TransactionActionFilter>();
             opt.Filters.Add<ApiExceptionFilter>();
         });

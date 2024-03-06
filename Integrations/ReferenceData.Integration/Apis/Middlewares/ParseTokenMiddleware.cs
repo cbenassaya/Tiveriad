@@ -41,6 +41,8 @@ public class MokTokenMiddleware(RequestDelegate next)
             new Claim("given_name", "John Doe"),
             new Claim("family_name", "Doe"),
             new Claim("email", "johndoe@natan.fr"),
+            new Claim("language", "en"),
+            new Claim("organizationId", "678901"),
             };
         var token = new JwtSecurityToken(context.Request.Host.Host,
             context.Request.Host.Host,

@@ -9,18 +9,21 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
+using Tiveriad.Core.Abstractions.Services;
+
 namespace Tiveriad.ReferenceData.Apis.EndPoints.KeyValueEndPoints;
 
 public class GetByIdEndPoint<TKeyValue> : ControllerBase
     where TKeyValue : KeyValue
 {
-    private IMediator _mediator;
-    private IMapper _mapper;
-    public GetByIdEndPoint(IMediator mediator, IMapper mapper)
+    private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
+    private readonly ITenantService<string> _tenantService;
+    public GetByIdEndPoint(IMediator mediator, IMapper mapper, ITenantService<string> tenantService)
     {
         _mediator = mediator;
         _mapper = mapper;
-
+        _tenantService = tenantService;
     }
 
     [HttpGet("{id}")]
@@ -28,9 +31,9 @@ public class GetByIdEndPoint<TKeyValue> : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<KeyInternationalizedValueReaderModelContract>> HandleAsync([FromRoute][Required] string organizationId, [FromRoute][Required] string id,  CancellationToken cancellationToken  = default)
+    public async Task<ActionResult<KeyInternationalizedValueReaderModelContract>> HandleAsync([FromRoute][Required] string id,  CancellationToken cancellationToken  = default)
     {
-        var result = await _mediator.Send(new KeyValueGetByIdQueryHandlerRequest(organizationId, id), cancellationToken);
+        var result = await _mediator.Send(new KeyValueGetByIdQueryHandlerRequest(_tenantService.GetTenantId(), id), cancellationToken);
         if (result == null) return NoContent();
         var data = _mapper.Map<KeyValue, KeyValueReaderModel>(result);
         return Ok(_mapper.Map<KeyValueReaderModel, KeyInternationalizedValueReaderModelContract>(data));

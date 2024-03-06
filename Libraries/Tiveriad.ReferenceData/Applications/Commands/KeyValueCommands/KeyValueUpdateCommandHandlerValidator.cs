@@ -20,7 +20,6 @@ public class KeyValueUpdateCommandHandlerValidator : AbstractValidator<KeyValueU
         RuleFor(x => x.KeyValue.Key).NotEmpty().WithErrorCode(ErrorCodes.KeyValue_Key_XNotEmptyRule);
         RuleFor(x => x.KeyValue.Entity).MaximumLength(50).WithErrorCode(ErrorCodes.KeyValue_Entity_XMaxLengthRule_Max_50);
         RuleFor(x => x.KeyValue.Entity).NotEmpty().WithErrorCode(ErrorCodes.KeyValue_Entity_XNotEmptyRule);
-        RuleFor(x => x.KeyValue.OrganizationId).NotEmpty().WithErrorCode(ErrorCodes.KeyValue_OrganizationId_XNotEmptyRule);
         RuleFor(x => x)
         .Must(request =>
         {

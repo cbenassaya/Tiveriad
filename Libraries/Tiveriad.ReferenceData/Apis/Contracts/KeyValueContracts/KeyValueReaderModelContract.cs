@@ -13,7 +13,8 @@ public class KeyValueReaderModelContract
     public string? ImageUrl { get; set; }
     public Metadata? Properties { get; set; }
     public string Value  { get; set; } = default!;
-
+    public string Language  { get; set; } = default!;
+    public string Visibility  { get; set; } = default!;
 }
 
 public class KeyInternationalizedValueReaderModelContract
@@ -35,6 +36,7 @@ public class KeyValueReaderModel
     public Metadata? Properties { get; set; }
     public List<InternationalizedValueModelContract> InternationalizedValues  { get; set; } = new();
     public string Value  { get; set; } = default!;
+    public string Language  { get; set; } = default!;
 }
 
 

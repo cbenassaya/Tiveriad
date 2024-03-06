@@ -16,9 +16,17 @@ builder.Services
     .AddEndPointServices();
 
 var app = builder.Build();
+
 app
     .UseLoggerFile()
     .UseMiddlewareParseToken()
     .UseEndpointRoutingMiddleware();
 app.MapControllers();
 app.Run();
+
+namespace ReferenceData.Integration
+{
+    public class Program
+    {
+    }
+}

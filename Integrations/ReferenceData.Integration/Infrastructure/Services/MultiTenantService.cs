@@ -1,23 +1,35 @@
 #region
 
 using ReferenceData.Integration.Core.Services;
+using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.IdGenerators;
 
 #endregion
 
 namespace ReferenceData.Integration.Infrastructure.Services;
 
-public class MultiTenantService : IMultiTenantService
+public class TenantService : ITenantService<string>
 {
-    private string _id = KeyGenerator.NewId<string>();
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public string GetCurrentOrganizationId()
+    public TenantService(IHttpContextAccessor httpContextAccessor)
     {
-        return _id;
+        _httpContextAccessor = httpContextAccessor;
     }
 
-    public void SetCurrentOrganizationId(string organizationId)
+    public string GetTenantId()
+        => _httpContextAccessor.HttpContext?.User?.Claims.FirstOrDefault(x => x.Type == "organizationId")?.Value ?? string.Empty;
+}
+
+public class LanguageService : ILanguageService<string>
+{
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public LanguageService(IHttpContextAccessor httpContextAccessor)
     {
-        _id = organizationId;
+        _httpContextAccessor = httpContextAccessor;
     }
+
+    public string GetLanguage()
+        => _httpContextAccessor.HttpContext?.User?.Claims.FirstOrDefault(x => x.Type == "language")?.Value ?? "en";
 }

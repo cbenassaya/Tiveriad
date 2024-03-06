@@ -121,6 +121,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.ReferenceData", "L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Integration", "Integrations\Identity.Integration\Identity.Integration.csproj", "{B775AF5C-BCDE-4C69-8EA4-2D589DF9BCFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.ReferenceData.Tests", "Tests\Tiveriad.ReferenceData.Tests\Tiveriad.ReferenceData.Tests.csproj", "{1E95E423-199A-46D5-83B5-0EF1602504A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -335,6 +337,10 @@ Global
 		{B775AF5C-BCDE-4C69-8EA4-2D589DF9BCFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B775AF5C-BCDE-4C69-8EA4-2D589DF9BCFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B775AF5C-BCDE-4C69-8EA4-2D589DF9BCFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E95E423-199A-46D5-83B5-0EF1602504A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E95E423-199A-46D5-83B5-0EF1602504A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E95E423-199A-46D5-83B5-0EF1602504A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E95E423-199A-46D5-83B5-0EF1602504A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5FA9F754-A10A-4DCE-8C6A-DB372D36AE0B} = {11CE781F-0862-4A0B-BB2D-F4289DB70BE8}
@@ -389,5 +395,6 @@ Global
 		{B6762E2C-0B40-40B6-9E7E-37F1AA0FB1BE} = {7E9DCA1A-5313-48FD-9EC1-CDA61E0E090F}
 		{EA156B82-6FDB-45A8-95D6-D78D2DD463D7} = {64EC9BA5-2D37-4E64-9BBE-5B5E71C50015}
 		{B775AF5C-BCDE-4C69-8EA4-2D589DF9BCFA} = {B21186BB-5879-4951-9A3F-7E15D4986D75}
+		{1E95E423-199A-46D5-83B5-0EF1602504A5} = {7E9DCA1A-5313-48FD-9EC1-CDA61E0E090F}
 	EndGlobalSection
 EndGlobal

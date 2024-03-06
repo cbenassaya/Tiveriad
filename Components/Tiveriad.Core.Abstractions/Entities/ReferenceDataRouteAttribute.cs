@@ -3,9 +3,9 @@ namespace Tiveriad.Core.Abstractions.Entities;
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 public class ReferenceDataRouteAttribute : Attribute
 {
-    public ReferenceDataRouteAttribute(string route, bool multiTenant = true, string prefix = "api")
+    public ReferenceDataRouteAttribute(string route)
     {
-        Route = $"{prefix}/{(multiTenant ? "organizations/{organizationId}" : string.Empty)}/{route}";
+        Route = route;
     }
     public string Route { get;  }
 }
