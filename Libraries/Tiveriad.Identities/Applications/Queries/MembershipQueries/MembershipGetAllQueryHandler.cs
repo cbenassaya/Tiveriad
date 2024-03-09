@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 namespace Tiveriad.Identities.Applications.Queries.MembershipQueries;
 
-public class MembershipGetAllQueryHandler : IRequestHandler<MembershipGetAllQueryHandlerRequest, List<Membership>>
+public class MembershipGetAllQueryHandler : IRequestHandler<MembershipGetAllQueryHandlerRequest, PagedResult<Membership>>
 {
     private IRepository<Membership, string> _membershipRepository;
     private IRepository<User, string> _userRepository;
@@ -26,25 +26,23 @@ public class MembershipGetAllQueryHandler : IRequestHandler<MembershipGetAllQuer
     }
 
 
-    public Task<List<Membership>> Handle(MembershipGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
+    public Task<PagedResult<Membership>> Handle(MembershipGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
-        var query = _membershipRepository.Queryable.Include(x => x.User)
-        .Include(x => x.Organization).AsQueryable();
+        var query = _membershipRepository.Queryable
+            .Include(x => x.User)
+            .Include(x => x.Organization)
+            .Include(x => x.Roles)
+            .AsQueryable();
+        
         if (request.Id != null) query = query.Where(x => x.Id == request.Id);
-
-
         if (request.UserId != null) query = query.Where(x => x.User.Id == request.UserId);
-
         if (request.OrganizationId != null) query = query.Where(x => x.Organization.Id == request.OrganizationId);
-
         if (request.Orders != null && request.Orders.Any())
             foreach (var order in request.Orders)
                 query = order.StartsWith("-") ?
                 query.OrderByDescending(order.Substring(1)) :
                 query.OrderBy(order);
-        if (request.Page.HasValue && request.Limit.HasValue)
-            query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
-        return Task.Run(() => query.ToList(), cancellationToken);
+        return Task.Run(() => query.GetPaged(), cancellationToken);
     }
 }
 

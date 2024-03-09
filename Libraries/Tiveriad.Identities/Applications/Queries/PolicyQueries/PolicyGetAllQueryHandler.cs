@@ -8,7 +8,7 @@ using Tiveriad.Identities.Core.Entities;
 
 namespace Tiveriad.Identities.Applications.Queries.PolicyQueries;
 
-public class PolicyGetAllQueryHandler : IRequestHandler<PolicyGetAllQueryHandlerRequest, List<Policy>>
+public class PolicyGetAllQueryHandler : IRequestHandler<PolicyGetAllQueryHandlerRequest, PagedResult<Policy>>
 {
     private IRepository<Feature, string> _featureRepository;
     private readonly IRepository<Policy, string> _policyRepository;
@@ -26,7 +26,7 @@ public class PolicyGetAllQueryHandler : IRequestHandler<PolicyGetAllQueryHandler
     }
 
 
-    public Task<List<Policy>> Handle(PolicyGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
+    public Task<PagedResult<Policy>> Handle(PolicyGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
         
         var query = _policyRepository.Queryable
@@ -39,9 +39,7 @@ public class PolicyGetAllQueryHandler : IRequestHandler<PolicyGetAllQueryHandler
         if (request.Orders != null && request.Orders.Any())
             foreach (var order in request.Orders)
                 query = order.StartsWith("-") ? query.OrderByDescending(order.Substring(1)) : query.OrderBy(order);
-        if (request.Page.HasValue && request.Limit.HasValue)
-            query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
-        return Task.Run(() => query.ToList(), cancellationToken);
+        return Task.Run(() => query.GetPaged(), cancellationToken);
         
     }
 }

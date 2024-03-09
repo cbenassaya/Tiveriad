@@ -7,4 +7,4 @@ using Tiveriad.Identities.Core.Entities;
 
 namespace Tiveriad.Identities.Applications.Commands.RealmCommands;
 
-public record RealmUpdateCommandHandlerRequest(Realm Realm) : IRequest<Realm>;
+public record RealmUpdateCommandHandlerRequest(string Id, Realm Realm) : IRequest<Realm>;

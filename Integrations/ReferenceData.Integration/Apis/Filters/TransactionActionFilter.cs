@@ -2,8 +2,8 @@
 
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
-using ReferenceData.Integration.Core.Services;
 using Tiveriad.Core.Abstractions.Entities;
+using Tiveriad.Core.Abstractions.Services;
 
 #endregion
 
@@ -13,9 +13,9 @@ public class TransactionActionFilter : IAsyncActionFilter
 {
     private readonly DbContext _context;
     private readonly ILogger<TransactionActionFilter> _logger;
-    private readonly ICurrentUserService _currentUserService;
+    private readonly ICurrentUserService<string> _currentUserService;
 
-    public TransactionActionFilter(DbContext context, ILogger<TransactionActionFilter> logger, ICurrentUserService currentUserService)
+    public TransactionActionFilter(DbContext context, ILogger<TransactionActionFilter> logger, ICurrentUserService<string> currentUserService)
     {
         _context = context;
         _logger = logger;

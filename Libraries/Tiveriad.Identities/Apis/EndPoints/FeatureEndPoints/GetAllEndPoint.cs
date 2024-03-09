@@ -23,12 +23,12 @@ public class GetAllEndPoint : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpGet("/api/realms/{realmId}/features")]
+    [HttpGet("/realms/{realmId}/features")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<List<FeatureReaderModelContract>>> HandleAsync(
+    public async Task<ActionResult<PagedResult<FeatureReaderModelContract>>> HandleAsync(
         [FromRoute] [Required] string? realmId,
         [FromQuery] string? id,
         [FromQuery] int? page, [FromQuery] int? limit, [FromQuery] string? q, [FromQuery] IEnumerable<string>? orders,
@@ -37,8 +37,8 @@ public class GetAllEndPoint : ControllerBase
         
         var result = await _mediator.Send(new FeatureGetAllQueryHandlerRequest(realmId,id, page, limit, q, orders),
             cancellationToken);
-        if (!result.Any()) return NoContent();
-        var data = _mapper.Map<List<Feature>, List<FeatureReaderModelContract>>(result);
+        if (result.Items.Count==0) return NoContent();
+        var data = _mapper.Map<PagedResult<Feature>, PagedResult<FeatureReaderModelContract>>(result);
         return Ok(data);
         
     }

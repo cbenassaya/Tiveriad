@@ -15,6 +15,8 @@ public class RoleProfile : Profile
         CreateMap<RoleIdModelContract, Role>();
         CreateMap<Role, RoleReduceModelContract>();
         CreateMap<Role, RoleReaderModelContract>();
+        CreateMap<Role, RoleInfoReaderModelContract>();
         CreateMap<RoleWriterModelContract, Role>();
+        CreateMap<PagedResult<Role>, PagedResult<RoleReaderModelContract>>();
     }
 }

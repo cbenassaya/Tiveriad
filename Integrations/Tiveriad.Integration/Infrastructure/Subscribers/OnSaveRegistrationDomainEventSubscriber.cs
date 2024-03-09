@@ -58,11 +58,11 @@ public class OnSaveRegistrationDomainEventSubscriber : RabbitMqSubscriber<OnSave
             Email: @event.Entity.Email
         ));
 
-        if (!users.Any())
+        if (!users.Items.Any())
             users = await mediator.Send(new UserGetAllQueryHandlerRequest(
                 Username: @event.Entity.Username
             ));
-        if (!users.Any())
+        if (!users.Items.Any())
             user = await mediator.Send(new UserSaveCommandHandlerRequest(new User
             {
                 Email = @event.Entity.Email,
@@ -73,7 +73,7 @@ public class OnSaveRegistrationDomainEventSubscriber : RabbitMqSubscriber<OnSave
                 
             }));
         else
-            user = users.First();
+            user = users.Items.First();
 
         await mediator.Send(new OrganizationSaveCommandHandlerRequest(
             new Organization

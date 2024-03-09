@@ -21,7 +21,7 @@ public class PutEndPoint : ControllerBase
 
     }
 
-    [HttpPut("/api/users/{id}")]
+    [HttpPut("/users/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

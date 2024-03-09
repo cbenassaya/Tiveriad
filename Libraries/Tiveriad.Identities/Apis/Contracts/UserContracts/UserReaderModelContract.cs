@@ -1,6 +1,12 @@
 
 using System;
 using Tiveriad.Core.Abstractions.Entities;
+using Tiveriad.Identities.Apis.Contracts.FeatureContracts;
+using Tiveriad.Identities.Apis.Contracts.MembershipContracts;
+using Tiveriad.Identities.Apis.Contracts.RealmContracts;
+using Tiveriad.Identities.Apis.Contracts.RoleContracts;
+using Tiveriad.Identities.Core.Entities;
+
 namespace Tiveriad.Identities.Apis.Contracts.UserContracts;
 
 public class UserReaderModelContract
@@ -23,5 +29,10 @@ public class UserReaderModelContract
     public string? LastModifiedBy { get; set; }
     public DateTime? LastModified { get; set; }
 
+}
+
+public class UserInfoReaderModelContract:UserReaderModelContract
+{
+    public List<MembershipInfoReaderModelContract> Memberships { get; set; } = new();
 }
 

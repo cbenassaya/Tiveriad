@@ -7,7 +7,7 @@ using Tiveriad.Identities.Core.Entities;
 
 namespace Tiveriad.Identities.Applications.Queries.FeatureQueries;
 
-public class FeatureGetAllQueryHandler : IRequestHandler<FeatureGetAllQueryHandlerRequest, List<Feature>>
+public class FeatureGetAllQueryHandler : IRequestHandler<FeatureGetAllQueryHandlerRequest, PagedResult<Feature>>
 {
     private readonly IRepository<Feature, string> _languageRepository;
 
@@ -17,7 +17,7 @@ public class FeatureGetAllQueryHandler : IRequestHandler<FeatureGetAllQueryHandl
     }
 
 
-    public Task<List<Feature>> Handle(FeatureGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
+    public Task<PagedResult<Feature>> Handle(FeatureGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
         
         var query = _languageRepository.Queryable;
@@ -30,7 +30,7 @@ public class FeatureGetAllQueryHandler : IRequestHandler<FeatureGetAllQueryHandl
                 query = order.StartsWith("-") ? query.OrderByDescending(order.Substring(1)) : query.OrderBy(order);
         if (request.Page.HasValue && request.Limit.HasValue)
             query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
-        return Task.Run(() => query.ToList(), cancellationToken);
+        return Task.Run(() => query.GetPaged(), cancellationToken);
         
     }
 }

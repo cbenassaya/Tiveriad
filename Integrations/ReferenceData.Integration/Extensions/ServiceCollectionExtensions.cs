@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using ReferenceData.Integration.Apis.Filters;
 using ReferenceData.Integration.Applications.Pipelines;
 using ReferenceData.Integration.Core.Entities;
-using ReferenceData.Integration.Core.Services;
 using ReferenceData.Integration.Infrastructure.Services;
 using ReferenceData.Integration.Persistence;
 using Tiveriad.Core.Abstractions.Services;
@@ -36,10 +35,11 @@ public static class ServiceCollectionExtensions
 
             var databasePath = Path.Combine(hostingEnvironment.ContentRootPath, "database.db");
             options.UseSqlite($"Data Source={databasePath}");
+            Console.WriteLine($"Database path: {databasePath}");
         });
         
         var serviceProvider = servicesCollection.BuildServiceProvider();
-        var defaultContext = serviceProvider.GetRequiredService<DbContext>();
+        var defaultContext = serviceProvider.GetRequiredService<DefaultContext>();
         defaultContext.Database.EnsureCreated();
         
         
@@ -52,7 +52,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddServices(this IServiceCollection servicesCollection)
     {
         servicesCollection.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        servicesCollection.AddScoped<ICurrentUserService, CurrentUserService>();
+        servicesCollection.AddScoped<ICurrentUserService<string>, CurrentUserService>();
         servicesCollection.AddScoped<ITenantService<string>, TenantService>();
         servicesCollection.AddScoped<ILanguageService<string>, LanguageService>();
         return servicesCollection;

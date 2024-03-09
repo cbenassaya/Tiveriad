@@ -35,18 +35,13 @@ public class GetAllEndPoint<TKeyValue> : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<List<KeyValueReaderModelContract>>> HandleAsync( [FromQuery] string? id = null, [FromQuery] string? key = null,  [FromQuery] string? value = null,  [FromQuery] int? page = null, [FromQuery] int? limit = null, [FromQuery] string? q = null, [FromQuery] List<string>? orders = null, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<PagedResult<KeyValueReaderModelContract>>> HandleAsync( [FromQuery] string? id = null, [FromQuery] string? key = null,  [FromQuery] string? value = null,  [FromQuery] int? page = null, [FromQuery] int? limit = null, [FromQuery] string? q = null, [FromQuery] List<string>? orders = null, CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(new KeyValueGetAllQueryHandlerRequest(_tenantService.GetTenantId(), id, key, typeof(TKeyValue).Name, value, _languageService.GetLanguage(), page, limit, q, orders), cancellationToken);
-        if (!result.Any()) return NoContent();
-        var data = _mapper.Map<List<KeyValue>, List<KeyValueReaderModel>>(result);
-        data.ForEach(x =>
-        {
-            var internationalizedValue = x.InternationalizedValues.FirstOrDefault(x => string.IsNullOrEmpty(_languageService.GetLanguage()) ?  x.Default : x.Language.Equals(_languageService.GetLanguage()));
-            x.Value = internationalizedValue?.Value ?? string.Empty;
-            x.Language = internationalizedValue?.Language ?? string.Empty;
-        });
-        return Ok(_mapper.Map<List<KeyValueReaderModel>, List<KeyValueReaderModelContract>>(data));
+        if (result.RowCount==0) return NoContent();
+            
+        var data = _mapper.Map<PagedResult<KeyValue>, PagedResult<KeyValueReaderModelContract>>(result);
+        return Ok(data);
     }
 }
 

@@ -29,5 +29,15 @@ public class RealmSaveCommandHandlerValidator : AbstractValidator<RealmSaveComma
                     return !query.ToList().Any();
                 }
             ).WithErrorCode(ErrorCodes.Realm_Name_XUniqueRule);
+        RuleFor(x => x.Realm.Code).MaximumLength(24).WithErrorCode(ErrorCodes.Realm_Code_XMaxLengthRule_Max_24);
+        RuleFor(x => x.Realm.Code).NotEmpty().WithErrorCode(ErrorCodes.Realm_Code_XNotEmptyRule);
+        RuleFor(x => x)
+            .Must(request =>
+                {
+                    var query = repository.Queryable;
+                    query = query.Where(x => x.Code == request.Realm.Code);
+                    return !query.ToList().Any();
+                }
+            ).WithErrorCode(ErrorCodes.Realm_Code_XUniqueRule);
     }
 }

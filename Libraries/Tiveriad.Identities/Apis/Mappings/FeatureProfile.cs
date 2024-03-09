@@ -17,5 +17,6 @@ public class FeatureProfile : Profile
         CreateMap<FeatureIdModelContract, Feature>();
         CreateMap<Feature, FeatureReduceModelContract>();
         CreateMap<Feature, FeatureReaderModelContract>();
+        CreateMap<PagedResult<Feature>, PagedResult<FeatureReaderModelContract>>();
     }
 }

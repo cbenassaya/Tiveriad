@@ -22,7 +22,7 @@ public class PutEndPoint : ControllerBase
 
     }
 
-    [HttpPut("/api/organizations/{id}")]
+    [HttpPut("/organizations/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -35,7 +35,7 @@ public class PutEndPoint : ControllerBase
         return Ok(data);
     }
     
-    [HttpPut("/api/organizations/{id}/events")]
+    [HttpPut("/organizations/{id}/events")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

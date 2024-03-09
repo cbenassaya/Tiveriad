@@ -17,7 +17,7 @@ public class DeleteEndPoint : ControllerBase
 
     }
 
-    [HttpDelete("/api/organizations/{id}")]
+    [HttpDelete("/organizations/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

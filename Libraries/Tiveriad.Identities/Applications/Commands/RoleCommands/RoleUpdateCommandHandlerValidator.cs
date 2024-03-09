@@ -29,5 +29,14 @@ public class RoleUpdateCommandHandlerValidator : AbstractValidator<RoleUpdateCom
                     return !query.ToList().Any();
                 }
             ).WithErrorCode(ErrorCodes.Role_Name_XUniqueRule);
+        RuleFor(x => x)
+            .Must(request =>
+                {
+                    var query = repository.Queryable;
+                    query = query.Where(x => x.Id != request.Id);
+                    query = query.Where(x => x.Code == request.Role.Code);
+                    return !query.ToList().Any();
+                }
+            ).WithErrorCode(ErrorCodes.Role_Code_XUniqueRule);
     }
 }

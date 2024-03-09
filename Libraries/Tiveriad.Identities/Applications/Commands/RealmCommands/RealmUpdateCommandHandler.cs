@@ -26,8 +26,7 @@ public class RealmUpdateCommandHandler : IRequestHandler<RealmUpdateCommandHandl
         return Task.Run(async () =>
         {
             var query = _realmRepository.Queryable;
-
-
+            query = query.Where(x => x.Id == request.Id);
             var result = query.ToList().FirstOrDefault();
             if (result == null) throw new Exception();
 

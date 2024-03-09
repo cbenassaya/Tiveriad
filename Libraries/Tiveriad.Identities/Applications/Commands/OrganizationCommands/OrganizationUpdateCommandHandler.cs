@@ -37,7 +37,6 @@ public class OrganizationUpdateCommandHandler : IRequestHandler<OrganizationUpda
             result.TimeZone = request.Organization.TimeZone;
             result.Domain = request.Organization.Domain;
             result.Description = request.Organization.Description;
-            result.State = request.Organization.State;
             result.Properties = request.Organization.Properties;
             if (request.Organization.Owner != null) result.Owner = await _userRepository.GetByIdAsync(request.Organization.Owner.Id, cancellationToken);
             return result;

@@ -33,8 +33,7 @@ public class PutEndPoint<TKeyValue> : ControllerBase
     {
         var keyValue = _mapper.Map<KeyValueWriterModelContract, KeyValue>(model);
         var result = await _mediator.Send(new KeyValueUpdateCommandHandlerRequest(_tenantService.GetTenantId(), id, keyValue), cancellationToken);
-        var data = _mapper.Map<KeyValue, KeyValueReaderModel>(result);
-        return Ok(_mapper.Map<KeyValueReaderModel, KeyInternationalizedValueReaderModelContract>(data));
+        return Ok(_mapper.Map<KeyValue, KeyInternationalizedValueReaderModelContract>(result));
     }
 }
 

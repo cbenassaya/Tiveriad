@@ -9,14 +9,23 @@ public class KeyValueProfile : Profile
 
     public KeyValueProfile()
     {
-
-        CreateMap<KeyValue, KeyValueReaderModel>()
-            .ForMember(dest => dest.Value,
-                opt => opt.Ignore());
         CreateMap<KeyValueWriterModelContract, KeyValue>();
-        
-        CreateMap<KeyValueReaderModel, KeyInternationalizedValueReaderModelContract>();
-        CreateMap<KeyValueReaderModel, KeyValueReaderModelContract>();
+        CreateMap<KeyValue, KeyInternationalizedValueReaderModelContract>();
+        CreateMap<KeyValue, KeyValueReaderModelContract>()
+            .ForMember(dest => dest.Value, opt =>
+            {
+                opt.MapFrom(src =>
+                    src.InternationalizedValues.Any() ? src.InternationalizedValues.FirstOrDefault()!.Value : src.Key);
+            })
+            .ForMember(dest => dest.Language, opt =>
+            {
+                opt.MapFrom(src =>
+                    src.InternationalizedValues.Any()
+                        ? src.InternationalizedValues.FirstOrDefault()!.Language
+                        : string.Empty);
+            });
+        CreateMap<PagedResult<KeyValue>, PagedResult<KeyValueReaderModelContract>>();
+
     }
 
 

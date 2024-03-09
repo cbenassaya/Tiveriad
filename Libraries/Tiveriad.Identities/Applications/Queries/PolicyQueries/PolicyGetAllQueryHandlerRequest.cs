@@ -15,4 +15,4 @@ public record PolicyGetAllQueryHandlerRequest(
     int? Page = null,
     int? Limit = null,
     string? Q = null,
-    IEnumerable<string>? Orders = null) : IRequest<List<Policy>>;
+    IEnumerable<string>? Orders = null) : IRequest<PagedResult<Policy>>;

@@ -1,12 +1,14 @@
 ﻿#region
 
-using ReferenceData.Integration.Core.Services;
+
 
 #endregion
 
+using Tiveriad.Core.Abstractions.Services;
+
 namespace ReferenceData.Integration.Infrastructure.Services;
 
-public class CurrentUserService(IHttpContextAccessor httpContextAccessor) : ICurrentUserService
+public class CurrentUserService(IHttpContextAccessor httpContextAccessor) : ICurrentUserService<string>
 {
     public string GetUserId() => httpContextAccessor.HttpContext?.User?.Claims.FirstOrDefault(x => x.Type == "id")?.Value ?? string.Empty;
 

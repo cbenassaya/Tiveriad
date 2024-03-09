@@ -14,4 +14,4 @@ public record RoleGetAllQueryHandlerRequest(
     int? Page = null,
     int? Limit = null,
     string? Q = null,
-    IEnumerable<string>? Orders = null) : IRequest<List<Role>>;
+    IEnumerable<string>? Orders = null) : IRequest<PagedResult<Role>>;

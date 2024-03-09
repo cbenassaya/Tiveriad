@@ -28,5 +28,15 @@ public class RoleSaveCommandHandlerValidator : AbstractValidator<RoleSaveCommand
                     return !query.ToList().Any();
                 }
             ).WithErrorCode(ErrorCodes.Role_Name_XUniqueRule);
+        RuleFor(x => x.Role.Code).MaximumLength(24).WithErrorCode(ErrorCodes.Role_Code_XMaxLengthRule_Max_24);
+        RuleFor(x => x.Role.Code).NotEmpty().WithErrorCode(ErrorCodes.Role_Code_XNotEmptyRule);
+        RuleFor(x => x)
+            .Must(request =>
+                {
+                    var query = repository.Queryable;
+                    query = query.Where(x => x.Code == request.Role.Code);
+                    return !query.ToList().Any();
+                }
+            ).WithErrorCode(ErrorCodes.Role_Code_XUniqueRule);
     }
 }

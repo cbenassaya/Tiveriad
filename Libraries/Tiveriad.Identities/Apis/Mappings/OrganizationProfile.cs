@@ -15,6 +15,7 @@ public class OrganizationProfile : Profile
         CreateMap<Organization, OrganizationReaderModelContract>();
         CreateMap<OrganizationWriterModelContract, Organization>()
         .ForMember(dest => dest.Owner, opt => opt.MapFrom(src => new User() { Id = src.OwnerId }));
+        CreateMap<PagedResult<Organization>, PagedResult<OrganizationReaderModelContract>>();
     }
 
 

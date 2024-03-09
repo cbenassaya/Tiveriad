@@ -35,8 +35,7 @@ public class GetByIdEndPoint<TKeyValue> : ControllerBase
     {
         var result = await _mediator.Send(new KeyValueGetByIdQueryHandlerRequest(_tenantService.GetTenantId(), id), cancellationToken);
         if (result == null) return NoContent();
-        var data = _mapper.Map<KeyValue, KeyValueReaderModel>(result);
-        return Ok(_mapper.Map<KeyValueReaderModel, KeyInternationalizedValueReaderModelContract>(data));
+        return Ok(_mapper.Map<KeyValue, KeyInternationalizedValueReaderModelContract>(result));
     }
 }
 

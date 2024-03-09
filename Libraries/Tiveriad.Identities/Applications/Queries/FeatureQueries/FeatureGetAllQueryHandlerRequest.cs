@@ -13,4 +13,4 @@ public record FeatureGetAllQueryHandlerRequest(
     int? Page = null,
     int? Limit = null,
     string? Q = null,
-    IEnumerable<string>? Orders = null) : IRequest<List<Feature>>;
+    IEnumerable<string>? Orders = null) : IRequest<PagedResult<Feature>>;

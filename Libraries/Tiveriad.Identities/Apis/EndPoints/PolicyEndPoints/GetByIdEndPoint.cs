@@ -23,7 +23,7 @@ public class GetByIdEndPoint : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpGet("/api/realms/{realmId}/roles/{roleId}/policies/{id}")]
+    [HttpGet("/realms/{realmId}/roles/{roleId}/policies/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

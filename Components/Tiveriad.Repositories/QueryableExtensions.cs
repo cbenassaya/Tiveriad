@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Tiveriad.Core.Abstractions.Entities;
 
 namespace Tiveriad.Repositories;
 
@@ -35,7 +36,7 @@ public static class QueryableExtensions
         return ApplyOrder<T>(source, property, "ThenByDescending");
     }
 
-    static IOrderedQueryable<T> ApplyOrder<T>(
+    private static IOrderedQueryable<T> ApplyOrder<T>(
         IQueryable<T> source, 
         string property, 
         string methodName) 
@@ -61,5 +62,24 @@ public static class QueryableExtensions
             .MakeGenericMethod(typeof(T), type)
             .Invoke(null, new object[] {source, lambda});
         return (IOrderedQueryable<T>)result;
+    }
+    
+    public static PagedResult<T> GetPaged<T>(this IQueryable<T> query, 
+        int? page = null, int? limit = null) where T : class
+    {
+        var result = new PagedResult<T>
+        {
+            Page = page ?? 1,
+            Limit = limit ?? 50,
+            RowCount = query.Count()
+        };
+
+        var pageCount = (double)result.RowCount / result.Limit;
+        result.PageCount = (int)Math.Ceiling(pageCount);
+ 
+        var skip = (result.Page - 1) * result.Limit;     
+        result.Items = query.Skip(skip).Take(result.Limit).ToList();
+ 
+        return result;
     }
 }

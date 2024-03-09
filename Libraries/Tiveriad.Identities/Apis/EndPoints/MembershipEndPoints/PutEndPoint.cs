@@ -8,19 +8,24 @@ using AutoMapper;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tiveriad.Core.Abstractions.Services;
+
 namespace Tiveriad.Identities.Apis.EndPoints.MembershipEndPoints;
 
 public class PutEndPoint : ControllerBase
 {
-    private IMediator _mediator;
-    private IMapper _mapper;
-    public PutEndPoint(IMediator mediator, IMapper mapper)
+    private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
+    private readonly ITenantService<string> _tenantService;
+    
+    public PutEndPoint(IMediator mediator, IMapper mapper, ITenantService<string> tenantService)
     {
         _mediator = mediator;
         _mapper = mapper;
+        _tenantService = tenantService;
     }
 
-    [HttpPut("/api/memberships/{id}")]
+    [HttpPut("/memberships/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -33,14 +38,13 @@ public class PutEndPoint : ControllerBase
     }
 
 
-    [HttpPut("/api/organizations/{organizationId}/users/{userId}/memberships/default")]
+    [HttpPut("/users/{userId}/memberships/default")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<MembershipReaderModelContract>> HandleAsync([FromRoute] string organizationId,
-        [FromBody] string userId, CancellationToken cancellationToken)
+    public async Task<ActionResult<MembershipReaderModelContract>> HandleAsync([FromBody] string userId, CancellationToken cancellationToken)
     {
-        var result = await _mediator.Send(new DefaultMembershipUpdateCommandHandlerRequest(organizationId, userId),
+        var result = await _mediator.Send(new DefaultMembershipUpdateCommandHandlerRequest(_tenantService.GetTenantId(), userId),
             cancellationToken);
         var data = _mapper.Map<Membership, MembershipReaderModelContract>(result);
         return Ok(data);

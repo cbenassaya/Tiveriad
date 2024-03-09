@@ -5,13 +5,12 @@ using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.Identities.Apis.Contracts.UserContracts;
 using Tiveriad.Identities.Apis.Contracts.OrganizationContracts;
 using System.Collections.Generic;
+using Tiveriad.Identities.Apis.Contracts.PolicyContracts;
 using Tiveriad.Identities.Apis.Contracts.RoleContracts;
 namespace Tiveriad.Identities.Apis.Contracts.MembershipContracts;
 
 public class MembershipReaderModelContract
 {
-
-
     public string? Id { get; set; }
     public MembershipState? State { get; set; }
     public Metadata? Properties { get; set; }
@@ -24,4 +23,13 @@ public class MembershipReaderModelContract
     public List<RoleReduceModelContract>? Roles { get; set; } = new();
 
 }
+
+public class MembershipInfoReaderModelContract
+{
+    public string? Id { get; set; }
+    public MembershipState? State { get; set; }
+    public OrganizationReduceModelContract? Organization { get; set; }
+    public List<RoleInfoReaderModelContract> Roles { get; set; } = new();
+}
+
 

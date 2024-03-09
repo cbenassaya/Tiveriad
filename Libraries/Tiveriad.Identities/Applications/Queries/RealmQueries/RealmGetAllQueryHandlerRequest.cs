@@ -13,4 +13,4 @@ public record RealmGetAllQueryHandlerRequest(
     int? Page = null,
     int? Limit = null,
     string? Q = null,
-    IEnumerable<string>? Orders = null) : IRequest<List<Realm>>;
+    IEnumerable<string>? Orders = null) : IRequest<PagedResult<Realm>>;

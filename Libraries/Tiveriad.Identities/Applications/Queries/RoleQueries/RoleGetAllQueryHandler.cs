@@ -8,7 +8,7 @@ using Tiveriad.Identities.Core.Entities;
 
 namespace Tiveriad.Identities.Applications.Queries.RoleQueries;
 
-public class RoleGetAllQueryHandler : IRequestHandler<RoleGetAllQueryHandlerRequest, List<Role>>
+public class RoleGetAllQueryHandler : IRequestHandler<RoleGetAllQueryHandlerRequest, PagedResult<Role>>
 {
     private IRepository<Realm, string> _realmRepository;
     private readonly IRepository<Role, string> _roleRepository;
@@ -20,7 +20,7 @@ public class RoleGetAllQueryHandler : IRequestHandler<RoleGetAllQueryHandlerRequ
     }
 
 
-    public Task<List<Role>> Handle(RoleGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
+    public Task<PagedResult<Role>> Handle(RoleGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
         
         var query = _roleRepository.Queryable.Include(x => x.Organization).AsQueryable();
@@ -30,9 +30,7 @@ public class RoleGetAllQueryHandler : IRequestHandler<RoleGetAllQueryHandlerRequ
         if (request.Orders != null && request.Orders.Any())
             foreach (var order in request.Orders)
                 query = order.StartsWith("-") ? query.OrderByDescending(order.Substring(1)) : query.OrderBy(order);
-        if (request.Page.HasValue && request.Limit.HasValue)
-            query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
-        return Task.Run(() => query.ToList(), cancellationToken);
+        return Task.Run(() => query.GetPaged(), cancellationToken);
         
     }
 }

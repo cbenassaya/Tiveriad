@@ -17,5 +17,6 @@ public class PolicyProfile : Profile
             .ForMember(dest => dest.Role, opt => opt.MapFrom(src=>new Role(){Id = src.RoleId}))
             .ForMember(dest => dest.Realm, opt => opt.MapFrom(src=>new Realm(){Id = src.RealmId}))
             .ForMember(dest => dest.Features, opt => opt.MapFrom(src=>src.FeaturesId.Select(x=>new Feature(){Id=x}).ToList()));
+        CreateMap<PagedResult<Policy>, PagedResult<PolicyReaderModelContract>>();
     }
 }

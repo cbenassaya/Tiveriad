@@ -18,7 +18,7 @@ public class DeleteEndPoint : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpDelete("/api/realms/{id}")]
+    [HttpDelete("/realms/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

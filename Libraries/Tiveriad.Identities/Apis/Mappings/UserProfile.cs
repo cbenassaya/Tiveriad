@@ -13,7 +13,9 @@ public class UserProfile : Profile
         CreateMap<UserIdModelContract, User>();
         CreateMap<User, UserReduceModelContract>();
         CreateMap<User, UserReaderModelContract>();
+        CreateMap<User, UserInfoReaderModelContract>();
         CreateMap<UserWriterModelContract, User>();
+        CreateMap<PagedResult<User>, PagedResult<UserReaderModelContract>>();
     }
 
 

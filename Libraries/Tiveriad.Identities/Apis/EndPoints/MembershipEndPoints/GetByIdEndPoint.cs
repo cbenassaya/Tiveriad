@@ -22,7 +22,7 @@ public class GetByIdEndPoint : ControllerBase
 
     }
 
-    [HttpGet("/api/memberships/{id}")]
+    [HttpGet("/memberships/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

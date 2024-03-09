@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 namespace Tiveriad.Identities.Applications.Queries.UserQueries;
 
-public class UserGetAllQueryHandler : IRequestHandler<UserGetAllQueryHandlerRequest, List<User>>
+public class UserGetAllQueryHandler : IRequestHandler<UserGetAllQueryHandlerRequest, PagedResult<User>>
 {
     private IRepository<User, string> _userRepository;
     public UserGetAllQueryHandler(IRepository<User, string> userRepository)
@@ -20,7 +20,7 @@ public class UserGetAllQueryHandler : IRequestHandler<UserGetAllQueryHandlerRequ
     }
 
 
-    public Task<List<User>> Handle(UserGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
+    public Task<PagedResult<User>> Handle(UserGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
         var query = _userRepository.Queryable;
         if (request.Id != null) query = query.Where(x => x.Id == request.Id);
@@ -37,9 +37,7 @@ public class UserGetAllQueryHandler : IRequestHandler<UserGetAllQueryHandlerRequ
                 query = order.StartsWith("-") ?
                 query.OrderByDescending(order.Substring(1)) :
                 query.OrderBy(order);
-        if (request.Page.HasValue && request.Limit.HasValue)
-            query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
-        return Task.Run(() => query.ToList(), cancellationToken);
+        return Task.Run(() => query.GetPaged(), cancellationToken);
     }
 }
 

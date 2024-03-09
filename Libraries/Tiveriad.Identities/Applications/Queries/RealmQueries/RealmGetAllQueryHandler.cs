@@ -7,7 +7,7 @@ using Tiveriad.Identities.Core.Entities;
 
 namespace Tiveriad.Identities.Applications.Queries.RealmQueries;
 
-public class RealmGetAllQueryHandler : IRequestHandler<RealmGetAllQueryHandlerRequest, List<Realm>>
+public class RealmGetAllQueryHandler : IRequestHandler<RealmGetAllQueryHandlerRequest, PagedResult<Realm>>
 {
     private IRepository<Feature, string> _featureRepository;
     private readonly IRepository<Realm, string> _realmRepository;
@@ -20,7 +20,7 @@ public class RealmGetAllQueryHandler : IRequestHandler<RealmGetAllQueryHandlerRe
     }
 
 
-    public Task<List<Realm>> Handle(RealmGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
+    public Task<PagedResult<Realm>> Handle(RealmGetAllQueryHandlerRequest request, CancellationToken cancellationToken)
     {
         
         var query = _realmRepository.Queryable;
@@ -31,9 +31,8 @@ public class RealmGetAllQueryHandler : IRequestHandler<RealmGetAllQueryHandlerRe
         if (request.Orders != null && request.Orders.Any())
             foreach (var order in request.Orders)
                 query = order.StartsWith("-") ? query.OrderByDescending(order.Substring(1)) : query.OrderBy(order);
-        if (request.Page.HasValue && request.Limit.HasValue)
-            query = query.Skip(request.Page.Value * request.Limit.Value).Take(request.Limit.Value);
-        return Task.Run(() => query.ToList(), cancellationToken);
+
+        return Task.Run(() => query.GetPaged(), cancellationToken);
         
     }
 }

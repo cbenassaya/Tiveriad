@@ -34,8 +34,7 @@ public class PostEndPoint<TKeyValue> : ControllerBase
         var keyValue = _mapper.Map<KeyValueWriterModelContract, KeyValue>(model);
         keyValue.Entity= typeof(TKeyValue).Name;
         var result = await _mediator.Send(new KeyValueSaveCommandHandlerRequest(_tenantService.GetTenantId(), keyValue), cancellationToken);
-        var data = _mapper.Map<KeyValue, KeyValueReaderModel>(result);
-        return Ok(_mapper.Map<KeyValueReaderModel, KeyInternationalizedValueReaderModelContract>(data));
+        return Ok(_mapper.Map<KeyValue, KeyInternationalizedValueReaderModelContract>(result));
     }
 }
 

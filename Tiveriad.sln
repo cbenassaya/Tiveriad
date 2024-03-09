@@ -109,7 +109,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Core.Abstractions"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Notifications", "Libraries\Tiveriad.Notifications\Tiveriad.Notifications.csproj", "{4335923F-C966-4E25-8DF0-B6A9A5B60A30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Integration.Tests", "Tests\Tiveriad.Integration.Tests\Tiveriad.Integration.Tests.csproj", "{FCC29449-16DE-46FD-9EB4-EB6744522C3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Identities.Tests", "Tests\Tiveriad.Identities.Tests\Tiveriad.Identities.Tests.csproj", "{FCC29449-16DE-46FD-9EB4-EB6744522C3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.Registrations", "Libraries\Tiveriad.Registrations\Tiveriad.Registrations.csproj", "{20D5F099-AAC6-46FA-B7DF-4677BFCDEFFF}"
 EndProject
@@ -119,7 +119,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.EnterpriseIntegrat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.ReferenceData", "Libraries\Tiveriad.ReferenceData\Tiveriad.ReferenceData.csproj", "{EA156B82-6FDB-45A8-95D6-D78D2DD463D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Integration", "Integrations\Identity.Integration\Identity.Integration.csproj", "{B775AF5C-BCDE-4C69-8EA4-2D589DF9BCFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identities.Integration", "Integrations\Identities.Integration\Identities.Integration.csproj", "{B775AF5C-BCDE-4C69-8EA4-2D589DF9BCFA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiveriad.ReferenceData.Tests", "Tests\Tiveriad.ReferenceData.Tests\Tiveriad.ReferenceData.Tests.csproj", "{1E95E423-199A-46D5-83B5-0EF1602504A5}"
 EndProject

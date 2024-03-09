@@ -22,18 +22,15 @@ public class PutEndPoint : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPut("/api/realms/{id}")]
+    [HttpPut("/realms/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<RealmReaderModelContract>> HandleAsync([FromRoute] string id,
         [FromBody] RealmWriterModelContract model, CancellationToken cancellationToken)
     {
-        
-
         var realm = _mapper.Map<RealmWriterModelContract, Realm>(model);
-        realm.Id = id;
-        var result = await _mediator.Send(new RealmUpdateCommandHandlerRequest(realm), cancellationToken);
+        var result = await _mediator.Send(new RealmUpdateCommandHandlerRequest(id,realm), cancellationToken);
         var data = _mapper.Map<Realm, RealmReaderModelContract>(result);
         return Ok(data);
         

@@ -16,5 +16,6 @@ public class RealmProfile : Profile
         CreateMap<Realm, RealmReduceModelContract>();
         CreateMap<Realm, RealmReaderModelContract>();
         CreateMap<RealmWriterModelContract, Realm>();
+        CreateMap<PagedResult<Realm>, PagedResult<RealmReaderModelContract>>();
     }
 }

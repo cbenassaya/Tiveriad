@@ -22,20 +22,20 @@ public class GetAllEndPoint : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpGet("/api/realms")]
+    [HttpGet("/realms")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<List<RealmReaderModelContract>>> HandleAsync([FromQuery] string? id,
+    public async Task<ActionResult<PagedResult<RealmReaderModelContract>>> HandleAsync([FromQuery] string? id,
         [FromQuery] string? name, [FromQuery] int? page, [FromQuery] int? limit, [FromQuery] string? q,
         [FromQuery] IEnumerable<string>? orders, CancellationToken cancellationToken)
     {
         
         var result = await _mediator.Send(new RealmGetAllQueryHandlerRequest(id, name, page, limit, q, orders),
             cancellationToken);
-        if (!result.Any()) return NoContent();
-        var data = _mapper.Map<List<Realm>, List<RealmReaderModelContract>>(result);
+        if (result.Items.Count==0) return NoContent();
+        var data = _mapper.Map<PagedResult<Realm>, PagedResult<RealmReaderModelContract>>(result);
         return Ok(data);
         
     }
