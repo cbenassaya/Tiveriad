@@ -16,7 +16,7 @@
 
     <ItemGroup>
         <PackageReference Include="Faker.Net" Version="2.0.163" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.4" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
         <PackageReference Include="xunit" Version="2.6.4" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.5.6">
@@ -27,7 +27,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Components\Tiveriad.UnitTests\Tiveriad.UnitTests.csproj" />
-        <ProjectReference Include="..\..\Integrations\ReferenceData.Integration\ReferenceData.Integration.csproj" />
     </ItemGroup>
 
 </Project>
