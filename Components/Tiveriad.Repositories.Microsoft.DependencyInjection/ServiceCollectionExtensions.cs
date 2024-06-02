@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Tiveriad.Commons.Extensions;
 using Tiveriad.Connections;
 using Tiveriad.Core.Abstractions.Entities;
+using Tiveriad.Core.Abstractions.Services;
 
 #endregion
 
@@ -97,6 +98,9 @@ public static class ServiceCollectionExtensions
         IEnumerable<Assembly> assembliesToScan, Type[] openTypes,
         ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
+       
+        
+        
         var assembliesToScanArray = assembliesToScan as Assembly[] ?? assembliesToScan?.ToArray();
         if (assembliesToScanArray != null && assembliesToScanArray.Length > 0)
         {
@@ -113,8 +117,19 @@ public static class ServiceCollectionExtensions
             {
                 var keyType = FindKeyType(type, openTypes);
                 if (keyType == null) continue;
+                
+                
+                var iTenantServiceType = typeof(ITenantService<>);
+                var iGenericTenantServiceType = iTenantServiceType.MakeGenericType(keyType);                
+                var iOptionalServiceType = typeof(IOptionalService<>);
+                var iGenericOptionalServiceType = iOptionalServiceType.MakeGenericType(iGenericTenantServiceType);
+                var implementationOptionalServiceType = typeof(OptionalService<>).MakeGenericType(iGenericTenantServiceType);
+                services.TryAddTransient(iGenericOptionalServiceType, implementationOptionalServiceType);
+                
+                
                 var iRepositoryType = typeof(IRepository<,>);
                 var iGenericRepositoryType = iRepositoryType.MakeGenericType(type.AsType(), keyType);
+               
                 var genericRepositoryBaseType = repositoryType.GetGenericArguments().Length == 1
                     ? repositoryType.MakeGenericType(type.AsType())
                     : repositoryType.MakeGenericType(type.AsType(), keyType);

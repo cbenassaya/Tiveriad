@@ -2,6 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Tiveriad.Core.Abstractions.Entities;
 using Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
 
 #endregion
@@ -57,6 +58,8 @@ public sealed class DefaultContext : DbContext
         modelBuilder.Entity<Student>(x =>
         {
             x.ToTable("T_Student").HasKey(k => k.Id);
+            x.Property(e => e.Visibility).HasConversion(v =>  v.ToString(),
+                v => (string.IsNullOrEmpty(v) ? null : (Visibility)v)!);
             x.HasMany(p => p.Courses).WithMany(p => p.Students).UsingEntity(j => j.ToTable("J_StudentSource"));
         });
         modelBuilder.Entity<Professor>(x => { x.ToTable("T_Professor").HasKey(k => k.Id); });

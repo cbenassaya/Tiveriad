@@ -4,6 +4,8 @@ using Faker;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Tiveriad.Core.Abstractions.Entities;
+using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.IdGenerators;
 using Tiveriad.Repositories.EntityFrameworkCore.Repositories;
 using Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
@@ -32,7 +34,7 @@ public class Startup : StartupBase
             if (logger != null)
                 options.LogTo(message => { logger.LogInformation(message); }, LogLevel.Information);
         });
-
+        services.AddScoped<ITenantService<string>, TenantService>();
         services.AddRepositories(typeof(EFRepository<,>), typeof(Course));
     }
 
@@ -78,7 +80,9 @@ public class Startup : StartupBase
                 Email = Internet.Email(),
                 City = Address.City(),
                 Country = Address.Country(),
-                StreetAddress = Address.StreetAddress()
+                StreetAddress = Address.StreetAddress(),
+                OrganizationId = "1",
+                Visibility = Visibility.Private
             });
         context.SaveChanges();
     }
@@ -143,5 +147,16 @@ public class Startup : StartupBase
             });
 
         context.SaveChanges();
+    }
+    
+    
+}
+
+public class TenantService : ITenantService<string>
+{
+    public string TenantId {get; set;} ="1";
+    public string GetTenantId()
+    {
+        return TenantId;
     }
 }

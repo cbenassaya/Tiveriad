@@ -6,7 +6,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Tiveriad.Commons.Extensions;
 using Tiveriad.Core.Abstractions.Entities;
+using Tiveriad.Core.Abstractions.Services;
 
 #endregion
 
@@ -19,86 +21,126 @@ public abstract class RepositoryBase<TEntity, TKey> : IRepository<TEntity, TKey>
 {
     private readonly ICommandRepository<TEntity, TKey> _commandRepository;
     private readonly IQueryRepository<TEntity, TKey> _queryRepository;
+    private readonly IOptionalService<ITenantService<TKey>> _optionalTenantService;
 
     public RepositoryBase(IQueryRepository<TEntity, TKey> queryRepository,
-        ICommandRepository<TEntity, TKey> commandRepository)
+        ICommandRepository<TEntity, TKey> commandRepository, IOptionalService<ITenantService<TKey>> optionalTenantService)
     {
         _queryRepository = queryRepository;
         _commandRepository = commandRepository;
+        _optionalTenantService = optionalTenantService;
     }
 
-    public IQueryable<TEntity> Queryable => _queryRepository.Queryable;
+    public IQueryable<TEntity> Queryable
+    {
+        get {
+            var queryable = _queryRepository.Queryable;
+           
+            var entityType = typeof(TEntity);
+            if (_optionalTenantService.HasService && entityType.GetInterfaces().Contains(typeof(IWithTenant<TKey>)))
+            {
+                queryable = queryable.Where(x=>(
+                        (IWithTenant<TKey>)x).Visibility == Visibility.Public ||
+                        ((IWithTenant<TKey>)x).OrganizationId.Equals(_optionalTenantService.GetService().GetTenantId()));
+            }
+            return queryable;
+            
+        }
+    }
 
     public bool Any()
     {
-        return _queryRepository.Any();
+        var queryable = Queryable;
+        return queryable.Any();
     }
 
     public bool Any(Expression<Func<TEntity, bool>> where)
     {
-        return _queryRepository.Any(where);
+
+        var queryable = Queryable;
+        queryable = queryable.Where(where);
+        return queryable.Any();
     }
 
     public Task<bool> AnyAsync(CancellationToken cancellationToken = default)
     {
-        return _queryRepository.AnyAsync(cancellationToken);
+        var queryable = Queryable;
+        return Task.FromResult( queryable.Any());
     }
 
     public Task<bool> AnyAsync(Expression<Func<TEntity, bool>> where, CancellationToken cancellationToken = default)
     {
-        return _queryRepository.AnyAsync(where, cancellationToken);
+        var queryable = Queryable;
+        queryable = queryable.Where(where);
+        return Task.FromResult( queryable.Any());
     }
 
     public long Count()
     {
-        return _queryRepository.Count();
+        var queryable = Queryable;
+        return queryable.Count();
     }
 
     public long Count(Expression<Func<TEntity, bool>> where)
     {
-        return _queryRepository.Count(where);
+        var queryable = Queryable;
+        queryable = queryable.Where(where);
+        return queryable.Count();
     }
 
     public Task<long> CountAsync(CancellationToken cancellationToken = default)
     {
-        return _queryRepository.CountAsync(cancellationToken);
+        var queryable = Queryable;
+        return Task.FromResult( (long) queryable.Count());
     }
 
     public Task<long> CountAsync(Expression<Func<TEntity, bool>> where,
         CancellationToken cancellationToken = default)
     {
-        return _queryRepository.CountAsync(where, cancellationToken);
+        var queryable = Queryable;
+        queryable = queryable.Where(where);
+        return Task.FromResult( (long) queryable.Count());
     }
 
     public IEnumerable<TEntity> GetAll()
     {
-        return _queryRepository.GetAll();
+        var queryable = Queryable;
+        return queryable.ToList();
     }
 
     public Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return _queryRepository.GetAllAsync(cancellationToken);
+        var queryable = Queryable;
+        return Task.FromResult( queryable.ToList().AsEnumerable());
     }
 
     public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> filter)
     {
-        return _queryRepository.Find(filter);
+        var queryable = Queryable;
+        queryable = queryable.Where(filter);
+        return queryable.ToList().AsEnumerable();
     }
 
     public Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> filter,
         CancellationToken cancellationToken = default)
     {
-        return _queryRepository.FindAsync(filter, cancellationToken);
+        var queryable = Queryable;
+        queryable = queryable.Where(filter);
+        return Task.FromResult( queryable.ToList().AsEnumerable());
     }
 
     public TEntity GetById(TKey id)
     {
-        return _queryRepository.GetById(id);
+        var queryable = Queryable;
+        queryable = queryable.Where(x=>x.Id.Equals(id));
+        return queryable.First();
     }
 
     public Task<TEntity> GetByIdAsync(TKey id, CancellationToken cancellationToken = default)
     {
-        return _queryRepository.GetByIdAsync(id, cancellationToken);
+        var queryable = Queryable;
+        queryable = queryable.Where(x=>x.Id.Equals(id));
+        return Task.FromResult( queryable.First());
     }
 
     public Task AddOneAsync(TEntity entity, CancellationToken cancellationToken = default)

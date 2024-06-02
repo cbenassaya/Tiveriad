@@ -10,3 +10,9 @@ public interface ICurrentUserService<TKey>
     string GetEmail();
 }
 
+public interface IOptionalService<T>
+{
+    bool HasService { get; }
+    T? GetService();
+}
+

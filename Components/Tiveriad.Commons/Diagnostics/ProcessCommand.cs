@@ -64,6 +64,7 @@ public class ProcessCommand
         _running = true;
         _process.EnableRaisingEvents = true;
 
+
         _process.OutputDataReceived += OnOutputReceived;
         _process.ErrorDataReceived += OnErrorReceived;
 

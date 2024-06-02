@@ -62,7 +62,10 @@ public class PipelineTestModule : TestBase<PipelineStartup>
                 configuration.Param2 = "Test2";
                 configuration.Param3 = "Test3";
             })
-            .WithExceptionHandler(exception => { Assert.Equal(typeof(NullReferenceException), exception.GetType()); })
+            .WithExceptionHandler(exception =>
+            {
+                Assert.Equal(typeof(NullReferenceException), exception.GetType());
+            })
             .Use((context, model) =>
             {
                 Assert.Equal("Test1", context.Configuration.Param1);

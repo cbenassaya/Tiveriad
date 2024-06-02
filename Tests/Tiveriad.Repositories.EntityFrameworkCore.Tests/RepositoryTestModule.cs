@@ -3,6 +3,8 @@
 using Faker;
 using Microsoft.EntityFrameworkCore;
 using Tiveriad.Commons.Extensions;
+using Tiveriad.Core.Abstractions.Entities;
+using Tiveriad.Core.Abstractions.Services;
 using Tiveriad.IdGenerators;
 using Tiveriad.Repositories.EntityFrameworkCore.Tests.Models;
 using Tiveriad.UnitTests;
@@ -41,6 +43,8 @@ public class RepositoryTestModule : TestBase<Startup>
             Email = Internet.Email(),
             City = Address.City(),
             Country = Address.Country(),
+            OrganizationId = "1",
+            Visibility = Visibility.Private,
             StreetAddress = Address.StreetAddress(),
             Courses = new HashSet<Course>()
         };
@@ -56,6 +60,24 @@ public class RepositoryTestModule : TestBase<Startup>
         context.SaveChanges(true);
         Assert.Equal(initialStudentsCount + 1, studentRepository.Count());
     }
+
+    [Fact]
+    public async Task Test_Query_Tenant()
+    {
+        var studentRepository = GetRequiredService<IRepository<Student, string>>();
+        var context = GetRequiredService<DbContext>();
+        Assert.True( studentRepository.Count()>0);
+    }
+    
+    [Fact]
+    public async Task Test_Query_WithAnother_Tenant()
+    {
+        var studentRepository = GetRequiredService<IRepository<Student, string>>();
+        var tenantService = GetRequiredService<ITenantService<string>>() as TenantService;
+        tenantService.TenantId = "2";
+        Assert.True( studentRepository.Count()==0);
+    }
+    
 
     [Fact]
     public async Task Add_Entities_Many_To_Many_With_NewChild()
@@ -77,7 +99,9 @@ public class RepositoryTestModule : TestBase<Startup>
             City = Address.City(),
             Country = Address.Country(),
             StreetAddress = Address.StreetAddress(),
-            Courses = new HashSet<Course>()
+            Courses = new HashSet<Course>(),
+            Visibility = Visibility.Private,
+            OrganizationId = "1"
         };
 
         if (course == null)
