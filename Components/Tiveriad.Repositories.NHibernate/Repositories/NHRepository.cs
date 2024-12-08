@@ -2,6 +2,7 @@
 
 using NHibernate;
 using Tiveriad.Core.Abstractions.Entities;
+using Tiveriad.Core.Abstractions.Services;
 
 #endregion
 
@@ -11,13 +12,13 @@ public class NHRepository<TEntity, TKey> : RepositoryBase<TEntity, TKey>
     where TEntity : class, IEntity<TKey>
     where TKey : IEquatable<TKey>
 {
-    public NHRepository(ISession session) :
-        base(new NHQueryRepository<TEntity, TKey>(session), new NHCommandRepository<TEntity, TKey>(session))
+    public NHRepository(ISession session , IOptionalService<ITenantService<TKey>> optionalTenantService) :
+        base(new NHQueryRepository<TEntity, TKey>(session), new NHCommandRepository<TEntity, TKey>(session), optionalTenantService)
     {
     }
 
-    public NHRepository(ISession querySession, ISession commandSession) :
-        base(new NHQueryRepository<TEntity, TKey>(querySession), new NHCommandRepository<TEntity, TKey>(commandSession))
+    public NHRepository(ISession querySession, ISession commandSession , IOptionalService<ITenantService<TKey>> optionalTenantService) :
+        base(new NHQueryRepository<TEntity, TKey>(querySession), new NHCommandRepository<TEntity, TKey>(commandSession), optionalTenantService )
     {
     }
 }

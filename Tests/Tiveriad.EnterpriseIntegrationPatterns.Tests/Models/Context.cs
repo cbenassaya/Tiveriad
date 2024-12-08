@@ -6,9 +6,9 @@ using Tiveriad.EnterpriseIntegrationPatterns.Pipelines;
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.Tests.Models;
 
-public class Context : PipelineContextBase<Configuration>
+public class Context : PipelineContextBase<Model, Configuration>
 {
-    public Context(Configuration configuration, CancellationToken cancellationToken) : base(configuration,
+    public Context(Model model, Configuration configuration, CancellationToken cancellationToken) : base(model, configuration,
         cancellationToken)
     {
     }

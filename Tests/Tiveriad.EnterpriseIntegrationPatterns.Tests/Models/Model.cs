@@ -9,20 +9,23 @@ namespace Tiveriad.EnterpriseIntegrationPatterns.Tests.Models;
 public class Model
 {
     public DateTime? DateTime { get; set; }
+    public string Name { get; set; }
 }
 
-public class Middleware : IMiddleware<Model, Context, Configuration>
+public class Middleware : IMiddleware<Context,Model,  Configuration>
 {
-    public Task Run(Context context, Model model)
+
+
+    public Task Run(Context context, RequestDelegate<Context, Model, Configuration> next)
     {
-        model.DateTime = DateTime.Now;
-        return Task.CompletedTask;
+        context.Model.DateTime = DateTime.Now;
+        return next(context);
     }
 }
 
-public class MiddlewareWithException : IMiddleware<Model, Context, Configuration>
+public class MiddlewareWithException : IMiddleware< Context,Model,  Configuration>
 {
-    public Task Run(Context context, Model model)
+    public Task Run(Context context, RequestDelegate<Context, Model, Configuration> next)
     {
         throw new NullReferenceException("TestError");
     }

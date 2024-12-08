@@ -1,5 +1,6 @@
 namespace Tiveriad.EnterpriseIntegrationPatterns.Pipelines;
 
-public delegate Task RequestDelegate<TModel, TPipelineContext, TConfiguration>(TPipelineContext context, TModel model)
-    where TPipelineContext : class, IPipelineContext<TConfiguration>
+public delegate Task RequestDelegate<TPipelineContext, TModel, TConfiguration>(TPipelineContext context)
+    where TPipelineContext : class, IPipelineContext<TModel, TConfiguration>
+    where TModel : class
     where TConfiguration : class, IPipelineConfiguration;

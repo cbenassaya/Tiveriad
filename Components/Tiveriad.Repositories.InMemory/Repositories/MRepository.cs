@@ -2,6 +2,7 @@
 
 using System;
 using Tiveriad.Core.Abstractions.Entities;
+using Tiveriad.Core.Abstractions.Services;
 
 #endregion
 
@@ -11,8 +12,8 @@ public class MRepository<TEntity, TKey> : RepositoryBase<TEntity, TKey>
     where TEntity : class, IEntity<TKey>
     where TKey : IEquatable<TKey>
 {
-    public MRepository(MContext context) :
-        base(new MQueryRepository<TEntity, TKey>(context), new MCommandRepository<TEntity, TKey>(context))
+    public MRepository(MContext context, IOptionalService<ITenantService<TKey>> optionalTenantService) :
+        base(new MQueryRepository<TEntity, TKey>(context), new MCommandRepository<TEntity, TKey>(context),optionalTenantService)
     {
     }
 }

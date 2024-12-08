@@ -19,6 +19,15 @@ namespace Tiveriad.Repositories.EntityFrameworkCore.Tests;
 
 public class RepositoryTestModule : TestBase<Startup>
 {
+
+    [Fact]
+    public async Task VisibilityToString()
+
+    {
+        Visibility visibility = Visibility.Private;
+        Assert.Equal("Private", visibility.ToString());
+        
+    }
     [Fact]
     public async Task Add_Entity()
     {

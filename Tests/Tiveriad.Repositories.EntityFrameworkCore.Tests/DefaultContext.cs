@@ -58,8 +58,7 @@ public sealed class DefaultContext : DbContext
         modelBuilder.Entity<Student>(x =>
         {
             x.ToTable("T_Student").HasKey(k => k.Id);
-            x.Property(e => e.Visibility).HasConversion(v =>  v.ToString(),
-                v => (string.IsNullOrEmpty(v) ? null : (Visibility)v)!);
+            x.Property(e => e.Visibility).HasConversion(v => v.ToString(), v => (Visibility)Enum.Parse(typeof(Visibility), v));
             x.HasMany(p => p.Courses).WithMany(p => p.Students).UsingEntity(j => j.ToTable("J_StudentSource"));
         });
         modelBuilder.Entity<Professor>(x => { x.ToTable("T_Professor").HasKey(k => k.Id); });

@@ -7,18 +7,18 @@ using Tiveriad.ServiceResolvers;
 namespace Tiveriad.EnterpriseIntegrationPatterns.Pipelines;
 
 public class
-    DefaultPipelineBuilder<TModel, TPipelineContext, TConfiguration> : IPipelineBuilder<TModel, TPipelineContext,
-        TConfiguration> where TPipelineContext : class, IPipelineContext<TConfiguration>
-    where TConfiguration : class, IPipelineConfiguration
+    DefaultPipelineBuilder<TPipelineContext,TModel,  TConfiguration> : IPipelineBuilder<TPipelineContext, TModel,TConfiguration>
+        where TPipelineContext : class, IPipelineContext<TModel, TConfiguration>
+        where TModel : class
+        where TConfiguration : class, IPipelineConfiguration
 {
     private readonly TConfiguration _configuration;
 
-    private readonly List<RequestDelegate<TModel, TPipelineContext, TConfiguration>> _middlewares = new();
-
+    private readonly List<Func<TPipelineContext,RequestDelegate<TPipelineContext, TModel,TConfiguration>, Task>> _nodes = new();
 
     private readonly IServiceResolver _serviceResolver;
 
-    private Action<Exception>? _exceptionHandler;
+    private Action<Exception,TPipelineContext>? _exceptionHandler;
 
     public DefaultPipelineBuilder(IServiceResolver serviceResolver)
     {
@@ -26,69 +26,82 @@ public class
         _configuration = Activator.CreateInstance<TConfiguration>();
     }
 
-    public IPipelineBuilder<TModel, TPipelineContext, TConfiguration> Configure(Action<TConfiguration> action)
+    public IPipelineBuilder<TPipelineContext, TModel,TConfiguration> Configure(Action<TConfiguration> action)
     {
         action(_configuration);
         return this;
     }
 
-    public IPipelineBuilder<TModel, TPipelineContext, TConfiguration> WithExceptionHandler(Action<Exception> action)
+    public IPipelineBuilder<TPipelineContext, TModel,TConfiguration> WithExceptionHandler(Action<Exception,TPipelineContext> action)
     {
         _exceptionHandler = action;
         return this;
     }
+    
+    
 
-    public IPipelineBuilder<TModel, TPipelineContext, TConfiguration> Use(
-        RequestDelegate<TModel, TPipelineContext, TConfiguration> middleware)
+    
+    public IPipelineBuilder<TPipelineContext, TModel,TConfiguration> Use(
+        Func<TPipelineContext,RequestDelegate<TPipelineContext, TModel,TConfiguration>, Task> node
+        )
     {
-        _middlewares.Add(middleware);
+        _nodes.Add(node);
+        return this;
+    }
+    
+    public IPipelineBuilder<TPipelineContext, TModel,TConfiguration> Use(
+        Func<RequestDelegate<TPipelineContext, TModel,TConfiguration>, Task> node
+    )
+    {
+        Func<TPipelineContext, RequestDelegate<TPipelineContext, TModel, TConfiguration>, Task> innerNode =
+            (current, next) => node(next);
+        _nodes.Add(innerNode);
         return this;
     }
 
 
-    public IPipelineBuilder<TModel, TPipelineContext, TConfiguration> Add<TMiddleware>()
-        where TMiddleware : IMiddleware<TModel, TPipelineContext, TConfiguration>
+
+    public IPipelineBuilder<TPipelineContext, TModel,TConfiguration> Add<TMiddleware>()
+        where TMiddleware : IMiddleware<TPipelineContext, TModel,TConfiguration>
     {
-        return Use((context, model) =>
-        {
-            var middleware =
-                (IMiddleware<TModel, TPipelineContext, TConfiguration>)_serviceResolver.GetService(typeof(TMiddleware));
-            return middleware.Run(context, model);
-        });
+        var middleware =
+            (IMiddleware<TPipelineContext, TModel,TConfiguration>)_serviceResolver.GetService(typeof(TMiddleware));
+        Func< TPipelineContext, RequestDelegate<TPipelineContext, TModel, TConfiguration>, Task> innerNode =
+            (context, next) => middleware.Run(context, next);
+        _nodes.Add(innerNode);
+        return this;
+        
+        
+   
     }
 
 
     public IPipeline<TModel> Build()
     {
-        RequestDelegate<TModel, TPipelineContext, TConfiguration> nextAction = (context, model) => Task.CompletedTask;
-        RequestDelegate<TModel, TPipelineContext, TConfiguration>? currentAction = null;
-        for (var c = _middlewares.Count - 1; c >= 0; c--)
+        RequestDelegate<TPipelineContext, TModel,TConfiguration> nextRequest = (context) => Task.CompletedTask;
+        RequestDelegate<TPipelineContext, TModel,TConfiguration> currentRequest = (context) => Task.CompletedTask;
+        
+        for (var c = _nodes.Count - 1; c >= 0; c--)
         {
-            var next = nextAction;
-            var innerMiddleware = _middlewares[c];
-
-            currentAction = async (context, model) =>
+            var innerNode = _nodes[c];
+            var request = nextRequest;
+            currentRequest =  (context) =>
             {
-                var noException = true;
                 try
-                {
-                    await innerMiddleware(context, model);
+                { 
+                    return innerNode(context, request);
                 }
                 catch (Exception e)
                 {
-                    noException = false;
                     if (_exceptionHandler != null)
-                        _exceptionHandler(e);
-                    else
-                        throw e;
+                        _exceptionHandler(e,context);
+                    return Task.CompletedTask;
                 }
-
-                if (noException)
-                    await next(context, model);
+              
             };
-            nextAction = currentAction;
+            nextRequest = currentRequest;
         }
 
-        return new DefaultPipeline<TModel, TPipelineContext, TConfiguration>(_configuration, currentAction);
+        return new DefaultPipeline< TPipelineContext, TModel, TConfiguration>(_configuration, currentRequest);
     }
 }

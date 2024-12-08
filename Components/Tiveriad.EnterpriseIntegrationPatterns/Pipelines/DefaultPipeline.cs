@@ -1,32 +1,33 @@
 namespace Tiveriad.EnterpriseIntegrationPatterns.Pipelines;
 
-public class DefaultPipeline<TModel, TPipelineContext, TConfiguration> : IPipeline<TModel>
-    where TPipelineContext : class, IPipelineContext<TConfiguration>
+public class DefaultPipeline<TPipelineContext, TModel,  TConfiguration> : IPipeline<TModel>
+    where TModel : class
+    where TPipelineContext : class, IPipelineContext<TModel, TConfiguration>
     where TConfiguration : class, IPipelineConfiguration
 {
     private readonly TConfiguration _configuration;
-    private readonly RequestDelegate<TModel, TPipelineContext, TConfiguration> _firstMiddleware;
+    private readonly RequestDelegate<TPipelineContext, TModel,TConfiguration> _firstMiddleware;
 
     public DefaultPipeline(TConfiguration configuration,
-        RequestDelegate<TModel, TPipelineContext, TConfiguration> firstMiddleware)
+        RequestDelegate<TPipelineContext, TModel,TConfiguration> firstMiddleware)
     {
         _configuration = configuration;
         _firstMiddleware = firstMiddleware;
     }
 
-    public async Task ExecuteAsync(TModel model, CancellationToken cancellationToken = default)
+    public Task ExecuteAsync(TModel model, CancellationToken cancellationToken = default)
     {
         var type = typeof(TPipelineContext);
-        var context = (TPipelineContext)Activator.CreateInstance(type, _configuration, cancellationToken)!;
+        var context = (TPipelineContext)Activator.CreateInstance(type,model, _configuration, cancellationToken)!;
         ArgumentNullException.ThrowIfNull(context);
-        await Task.FromResult(_firstMiddleware(context, model));
+        return _firstMiddleware(context);
     }
 
-    public void Execute(TModel model)
+    public async void Execute(TModel model)
     {
         var type = typeof(TPipelineContext);
-        var context = (TPipelineContext)Activator.CreateInstance(type, _configuration, default(CancellationToken))!;
+        var context = (TPipelineContext)Activator.CreateInstance(type,model, _configuration, default(CancellationToken))!;
         ArgumentNullException.ThrowIfNull(context);
-        _firstMiddleware(context, model);
+        await _firstMiddleware(context);
     }
 }

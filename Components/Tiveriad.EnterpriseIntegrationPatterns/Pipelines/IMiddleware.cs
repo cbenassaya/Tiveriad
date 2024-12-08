@@ -1,8 +1,9 @@
 namespace Tiveriad.EnterpriseIntegrationPatterns.Pipelines;
 
-public interface IMiddleware<TModel, TPipelineContext, TConfiguration>
-    where TPipelineContext : class, IPipelineContext<TConfiguration>
+public interface IMiddleware<TPipelineContext, TModel, TConfiguration>
+    where TPipelineContext : class, IPipelineContext<TModel, TConfiguration>
+    where TModel : class
     where TConfiguration : class, IPipelineConfiguration
 {
-    public Task Run(TPipelineContext context, TModel model);
+    public Task Run(TPipelineContext context, RequestDelegate<TPipelineContext, TModel, TConfiguration> next);
 }

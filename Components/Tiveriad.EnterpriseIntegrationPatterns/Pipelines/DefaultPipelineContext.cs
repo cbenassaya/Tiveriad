@@ -6,10 +6,11 @@ using Tiveriad.Commons.Extensions;
 
 namespace Tiveriad.EnterpriseIntegrationPatterns.Pipelines;
 
-public class DefaultPipelineContext : PipelineContextBase<DefaultConfiguration>, IPipelineContext<DefaultConfiguration>
+public class DefaultPipelineContext<TModel> : PipelineContextBase<TModel, DefaultConfiguration>, IPipelineContext<TModel, DefaultConfiguration>
+    where TModel : class
 {
-    public DefaultPipelineContext(DefaultConfiguration configuration, CancellationToken cancellationToken) : base(
-        configuration, cancellationToken)
+    public DefaultPipelineContext(TModel model, DefaultConfiguration configuration, CancellationToken cancellationToken) :
+        base(model, configuration, cancellationToken)
     {
     }
 
@@ -21,7 +22,7 @@ public class DefaultPipelineContext : PipelineContextBase<DefaultConfiguration>,
         set => Properties[name] = value;
     }
 
-    public virtual DefaultPipelineContext WithProperty(string key, object value)
+    public virtual DefaultPipelineContext<TModel> WithProperty(string key, object value)
     {
         Properties[key] = value;
         return this;

@@ -18,7 +18,7 @@ public class PipelineStartup : StartupBase
             .AddScoped<IServiceResolver,
                 DefaultServiceResolver>();
         services
-            .AddScoped<IPipelineBuilder<Model, Context, Configuration>,
-                DefaultPipelineBuilder<Model, Context, Configuration>>();
+            .AddScoped<IPipelineBuilder<Context, Model,  Configuration>,
+                DefaultPipelineBuilder<Context, Model,  Configuration>>();
     }
 }
